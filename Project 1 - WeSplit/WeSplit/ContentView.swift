@@ -26,23 +26,23 @@ struct ContentView: View {
         return grandTotal
     }
     
-    var localeCurrency: String {
+    var currencyFormatter: FloatingPointFormatStyle<Double>.Currency {
         var userCurrency: String
-        
+
         if #available(iOS 16.0, *) {
             userCurrency = Locale.current.currency?.identifier ?? "USD"
         } else {
             userCurrency = Locale.current.currencyCode ?? "USD"
         }
         
-        return userCurrency
+        return FloatingPointFormatStyle<Double>.Currency(code: userCurrency)
     }
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Amount", value: $checkAmount, format: .currency(code: localeCurrency))
+                    TextField("Amount", value: $checkAmount, format: currencyFormatter)
                         .keyboardType(.decimalPad)
                         .focused($amountTextFieldIsFocused)
                     
@@ -64,13 +64,13 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    Text(totalAmountOfCheck, format: .currency(code: localeCurrency))
+                    Text(totalAmountOfCheck, format: currencyFormatter)
                 } header: {
                     Text("Total amount for the check")
                 }
                 
                 Section {
-                    Text(totalPerPerson, format: .currency(code: localeCurrency))
+                    Text(totalPerPerson, format: currencyFormatter)
                 } header: {
                     Text("Amount per person")
                 }
