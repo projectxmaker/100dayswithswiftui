@@ -13,6 +13,13 @@ struct ContentView: View {
     @State private var tipPercentage = 20
     
     let tipPercentages = [10, 15, 20, 25, 0]
+    var totalPerPerson: Double {
+        let tipAmount = checkAmount * Double(tipPercentage) / 100
+        let grandTotal = tipAmount + checkAmount
+        let amountPerPerson = grandTotal / Double(numberOfPeople)
+        
+        return amountPerPerson
+    }
     
     var localeCurrency: String {
         var userCurrency: String
@@ -32,6 +39,7 @@ struct ContentView: View {
                 Section {
                     TextField("Amount", value: $checkAmount, format: .currency(code: localeCurrency))
                         .keyboardType(.decimalPad)
+                    
                     Picker("Number of people", selection: $numberOfPeople) {
                         ForEach(2..<100, id:\.self) { element in
                             Text("\(element) people")
@@ -51,8 +59,7 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    Text(checkAmount, format: .currency(code: localeCurrency))
-                    Text("\(numberOfPeople)")
+                    Text(totalPerPerson, format: .currency(code: localeCurrency))
                 }
             }
             .navigationTitle("WeSplit")
