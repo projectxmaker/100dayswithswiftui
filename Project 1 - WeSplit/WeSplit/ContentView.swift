@@ -32,10 +32,16 @@ struct ContentView: View {
                 Section {
                     TextField("Amount", value: $checkAmount, format: .currency(code: localeCurrency))
                         .keyboardType(.decimalPad)
+                    Picker("Number of people", selection: $numberOfPeople) {
+                        ForEach(2..<100, id:\.self) { element in
+                            Text("\(element) people")
+                        }
+                    }
                 }
                 
                 Section {
                     Text(checkAmount, format: .currency(code: localeCurrency))
+                    Text("\(numberOfPeople)")
                 }
             }
             .navigationTitle("WeSplit")
