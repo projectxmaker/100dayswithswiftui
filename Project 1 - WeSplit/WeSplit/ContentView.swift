@@ -14,7 +14,7 @@ struct ContentView: View {
     
     @FocusState private var amountTextFieldIsFocused: Bool
     
-    let tipPercentages = [10, 15, 20, 25, 0]
+    let tipPercentages = 0...100
     var totalPerPerson: Double {
         totalAmountOfCheck / Double(numberOfPeople)
     }
@@ -59,7 +59,6 @@ struct ContentView: View {
                             Text(element, format: .percent)
                         }
                     }
-                    .pickerStyle(.segmented)
                 } header: {
                     Text("How much tip do you want to leave")
                 }
