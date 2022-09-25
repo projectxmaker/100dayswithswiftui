@@ -10,12 +10,21 @@ import SwiftUI
 struct ContentView: View {
     @State private var inputUnit = "Celsius"
     @State private var outputUnit = "Celsius"
-    @State private var amount = 0
+    @State private var amount: Double = 0
     @FocusState private var amountTextFieldIsFocused: Bool
     
-    let units = ["Celsius", "Fahrenheit", "Kelvin"]
+    let units = ["Celsius": UnitTemperature.celsius, "Fahrenheit": UnitTemperature.fahrenheit, "Kelvin": UnitTemperature.kelvin]
+    
     var result: Double {
-        return 0
+        guard
+            let inputUnit = units[inputUnit],
+            let outputUnit = units[outputUnit]
+        else { return 0 }
+        
+        let input = Measurement(value: amount, unit: inputUnit)
+        let output = input.converted(to: outputUnit)
+        
+        return output.value
     }
     
     var body: some View {
@@ -23,7 +32,7 @@ struct ContentView: View {
             Form {
                 Section {
                     Picker("Input Unit", selection: $inputUnit) {
-                        ForEach(units, id: \.self) { unit in
+                        ForEach(Array(units.keys), id: \.self) { unit in
                             Text(unit)
                         }
                     }
@@ -32,7 +41,7 @@ struct ContentView: View {
                 
                 Section {
                     Picker("Output Unit", selection: $outputUnit) {
-                        ForEach(units, id: \.self) { unit in
+                        ForEach(Array(units.keys), id: \.self) { unit in
                             Text(unit)
                         }
                     }
@@ -40,7 +49,7 @@ struct ContentView: View {
                 }
 
                 Section {
-                    TextField("Amount", value: $amount, format: .currency(code: "USD"))
+                    TextField("Amount", value: $amount, format: .number)
                         .keyboardType(.decimalPad)
                         .focused($amountTextFieldIsFocused)
                 } header: {
