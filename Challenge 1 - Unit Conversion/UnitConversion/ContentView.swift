@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var inputUnit = "Celsius"
-    @State private var outputUnit = "Celsius"
+    @State private var inputUnit = "Fahrenheit"
+    @State private var outputUnit = "Fahrenheit"
     @State private var amount: Double = 0
     @FocusState private var amountTextFieldIsFocused: Bool
     
@@ -37,6 +37,8 @@ struct ContentView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+                } header: {
+                    Text("Input Unit")
                 }
                 
                 Section {
@@ -46,6 +48,8 @@ struct ContentView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+                } header: {
+                    Text("Output Unit")
                 }
 
                 Section {
