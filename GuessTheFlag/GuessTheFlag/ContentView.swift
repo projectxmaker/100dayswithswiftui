@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showingFinalAlertScore = false
     @State private var showingScore = false
     @State private var scoreTitle = ""
     
@@ -16,6 +17,9 @@ struct ContentView: View {
     
     @State private var score = 0
     @State private var alertOfFlagTappedMessage: String = ""
+    
+    @State private var roundCounter = 0
+    let limitedNumberOfRounds = 8
     
     func flagTapped(_ number: Int) {
         var messages = [String]()
@@ -32,6 +36,21 @@ struct ContentView: View {
         alertOfFlagTappedMessage = messages.joined(separator: "\n")
 
         showingScore = true
+        
+        displayFinalAlert()
+    }
+    
+    func displayFinalAlert() {
+        roundCounter += 1
+        
+        if roundCounter == limitedNumberOfRounds {
+            showingFinalAlertScore = true
+        }
+    }
+    
+    func restartGame() {
+        roundCounter = 0
+        score = 0
     }
     
     func askQuestion() {
@@ -90,6 +109,11 @@ struct ContentView: View {
                 Spacer()
             }
             .padding()
+            .alert("GameOver", isPresented: $showingFinalAlertScore) {
+                Button("Restart", action: restartGame)
+            } message: {
+                Text("Final score is \(score)")
+            }
         }
         .alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
