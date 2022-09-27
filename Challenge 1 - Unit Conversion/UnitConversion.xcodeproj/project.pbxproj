@@ -11,6 +11,9 @@
 		8A62AF3728E00EBE00F76FE5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF3628E00EBE00F76FE5 /* ContentView.swift */; };
 		8A62AF3928E00EBF00F76FE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A62AF3828E00EBF00F76FE5 /* Assets.xcassets */; };
 		8A62AF3C28E00EBF00F76FE5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A62AF3B28E00EBF00F76FE5 /* Preview Assets.xcassets */; };
+		8A62AF5D28E30C3A00F76FE5 /* MeasurementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF5C28E30C3A00F76FE5 /* MeasurementType.swift */; };
+		8A62AF5F28E30C6900F76FE5 /* UCPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF5E28E30C6900F76FE5 /* UCPickerView.swift */; };
+		8A62AF6128E30DDE00F76FE5 /* MeasurementConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF6028E30DDE00F76FE5 /* MeasurementConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +22,9 @@
 		8A62AF3628E00EBE00F76FE5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A62AF3828E00EBF00F76FE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A62AF3B28E00EBF00F76FE5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8A62AF5C28E30C3A00F76FE5 /* MeasurementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementType.swift; sourceTree = "<group>"; };
+		8A62AF5E28E30C6900F76FE5 /* UCPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UCPickerView.swift; sourceTree = "<group>"; };
+		8A62AF6028E30DDE00F76FE5 /* MeasurementConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +58,10 @@
 			isa = PBXGroup;
 			children = (
 				8A62AF3428E00EBE00F76FE5 /* UnitConversionApp.swift */,
+				8A62AF6028E30DDE00F76FE5 /* MeasurementConfiguration.swift */,
 				8A62AF3628E00EBE00F76FE5 /* ContentView.swift */,
+				8A62AF5E28E30C6900F76FE5 /* UCPickerView.swift */,
+				8A62AF5C28E30C3A00F76FE5 /* MeasurementType.swift */,
 				8A62AF3828E00EBF00F76FE5 /* Assets.xcassets */,
 				8A62AF3A28E00EBF00F76FE5 /* Preview Content */,
 			);
@@ -139,6 +148,9 @@
 			files = (
 				8A62AF3728E00EBE00F76FE5 /* ContentView.swift in Sources */,
 				8A62AF3528E00EBE00F76FE5 /* UnitConversionApp.swift in Sources */,
+				8A62AF5F28E30C6900F76FE5 /* UCPickerView.swift in Sources */,
+				8A62AF5D28E30C3A00F76FE5 /* MeasurementType.swift in Sources */,
+				8A62AF6128E30DDE00F76FE5 /* MeasurementConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
