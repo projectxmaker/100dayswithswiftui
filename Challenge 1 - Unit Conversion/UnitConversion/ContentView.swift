@@ -6,50 +6,52 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct ContentView: View {
-    @State private var inputUnit = "Fahrenheit"
-    @State private var outputUnit = "Fahrenheit"
+    @State private var measurementTypeIndex: Int = 0
+    @State private var inputUnit: String = ""
+    @State private var outputUnit: String = ""
     @State private var amount: Double = 0
     @FocusState private var amountTextFieldIsFocused: Bool
+
+    @State private var inputUnitPicker: any View = Color(.red)
+    @State private var outputUnitPicker: any View = Color(.red)
+    @State private var unitTypes = MeasurementConfiguration.defaultUnitTypes
+    @State private var ucPickerStyle = MeasurementConfiguration.defaultUCPickerStyle
     
-    let units = ["Celsius": UnitTemperature.celsius, "Fahrenheit": UnitTemperature.fahrenheit, "Kelvin": UnitTemperature.kelvin]
+    let measurementTypes = MeasurementConfiguration.measurementTypes
     
-    var result: Double {
-        guard
-            let inputUnit = units[inputUnit],
-            let outputUnit = units[outputUnit]
-        else { return 0 }
-        
-        let input = Measurement(value: amount, unit: inputUnit)
-        let output = input.converted(to: outputUnit)
-        
-        return output.value
-    }
-    
+    let inputUnitTitle = "Input Unit"
+    let outputUnitTitle = "Output Unit"
+
     var body: some View {
+        
         NavigationView {
             Form {
                 Section {
-                    Picker("Input Unit", selection: $inputUnit) {
-                        ForEach(Array(units.keys), id: \.self) { unit in
-                            Text(unit)
+                    Picker("Measurement Types", selection: $measurementTypeIndex) {
+                        ForEach(0..<measurementTypes.count, id: \.self) { index in
+                            Text(measurementTypes[index].name)
                         }
                     }
-                    .pickerStyle(.segmented)
-                } header: {
-                    Text("Input Unit")
+                    .onChange(of: measurementTypeIndex) { index in
+                        let currentMeasurementType = measurementTypes[measurementTypeIndex]
+                        unitTypes = Array(currentMeasurementType.unitTypes.keys)
+                        ucPickerStyle = currentMeasurementType.pickerStyle
+                    }
                 }
                 
                 Section {
-                    Picker("Output Unit", selection: $outputUnit) {
-                        ForEach(Array(units.keys), id: \.self) { unit in
-                            Text(unit)
-                        }
-                    }
-                    .pickerStyle(.segmented)
+                    UCPickerView(pickerTitle: inputUnitTitle, unit: $inputUnit, pickerStyle: $ucPickerStyle, unitTypes: $unitTypes)
                 } header: {
-                    Text("Output Unit")
+                    Text(inputUnitTitle)
+                }
+                
+                Section {
+                    UCPickerView(pickerTitle: outputUnitTitle, unit: $outputUnit, pickerStyle: $ucPickerStyle, unitTypes: $unitTypes)
+                } header: {
+                    Text(outputUnitTitle)
                 }
 
                 Section {
@@ -77,6 +79,28 @@ struct ContentView: View {
                 }
             }
         }
+    }
+    
+    // MARK: - Extra Funcs
+    var result: Double {
+        let measurementType = measurementTypes[measurementTypeIndex]
+        guard
+            let inputUnit = measurementType.unitTypes[inputUnit],
+            let outputUnit = measurementType.unitTypes[outputUnit]
+        else { return 0 }
+        
+        let input = Measurement(value: amount, unit: inputUnit)
+        let output = input.converted(to: outputUnit)
+        
+        return output.value
+    }
+    
+    func getUnitTypes() -> [String] {
+        Array(measurementTypes[measurementTypeIndex].unitTypes.keys)
+    }
+    
+    func getPickerStyle() -> UCPickerStyle {
+        measurementTypes[measurementTypeIndex].pickerStyle
     }
 }
 
