@@ -37,13 +37,11 @@ struct ContentView: View {
 
         showingScore = true
         
-        displayFinalAlert()
+        roundCounter += 1
     }
     
     func displayFinalAlert() {
-        roundCounter += 1
-        
-        if roundCounter == limitedNumberOfRounds {
+        if isGameOver() {
             showingFinalAlertScore = true
         }
     }
@@ -51,11 +49,22 @@ struct ContentView: View {
     func restartGame() {
         roundCounter = 0
         score = 0
+        
+        askQuestion()
     }
     
     func askQuestion() {
+        guard !isGameOver() else {
+            displayFinalAlert()
+            return
+        }
+        
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+    }
+    
+    func isGameOver() -> Bool {
+        roundCounter == limitedNumberOfRounds
     }
     
     var body: some View {
