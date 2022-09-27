@@ -12,14 +12,17 @@ struct MeasurementConfiguration {
             MeasurementType(
                 name: "Temperature",
                 unitTypes: ["Celsius": UnitTemperature.celsius, "Fahrenheit": UnitTemperature.fahrenheit, "Kelvin": UnitTemperature.kelvin],
-                pickerStyle: .segmented
+                pickerStyle: .segmented,
+                showPickerTitle: true
             ),
             MeasurementType(
                 name: "Length",
                 unitTypes: ["Kilometers": UnitLength.kilometers, "Meters": UnitLength.meters, "Inches": UnitLength.inches, "Feet": UnitLength.feet, "Yards": UnitLength.yards, "Miles": UnitLength.miles],
-                pickerStyle: .automatic
+                pickerStyle: .automatic,
+                showPickerTitle: false
             )
         ]
     static let defaultUnitTypes = ["Celsius", "Fahrenheit", "Kelvin"]
     static let defaultUCPickerStyle = UCPickerStyle.segmented
+    static let defaultShowPickerTitle = true
 }
