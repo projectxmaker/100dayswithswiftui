@@ -12,4 +12,5 @@ struct MeasurementType {
     var unitTypes: [String : Dimension]
     var pickerStyle: UCPickerStyle
     var showPickerTitle: Bool
+    var defaultUnit: String
 }

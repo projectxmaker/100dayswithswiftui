@@ -10,13 +10,11 @@ import Foundation
 
 struct ContentView: View {
     @State private var measurementTypeIndex: Int = 0
-    @State private var inputUnit: String = ""
-    @State private var outputUnit: String = ""
+    @State private var inputUnit = MeasurementConfiguration.defaultUnit
+    @State private var outputUnit = MeasurementConfiguration.defaultUnit
     @State private var amount: Double = 0
     @FocusState private var amountTextFieldIsFocused: Bool
 
-    @State private var inputUnitPicker: any View = Color(.red)
-    @State private var outputUnitPicker: any View = Color(.red)
     @State private var unitTypes = MeasurementConfiguration.defaultUnitTypes
     @State private var ucPickerStyle = MeasurementConfiguration.defaultUCPickerStyle
     @State private var showPickerTitle = MeasurementConfiguration.defaultShowPickerTitle
@@ -41,6 +39,8 @@ struct ContentView: View {
                         unitTypes = Array(currentMeasurementType.unitTypes.keys)
                         ucPickerStyle = currentMeasurementType.pickerStyle
                         showPickerTitle = currentMeasurementType.showPickerTitle
+                        inputUnit = currentMeasurementType.defaultUnit
+                        outputUnit = currentMeasurementType.defaultUnit
                     }
                 }
                 
