@@ -19,6 +19,7 @@ struct ContentView: View {
     @State private var outputUnitPicker: any View = Color(.red)
     @State private var unitTypes = MeasurementConfiguration.defaultUnitTypes
     @State private var ucPickerStyle = MeasurementConfiguration.defaultUCPickerStyle
+    @State private var showPickerTitle = MeasurementConfiguration.defaultShowPickerTitle
     
     let measurementTypes = MeasurementConfiguration.measurementTypes
     
@@ -39,17 +40,18 @@ struct ContentView: View {
                         let currentMeasurementType = measurementTypes[measurementTypeIndex]
                         unitTypes = Array(currentMeasurementType.unitTypes.keys)
                         ucPickerStyle = currentMeasurementType.pickerStyle
+                        showPickerTitle = currentMeasurementType.showPickerTitle
                     }
                 }
                 
                 Section {
-                    UCPickerView(pickerTitle: inputUnitTitle, unit: $inputUnit, pickerStyle: $ucPickerStyle, unitTypes: $unitTypes)
+                    UCPickerView(pickerTitle: inputUnitTitle, showPickerTitle: showPickerTitle, unit: $inputUnit, pickerStyle: $ucPickerStyle, unitTypes: $unitTypes)
                 } header: {
                     Text(inputUnitTitle)
                 }
                 
                 Section {
-                    UCPickerView(pickerTitle: outputUnitTitle, unit: $outputUnit, pickerStyle: $ucPickerStyle, unitTypes: $unitTypes)
+                    UCPickerView(pickerTitle: outputUnitTitle, showPickerTitle: showPickerTitle, unit: $outputUnit, pickerStyle: $ucPickerStyle, unitTypes: $unitTypes)
                 } header: {
                     Text(outputUnitTitle)
                 }
