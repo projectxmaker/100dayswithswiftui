@@ -111,7 +111,7 @@ struct ContentView: View {
                         
                         Text(resultStatus.rawValue)
                             .font(.custom(ContentView.keys.fontName, size: 60))
-                            .foregroundColor(.indigo)
+                            .foregroundColor(.blue)
                             .shadow(color: .yellow, radius: 10, x: 0, y: 0)
                     }
                     
