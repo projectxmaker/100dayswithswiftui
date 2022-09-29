@@ -11,11 +11,12 @@ struct ContentView: View {
     @State private var botChoice: String = ContentView.generateBotChoice()
     @State private var resultStatus = ContentView.generateResult()
     @State private var score: Int = 0
-    
-    let fontName = "Chalkduster"
-    
     @State private var round: Int = 1
     
+    @State private var showAlert: Bool = false
+    
+    let fontName = "Chalkduster"
+
     func handleButtonTapped(tappedItem: String) {
         if evaluateUserChoice(tappedItem) {
             score += 1
@@ -23,9 +24,12 @@ struct ContentView: View {
             score -= 1
         }
         
-        setupDefaultValuesForNewRound()
-        
-        round += 1
+        if round + 1 > ContentView.keys.limitedRounds {
+            showAlert = true
+        } else {
+            round += 1
+            setupDefaultValuesForNewRound()
+        }
     }
     
     func evaluateUserChoice(_ userChoice: String) -> Bool {
@@ -70,6 +74,12 @@ struct ContentView: View {
         resultStatus = ContentView.generateResult()
     }
     
+    func restartGame() {
+        score = 0
+        round = 1
+        setupDefaultValuesForNewRound()
+    }
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -111,6 +121,15 @@ struct ContentView: View {
                 }
             }
         }
+        .alert("GameOver", isPresented: $showAlert) {
+            Button("Restart") {
+                // restart game
+                restartGame()
+            }
+        } message: {
+            Text("Final Score is \(score)!\n")
+        }
+        
     }
 }
 

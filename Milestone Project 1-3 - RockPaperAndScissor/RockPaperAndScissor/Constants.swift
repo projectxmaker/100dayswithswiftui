@@ -19,6 +19,8 @@ extension ContentView {
             "🖐",
             "✌️",
         ]
+        
+        static let limitedRounds: Int = 10
     }
     
     static func generateBotChoice() -> String {
