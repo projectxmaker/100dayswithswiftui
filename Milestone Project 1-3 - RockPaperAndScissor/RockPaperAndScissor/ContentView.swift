@@ -14,13 +14,18 @@ struct ContentView: View {
     
     let fontName = "Chalkduster"
     
+    @State private var round: Int = 1
+    
     func handleButtonTapped(tappedItem: String) {
         if evaluateUserChoice(tappedItem) {
             score += 1
         } else {
             score -= 1
         }
+        
         setupDefaultValuesForNewRound()
+        
+        round += 1
     }
     
     func evaluateUserChoice(_ userChoice: String) -> Bool {
@@ -74,11 +79,9 @@ struct ContentView: View {
                     Gradient.Stop(color: .indigo, location: 1)
                 ], startPoint: .leading, endPoint: .trailing)
                 .ignoresSafeArea()
-
+                
                 VStack {
-                    Spacer()
-                    
-                    Text("Score: \(score)")
+                    Text("Round: \(round)")
                         .font(.custom(fontName, size: 30))
                         .foregroundColor(.blue)
                         .shadow(color: .yellow, radius: 10, x: 0, y: 0)
