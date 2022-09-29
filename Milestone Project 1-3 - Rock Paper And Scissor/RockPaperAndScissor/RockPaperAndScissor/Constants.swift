@@ -8,8 +8,8 @@
 import Foundation
 
 enum ResultStatus: String, CaseIterable {
-    case botWin = "Win"
-    case botLose = "Lose"
+    case playerWin = "Win"
+    case playerLose = "Lose"
 }
 
 extension ContentView {
@@ -25,12 +25,18 @@ extension ContentView {
         static let fontName = "Chalkduster"
     }
     
-    static func generateBotChoice() -> String {
-        let shuffedItems = ContentView.keys.items.shuffled()
+    static func generateBotChoice(currentChoice: String? = nil) -> String {
+        var items = ContentView.keys.items
+        if let currentChoice {
+            if let tobeRemovedIndex = items.firstIndex(of: currentChoice) {
+                items.remove(at: tobeRemovedIndex)
+            }
+        }
+        let shuffedItems = items.shuffled()
         return shuffedItems[0]
     }
     
     static func generateResult() -> ResultStatus {
-        ResultStatus.allCases.randomElement() ?? ResultStatus.botWin
+        ResultStatus.allCases.randomElement() ?? ResultStatus.playerWin
     }
 }

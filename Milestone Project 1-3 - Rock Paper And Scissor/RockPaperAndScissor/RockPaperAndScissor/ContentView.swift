@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var items = ContentView.keys.items
     @State private var botChoice: String = ContentView.generateBotChoice()
     @State private var resultStatus = ContentView.generateResult()
     @State private var score: Int = 0
     @State private var round: Int = 1
     @State private var showAlert: Bool = false
+    
+    @State private var deactivateButtons = false
 
     func handleButtonTapped(tappedItem: String) {
-        if evaluateUserChoice(tappedItem) {
-            score += 1
-        } else {
-            score -= 1
-        }
+        deactivateButtons = true
         
-        if isGameOver() {
-            showAlert = true
-        } else {
-            round += 1
-            setupDefaultValuesForNewRound()
+        evaluateUserChoice(tappedItem) {
+            if isGameOver() {
+                showAlert = true
+            } else {
+                round += 1
+                setupDefaultValuesForNewRound()
+            }
+            
+            deactivateButtons = false
         }
     }
     
@@ -33,29 +36,19 @@ struct ContentView: View {
         return round + 1 > ContentView.keys.limitedRounds
     }
     
-    func evaluateUserChoice(_ userChoice: String) -> Bool {
+    func evaluateUserChoice(_ userChoice: String, execute: @escaping () -> Void) {
         let items = ContentView.keys.items
         
         guard
             let indexOfUserChoice = items.firstIndex(of: userChoice),
             let indexOfBotChoice = items.firstIndex(of: botChoice)
         else {
-            return false
+            return
         }
         
         var result = false
         switch resultStatus {
-        case .botWin:
-            if indexOfBotChoice - 1 < 0 {
-                if indexOfUserChoice == 2 {
-                    result = true
-                }
-            } else {
-                if indexOfUserChoice == indexOfBotChoice - 1 {
-                    result = true
-                }
-            }
-        case .botLose:
+        case .playerWin:
             if indexOfBotChoice + 1 > 2 {
                 if indexOfUserChoice == 0 {
                     result = true
@@ -65,13 +58,29 @@ struct ContentView: View {
                     result = true
                 }
             }
+        case .playerLose:
+            if indexOfBotChoice - 1 < 0 {
+                if indexOfUserChoice == 2 {
+                    result = true
+                }
+            } else {
+                if indexOfUserChoice == indexOfBotChoice - 1 {
+                    result = true
+                }
+            }
         }
         
-        return result
+        if result {
+            score += 1
+        } else {
+            score -= 1
+        }
+        
+        execute()
     }
     
     func setupDefaultValuesForNewRound() {
-        botChoice = ContentView.generateBotChoice()
+        botChoice = ContentView.generateBotChoice(currentChoice: botChoice)
         resultStatus = ContentView.generateResult()
     }
     
@@ -98,7 +107,7 @@ struct ContentView: View {
                         .shadow(color: .yellow, radius: 10, x: 0, y: 0)
                         
                     VStack (spacing: 10) {
-                        CircleText(content: botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
+                        CircleText(content: $botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
                         
                         Text(resultStatus.rawValue)
                             .font(.custom(ContentView.keys.fontName, size: 60))
@@ -109,12 +118,13 @@ struct ContentView: View {
                     Spacer()
                     
                     VStack (spacing: 20) {
-                        ForEach(ContentView.keys.items, id: \.self) { item in
+                        ForEach($items, id: \.self) { item in
                             Button {
-                                handleButtonTapped(tappedItem: item)
+                                handleButtonTapped(tappedItem: item.wrappedValue)
                             } label: {
                                 CircleText(content: item, backgroundColors: [.gray, .blue, .white], shadowColor: .yellow)
                             }
+                            .disabled(deactivateButtons)
                         }
                     }
                     

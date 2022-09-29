@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct CircleText: View {
-    var content: String
+    @Binding var content: String
     var backgroundColors: [Color]
     var shadowColor: Color
     
