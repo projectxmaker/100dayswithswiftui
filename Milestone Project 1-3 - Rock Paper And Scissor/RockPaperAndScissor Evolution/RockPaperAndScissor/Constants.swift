@@ -23,6 +23,9 @@ extension ContentView {
         static let limitedRounds: Int = 10
         
         static let fontName = "Chalkduster"
+        
+        static let emotionForWrongAnswer: [String] = ["😭","😤","😱","😖"]
+        static let emotionForCorrectAnswer: [String] = ["🥳","🤩","🥰","😍"]
     }
     
     static func generateBotChoice() -> String {
