@@ -10,6 +10,7 @@ import Foundation
 enum ResultStatus: String, CaseIterable {
     case playerWin = "Win"
     case playerLose = "Lose"
+    case playerDraw = "Draw"
 }
 
 extension ContentView {

@@ -68,6 +68,10 @@ struct ContentView: View {
                     result = true
                 }
             }
+        case .playerDraw:
+            if indexOfBotChoice == indexOfUserChoice {
+                result = true
+            }
         }
         
         showCorrespondingEmotionOnItem(matchingResult: result, userChoiceIndex: indexOfUserChoice, execute: execute)
