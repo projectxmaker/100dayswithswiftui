@@ -99,7 +99,7 @@ struct ContentView: View {
     }
     
     func setupDefaultValuesForNewRound() {
-        botChoice = ContentView.generateBotChoice()
+        botChoice = ContentView.generateBotChoice(currentChoice: botChoice)
         resultStatus = ContentView.generateResult()
     }
     

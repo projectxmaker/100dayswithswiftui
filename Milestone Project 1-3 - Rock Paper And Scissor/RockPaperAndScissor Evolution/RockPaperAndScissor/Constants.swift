@@ -28,8 +28,14 @@ extension ContentView {
         static let emotionForCorrectAnswer: [String] = ["🥳","🤩","🥰","😍"]
     }
     
-    static func generateBotChoice() -> String {
-        let shuffedItems = ContentView.keys.items.shuffled()
+    static func generateBotChoice(currentChoice: String? = nil) -> String {
+        var items = ContentView.keys.items
+        if let currentChoice {
+            if let tobeRemovedIndex = items.firstIndex(of: currentChoice) {
+                items.remove(at: tobeRemovedIndex)
+            }
+        }
+        let shuffedItems = items.shuffled()
         return shuffedItems[0]
     }
     
