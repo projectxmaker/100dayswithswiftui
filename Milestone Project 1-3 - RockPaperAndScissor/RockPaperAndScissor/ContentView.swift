@@ -12,10 +12,7 @@ struct ContentView: View {
     @State private var resultStatus = ContentView.generateResult()
     @State private var score: Int = 0
     @State private var round: Int = 1
-    
     @State private var showAlert: Bool = false
-    
-    let fontName = "Chalkduster"
 
     func handleButtonTapped(tappedItem: String) {
         if evaluateUserChoice(tappedItem) {
@@ -24,12 +21,16 @@ struct ContentView: View {
             score -= 1
         }
         
-        if round + 1 > ContentView.keys.limitedRounds {
+        if isGameOver() {
             showAlert = true
         } else {
             round += 1
             setupDefaultValuesForNewRound()
         }
+    }
+    
+    func isGameOver() -> Bool {
+        return round + 1 > ContentView.keys.limitedRounds
     }
     
     func evaluateUserChoice(_ userChoice: String) -> Bool {
@@ -92,7 +93,7 @@ struct ContentView: View {
                 
                 VStack {
                     Text("Round: \(round)")
-                        .font(.custom(fontName, size: 30))
+                        .font(.custom(ContentView.keys.fontName, size: 30))
                         .foregroundColor(.blue)
                         .shadow(color: .yellow, radius: 10, x: 0, y: 0)
                         
@@ -100,7 +101,7 @@ struct ContentView: View {
                         CircleText(content: botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
                         
                         Text(resultStatus.rawValue)
-                            .font(.custom(fontName, size: 60))
+                            .font(.custom(ContentView.keys.fontName, size: 60))
                             .foregroundColor(.indigo)
                             .shadow(color: .yellow, radius: 10, x: 0, y: 0)
                     }

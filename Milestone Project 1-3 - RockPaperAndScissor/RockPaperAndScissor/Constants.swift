@@ -21,6 +21,8 @@ extension ContentView {
         ]
         
         static let limitedRounds: Int = 10
+        
+        static let fontName = "Chalkduster"
     }
     
     static func generateBotChoice() -> String {
