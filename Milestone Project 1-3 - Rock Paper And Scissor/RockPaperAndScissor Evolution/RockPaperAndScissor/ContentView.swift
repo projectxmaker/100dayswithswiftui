@@ -89,7 +89,7 @@ struct ContentView: View {
         
         items[userChoiceIndex] = selectedEmotion
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + ContentView.keys.emotionDisplayDelay) {
             items[userChoiceIndex] = currentItem
             
             if matchingResult {

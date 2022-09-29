@@ -27,6 +27,8 @@ extension ContentView {
         
         static let emotionForWrongAnswer: [String] = ["😭","😤","😱","😖"]
         static let emotionForCorrectAnswer: [String] = ["🥳","🤩","🥰","😍"]
+        
+        static let emotionDisplayDelay: Double = 0.4
     }
     
     static func generateBotChoice(currentChoice: String? = nil) -> String {
