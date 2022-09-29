@@ -48,23 +48,23 @@ struct ContentView: View {
         
         var result = false
         switch resultStatus {
-        case .botWin:
-            if indexOfBotChoice - 1 < 0 {
-                if indexOfUserChoice == 2 {
-                    result = true
-                }
-            } else {
-                if indexOfUserChoice == indexOfBotChoice - 1 {
-                    result = true
-                }
-            }
-        case .botLose:
+        case .playerWin:
             if indexOfBotChoice + 1 > 2 {
                 if indexOfUserChoice == 0 {
                     result = true
                 }
             } else {
                 if indexOfUserChoice == indexOfBotChoice + 1 {
+                    result = true
+                }
+            }
+        case .playerLose:
+            if indexOfBotChoice - 1 < 0 {
+                if indexOfUserChoice == 2 {
+                    result = true
+                }
+            } else {
+                if indexOfUserChoice == indexOfBotChoice - 1 {
                     result = true
                 }
             }

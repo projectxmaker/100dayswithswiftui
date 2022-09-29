@@ -8,8 +8,8 @@
 import Foundation
 
 enum ResultStatus: String, CaseIterable {
-    case botWin = "Win"
-    case botLose = "Lose"
+    case playerWin = "Win"
+    case playerLose = "Lose"
 }
 
 extension ContentView {
@@ -40,6 +40,6 @@ extension ContentView {
     }
     
     static func generateResult() -> ResultStatus {
-        ResultStatus.allCases.randomElement() ?? ResultStatus.botWin
+        ResultStatus.allCases.randomElement() ?? ResultStatus.playerWin
     }
 }
