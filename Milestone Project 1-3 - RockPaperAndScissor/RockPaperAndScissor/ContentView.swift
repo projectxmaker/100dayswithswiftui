@@ -15,12 +15,49 @@ struct ContentView: View {
     let fontName = "Chalkduster"
     
     func handleButtonTapped(tappedItem: String) {
-        if tappedItem == botChoice {
+        if evaluateUserChoice(tappedItem) {
             score += 1
         } else {
             score -= 1
         }
         setupDefaultValuesForNewRound()
+    }
+    
+    func evaluateUserChoice(_ userChoice: String) -> Bool {
+        let items = ContentView.keys.items
+        
+        guard
+            let indexOfUserChoice = items.firstIndex(of: userChoice),
+            let indexOfBotChoice = items.firstIndex(of: botChoice)
+        else {
+            return false
+        }
+        
+        var result = false
+        switch resultStatus {
+        case .botWin:
+            if indexOfBotChoice - 1 < 0 {
+                if indexOfUserChoice == 2 {
+                    result = true
+                }
+            } else {
+                if indexOfUserChoice == indexOfBotChoice - 1 {
+                    result = true
+                }
+            }
+        case .botLose:
+            if indexOfBotChoice + 1 > 2 {
+                if indexOfUserChoice == 0 {
+                    result = true
+                }
+            } else {
+                if indexOfUserChoice == indexOfBotChoice + 1 {
+                    result = true
+                }
+            }
+        }
+        
+        return result
     }
     
     func setupDefaultValuesForNewRound() {
