@@ -7,53 +7,66 @@
 
 import SwiftUI
 
-enum ResultStatus: String {
-    case botWin = "Win"
-    case botLose = "Lose"
-}
-
 struct ContentView: View {
-    @State private var items: [String] = [
-        "✊",
-        "🖐",
-        "✌️",
-    ]
-    @State private var userChoice = ""
+    @State private var botChoice: String = ContentView.generateBotChoice()
+    @State private var resultStatus = ContentView.generateResult()
+    @State private var score: Int = 0
     
-    @State private var itemOfBot: Int = 0
-    @State private var resultStatus = ResultStatus.botWin
+    let fontName = "Chalkduster"
     
+    func handleButtonTapped(tappedItem: String) {
+        if tappedItem == botChoice {
+            score += 1
+        } else {
+            score -= 1
+        }
+        setupDefaultValuesForNewRound()
+    }
+    
+    func setupDefaultValuesForNewRound() {
+        botChoice = ContentView.generateBotChoice()
+        resultStatus = ContentView.generateResult()
+    }
     
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(colors: [.blue, .white], startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
-                
+                LinearGradient(stops: [
+                    Gradient.Stop(color: .indigo, location: 0),
+                    Gradient.Stop(color: .yellow, location: 0.5),
+                    Gradient.Stop(color: .indigo, location: 1)
+                ], startPoint: .leading, endPoint: .trailing)
+                .ignoresSafeArea()
+
                 VStack {
                     Spacer()
                     
-                    Text(items[itemOfBot])
-                    Text(resultStatus.rawValue)
+                    Text("Score: \(score)")
+                        .font(.custom(fontName, size: 30))
+                        .foregroundColor(.blue)
+                        .shadow(color: .yellow, radius: 10, x: 0, y: 0)
+                        
+                    VStack (spacing: 10) {
+                        CircleText(content: botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
+                        
+                        Text(resultStatus.rawValue)
+                            .font(.custom(fontName, size: 60))
+                            .foregroundColor(.indigo)
+                            .shadow(color: .yellow, radius: 10, x: 0, y: 0)
+                    }
                     
                     Spacer()
                     
                     VStack (spacing: 20) {
-                        ForEach(items, id: \.self) { item in
+                        ForEach(ContentView.keys.items, id: \.self) { item in
                             Button {
-                                userChoice = item
+                                handleButtonTapped(tappedItem: item)
                             } label: {
-                                Text(item)
-                                    .font(.system(size: 100))
-                                    .frame(width: 160, height: 160)
-                                    .background(RadialGradient(colors: [.red, .yellow, .blue], center: .center, startRadius: 20, endRadius: 100))
-                                    .clipShape(Capsule())
-                                    .shadow(color: .white, radius: 5, x: 0, y: 2)
+                                CircleText(content: item, backgroundColors: [.gray, .blue, .white], shadowColor: .yellow)
                             }
                         }
                     }
                     
-                    Spacer()
                     Spacer()
                 }
             }

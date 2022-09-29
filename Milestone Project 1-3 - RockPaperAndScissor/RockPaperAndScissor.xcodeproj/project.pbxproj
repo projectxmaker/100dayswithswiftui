@@ -11,6 +11,8 @@
 		8A4A22ED28E4913600BCABA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A22EC28E4913600BCABA2 /* ContentView.swift */; };
 		8A4A22EF28E4913800BCABA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A22EE28E4913800BCABA2 /* Assets.xcassets */; };
 		8A4A22F228E4913800BCABA2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A22F128E4913800BCABA2 /* Preview Assets.xcassets */; };
+		8A4A22F928E53BF700BCABA2 /* CircleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A22F828E53BF700BCABA2 /* CircleText.swift */; };
+		8A4A22FB28E5511900BCABA2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A22FA28E5511900BCABA2 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		8A4A22EC28E4913600BCABA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A4A22EE28E4913800BCABA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A4A22F128E4913800BCABA2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8A4A22F828E53BF700BCABA2 /* CircleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleText.swift; sourceTree = "<group>"; };
+		8A4A22FA28E5511900BCABA2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,8 @@
 			children = (
 				8A4A22EA28E4913600BCABA2 /* RockPaperAndScissorApp.swift */,
 				8A4A22EC28E4913600BCABA2 /* ContentView.swift */,
+				8A4A22FA28E5511900BCABA2 /* Constants.swift */,
+				8A4A22F828E53BF700BCABA2 /* CircleText.swift */,
 				8A4A22EE28E4913800BCABA2 /* Assets.xcassets */,
 				8A4A22F028E4913800BCABA2 /* Preview Content */,
 			);
@@ -139,6 +145,8 @@
 			files = (
 				8A4A22ED28E4913600BCABA2 /* ContentView.swift in Sources */,
 				8A4A22EB28E4913600BCABA2 /* RockPaperAndScissorApp.swift in Sources */,
+				8A4A22F928E53BF700BCABA2 /* CircleText.swift in Sources */,
+				8A4A22FB28E5511900BCABA2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
