@@ -14,8 +14,12 @@ struct ContentView: View {
     @State private var score: Int = 0
     @State private var round: Int = 1
     @State private var showAlert: Bool = false
+    
+    @State private var deactivateButtons = false
 
     func handleButtonTapped(tappedItem: String) {
+        deactivateButtons = true
+        
         evaluateUserChoice(tappedItem) {
             if isGameOver() {
                 showAlert = true
@@ -23,6 +27,8 @@ struct ContentView: View {
                 round += 1
                 setupDefaultValuesForNewRound()
             }
+            
+            deactivateButtons = false
         }
     }
     
@@ -79,7 +85,7 @@ struct ContentView: View {
         
         items[userChoiceIndex] = selectedEmotion
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             items[userChoiceIndex] = currentItem
             
             if matchingResult {
@@ -137,6 +143,7 @@ struct ContentView: View {
                             } label: {
                                 CircleText(content: item, backgroundColors: [.gray, .blue, .white], shadowColor: .yellow)
                             }
+                            .disabled(deactivateButtons)
                         }
                     }
                     
