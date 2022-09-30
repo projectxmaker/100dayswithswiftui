@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var errorTitle = ""
     @State private var errorMessage = ""
     @State private var showingError = false
+    @State private var totalLetters = 0
     
     @State private var allWords = [String]()
     
@@ -26,7 +27,8 @@ struct ContentView: View {
                         .textInputAutocapitalization(.never)
                 }
 
-                Section {
+                Section ("Score: \(usedWords.count) words | \(totalLetters) letters") {
+                    //Text("Words: \(usedWords.count) | Letters: ")
                     ForEach(usedWords, id: \.self) { word in
                         HStack {
                             Image(systemName: "\(word.count).circle")
@@ -85,6 +87,7 @@ struct ContentView: View {
         
         withAnimation {
             usedWords.insert(answer, at: 0)
+            totalLetters += answer.count
         }
         newWord = ""
     }
@@ -113,6 +116,7 @@ struct ContentView: View {
         usedWords.removeAll(keepingCapacity: true)
         rootWord = allWords.randomElement() ?? "silkworm"
         newWord = ""
+        totalLetters = 0
     }
 
     func isValidLength(word: String) -> Bool {
