@@ -51,6 +51,16 @@ struct ContentView: View {
         // exit if the remaining string is empty
         guard answer.count > 0 else { return }
 
+        guard isValidLength(word: answer) else {
+            wordError(title: "Word length is invalid", message: "Be equal or greater than 3 characters")
+            return
+        }
+        
+        guard isDifferentFromStartWord(word: answer) else {
+            wordError(title: "Word is simiar to start word", message: "Be different from start word")
+            return
+        }
+        
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original")
             return
@@ -90,6 +100,14 @@ struct ContentView: View {
 
         // If were are *here* then there was a problem – trigger a crash and report the error
         fatalError("Could not load start.txt from bundle.")
+    }
+
+    func isValidLength(word: String) -> Bool {
+        word.count >= 3
+    }
+    
+    func isDifferentFromStartWord(word: String) -> Bool {
+        !word.elementsEqual(rootWord)
     }
     
     func isOriginal(word: String) -> Bool {
