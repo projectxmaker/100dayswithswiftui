@@ -102,7 +102,7 @@ struct ContentView: View {
                         .font(.headline)
                     
                     Picker(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", selection: $coffeeAmount) {
-                        ForEach(1..<21) { eachOption in
+                        ForEach(1..<21, id: \.self) { eachOption in
                             Text("\(eachOption)")
                         }
                     }
