@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var allWords = [String]()
+    
     var body: some View {
         NavigationView {
             List {
@@ -40,6 +42,11 @@ struct ContentView: View {
                 Button("OK", role: .cancel) { }
             } message: {
                 Text(errorMessage)
+            }
+            .toolbar {
+                Button("Restart") {
+                    restartGame()
+                }
             }
         }
     }
@@ -88,10 +95,10 @@ struct ContentView: View {
             // 2. Load start.txt into a string
             if let startWords = try? String(contentsOf: startWordsURL) {
                 // 3. Split the string up into an array of strings, splitting on line breaks
-                let allWords = startWords.components(separatedBy: "\n")
+                allWords = startWords.components(separatedBy: "\n")
 
                 // 4. Pick one random word, or use "silkworm" as a sensible default
-                rootWord = allWords.randomElement() ?? "silkworm"
+                restartGame()
 
                 // If we are here everything has worked, so we can exit
                 return
@@ -100,6 +107,12 @@ struct ContentView: View {
 
         // If were are *here* then there was a problem – trigger a crash and report the error
         fatalError("Could not load start.txt from bundle.")
+    }
+    
+    func restartGame() {
+        usedWords.removeAll(keepingCapacity: true)
+        rootWord = allWords.randomElement() ?? "silkworm"
+        newWord = ""
     }
 
     func isValidLength(word: String) -> Bool {
