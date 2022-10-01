@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showFlagAnimations = [Bool](repeating: false, count: 3)
-    @State private var changeFlagOpacities = [Bool](repeating: false, count: 3)
+    @State private var flagsNotChosen = [Bool](repeating: false, count: 3)
     @State private var showingFinalAlertScore = false
     @State private var showingScore = false
     @State private var scoreTitle = ""
@@ -46,14 +46,14 @@ struct ContentView: View {
     }
     
     func changeUntappedFlagOpacity(tappedFlagIndex: Int) {
-        let tmpChangeFlagOpacities = changeFlagOpacities
+        let tmpChangeFlagOpacities = flagsNotChosen
         for (index, _) in tmpChangeFlagOpacities.enumerated() {
             var changeOpacity = false
             if index != tappedFlagIndex {
                 changeOpacity = true
             }
 
-            changeFlagOpacities[index] = changeOpacity
+            flagsNotChosen[index] = changeOpacity
         }
     }
     
@@ -78,7 +78,7 @@ struct ContentView: View {
         
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
-        changeFlagOpacities = [Bool](repeating: false, count: 3)
+        flagsNotChosen = [Bool](repeating: false, count: 3)
     }
     
     func isGameOver() -> Bool {
@@ -114,9 +114,7 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                         } label: {
-                            //FlagImage(imageName: countries[number])
-                            //FlagImage(showAnimation: $showFlagAnimations[number], imageName: countries[number])
-                            FlagImage(showAnimation: $showFlagAnimations[number], changeOpacity: $changeFlagOpacities[number], imageName: countries[number])
+                            FlagImage(showAnimation: $showFlagAnimations[number], isNotChosen: $flagsNotChosen[number], imageName: countries[number])
                         }
                     }
                 }
