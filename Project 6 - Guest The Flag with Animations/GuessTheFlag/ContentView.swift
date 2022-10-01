@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showFlagAnimations = [Bool](repeating: false, count: 3)
     @State private var showingFinalAlertScore = false
     @State private var showingScore = false
     @State private var scoreTitle = ""
@@ -22,6 +23,8 @@ struct ContentView: View {
     let limitedNumberOfRounds = 8
     
     func flagTapped(_ number: Int) {
+        showFlagAnimations[number].toggle()
+        
         var messages = [String]()
         if number == correctAnswer {
             scoreTitle = "Correct"
@@ -31,12 +34,12 @@ struct ContentView: View {
             messages.append("That’s the flag of \(countries[number])")
             score -= 1
         }
-        
+
         messages.append("Your score is \(score)")
         alertOfFlagTappedMessage = messages.joined(separator: "\n")
 
         showingScore = true
-        
+
         roundCounter += 1
     }
     
@@ -96,7 +99,8 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                         } label: {
-                            FlagImage(imageName: countries[number])
+                            //FlagImage(imageName: countries[number])
+                            FlagImage(showAnimation: $showFlagAnimations[number], imageName: countries[number])
                         }
                     }
                 }
