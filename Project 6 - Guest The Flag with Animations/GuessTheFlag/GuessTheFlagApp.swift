@@ -1,14 +1,14 @@
 //
-//  AnimationsApp.swift
-//  Animations
+//  GuessTheFlagApp.swift
+//  GuessTheFlag
 //
-//  Created by Pham Anh Tuan on 10/1/22.
+//  Created by Pham Anh Tuan on 9/26/22.
 //
 
 import SwiftUI
 
 @main
-struct AnimationsApp: App {
+struct GuessTheFlagApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
