@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showFlagAnimations = [Bool](repeating: false, count: 3)
+    @State private var changeFlagOpacities = [Bool](repeating: false, count: 3)
     @State private var showingFinalAlertScore = false
     @State private var showingScore = false
     @State private var scoreTitle = ""
@@ -23,6 +24,7 @@ struct ContentView: View {
     let limitedNumberOfRounds = 8
     
     func flagTapped(_ number: Int) {
+        changeUntappedFlagOpacity(tappedFlagIndex: number)
         showFlagAnimations[number].toggle()
         
         var messages = [String]()
@@ -41,6 +43,18 @@ struct ContentView: View {
         showingScore = true
 
         roundCounter += 1
+    }
+    
+    func changeUntappedFlagOpacity(tappedFlagIndex: Int) {
+        let tmpChangeFlagOpacities = changeFlagOpacities
+        for (index, _) in tmpChangeFlagOpacities.enumerated() {
+            var changeOpacity = false
+            if index != tappedFlagIndex {
+                changeOpacity = true
+            }
+
+            changeFlagOpacities[index] = changeOpacity
+        }
     }
     
     func displayFinalAlert() {
@@ -64,6 +78,7 @@ struct ContentView: View {
         
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        changeFlagOpacities = [Bool](repeating: false, count: 3)
     }
     
     func isGameOver() -> Bool {
@@ -100,7 +115,8 @@ struct ContentView: View {
                             flagTapped(number)
                         } label: {
                             //FlagImage(imageName: countries[number])
-                            FlagImage(showAnimation: $showFlagAnimations[number], imageName: countries[number])
+                            //FlagImage(showAnimation: $showFlagAnimations[number], imageName: countries[number])
+                            FlagImage(showAnimation: $showFlagAnimations[number], changeOpacity: $changeFlagOpacities[number], imageName: countries[number])
                         }
                     }
                 }
