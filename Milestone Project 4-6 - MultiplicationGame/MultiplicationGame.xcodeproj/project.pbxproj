@@ -11,6 +11,7 @@
 		8AD8CAA328EA7EA300C7F173 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD8CAA228EA7EA300C7F173 /* ContentView.swift */; };
 		8AD8CAA528EA7EA700C7F173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AD8CAA428EA7EA700C7F173 /* Assets.xcassets */; };
 		8AD8CAA828EA7EA700C7F173 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AD8CAA728EA7EA700C7F173 /* Preview Assets.xcassets */; };
+		8AD8CAAF28EA9E4300C7F173 /* UIColor+Hexstring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD8CAAE28EA9E4300C7F173 /* UIColor+Hexstring.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		8AD8CAA228EA7EA300C7F173 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8AD8CAA428EA7EA700C7F173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AD8CAA728EA7EA700C7F173 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8AD8CAAE28EA9E4300C7F173 /* UIColor+Hexstring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hexstring.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 				8AD8CAA228EA7EA300C7F173 /* ContentView.swift */,
 				8AD8CAA428EA7EA700C7F173 /* Assets.xcassets */,
 				8AD8CAA628EA7EA700C7F173 /* Preview Content */,
+				8AD8CAAE28EA9E4300C7F173 /* UIColor+Hexstring.swift */,
 			);
 			path = MultiplicationGame;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AD8CAA328EA7EA300C7F173 /* ContentView.swift in Sources */,
+				8AD8CAAF28EA9E4300C7F173 /* UIColor+Hexstring.swift in Sources */,
 				8AD8CAA128EA7EA300C7F173 /* MultiplicationGameApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
