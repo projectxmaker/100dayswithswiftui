@@ -37,6 +37,8 @@ struct ContentView: View {
     @State private var isEndGame = false
     @State private var finalScore = 0
     
+    @State private var playButtonTitle = "Start"
+    
     let limitedTableRange = 12
     let roundRange = [5, 10, 20]
     
@@ -47,6 +49,9 @@ struct ContentView: View {
         if inPlay == false {
             generateRightSideOperands()
             inPlay = true
+            isEndGame = false
+            finalScore = 0
+            playerScore = 0
         }
         
         if !isGameOver() {
@@ -57,17 +62,22 @@ struct ContentView: View {
                 rightSideOperands.remove(at: 0)
             }
         } else {
-            quitPlayingGame()
+            gameOver()
         }
     }
     
-    func quitPlayingGame() {
+    func gameOver() {
         screenType = ScreenType.main
         isEndGame = true
         inPlay = false
         finalScore = playerScore
-        playerScore = 0
-        rightSideOperands.removeAll(keepingCapacity: true)
+        playButtonTitle = "Restart"
+    }
+    
+    func quitPlayingGame() {
+        screenType = ScreenType.main
+        inPlay = false
+        playButtonTitle = "Start"
     }
     
     func isGameOver() -> Bool {
@@ -111,6 +121,8 @@ struct ContentView: View {
     }
 
     func generateRightSideOperands() {
+        rightSideOperands.removeAll(keepingCapacity: true)
+        
         var operandValuesLeft = numberOfRounds
         repeat {
             var toBeGeneratedValues = limitedTableRange
@@ -158,7 +170,7 @@ struct ContentView: View {
                     Button {
                         play()
                     } label: {
-                        Text("PLAY")
+                        Text(playButtonTitle.uppercased())
                     }
                     .foregroundColor(.white)
                     .font(.largeTitle)
