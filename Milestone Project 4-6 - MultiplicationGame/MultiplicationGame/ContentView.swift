@@ -162,10 +162,10 @@ struct ContentView: View {
                     Text(playButtonTitle.uppercased())
                 }
                 .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                .font(.largeTitle)
+                .font(.system(size: 40))
                 .fontWeight(.bold)
                 .frame(width: 300, height: 100)
-                .background(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
+                .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
                 .clipShape(Capsule())
                 .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
             }
@@ -201,7 +201,9 @@ struct ContentView: View {
                         switchSettingsPanel()
                     } label: {
                         Text(settingsToggle == SettingsToggle.off ? "Settings" : "Close")
-                            .foregroundColor(.blue)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
+                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     }
                 }
             }
@@ -229,10 +231,10 @@ struct ContentView: View {
                         Text("\(answerValue)")
                     }
                     .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                    .font(.largeTitle)
+                    .font(.system(size: 50))
                     .fontWeight(.bold)
                     .frame(width: 300, height: 100)
-                    .background(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
+                    .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
                     .clipShape(Capsule())
                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                 }
@@ -246,7 +248,9 @@ struct ContentView: View {
                     quitPlayingGame()
                 } label: {
                     Text("Quit")
-                        .foregroundColor(.blue)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                 }
             }
         }
