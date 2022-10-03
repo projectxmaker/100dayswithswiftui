@@ -23,7 +23,7 @@ struct ContentView: View {
     @State private var multiplicationTable = 2
     @State private var numberOfRounds = 5
     @State private var settingsToggle = SettingsToggle.off
-    @State private var screenType = ScreenType.result
+    @State private var screenType = ScreenType.main
     
     @State private var rightSideOperands = [Int]()
     
@@ -147,68 +147,68 @@ struct ContentView: View {
     }
     
     func getMainScreen() -> some View {
-        VStack (spacing: 20) {
-            ZStack {
-                VStack {
-                    if isEndGame {
-                        Spacer()
-                        
-                        Text("GameOver!")
-                            .font(.system(size: 70))
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
-                        
-                        Text("Final Score: \(finalScore)")
-                            .font(.system(size: 50))
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
-                        
-                    } else {
-                        Spacer()
-                    }
+        VStack {
+            VStack {
+                Spacer()
+                Spacer()
+                Text(isEndGame ? "GameOver!" : "Multiplication\nGame")
+                    .font(.system(size: isEndGame ? 70 : 50))
+                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                    .fontWeight(.bold)
+                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                    .multilineTextAlignment(.center)
+                
+                if isEndGame {
+                    Text("Final Score: \(finalScore)")
+                        .font(.system(size: 50))
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                        .fontWeight(.bold)
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     
-                    Button {
-                        play()
-                    } label: {
-                        Text(playButtonTitle.uppercased())
-                    }
-                    .foregroundColor(.white)
-                    .font(.largeTitle)
-                    .frame(width: 200, height: 100)
-                    .background(.blue)
-                    .clipShape(Capsule())
-                    
+                } else {
+                    Spacer()
+                    Spacer()
                     Spacer()
                 }
                 
-                VStack {
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    if settingsToggle == SettingsToggle.on {
-                        Form {
-                            Section("Settings") {
-                                Picker("Multiplication Table", selection: $multiplicationTable) {
-                                    ForEach(2...limitedTableRange, id: \.self) {
-                                        Text("\($0)")
-                                    }
+                Button {
+                    play()
+                } label: {
+                    Text(playButtonTitle.uppercased())
+                }
+                .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .frame(width: 300, height: 100)
+                .background(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
+                .clipShape(Capsule())
+                .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+            }
+            
+            VStack {
+                Spacer()
+                Spacer()
+                Spacer()
+                Spacer()
+
+                if settingsToggle == SettingsToggle.on {
+                    Form {
+                        Section("Settings") {
+                            Picker("Multiplication Table", selection: $multiplicationTable) {
+                                ForEach(2...limitedTableRange, id: \.self) {
+                                    Text("\($0)")
                                 }
-                                Picker("Number Of Rounds", selection: $numberOfRounds) {
-                                    ForEach(roundRange, id: \.self) {
-                                        Text("\($0)")
-                                    }
+                            }
+                            Picker("Number Of Rounds", selection: $numberOfRounds) {
+                                ForEach(roundRange, id: \.self) {
+                                    Text("\($0)")
                                 }
                             }
                         }
-                        .frame(height: settingsToggle == SettingsToggle.off ? 0 : 180)
                     }
-                    Spacer()
+                    .frame(height: settingsToggle == SettingsToggle.off ? 0 : 230)
                 }
+                Spacer()
             }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
@@ -221,73 +221,74 @@ struct ContentView: View {
                 }
             }
         }
-
-        .ignoresSafeArea()
     }
     
     func getPlayScreen() -> some View {
-        VStack (spacing: 20) {
-            ZStack {
-                LinearGradient(stops: [
-                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "37B6F6")), location: 0),
-                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "37B6F6")), location: 0.2),
-                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f9e104")), location: 0.4),
-                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 1)
-                ], startPoint: .top, endPoint: .bottom)
-                
-                VStack {
-                    Spacer()
-                    Spacer()
-                    
-                    Text(roundQuestion)
-                        .font(.system(size: 100))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                    
-                    Spacer()
-                    
-                    VStack(spacing: 20) {
-                        ForEach(roundAnswers, id: \.self) { answerValue in
-                            Button {
-                                handleAnswerButtonTapped(buttonValue: answerValue)
-                            } label: {
-                                Text("\(answerValue)")
-                            }
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .frame(width: 300, height: 100)
-                            .background(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
-                            .clipShape(Capsule())
-                        }
+
+        VStack {
+            Spacer()
+            Spacer()
+            
+            Text(roundQuestion)
+                .font(.system(size: 100))
+                .fontWeight(.bold)
+                .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 6, x: 0, y: 1)
+            Spacer()
+            
+            VStack(spacing: 20) {
+                ForEach(roundAnswers, id: \.self) { answerValue in
+                    Button {
+                        handleAnswerButtonTapped(buttonValue: answerValue)
+                    } label: {
+                        Text("\(answerValue)")
                     }
-                    Spacer()
-                    Spacer()
+                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .frame(width: 300, height: 100)
+                    .background(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
+                    .clipShape(Capsule())
+                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                 }
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button {
-                            quitPlayingGame()
-                        } label: {
-                            Text("Quit")
-                                .foregroundColor(.blue)
-                        }
-                    }
+            }
+            Spacer()
+            Spacer()
+        }
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                Button {
+                    quitPlayingGame()
+                } label: {
+                    Text("Quit")
+                        .foregroundColor(.blue)
                 }
             }
         }
-        .ignoresSafeArea()
+
     }
     
     var body: some View {
         NavigationView {
-            switch screenType {
-            case .main:
-                getMainScreen()
-            case .play:
-                getPlayScreen()
-            case .result:
-                getMainScreen()
+            VStack (spacing: 20) {
+                ZStack {
+                    LinearGradient(stops: [
+                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0),
+                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.1),
+                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.2),
+                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
+                    ], startPoint: .top, endPoint: .bottom)
+                    
+                    switch screenType {
+                    case .main:
+                        getMainScreen()
+                    case .play:
+                        getPlayScreen()
+                    case .result:
+                        getMainScreen()
+                    }
+                }
+                .ignoresSafeArea()
             }
         }
     }
