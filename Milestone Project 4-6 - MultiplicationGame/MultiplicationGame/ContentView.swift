@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var multiplicationTable = 2
     @State private var numberOfRounds = 5
+    @State private var settingsToggle = true
     
     // MARK: - Extra Funcs
     func play() {
@@ -34,9 +35,9 @@ struct ContentView: View {
                     .clipShape(Capsule())
                     
                     Spacer()
-                    
+
                     Form {
-                        Section {
+                        Section("Settings") {
                             Picker("Multiplication Table", selection: $multiplicationTable) {
                                 ForEach(2...12, id: \.self) {
                                     Text("\($0)")
@@ -47,11 +48,20 @@ struct ContentView: View {
                                     Text("\($0)")
                                 }
                             }
-                        } header: {
-                            Text("Settings")
                         }
                     }
-                    .frame(height: 180)
+                    .frame(height: settingsToggle ? 0 : 180)
+                    
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Button {
+                        settingsToggle.toggle()
+                    } label: {
+                        Text(settingsToggle ? "Settings" : "Close")
+                            .foregroundColor(.blue)
+                    }
                 }
             }
         }
