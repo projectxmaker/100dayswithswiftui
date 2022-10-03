@@ -14,10 +14,15 @@ enum ScreenType {
     case result
 }
 
+enum SettingsToggle {
+    case on
+    case off
+}
+
 struct ContentView: View {
     @State private var multiplicationTable = 2
     @State private var numberOfRounds = 5
-    @State private var settingsToggle = true
+    @State private var settingsToggle = SettingsToggle.off
     @State private var screenType = ScreenType.main
     
     // MARK: - Extra Funcs
@@ -30,7 +35,11 @@ struct ContentView: View {
     }
 
     func switchSettingsPanel() {
-        settingsToggle.toggle()
+        if settingsToggle == SettingsToggle.off {
+            settingsToggle = SettingsToggle.on
+        } else {
+            settingsToggle = SettingsToggle.off
+        }
     }
     
     func getMainScreen() -> some View {
@@ -49,36 +58,45 @@ struct ContentView: View {
                 
                 VStack {
                     Spacer()
-
-                    Form {
-                        Section("Settings") {
-                            Picker("Multiplication Table", selection: $multiplicationTable) {
-                                ForEach(2...12, id: \.self) {
-                                    Text("\($0)")
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    if settingsToggle == SettingsToggle.on {
+                        Form {
+                            Section("Settings") {
+                                Picker("Multiplication Table", selection: $multiplicationTable) {
+                                    ForEach(2...12, id: \.self) {
+                                        Text("\($0)")
+                                    }
                                 }
-                            }
-                            Picker("Number Of Round", selection: $numberOfRounds) {
-                                ForEach([5, 10, 20], id: \.self) {
-                                    Text("\($0)")
+                                Picker("Number Of Round", selection: $numberOfRounds) {
+                                    ForEach([5, 10, 20], id: \.self) {
+                                        Text("\($0)")
+                                    }
                                 }
                             }
                         }
+                        .frame(height: settingsToggle == SettingsToggle.off ? 0 : 180)
                     }
-                    .frame(height: settingsToggle ? 0 : 260)
-                    
+                    Spacer()
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Button {
+                        switchSettingsPanel()
+                    } label: {
+                        Text(settingsToggle == SettingsToggle.off ? "Settings" : "Close")
+                            .foregroundColor(.blue)
+                    }
                 }
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                Button {
-                    switchSettingsPanel()
-                } label: {
-                    Text(settingsToggle ? "Settings" : "Close")
-                        .foregroundColor(.blue)
-                }
-            }
-        }
+
         .ignoresSafeArea()
     }
     
@@ -121,15 +139,15 @@ struct ContentView: View {
                     Spacer()
                     Spacer()
                 }
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                Button {
-                    quitPlayingGame()
-                } label: {
-                    Text("Quit")
-                        .foregroundColor(.blue)
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        Button {
+                            quitPlayingGame()
+                        } label: {
+                            Text("Quit")
+                                .foregroundColor(.blue)
+                        }
+                    }
                 }
             }
         }
