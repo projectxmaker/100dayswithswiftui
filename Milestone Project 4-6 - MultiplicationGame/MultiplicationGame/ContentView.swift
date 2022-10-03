@@ -23,17 +23,109 @@ struct ContentView: View {
     @State private var multiplicationTable = 2
     @State private var numberOfRounds = 5
     @State private var settingsToggle = SettingsToggle.off
-    @State private var screenType = ScreenType.main
+    @State private var screenType = ScreenType.result
+    
+    @State private var rightSideOperands = [Int]()
+    
+    @State private var roundQuestion = ""
+    @State private var roundAnswers = [Int]()
+    @State private var roundCorrectAnswer = 0
+    
+    @State private var playerScore = 0
+    
+    @State private var inPlay = false
+    @State private var isEndGame = false
+    @State private var finalScore = 0
+    
+    let limitedTableRange = 12
+    let roundRange = [5, 10, 20]
     
     // MARK: - Extra Funcs
     func play() {
-        screenType = ScreenType.play
+       screenType = ScreenType.play
+        
+        if inPlay == false {
+            generateRightSideOperands()
+            inPlay = true
+        }
+        
+        if !isGameOver() {
+            if let selectedRghtSideOperand = rightSideOperands.first {
+                roundQuestion = generateQuestion(rightSideOperand: selectedRghtSideOperand)
+                roundAnswers = generateAnswers()
+                
+                rightSideOperands.remove(at: 0)
+            }
+        } else {
+            quitPlayingGame()
+        }
     }
     
     func quitPlayingGame() {
         screenType = ScreenType.main
+        isEndGame = true
+        inPlay = false
+        finalScore = playerScore
+        playerScore = 0
+        rightSideOperands.removeAll(keepingCapacity: true)
+    }
+    
+    func isGameOver() -> Bool {
+        return rightSideOperands.isEmpty
+    }
+    
+    func generateQuestion(rightSideOperand: Int) -> String {
+        return "\(multiplicationTable) x \(rightSideOperand)"
+    }
+    
+    func handleAnswerButtonTapped(buttonValue: Int) {
+        if buttonValue == roundCorrectAnswer {
+            playerScore += 1
+        }
+        
+        // play next round
+        play()
+    }
+    
+    func generateAnswers() -> [Int] {
+        var answers = [Int]()
+        
+        let questionData = roundQuestion.components(separatedBy: "x")
+        
+        guard
+            let leftOperand = Int(questionData[0].trimmingCharacters(in: .whitespaces)),
+            let rightOperand = Int(questionData[1].trimmingCharacters(in: .whitespaces))
+        else {
+            return answers
+        }
+        
+        roundCorrectAnswer = leftOperand * rightOperand
+        
+        answers.append(roundCorrectAnswer)
+        
+        for _ in 0...2 {
+            answers.append(Int.random(in: 1...144))
+        }
+        
+        return answers.shuffled()
     }
 
+    func generateRightSideOperands() {
+        var operandValuesLeft = numberOfRounds
+        repeat {
+            var toBeGeneratedValues = limitedTableRange
+            if operandValuesLeft < limitedTableRange {
+                toBeGeneratedValues = operandValuesLeft
+            }
+            
+            rightSideOperands += Array(1...toBeGeneratedValues)
+            
+            operandValuesLeft -= limitedTableRange
+        } while (operandValuesLeft > 0)
+        
+        rightSideOperands.shuffle()
+    }
+    
     func switchSettingsPanel() {
         if settingsToggle == SettingsToggle.off {
             settingsToggle = SettingsToggle.on
@@ -45,16 +137,37 @@ struct ContentView: View {
     func getMainScreen() -> some View {
         VStack (spacing: 20) {
             ZStack {
-                Button {
-                    play()
-                } label: {
-                    Text("PLAY")
+                VStack {
+                    if isEndGame {
+                        Spacer()
+                        
+                        Text("GameOver!")
+                            .font(.system(size: 70))
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
+                        
+                        Text("Final Score: \(finalScore)")
+                            .font(.system(size: 50))
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "37B6F6")))
+                        
+                    } else {
+                        Spacer()
+                    }
+                    
+                    Button {
+                        play()
+                    } label: {
+                        Text("PLAY")
+                    }
+                    .foregroundColor(.white)
+                    .font(.largeTitle)
+                    .frame(width: 200, height: 100)
+                    .background(.blue)
+                    .clipShape(Capsule())
+                    
+                    Spacer()
                 }
-                .foregroundColor(.white)
-                .font(.largeTitle)
-                .frame(width: 200, height: 100)
-                .background(.blue)
-                .clipShape(Capsule())
                 
                 VStack {
                     Spacer()
@@ -69,12 +182,12 @@ struct ContentView: View {
                         Form {
                             Section("Settings") {
                                 Picker("Multiplication Table", selection: $multiplicationTable) {
-                                    ForEach(2...12, id: \.self) {
+                                    ForEach(2...limitedTableRange, id: \.self) {
                                         Text("\($0)")
                                     }
                                 }
-                                Picker("Number Of Round", selection: $numberOfRounds) {
-                                    ForEach([5, 10, 20], id: \.self) {
+                                Picker("Number Of Rounds", selection: $numberOfRounds) {
+                                    ForEach(roundRange, id: \.self) {
                                         Text("\($0)")
                                     }
                                 }
@@ -114,7 +227,7 @@ struct ContentView: View {
                     Spacer()
                     Spacer()
                     
-                    Text("12 x 12")
+                    Text(roundQuestion)
                         .font(.system(size: 100))
                         .fontWeight(.bold)
                         .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
@@ -122,11 +235,11 @@ struct ContentView: View {
                     Spacer()
                     
                     VStack(spacing: 20) {
-                        ForEach(0..<4, id: \.self) { colIndex in
+                        ForEach(roundAnswers, id: \.self) { answerValue in
                             Button {
-                                play()
+                                handleAnswerButtonTapped(buttonValue: answerValue)
                             } label: {
-                                Text("\(colIndex)")
+                                Text("\(answerValue)")
                             }
                             .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                             .font(.largeTitle)
@@ -154,13 +267,6 @@ struct ContentView: View {
         .ignoresSafeArea()
     }
     
-    func getResultScreen() -> some View {
-        ZStack {
-            Button("Hello") {
-            }
-        }
-    }
-    
     var body: some View {
         NavigationView {
             switch screenType {
@@ -169,7 +275,7 @@ struct ContentView: View {
             case .play:
                 getPlayScreen()
             case .result:
-                getResultScreen()
+                getMainScreen()
             }
         }
     }
