@@ -25,8 +25,6 @@ struct ContentView: View {
     @State private var settingsToggle = SettingsToggle.off
     @State private var screenType = ScreenType.main
     
-    @State private var rightSideOperands = [Int]()
-    
     @State private var roundQuestion = ""
     @State private var roundAnswers = [Int]()
     @State private var roundCorrectAnswer = 0
@@ -39,6 +37,8 @@ struct ContentView: View {
     
     @State private var playButtonTitle = "Start"
     
+    @State private var numberOfGeneratedRightOperands: Int = 0
+    
     let limitedTableRange = 12
     let roundRange = [5, 10, 20]
     
@@ -47,7 +47,7 @@ struct ContentView: View {
        screenType = ScreenType.play
         
         if inPlay == false {
-            generateRightSideOperands()
+            numberOfGeneratedRightOperands = 0
             inPlay = true
             isEndGame = false
             finalScore = 0
@@ -55,12 +55,10 @@ struct ContentView: View {
         }
         
         if !isGameOver() {
-            if let selectedRghtSideOperand = rightSideOperands.first {
-                roundQuestion = generateQuestion(rightSideOperand: selectedRghtSideOperand)
-                roundAnswers = generateAnswers()
-                
-                rightSideOperands.remove(at: 0)
-            }
+            roundQuestion = generateQuestion()
+            roundAnswers = generateAnswers()
+            
+            numberOfGeneratedRightOperands += 1
         } else {
             gameOver()
         }
@@ -81,10 +79,11 @@ struct ContentView: View {
     }
     
     func isGameOver() -> Bool {
-        return rightSideOperands.isEmpty
+        numberOfGeneratedRightOperands == numberOfRounds
     }
     
-    func generateQuestion(rightSideOperand: Int) -> String {
+    func generateQuestion() -> String {
+        let rightSideOperand = Int.random(in: 1...12)
         return "\(multiplicationTable) x \(rightSideOperand)"
     }
     
@@ -113,29 +112,15 @@ struct ContentView: View {
         
         answers.append(roundCorrectAnswer)
         
-        for _ in 0...2 {
-            answers.append(Int.random(in: 1...144))
+        var arrayInts = Array(1...144)
+        arrayInts.removeAll { element in
+            element == roundCorrectAnswer
         }
         
+        let shuffedInts = arrayInts.shuffled()
+        answers += shuffedInts[0...2]
+        
         return answers.shuffled()
-    }
-
-    func generateRightSideOperands() {
-        rightSideOperands.removeAll(keepingCapacity: true)
-        
-        var operandValuesLeft = numberOfRounds
-        repeat {
-            var toBeGeneratedValues = limitedTableRange
-            if operandValuesLeft < limitedTableRange {
-                toBeGeneratedValues = operandValuesLeft
-            }
-            
-            rightSideOperands += Array(1...toBeGeneratedValues)
-            
-            operandValuesLeft -= limitedTableRange
-        } while (operandValuesLeft > 0)
-        
-        rightSideOperands.shuffle()
     }
     
     func switchSettingsPanel() {
