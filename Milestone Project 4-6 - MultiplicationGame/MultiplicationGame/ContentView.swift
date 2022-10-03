@@ -17,12 +17,14 @@ struct ContentView: View {
         print("play")
     }
     
+    func switchSettingsPanel() {
+        settingsToggle.toggle()
+    }
+    
     var body: some View {
         NavigationView {
             VStack (spacing: 20) {
-                VStack {
-                    Spacer()
-                    
+                ZStack {
                     Button {
                         play()
                     } label: {
@@ -34,30 +36,32 @@ struct ContentView: View {
                     .background(.blue)
                     .clipShape(Capsule())
                     
-                    Spacer()
+                    VStack {
+                        Spacer()
 
-                    Form {
-                        Section("Settings") {
-                            Picker("Multiplication Table", selection: $multiplicationTable) {
-                                ForEach(2...12, id: \.self) {
-                                    Text("\($0)")
+                        Form {
+                            Section("Settings") {
+                                Picker("Multiplication Table", selection: $multiplicationTable) {
+                                    ForEach(2...12, id: \.self) {
+                                        Text("\($0)")
+                                    }
                                 }
-                            }
-                            Picker("Number Of Round", selection: $numberOfRounds) {
-                                ForEach([5, 10, 20], id: \.self) {
-                                    Text("\($0)")
+                                Picker("Number Of Round", selection: $numberOfRounds) {
+                                    ForEach([5, 10, 20], id: \.self) {
+                                        Text("\($0)")
+                                    }
                                 }
                             }
                         }
+                        .frame(height: settingsToggle ? 0 : 180)
+                        
                     }
-                    .frame(height: settingsToggle ? 0 : 180)
-                    
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     Button {
-                        settingsToggle.toggle()
+                        switchSettingsPanel()
                     } label: {
                         Text(settingsToggle ? "Settings" : "Close")
                             .foregroundColor(.blue)
