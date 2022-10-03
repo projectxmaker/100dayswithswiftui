@@ -39,12 +39,15 @@ struct ContentView: View {
     
     @State private var numberOfGeneratedRightOperands: Int = 0
     
+    @State private var playButtonTapped = false
+    
     let limitedTableRange = 12
     let roundRange = [5, 10, 20]
     
     // MARK: - Extra Funcs
     func play() {
-       screenType = ScreenType.play
+        screenType = ScreenType.play
+        playButtonTapped.toggle()
         
         if inPlay == false {
             numberOfGeneratedRightOperands = 0
@@ -130,7 +133,7 @@ struct ContentView: View {
             settingsToggle = SettingsToggle.off
         }
     }
-    
+    @State private var animationAmount = 0.0
     func getMainScreen() -> some View {
         VStack {
             VStack {
@@ -157,7 +160,14 @@ struct ContentView: View {
                 }
                 
                 Button {
-                    play()
+                    withAnimation {
+                        animationAmount += 360
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            play()
+                        }
+                    }
+
                 } label: {
                     Text(playButtonTitle.uppercased())
                 }
@@ -168,6 +178,7 @@ struct ContentView: View {
                 .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
                 .clipShape(Capsule())
                 .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                .rotation3DEffect(.degrees(animationAmount), axis: (x: 1, y: 0, z: 0))
             }
             
             VStack {
@@ -226,7 +237,14 @@ struct ContentView: View {
             VStack(spacing: 20) {
                 ForEach(roundAnswers, id: \.self) { answerValue in
                     Button {
-                        handleAnswerButtonTapped(buttonValue: answerValue)
+                        withAnimation {
+                            animationAmount += 360
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                play()
+                            }
+                        }
+                        
                     } label: {
                         Text("\(answerValue)")
                     }
@@ -237,6 +255,7 @@ struct ContentView: View {
                     .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
                     .clipShape(Capsule())
                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                    .rotation3DEffect(.degrees(animationAmount), axis: (x: 1, y: 0, z: 0))
                 }
             }
             Spacer()
