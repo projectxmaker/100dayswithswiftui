@@ -105,10 +105,16 @@ struct ContentView: View {
     }
     
     func activateEffectOnIncorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
+        guard let incorrectAnswerButtonIndex = roundAnswers.firstIndex(of: roundCorrectAnswer) else { return }
+        
         roundIncorrectAnswerButtonAnimations[answerIndex]?.toggle()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            execute()
+            roundCorrectAnswerButtonAnimations[incorrectAnswerButtonIndex]?.toggle()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                execute()
+            }
         }
     }
     
@@ -120,8 +126,6 @@ struct ContentView: View {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: answerIndex)
-                print(answerIndex)
-                print(showScoreForTappingOnCorrectAnswerButtonAnimations)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     execute()
                 }
