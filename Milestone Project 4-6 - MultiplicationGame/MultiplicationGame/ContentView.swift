@@ -40,6 +40,7 @@ struct ContentView: View {
     @State private var numberOfGeneratedRightOperands: Int = 0
     
     @State private var playButtonTapped = false
+    @State private var roundAnswerButtonAnimations = [Int: Double]()
     
     let limitedTableRange = 12
     let roundRange = [5, 10, 20]
@@ -58,8 +59,9 @@ struct ContentView: View {
         }
         
         if !isGameOver() {
-            roundQuestion = generateQuestion()
-            roundAnswers = generateAnswers()
+            generateQuestion()
+            generateAnswers()
+            generateAnswerButtonAnimations()
             
             numberOfGeneratedRightOperands += 1
         } else {
@@ -85,9 +87,9 @@ struct ContentView: View {
         numberOfGeneratedRightOperands == numberOfRounds
     }
     
-    func generateQuestion() -> String {
+    func generateQuestion() {
         let rightSideOperand = Int.random(in: 1...12)
-        return "\(multiplicationTable) x \(rightSideOperand)"
+        roundQuestion = "\(multiplicationTable) x \(rightSideOperand)"
     }
     
     func handleAnswerButtonTapped(buttonValue: Int) {
@@ -99,7 +101,7 @@ struct ContentView: View {
         play()
     }
     
-    func generateAnswers() -> [Int] {
+    func generateAnswers() {
         var answers = [Int]()
         
         let questionData = roundQuestion.components(separatedBy: "x")
@@ -108,7 +110,8 @@ struct ContentView: View {
             let leftOperand = Int(questionData[0].trimmingCharacters(in: .whitespaces)),
             let rightOperand = Int(questionData[1].trimmingCharacters(in: .whitespaces))
         else {
-            return answers
+            roundAnswers = answers
+            return
         }
         
         roundCorrectAnswer = leftOperand * rightOperand
@@ -123,7 +126,14 @@ struct ContentView: View {
         let shuffedInts = arrayInts.shuffled()
         answers += shuffedInts[0...2]
         
-        return answers.shuffled()
+        roundAnswers = answers.shuffled()
+    }
+    
+    func generateAnswerButtonAnimations() {
+        roundAnswerButtonAnimations.removeAll(keepingCapacity: true)
+        for each in 0...3 {
+            roundAnswerButtonAnimations[each] = 0.0
+        }
     }
     
     func switchSettingsPanel() {
@@ -235,10 +245,10 @@ struct ContentView: View {
             Spacer()
             
             VStack(spacing: 20) {
-                ForEach(roundAnswers, id: \.self) { answerValue in
+                ForEach(roundAnswers.indices, id: \.self) { answerIndex in
                     Button {
                         withAnimation {
-                            animationAmount += 360
+                            roundAnswerButtonAnimations[answerIndex] = (roundAnswerButtonAnimations[answerIndex] ?? 0.0) + 360
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 play()
@@ -246,7 +256,7 @@ struct ContentView: View {
                         }
                         
                     } label: {
-                        Text("\(answerValue)")
+                        Text("\(roundAnswers[answerIndex])")
                     }
                     .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                     .font(.system(size: 50))
@@ -255,7 +265,7 @@ struct ContentView: View {
                     .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
                     .clipShape(Capsule())
                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                    .rotation3DEffect(.degrees(animationAmount), axis: (x: 1, y: 0, z: 0))
+                    .rotation3DEffect(.degrees(roundAnswerButtonAnimations[answerIndex] ?? 0.0), axis: (x: 1, y: 0, z: 0))
                 }
             }
             Spacer()
