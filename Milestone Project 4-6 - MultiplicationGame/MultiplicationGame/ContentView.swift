@@ -41,6 +41,10 @@ struct ContentView: View {
     
     @State private var playButtonTapped = false
     @State private var roundAnswerButtonAnimations = [Int: Double]()
+    @State private var roundIncorrectAnswerButtonAnimations = [Int: Bool]()
+    @State private var roundCorrectAnswerButtonAnimations = [Int: Bool]()
+    @State private var showScoreForTappingOnCorrectAnswerButtonAnimations = [Int: Bool]()
+    @State private var hideCorrectAnswerButtonAnimations = [Int: Bool]()
     
     let limitedTableRange = 12
     let roundRange = [5, 10, 20]
@@ -62,6 +66,10 @@ struct ContentView: View {
             generateQuestion()
             generateAnswers()
             generateAnswerButtonAnimations()
+            generateIncorrectAnswerButtonAnimations()
+            generateCorrectAnswerButtonAnimations()
+            generateHideCorrectAnswerButtonAnimations()
+            generateShowScoreForCorrectAnswerButtonAnimations()
             
             numberOfGeneratedRightOperands += 1
         } else {
@@ -92,13 +100,51 @@ struct ContentView: View {
         roundQuestion = "\(multiplicationTable) x \(rightSideOperand)"
     }
     
-    func handleAnswerButtonTapped(buttonValue: Int) {
-        if buttonValue == roundCorrectAnswer {
-            playerScore += 1
-        }
+    func activateEffectOnIncorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
+        roundIncorrectAnswerButtonAnimations[answerIndex]?.toggle()
         
-        // play next round
-        play()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            execute()
+        }
+    }
+    
+    func activateEffectOnCorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
+        roundCorrectAnswerButtonAnimations[answerIndex]?.toggle()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            activateHideEffectOnCorrectAnswerButton(answerIndex: answerIndex)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: answerIndex)
+                print(answerIndex)
+                print(showScoreForTappingOnCorrectAnswerButtonAnimations)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    execute()
+                }
+            }
+        }
+    }
+    
+    func activateHideEffectOnCorrectAnswerButton(answerIndex: Int) {
+        hideCorrectAnswerButtonAnimations[answerIndex] = true
+    }
+    
+    func activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: Int) {
+        showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] = true
+    }
+    
+    func handleAnswerButtonTapped(answerIndex: Int) {
+        // spin selected answer button
+        roundAnswerButtonAnimations[answerIndex] = (roundAnswerButtonAnimations[answerIndex] ?? 0.0) + 360
+
+        // increase player score if correct answer is tapped
+        if roundAnswers[answerIndex] == roundCorrectAnswer {
+            playerScore += 1
+            activateEffectOnCorrectAnswerButton(answerIndex: answerIndex, execute: play)
+        } else {
+            // selected answer is incorrect, make it red
+            activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex, execute: play)
+        }
     }
     
     func generateAnswers() {
@@ -136,6 +182,36 @@ struct ContentView: View {
         }
     }
     
+    func generateIncorrectAnswerButtonAnimations() {
+        roundIncorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+        for each in 0...3 {
+            roundIncorrectAnswerButtonAnimations[each] = false
+        }
+    }
+    
+    func generateCorrectAnswerButtonAnimations() {
+        roundCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+        for each in 0...3 {
+            roundCorrectAnswerButtonAnimations[each] = false
+        }
+    }
+    
+    func generateHideCorrectAnswerButtonAnimations() {
+        hideCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+        for each in 0...3 {
+            hideCorrectAnswerButtonAnimations[each] = false
+        }
+    }
+    
+    func generateShowScoreForCorrectAnswerButtonAnimations() {
+        showScoreForTappingOnCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+        for each in 0...3 {
+            showScoreForTappingOnCorrectAnswerButtonAnimations[each] = false
+        }
+    }
+    
+    
+
     func switchSettingsPanel() {
         if settingsToggle == SettingsToggle.off {
             settingsToggle = SettingsToggle.on
@@ -248,11 +324,7 @@ struct ContentView: View {
                 ForEach(roundAnswers.indices, id: \.self) { answerIndex in
                     Button {
                         withAnimation {
-                            roundAnswerButtonAnimations[answerIndex] = (roundAnswerButtonAnimations[answerIndex] ?? 0.0) + 360
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                play()
-                            }
+                            handleAnswerButtonTapped(answerIndex: answerIndex)
                         }
                         
                     } label: {
@@ -262,9 +334,24 @@ struct ContentView: View {
                     .font(.system(size: 50))
                     .fontWeight(.bold)
                     .frame(width: 300, height: 100)
-                    .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
+                    .background(Color(UIColor.hexStringToUIColor(hex: ((roundIncorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((roundCorrectAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
                     .clipShape(Capsule())
                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                    .scaleEffect((hideCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 0, height: 0) : CGSize(width: 1, height: 1))
+                    .animation(Animation.easeIn(duration: 0.3), value: hideCorrectAnswerButtonAnimations[answerIndex])
+                    .overlay(content: {
+                        let flag = showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
+                        
+                        if flag {
+                            Text("+ 1 score")
+                                .font(.system(size: 60))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 6, x: 0, y: 1)
+                                .scaleEffect((showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 1, height: 1) : CGSize(width: 0, height: 0))
+                                .animation(.easeIn(duration: 1), value: showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false)
+                        }
+                    })
                     .rotation3DEffect(.degrees(roundAnswerButtonAnimations[answerIndex] ?? 0.0), axis: (x: 1, y: 0, z: 0))
                 }
             }
