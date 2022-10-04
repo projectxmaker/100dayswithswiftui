@@ -46,6 +46,8 @@ struct ContentView: View {
     @State private var showScoreForTappingOnCorrectAnswerButtonAnimations = [Int: Bool]()
     @State private var hideCorrectAnswerButtonAnimations = [Int: Bool]()
     
+    @State private var inProcessingATapOnAnAnswerButton = false
+    
     let limitedTableRange = 12
     let roundRange = [5, 10, 20]
     
@@ -63,6 +65,8 @@ struct ContentView: View {
         }
         
         if !isGameOver() {
+            inProcessingATapOnAnAnswerButton = false
+            
             generateQuestion()
             generateAnswers()
             generateAnswerButtonAnimations()
@@ -134,16 +138,20 @@ struct ContentView: View {
     }
     
     func handleAnswerButtonTapped(answerIndex: Int) {
-        // spin selected answer button
-        roundAnswerButtonAnimations[answerIndex] = (roundAnswerButtonAnimations[answerIndex] ?? 0.0) + 360
-
-        // increase player score if correct answer is tapped
-        if roundAnswers[answerIndex] == roundCorrectAnswer {
-            playerScore += 1
-            activateEffectOnCorrectAnswerButton(answerIndex: answerIndex, execute: play)
-        } else {
-            // selected answer is incorrect, make it red
-            activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex, execute: play)
+        if !inProcessingATapOnAnAnswerButton {
+            inProcessingATapOnAnAnswerButton = true
+            
+            // spin selected answer button
+            roundAnswerButtonAnimations[answerIndex] = (roundAnswerButtonAnimations[answerIndex] ?? 0.0) + 360
+            
+            // increase player score if correct answer is tapped
+            if roundAnswers[answerIndex] == roundCorrectAnswer {
+                playerScore += 1
+                activateEffectOnCorrectAnswerButton(answerIndex: answerIndex, execute: play)
+            } else {
+                // selected answer is incorrect, make it red
+                activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex, execute: play)
+            }
         }
     }
     
@@ -380,7 +388,7 @@ struct ContentView: View {
                     LinearGradient(stops: [
                         Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0),
                         Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.1),
-                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.2),
+                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.7),
                         Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
                     ], startPoint: .top, endPoint: .bottom)
                     
