@@ -11,7 +11,6 @@ import UIKit
 enum ScreenType {
     case main
     case play
-    case result
 }
 
 enum SettingsToggle {
@@ -233,29 +232,33 @@ struct ContentView: View {
     }
     @State private var animationAmount = 0.0
     func getMainScreen() -> some View {
-        VStack {
+        ZStack {
             VStack {
-                Spacer()
-                Spacer()
-                Text(isEndGame ? "GameOver!" : "Multiplication\nGame")
-                    .font(.system(size: isEndGame ? 70 : 50))
+                Text("Multiplication Game")
+                    .font(.system(size: 30))
                     .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                     .fontWeight(.bold)
                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     .multilineTextAlignment(.center)
                 
                 if isEndGame {
+                    Spacer()
+                    
+                    Text("GameOver!")
+                        .font(.system(size: 70))
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                        .fontWeight(.bold)
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                        .multilineTextAlignment(.center)
+                    
                     Text("Final Score: \(finalScore)")
                         .font(.system(size: 50))
                         .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                         .fontWeight(.bold)
                         .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                    
-                } else {
-                    Spacer()
-                    Spacer()
-                    Spacer()
                 }
+                
+                Spacer()
                 
                 Button {
                     withAnimation {
@@ -277,43 +280,94 @@ struct ContentView: View {
                 .clipShape(Capsule())
                 .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                 .rotation3DEffect(.degrees(animationAmount), axis: (x: 1, y: 0, z: 0))
+                
+                Spacer()
             }
-            
-            VStack {
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
 
+            VStack {
                 if settingsToggle == SettingsToggle.on {
-                    Form {
-                        Section("Settings") {
-                            Picker("Multiplication Table", selection: $multiplicationTable) {
-                                ForEach(2...limitedTableRange, id: \.self) {
-                                    Text("\($0)")
+                    ZStack {
+                        Color(UIColor.hexStringToUIColor(hex: "05a899"))
+                            .opacity(0.8)
+                            .ignoresSafeArea()
+                        
+                        VStack {
+                            Spacer()
+                            VStack {
+                                Text("SETTINGS")
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                    .font(.system(size: 25))
+                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                    .fontWeight(.bold)
+                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 8, x: 5, y: 5)
+                                
+                                HStack {
+                                    Text("Multiplication table")
+                                        .font(.system(size: 18))
+                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
+                                    
+                                    Spacer()
+                                    Picker("Multiplication table", selection: $multiplicationTable) {
+                                        ForEach(2...limitedTableRange, id: \.self) {
+                                            Text("\($0)")
+                                                .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                                .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
+                                        }
+                                    }
+                                    .tint(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+
                                 }
-                            }
-                            Picker("Number Of Rounds", selection: $numberOfRounds) {
-                                ForEach(roundRange, id: \.self) {
-                                    Text("\($0)")
+                                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                                
+                                HStack {
+                                    Text("Number of rounds")
+                                        .font(.system(size: 18))
+                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
+                                    
+                                    Spacer()
+                                    Picker("Number Of Rounds", selection: $numberOfRounds) {
+                                        ForEach(roundRange, id: \.self) {
+                                            Text("\($0)")
+                                        }
+                                    }
+                                    .tint(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                                 }
+                                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                                
                             }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 180)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10, style: .circular)
+                                    .fill(
+                                            LinearGradient(stops: [
+                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0),
+                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0.12),
+                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0.21),
+                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0.22),
+                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0.31),
+                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 1)
+                                            ], startPoint: .top, endPoint: .bottom)
+                                         )
+                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                            )
+                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                         }
                     }
-                    .frame(height: settingsToggle == SettingsToggle.off ? 0 : 230)
                 }
-                Spacer()
             }
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    Button {
-                        switchSettingsPanel()
-                    } label: {
-                        Text(settingsToggle == SettingsToggle.off ? "Settings" : "Close")
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                    }
+        }
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                Button {
+                    switchSettingsPanel()
+                } label: {
+                    Text(settingsToggle == SettingsToggle.off ? "Settings" : "Close")
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: settingsToggle == SettingsToggle.off ? "05a899" : "ffff00")))
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                 }
             }
         }
@@ -395,17 +449,15 @@ struct ContentView: View {
                         Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.7),
                         Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
                     ], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
                     
                     switch screenType {
                     case .main:
                         getMainScreen()
                     case .play:
                         getPlayScreen()
-                    case .result:
-                        getMainScreen()
                     }
                 }
-                .ignoresSafeArea()
             }
         }
     }
