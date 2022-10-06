@@ -257,11 +257,11 @@ struct ContentView: View {
             showMenuOfMultiplicationTableSelection = false
         }
     }
-
+    @State var scale = 1.0
     func getMainScreen() -> some View {
         ZStack {
             VStack {
-                Text("Multiplication Game")
+                Text("Multiplication\nGame")
                     .font(.system(size: 30))
                     .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                     .fontWeight(.bold)
@@ -496,7 +496,7 @@ struct ContentView: View {
                     
                 } label: {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 50, style: .circular)
+                        Circle()
                             .fill(Material.ultraThinMaterial)
                             .frame(width: 40, height: 40)
                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
@@ -600,8 +600,8 @@ struct ContentView: View {
                 ZStack {
                     LinearGradient(stops: [
                         Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0),
-                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.1),
-                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.7),
+                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.17),
+                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.75),
                         Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
                     ], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
