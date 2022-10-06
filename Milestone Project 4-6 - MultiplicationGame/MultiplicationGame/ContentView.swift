@@ -38,7 +38,6 @@ struct ContentView: View {
     
     @State private var numberOfGeneratedRightOperands: Int = 0
     
-    @State private var startButtonTapped = false
     @State private var startButtonSpinDegree: Double = 0
     @State private var roundAnswerButtonAnimations = [Int: Double]()
     @State private var incorrectAnswerButtonAnimations = [Int: Bool]()
@@ -57,54 +56,63 @@ struct ContentView: View {
     
     @State private var quitButtonSpinDegree: Double = 0
     
+    @State private var goNextRound = false
+
     let limitedTableRange = 12
     let numberOfRoundRange = [5, 10, 20]
     let multiplicationTableRange = 2...12
     
     // MARK: - Extra Funcs
     func play() {
-        screenType = ScreenType.play
-        startButtonTapped.toggle()
-        
-        if inPlay == false {
-            numberOfGeneratedRightOperands = 0
-            inPlay = true
-            isEndGame = false
-            finalScore = 0
-            playerScore = 0
-            settingsButtonSpinDegree = 0
-            quitButtonSpinDegree = 0
-        }
-        
-        if !isGameOver() {
-            inProcessingATapOnAnAnswerButton = false
+        withAnimation() {
+            screenType = ScreenType.play
             
-            generateQuestion()
-            generateAnswers()
-            generateAnswerButtonAnimations()
-            generateIncorrectAnswerButtonAnimations()
-            generateCorrectAnswerButtonAnimations()
-            generateHideCorrectAnswerButtonAnimations()
-            generateShowScoreForCorrectAnswerButtonAnimations()
+            if inPlay == false {
+                numberOfGeneratedRightOperands = 0
+                inPlay = true
+                isEndGame = false
+                finalScore = 0
+                playerScore = 0
+                settingsButtonSpinDegree = 0
+                quitButtonSpinDegree = 0
+                goNextRound = false
+            }
             
-            numberOfGeneratedRightOperands += 1
-        } else {
-            gameOver()
+            if !isGameOver() {
+                inProcessingATapOnAnAnswerButton = false
+                
+                generateQuestion()
+                generateAnswers()
+                generateAnswerButtonAnimations()
+                generateIncorrectAnswerButtonAnimations()
+                generateCorrectAnswerButtonAnimations()
+                generateHideCorrectAnswerButtonAnimations()
+                generateShowScoreForCorrectAnswerButtonAnimations()
+                
+                numberOfGeneratedRightOperands += 1
+                goNextRound.toggle()
+            } else {
+                gameOver()
+            }
         }
     }
     
     func gameOver() {
-        screenType = ScreenType.main
-        isEndGame = true
-        inPlay = false
-        finalScore = playerScore
-        playButtonTitle = "Restart"
+        withAnimation() {
+            screenType = ScreenType.main
+            isEndGame = true
+            inPlay = false
+            finalScore = playerScore
+            playButtonTitle = "Restart"
+        }
     }
     
     func quitPlayingGame() {
-        screenType = ScreenType.main
-        inPlay = false
-        playButtonTitle = "Start"
+        withAnimation() {
+            screenType = ScreenType.main
+            inPlay = false
+            playButtonTitle = "Start"
+        }
     }
     
     func isGameOver() -> Bool {
@@ -175,10 +183,16 @@ struct ContentView: View {
             // increase player score if correct answer is tapped
             if roundAnswers[answerIndex] == roundCorrectAnswer {
                 playerScore += 1
-                activateEffectOnCorrectAnswerButton(answerIndex: answerIndex, execute: play)
+                activateEffectOnCorrectAnswerButton(answerIndex: answerIndex) {
+                    goNextRound = false
+                    play()
+                }
             } else {
                 // selected answer is incorrect, make it red
-                activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex, execute: play)
+                activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex) {
+                    goNextRound = false
+                    play()
+                }
             }
         }
     }
@@ -261,7 +275,7 @@ struct ContentView: View {
             showMenuOfMultiplicationTableSelection = false
         }
     }
-    @State var scale = 1.0
+    
     func getMainScreen() -> some View {
         ZStack {
             VStack {
@@ -329,9 +343,8 @@ struct ContentView: View {
 
                                 Text("SETTINGS")
                                     .padding(0)
-                                    .font(.system(size: 25))
+                                    .font(.system(size: 25, weight: .bold))
                                     .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                    .fontWeight(.bold)
                                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 8, x: 5, y: 5)
                                 
                                 HStack {
@@ -353,12 +366,21 @@ struct ContentView: View {
                                             .scaleEffect(CGSize(width: 1, height: 1))
                                             .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                                     }
-                                    .onTapGesture { point in
-                                        withAnimation() {
-                                            showMenuOfMultiplicationTableSelection.toggle()
-                                            showMenuOfNumberOfRoundSelection = false
-                                        }
-                                    }
+                                    .gesture (
+                                        TapGesture(count: 1)
+                                            .onEnded { _ in
+                                                withAnimation() {
+                                                    showMenuOfMultiplicationTableSelection.toggle()
+                                                    showMenuOfNumberOfRoundSelection = false
+                                                }
+                                            }
+                                    )
+//                                    .onTapGesture { point in
+//                                        withAnimation() {
+//                                            showMenuOfMultiplicationTableSelection.toggle()
+//                                            showMenuOfNumberOfRoundSelection = false
+//                                        }
+//                                    }
                                     .overlay {
                                         if showMenuOfMultiplicationTableSelection == true {
                                             VStack {
@@ -417,12 +439,21 @@ struct ContentView: View {
                                             .scaleEffect(CGSize(width: 1, height: 1))
                                             .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                                     }
-                                    .onTapGesture { point in
-                                        withAnimation() {
-                                            showMenuOfNumberOfRoundSelection.toggle()
-                                            showMenuOfMultiplicationTableSelection = false
-                                        }
-                                    }
+                                    .gesture(
+                                        TapGesture(count: 1)
+                                            .onEnded { _ in
+                                                withAnimation() {
+                                                    showMenuOfNumberOfRoundSelection.toggle()
+                                                    showMenuOfMultiplicationTableSelection = false
+                                                }
+                                            }
+                                    )
+//                                    .onTapGesture { point in
+//                                        withAnimation() {
+//                                            showMenuOfNumberOfRoundSelection.toggle()
+//                                            showMenuOfMultiplicationTableSelection = false
+//                                        }
+//                                    }
                                     .overlay {
                                         if showMenuOfNumberOfRoundSelection == true {
                                             VStack {
@@ -506,7 +537,8 @@ struct ContentView: View {
                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                         
                         Image(systemName: settingsToggle == SettingsToggle.off ? "gearshape" : "xmark.circle")
-                            .fontWeight(.bold)
+                            //.fontWeight(.bold)
+                            .font(.system(size: 18, weight: .bold))
                             .foregroundColor(Color(UIColor.hexStringToUIColor(hex: settingsToggle == SettingsToggle.off ? "05a899" : "ffff00")))
                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     }
@@ -515,84 +547,92 @@ struct ContentView: View {
                 .rotation3DEffect(.degrees(settingsButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
             }
         }
+        .transition(.scale)
+        .animation(.easeOut(duration: 0.5), value: screenType)
     }
     
     func getPlayScreen() -> some View {
-
         VStack {
-            Spacer()
-            Spacer()
-            
-            Text(roundQuestion)
-                .font(.system(size: 100))
-                .fontWeight(.bold)
-                .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 6, x: 0, y: 1)
-            Spacer()
-            
-            VStack(spacing: 20) {
-                ForEach(roundAnswers.indices, id: \.self) { answerIndex in
-                    Button {
-                        withAnimation {
-                            handleAnswerButtonTapped(answerIndex: answerIndex)
+            if goNextRound {
+                VStack {
+                    Spacer()
+                    Spacer()
+                    
+                    Text(roundQuestion)
+                        .font(.system(size: 100))
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 6, x: 0, y: 1)
+                    Spacer()
+                    
+                    VStack(spacing: 20) {
+                        ForEach(roundAnswers.indices, id: \.self) { answerIndex in
+                            Button {
+                                withAnimation {
+                                    handleAnswerButtonTapped(answerIndex: answerIndex)
+                                }
+                                
+                            } label: {
+                                Text("\(roundAnswers[answerIndex])")
+                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                    .font(.system(size: 50))
+                                    .fontWeight(.bold)
+                                    .frame(width: 300, height: 100)
+                                    .background(Color(UIColor.hexStringToUIColor(hex: ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
+                                    .clipShape(Capsule())
+                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                            }
+                            .scaleEffect((hideCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 0, height: 0) : CGSize(width: 1, height: 1))
+                            .animation(Animation.easeIn(duration: 0.3), value: hideCorrectAnswerButtonAnimations[answerIndex])
+                            .overlay(content: {
+                                let flag = showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
+                                
+                                if flag {
+                                    Text("+ 1 score")
+                                        .font(.system(size: 60))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 6, x: 0, y: 1)
+                                        .scaleEffect((showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 1, height: 1) : CGSize(width: 0, height: 0))
+                                        .animation(.easeIn(duration: 1), value: showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false)
+                                }
+                            })
+                            .rotation3DEffect(.degrees(roundAnswerButtonAnimations[answerIndex] ?? 0.0), axis: (x: 1, y: 0, z: 0))
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        
-                    } label: {
-                        Text("\(roundAnswers[answerIndex])")
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                            .font(.system(size: 50))
-                            .fontWeight(.bold)
-                            .frame(width: 300, height: 100)
-                            .background(Color(UIColor.hexStringToUIColor(hex: ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
-                            .clipShape(Capsule())
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     }
-                    .scaleEffect((hideCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 0, height: 0) : CGSize(width: 1, height: 1))
-                    .animation(Animation.easeIn(duration: 0.3), value: hideCorrectAnswerButtonAnimations[answerIndex])
-                    .overlay(content: {
-                        let flag = showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
-                        
-                        if flag {
-                            Text("+ 1 score")
-                                .font(.system(size: 60))
-                                .fontWeight(.bold)
-                                .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 6, x: 0, y: 1)
-                                .scaleEffect((showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 1, height: 1) : CGSize(width: 0, height: 0))
-                                .animation(.easeIn(duration: 1), value: showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false)
-                        }
-                    })
-                    .rotation3DEffect(.degrees(roundAnswerButtonAnimations[answerIndex] ?? 0.0), axis: (x: 1, y: 0, z: 0))
-                    .buttonStyle(PlainButtonStyle())
+                    Spacer()
+                    Spacer()
                 }
-            }
-            Spacer()
-            Spacer()
-        }
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                Button {
-                    withAnimation {
-                        quitButtonSpinDegree += 360
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                            quitPlayingGame()
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        Button {
+                            withAnimation {
+                                quitButtonSpinDegree += 360
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                    quitPlayingGame()
+                                }
+                            }
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 50, style: .circular)
+                                    .fill(Material.ultraThinMaterial)
+                                    .frame(width: 40, height: 40)
+                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                                
+                                Image(systemName: "xmark.circle")
+                                    //.fontWeight(.bold)
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
+                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                            }
                         }
-                    }
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 50, style: .circular)
-                            .fill(Material.ultraThinMaterial)
-                            .frame(width: 40, height: 40)
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                        
-                        Image(systemName: "xmark.circle")
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                        .rotation3DEffect(.degrees(quitButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
                     }
                 }
-                .rotation3DEffect(.degrees(quitButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
+                .transition(.scale)
+                .animation(.easeOut(duration: 0.5), value: goNextRound)
             }
         }
 
@@ -609,7 +649,7 @@ struct ContentView: View {
                         Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
                     ], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
-                    
+
                     switch screenType {
                     case .main:
                         getMainScreen()
@@ -618,6 +658,7 @@ struct ContentView: View {
                     }
                 }
             }
+            
         }
     }
 }
