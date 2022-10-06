@@ -214,8 +214,8 @@ struct ContentView: View {
         
         answers.append(roundCorrectAnswer)
         
-        let endRange = roundCorrectAnswer + 10
-        var startRange = endRange - 20
+        let endRange = roundCorrectAnswer + 12
+        var startRange = endRange - 24
         startRange = startRange >= 2 ? startRange : 2
         
         var arrayInts = Array(startRange...endRange)
