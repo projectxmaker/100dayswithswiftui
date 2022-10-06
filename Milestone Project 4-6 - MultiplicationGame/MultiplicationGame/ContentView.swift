@@ -339,6 +339,9 @@ struct ContentView: View {
                         .onAppear {
                             startButtonSpotlightAnimationAmount = 2
                         }
+                        .onDisappear {
+                            startButtonSpotlightAnimationAmount = 1.0
+                        }
                 }
                 .rotation3DEffect(.degrees(startButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
                 .buttonStyle(PlainButtonStyle())
