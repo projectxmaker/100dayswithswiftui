@@ -38,7 +38,8 @@ struct ContentView: View {
     
     @State private var numberOfGeneratedRightOperands: Int = 0
     
-    @State private var playButtonTapped = false
+    @State private var startButtonTapped = false
+    @State private var startButtonSpinDegree: Double = 0
     @State private var roundAnswerButtonAnimations = [Int: Double]()
     @State private var roundIncorrectAnswerButtonAnimations = [Int: Bool]()
     @State private var roundCorrectAnswerButtonAnimations = [Int: Bool]()
@@ -61,7 +62,7 @@ struct ContentView: View {
     // MARK: - Extra Funcs
     func play() {
         screenType = ScreenType.play
-        playButtonTapped.toggle()
+        startButtonTapped.toggle()
         
         if inPlay == false {
             numberOfGeneratedRightOperands = 0
@@ -241,7 +242,7 @@ struct ContentView: View {
             showMenuOfMultiplicationTableSelection = false
         }
     }
-    @State private var animationAmount = 0.0
+
     func getMainScreen() -> some View {
         ZStack {
             VStack {
@@ -273,7 +274,7 @@ struct ContentView: View {
                 
                 Button {
                     withAnimation {
-                        animationAmount += 360
+                        startButtonSpinDegree += 360
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             play()
@@ -282,15 +283,17 @@ struct ContentView: View {
 
                 } label: {
                     Text(playButtonTitle.uppercased())
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                        .font(.system(size: 40))
+                        .fontWeight(.bold)
+                        .frame(width: 300, height: 100)
+                        .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
+                        .clipShape(Capsule())
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                 }
-                .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                .font(.system(size: 40))
-                .fontWeight(.bold)
-                .frame(width: 300, height: 100)
-                .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
-                .clipShape(Capsule())
-                .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                .rotation3DEffect(.degrees(animationAmount), axis: (x: 1, y: 0, z: 0))
+                .rotation3DEffect(.degrees(startButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
+                .buttonStyle(PlainButtonStyle())
+                
                 Spacer()
             }
 
@@ -353,7 +356,6 @@ struct ContentView: View {
                                                                     showMenuOfMultiplicationTableSelection.toggle()
                                                                 }
                                                             }
-
                                                     }
                                                 }
                                                 .frame(width: 100, height: 380, alignment: .trailing)
