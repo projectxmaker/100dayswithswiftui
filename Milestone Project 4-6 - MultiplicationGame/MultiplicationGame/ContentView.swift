@@ -55,6 +55,8 @@ struct ContentView: View {
     @State private var settingsMultiplicationTableHoveredItem = 0
     @State private var settingsRoundHoveredItem = 0
     
+    @State private var quitButtonSpinDegree: Double = 0
+    
     let limitedTableRange = 12
     let numberOfRoundRange = [5, 10, 20]
     let multiplicationTableRange = 2...12
@@ -71,6 +73,7 @@ struct ContentView: View {
             finalScore = 0
             playerScore = 0
             settingsButtonSpinDegree = 0
+            quitButtonSpinDegree = 0
         }
         
         if !isGameOver() {
@@ -565,13 +568,27 @@ struct ContentView: View {
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 Button {
-                    quitPlayingGame()
+                    withAnimation {
+                        quitButtonSpinDegree += 360
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                            quitPlayingGame()
+                        }
+                    }
                 } label: {
-                    Text("Quit")
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
-                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 50, style: .circular)
+                            .fill(Material.ultraThinMaterial)
+                            .frame(width: 40, height: 40)
+                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                        
+                        Image(systemName: "xmark.circle")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
+                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                    }
                 }
+                .rotation3DEffect(.degrees(quitButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
             }
         }
 
