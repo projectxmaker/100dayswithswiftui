@@ -200,7 +200,11 @@ struct ContentView: View {
         
         answers.append(roundCorrectAnswer)
         
-        var arrayInts = Array(1...144)
+        let endRange = roundCorrectAnswer + 10
+        var startRange = endRange - 20
+        startRange = startRange >= 2 ? startRange : 2
+        
+        var arrayInts = Array(startRange...endRange)
         arrayInts.removeAll { element in
             element == roundCorrectAnswer
         }
