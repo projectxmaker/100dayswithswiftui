@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8AA3E07928EE925900E2B69E /* MGSelectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA3E07828EE925900E2B69E /* MGSelectionItem.swift */; };
 		8AD8CAA128EA7EA300C7F173 /* MultiplicationGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD8CAA028EA7EA300C7F173 /* MultiplicationGameApp.swift */; };
 		8AD8CAA328EA7EA300C7F173 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD8CAA228EA7EA300C7F173 /* ContentView.swift */; };
 		8AD8CAA528EA7EA700C7F173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AD8CAA428EA7EA700C7F173 /* Assets.xcassets */; };
@@ -16,7 +15,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8AA3E07828EE925900E2B69E /* MGSelectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGSelectionItem.swift; sourceTree = "<group>"; };
 		8AD8CA9D28EA7EA300C7F173 /* MultiplicationGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiplicationGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AD8CAA028EA7EA300C7F173 /* MultiplicationGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplicationGameApp.swift; sourceTree = "<group>"; };
 		8AD8CAA228EA7EA300C7F173 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,7 +55,6 @@
 			children = (
 				8AD8CAA028EA7EA300C7F173 /* MultiplicationGameApp.swift */,
 				8AD8CAA228EA7EA300C7F173 /* ContentView.swift */,
-				8AA3E07828EE925900E2B69E /* MGSelectionItem.swift */,
 				8AD8CAA428EA7EA700C7F173 /* Assets.xcassets */,
 				8AD8CAA628EA7EA700C7F173 /* Preview Content */,
 				8AD8CAAE28EA9E4300C7F173 /* UIColor+Hexstring.swift */,
@@ -144,7 +141,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AD8CAA328EA7EA300C7F173 /* ContentView.swift in Sources */,
-				8AA3E07928EE925900E2B69E /* MGSelectionItem.swift in Sources */,
 				8AD8CAAF28EA9E4300C7F173 /* UIColor+Hexstring.swift in Sources */,
 				8AD8CAA128EA7EA300C7F173 /* MultiplicationGameApp.swift in Sources */,
 			);
