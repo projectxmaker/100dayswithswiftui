@@ -57,6 +57,8 @@ struct ContentView: View {
     @State private var quitButtonSpinDegree: Double = 0
     
     @State private var goNextRound = false
+    
+    @State private var startButtonSpotlightAnimationAmount = 1.0
 
     let limitedTableRange = 12
     let numberOfRoundRange = [5, 10, 20]
@@ -323,6 +325,20 @@ struct ContentView: View {
                         .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
                         .clipShape(Capsule())
                         .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 50)
+                                .stroke(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                .scaleEffect(startButtonSpotlightAnimationAmount)
+                                .opacity(2 - startButtonSpotlightAnimationAmount)
+                                .animation(
+                                    .easeOut(duration: 1.5)
+                                    .repeatForever(autoreverses: false)
+                                    , value: startButtonSpotlightAnimationAmount)
+                            
+                        }
+                        .onAppear {
+                            startButtonSpotlightAnimationAmount = 2
+                        }
                 }
                 .rotation3DEffect(.degrees(startButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
                 .buttonStyle(PlainButtonStyle())
