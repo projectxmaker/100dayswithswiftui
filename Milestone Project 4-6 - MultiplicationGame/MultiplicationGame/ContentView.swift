@@ -520,14 +520,14 @@ struct ContentView: View {
                         
                     } label: {
                         Text("\(roundAnswers[answerIndex])")
+                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                            .font(.system(size: 50))
+                            .fontWeight(.bold)
+                            .frame(width: 300, height: 100)
+                            .background(Color(UIColor.hexStringToUIColor(hex: ((roundIncorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((roundCorrectAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
+                            .clipShape(Capsule())
+                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     }
-                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                    .font(.system(size: 50))
-                    .fontWeight(.bold)
-                    .frame(width: 300, height: 100)
-                    .background(Color(UIColor.hexStringToUIColor(hex: ((roundIncorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((roundCorrectAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
-                    .clipShape(Capsule())
-                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     .scaleEffect((hideCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 0, height: 0) : CGSize(width: 1, height: 1))
                     .animation(Animation.easeIn(duration: 0.3), value: hideCorrectAnswerButtonAnimations[answerIndex])
                     .overlay(content: {
@@ -544,6 +544,7 @@ struct ContentView: View {
                         }
                     })
                     .rotation3DEffect(.degrees(roundAnswerButtonAnimations[answerIndex] ?? 0.0), axis: (x: 1, y: 0, z: 0))
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             Spacer()
