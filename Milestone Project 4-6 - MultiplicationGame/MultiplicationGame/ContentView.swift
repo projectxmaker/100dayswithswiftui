@@ -391,12 +391,21 @@ struct ContentView: View {
                                                             .font(.system(size: multiplicationTable == index || settingsMultiplicationTableHoveredItem == index ? 30 : 18, weight: multiplicationTable == index ? .bold : .regular))
                                                             .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                                                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-                                                            .onTapGesture {
-                                                                withAnimation {
-                                                                    multiplicationTable = index
-                                                                    showMenuOfMultiplicationTableSelection.toggle()
-                                                                }
-                                                            }
+                                                            .gesture(
+                                                                TapGesture(count: 1)
+                                                                    .onEnded({ _ in
+                                                                        withAnimation {
+                                                                            multiplicationTable = index
+                                                                            showMenuOfMultiplicationTableSelection.toggle()
+                                                                        }
+                                                                    })
+                                                            )
+//                                                            .onTapGesture {
+//                                                                withAnimation {
+//                                                                    multiplicationTable = index
+//                                                                    showMenuOfMultiplicationTableSelection.toggle()
+//                                                                }
+//                                                            }
                                                     }
                                                 }
                                                 .frame(width: 100, height: 380, alignment: .trailing)
@@ -515,12 +524,21 @@ struct ContentView: View {
                     }
                 }
             }
-            .onTapGesture {
-                withAnimation() {
-                    showMenuOfNumberOfRoundSelection = false
-                    showMenuOfMultiplicationTableSelection = false
-                }
-            }
+            .gesture(
+                TapGesture(count: 1)
+                    .onEnded({ _ in
+                        withAnimation() {
+                            showMenuOfNumberOfRoundSelection = false
+                            showMenuOfMultiplicationTableSelection = false
+                        }
+                    })
+            )
+//            .onTapGesture {
+//                withAnimation() {
+//                    showMenuOfNumberOfRoundSelection = false
+//                    showMenuOfMultiplicationTableSelection = false
+//                }
+//            }
         }
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
