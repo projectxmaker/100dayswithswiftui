@@ -547,7 +547,7 @@ struct ContentView: View {
                 .rotation3DEffect(.degrees(settingsButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
             }
         }
-        .transition(.scale)
+        .transition(.move(edge: Edge.bottom))
         .animation(.easeOut(duration: 0.5), value: screenType)
     }
     
