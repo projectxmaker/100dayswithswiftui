@@ -41,8 +41,8 @@ struct ContentView: View {
     @State private var startButtonTapped = false
     @State private var startButtonSpinDegree: Double = 0
     @State private var roundAnswerButtonAnimations = [Int: Double]()
-    @State private var roundIncorrectAnswerButtonAnimations = [Int: Bool]()
-    @State private var roundCorrectAnswerButtonAnimations = [Int: Bool]()
+    @State private var incorrectAnswerButtonAnimations = [Int: Bool]()
+    @State private var correctAnswerButtonAnimations = [Int: Bool]()
     @State private var showScoreForTappingOnCorrectAnswerButtonAnimations = [Int: Bool]()
     @State private var hideCorrectAnswerButtonAnimations = [Int: Bool]()
     
@@ -114,21 +114,25 @@ struct ContentView: View {
     }
     
     func activateEffectOnIncorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
-        guard let incorrectAnswerButtonIndex = roundAnswers.firstIndex(of: roundCorrectAnswer) else { return }
+        guard let correctAnswerButtonIndex = roundAnswers.firstIndex(of: roundCorrectAnswer) else { return }
         
-        roundIncorrectAnswerButtonAnimations[answerIndex]?.toggle()
+        incorrectAnswerButtonAnimations[answerIndex]?.toggle()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            roundCorrectAnswerButtonAnimations[incorrectAnswerButtonIndex]?.toggle()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            correctAnswerButtonAnimations[correctAnswerButtonIndex]?.toggle()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                execute()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                activateHideEffectOnIncorrectAnswerButton(correctAnswerIndex: correctAnswerButtonIndex)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    execute()
+                }
             }
         }
     }
     
     func activateEffectOnCorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
-        roundCorrectAnswerButtonAnimations[answerIndex]?.toggle()
+        correctAnswerButtonAnimations[answerIndex]?.toggle()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             activateHideEffectOnCorrectAnswerButton(answerIndex: answerIndex)
@@ -144,6 +148,14 @@ struct ContentView: View {
     
     func activateHideEffectOnCorrectAnswerButton(answerIndex: Int) {
         hideCorrectAnswerButtonAnimations[answerIndex] = true
+    }
+    
+    func activateHideEffectOnIncorrectAnswerButton(correctAnswerIndex: Int) {
+        for (index, _) in roundAnswers.enumerated() {
+            if index != correctAnswerIndex {
+                hideCorrectAnswerButtonAnimations[index] = true
+            }
+        }
     }
     
     func activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: Int) {
@@ -204,16 +216,16 @@ struct ContentView: View {
     }
     
     func generateIncorrectAnswerButtonAnimations() {
-        roundIncorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+        incorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
         for each in 0...3 {
-            roundIncorrectAnswerButtonAnimations[each] = false
+            incorrectAnswerButtonAnimations[each] = false
         }
     }
     
     func generateCorrectAnswerButtonAnimations() {
-        roundCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+        correctAnswerButtonAnimations.removeAll(keepingCapacity: true)
         for each in 0...3 {
-            roundCorrectAnswerButtonAnimations[each] = false
+            correctAnswerButtonAnimations[each] = false
         }
     }
     
@@ -524,7 +536,7 @@ struct ContentView: View {
                             .font(.system(size: 50))
                             .fontWeight(.bold)
                             .frame(width: 300, height: 100)
-                            .background(Color(UIColor.hexStringToUIColor(hex: ((roundIncorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((roundCorrectAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
+                            .background(Color(UIColor.hexStringToUIColor(hex: ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
                             .clipShape(Capsule())
                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     }
