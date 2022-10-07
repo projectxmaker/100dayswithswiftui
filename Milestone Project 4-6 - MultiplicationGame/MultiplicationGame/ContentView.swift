@@ -61,6 +61,7 @@ struct ContentView: View {
     @State private var startButtonSpotlightAnimationAmount = 1.0
     
     @State private var answerButtonSpotlightAnimationAmounts = [Int: Double]()
+    @State private var changeColorOfLargeTitleOnMainScreen = false
 
     let limitedTableRange = 12
     let numberOfRoundRange = [5, 10, 20]
@@ -304,12 +305,20 @@ struct ContentView: View {
     func getMainScreen() -> some View {
         ZStack {
             VStack {
-                Text("Multiplication\nGame")
-                    .font(.system(size: 30))
-                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                    .fontWeight(.bold)
-                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                
+                Text("MULTIPLICATION\nGAME")
                     .multilineTextAlignment(.center)
+                    .font(.system(size: 35, weight: .bold))
+                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: changeColorOfLargeTitleOnMainScreen ? "05a899" : "ffff00")))
+                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), radius: 10, x: 0, y: 1)
+                    .animation(
+                        .easeInOut(duration: 2)
+                        .repeatForever(autoreverses: true)
+                        , value: changeColorOfLargeTitleOnMainScreen
+                    )
+                    .onAppear {
+                        changeColorOfLargeTitleOnMainScreen.toggle()
+                    }
                 
                 if isEndGame {
                     Spacer()
@@ -615,8 +624,6 @@ struct ContentView: View {
         VStack {
             if goNextRound {
                 VStack {
-                    Spacer()
-                    
                     Text("ROUND \(numberOfGeneratedRightOperands)/\(numberOfRounds)")
                         .multilineTextAlignment(.center)
                         .font(.system(size: 25, weight: .bold))
