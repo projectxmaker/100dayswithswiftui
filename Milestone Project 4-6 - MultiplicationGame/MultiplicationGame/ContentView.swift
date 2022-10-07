@@ -59,6 +59,8 @@ struct ContentView: View {
     @State private var goNextRound = false
     
     @State private var startButtonSpotlightAnimationAmount = 1.0
+    
+    @State private var answerButtonSpotlightAnimationAmounts = [Int: Double]()
 
     let limitedTableRange = 12
     let numberOfRoundRange = [5, 10, 20]
@@ -90,6 +92,7 @@ struct ContentView: View {
                 generateCorrectAnswerButtonAnimations()
                 generateHideCorrectAnswerButtonAnimations()
                 generateShowScoreForCorrectAnswerButtonAnimations()
+                generateAnswerButtonSpotlightAnimationAmounts()
                 
                 numberOfGeneratedRightOperands += 1
                 goNextRound.toggle()
@@ -179,6 +182,9 @@ struct ContentView: View {
         if !inProcessingATapOnAnAnswerButton {
             inProcessingATapOnAnAnswerButton = true
             
+            // make spotlight answer button
+            answerButtonSpotlightAnimationAmounts[answerIndex] = 2.0
+            
             // spin selected answer button
             roundAnswerButtonAnimations[answerIndex] = (roundAnswerButtonAnimations[answerIndex] ?? 0.0) + 360
             
@@ -187,15 +193,25 @@ struct ContentView: View {
                 playerScore += 1
                 activateEffectOnCorrectAnswerButton(answerIndex: answerIndex) {
                     goNextRound = false
-                    play()
+                    
+                    answerButtonSpotlightAnimationAmounts[answerIndex] = 1.0
+                    runPlayAfter(deadline: .now() + 0.1)
                 }
             } else {
                 // selected answer is incorrect, make it red
                 activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex) {
                     goNextRound = false
-                    play()
+                    
+                    answerButtonSpotlightAnimationAmounts[answerIndex] = 1.0
+                    runPlayAfter(deadline: .now() + 0.1)
                 }
             }
+        }
+    }
+    
+    func runPlayAfter(deadline: DispatchTime) {
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            play()
         }
     }
     
@@ -263,6 +279,13 @@ struct ContentView: View {
         showScoreForTappingOnCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
         for each in 0...3 {
             showScoreForTappingOnCorrectAnswerButtonAnimations[each] = false
+        }
+    }
+
+    func generateAnswerButtonSpotlightAnimationAmounts() {
+        answerButtonSpotlightAnimationAmounts.removeAll(keepingCapacity: true)
+        for each in 0...3 {
+            answerButtonSpotlightAnimationAmounts[each] = 1.0
         }
     }
     
@@ -618,12 +641,24 @@ struct ContentView: View {
                                     .background(Color(UIColor.hexStringToUIColor(hex: ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
                                     .clipShape(Capsule())
                                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                                    .overlay(content: {
+                                        if answerButtonSpotlightAnimationAmounts[answerIndex] ?? 0 > 0 {
+                                            RoundedRectangle(cornerRadius: 50)
+                                                .stroke(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                                                .scaleEffect(answerButtonSpotlightAnimationAmounts[answerIndex] ?? 1.0)
+                                                .opacity(2 - (answerButtonSpotlightAnimationAmounts[answerIndex] ?? 1.0))
+                                                .animation(
+                                                    .easeOut(duration: 1)
+                                                    , value: answerButtonSpotlightAnimationAmounts[answerIndex] ?? 1.0
+                                                )
+                                        }
+                                    })
                             }
                             .scaleEffect((hideCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 0, height: 0) : CGSize(width: 1, height: 1))
                             .animation(Animation.easeIn(duration: 0.3), value: hideCorrectAnswerButtonAnimations[answerIndex])
                             .overlay(content: {
                                 let flag = showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
-                                
+
                                 if flag {
                                     Text("+ 1 score")
                                         .font(.system(size: 60))
