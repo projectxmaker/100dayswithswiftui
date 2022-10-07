@@ -616,13 +616,21 @@ struct ContentView: View {
             if goNextRound {
                 VStack {
                     Spacer()
+                    
+                    Text("ROUND \(numberOfGeneratedRightOperands)/\(numberOfRounds)")
+                        .multilineTextAlignment(.center)
+                        .font(.system(size: 25, weight: .bold))
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), radius: 10, x: 0, y: 1)
+                    
                     Spacer()
                     
                     Text(roundQuestion)
-                        .font(.system(size: 100))
-                        .fontWeight(.bold)
+                        .font(.system(size: 100, weight: .bold))
                         .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 6, x: 0, y: 1)
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                    
+
                     Spacer()
                     
                     VStack(spacing: 20) {
