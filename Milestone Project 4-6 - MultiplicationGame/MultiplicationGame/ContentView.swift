@@ -305,7 +305,6 @@ struct ContentView: View {
     func getMainScreen() -> some View {
         ZStack {
             VStack {
-                
                 Text("MULTIPLICATION\nGAME")
                     .multilineTextAlignment(.center)
                     .font(.system(size: 35, weight: .bold))
@@ -330,11 +329,12 @@ struct ContentView: View {
                         .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                         .multilineTextAlignment(.center)
                     
-                    Text("Final Score: \(finalScore)")
+                    Text("Final Score\n\(finalScore)/\(numberOfRounds)")
                         .font(.system(size: 50))
                         .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                         .fontWeight(.bold)
                         .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                        .multilineTextAlignment(.center)
                 }
                 
                 Spacer()
