@@ -725,27 +725,37 @@ struct ContentView: View {
 
     }
     
-    var body: some View {
-        NavigationView {
-            VStack (spacing: 20) {
-                ZStack {
-                    LinearGradient(stops: [
-                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0),
-                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.17),
-                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.75),
-                        Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
-                    ], startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
-
-                    switch screenType {
-                    case .main:
-                        getMainScreen()
-                    case .play:
-                        getPlayScreen()
-                    }
+    func getAppContent() -> some View {
+        VStack (spacing: 20) {
+            ZStack {
+                LinearGradient(stops: [
+                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0),
+                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.17),
+                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.75),
+                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
+                ], startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
+                
+                switch screenType {
+                case .main:
+                    getMainScreen()
+                case .play:
+                    getPlayScreen()
                 }
             }
-            
+        }
+    }
+    
+    var body: some View {
+        if #available(iOS 16, *) {
+            NavigationStack {
+                getAppContent()
+            }
+        } else {
+            NavigationView {
+                getAppContent()
+            }
+            .navigationViewStyle(.stack)
         }
     }
 }
