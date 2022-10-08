@@ -51,8 +51,6 @@ struct ContentView: View {
     @State private var showMenuOfMultiplicationTableSelection = false
     
     @State private var settingsButtonSpinDegree: Double = 0
-    @State private var settingsMultiplicationTableHoveredItem = 0
-    @State private var settingsRoundHoveredItem = 0
     
     @State private var quitButtonSpinDegree: Double = 0
     
@@ -339,44 +337,22 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Button {
-                    withAnimation {
-                        startButtonSpinDegree += 360
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            play()
-                        }
-                    }
-
-                } label: {
-                    Text(playButtonTitle.uppercased())
-                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                        .font(.system(size: 40))
-                        .fontWeight(.bold)
-                        .frame(width: 300, height: 100)
-                        .background(Color(UIColor.hexStringToUIColor(hex: "f99d07")))
-                        .clipShape(Capsule())
-                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 50)
-                                .stroke(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                .scaleEffect(startButtonSpotlightAnimationAmount)
-                                .opacity(2 - startButtonSpotlightAnimationAmount)
-                                .animation(
-                                    .easeOut(duration: 1.5)
-                                    .repeatForever(autoreverses: false)
-                                    , value: startButtonSpotlightAnimationAmount)
+                MGStartButton(
+                    action: {
+                        withAnimation {
+                            startButtonSpinDegree += 360
                             
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                play()
+                            }
                         }
-                        .onAppear {
-                            startButtonSpotlightAnimationAmount = 2
-                        }
-                        .onDisappear {
-                            startButtonSpotlightAnimationAmount = 1.0
-                        }
-                }
-                .rotation3DEffect(.degrees(startButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
-                .buttonStyle(PlainButtonStyle())
+                }, label: playButtonTitle
+                    , fontSize: 40
+                    , width: 300
+                    , height: 100
+                    , spotlightAnimationAmount: $startButtonSpotlightAnimationAmount
+                    , spinDegreeWhenButtonTapped: startButtonSpinDegree
+                )
                 
                 Spacer()
             }
@@ -388,190 +364,17 @@ struct ContentView: View {
                             .opacity(0.8)
                             .ignoresSafeArea()
                         
-                        VStack () {
-                            Spacer()
-                            VStack {
-
-                                Text("SETTINGS")
-                                    .padding(0)
-                                    .font(.system(size: 25, weight: .bold))
-                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 8, x: 5, y: 5)
-                                
-                                HStack {
-                                    Text("Multiplication table")
-                                        .font(.system(size: 18))
-                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-                                    
-                                    Spacer()
-                                    
-                                    HStack {
-                                        Text("\(multiplicationTable)")
-                                            .font(.system(size: 18))
-                                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-                                            .frame(width: 50, height: 20, alignment: .trailing)
-                                        
-                                        Image(systemName: "list.number")
-                                            .scaleEffect(CGSize(width: 1, height: 1))
-                                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                    }
-                                    .gesture (
-                                        TapGesture(count: 1)
-                                            .onEnded { _ in
-                                                withAnimation() {
-                                                    showMenuOfMultiplicationTableSelection.toggle()
-                                                    showMenuOfNumberOfRoundSelection = false
-                                                }
-                                            }
-                                    )
-//                                    .onTapGesture { point in
-//                                        withAnimation() {
-//                                            showMenuOfMultiplicationTableSelection.toggle()
-//                                            showMenuOfNumberOfRoundSelection = false
-//                                        }
-//                                    }
-                                    .overlay {
-                                        if showMenuOfMultiplicationTableSelection == true {
-                                            VStack {
-                                                VStack {
-                                                    ForEach(multiplicationTableRange, id: \.self) { index in
-                                                        Text("\(index)")
-                                                            .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 10))
-                                                            .font(.system(size: multiplicationTable == index || settingsMultiplicationTableHoveredItem == index ? 30 : 18, weight: multiplicationTable == index ? .bold : .regular))
-                                                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-                                                            .gesture(
-                                                                TapGesture(count: 1)
-                                                                    .onEnded({ _ in
-                                                                        withAnimation {
-                                                                            multiplicationTable = index
-                                                                            showMenuOfMultiplicationTableSelection.toggle()
-                                                                        }
-                                                                    })
-                                                            )
-//                                                            .onTapGesture {
-//                                                                withAnimation {
-//                                                                    multiplicationTable = index
-//                                                                    showMenuOfMultiplicationTableSelection.toggle()
-//                                                                }
-//                                                            }
-                                                    }
-                                                }
-                                                .frame(width: 100, height: 380, alignment: .trailing)
-                                                .background(
-                                                    RoundedRectangle(cornerRadius: 10, style: .circular)
-                                                        .fill(
-                                                            LinearGradient(stops: [
-                                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0),
-                                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0.12),
-                                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0.31),
-                                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 1)
-                                                            ], startPoint: .top, endPoint: .bottom)
-                                                        )
-                                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                                                )
-                                            }
-                                            .offset(x: -20, y: -210)
-                                            .transition(.scale)
-                                        }
-                                    }
-                                }
-                                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                                
-                                HStack {
-                                    Text("Number of rounds")
-                                        .font(.system(size: 18))
-                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-                                    
-                                    Spacer()
-                                    
-                                    HStack {
-                                        Text("\(numberOfRounds)")
-                                            .font(.system(size: 18))
-                                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-                                            .frame(width: 50, height: 20, alignment: .trailing)
-                                        
-                                        Image(systemName: "clock.arrow.circlepath")
-                                            .scaleEffect(CGSize(width: 1, height: 1))
-                                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                    }
-                                    .gesture(
-                                        TapGesture(count: 1)
-                                            .onEnded { _ in
-                                                withAnimation() {
-                                                    showMenuOfNumberOfRoundSelection.toggle()
-                                                    showMenuOfMultiplicationTableSelection = false
-                                                }
-                                            }
-                                    )
-//                                    .onTapGesture { point in
-//                                        withAnimation() {
-//                                            showMenuOfNumberOfRoundSelection.toggle()
-//                                            showMenuOfMultiplicationTableSelection = false
-//                                        }
-//                                    }
-                                    .overlay {
-                                        if showMenuOfNumberOfRoundSelection == true {
-                                            VStack {
-                                                VStack {
-                                                    ForEach(numberOfRoundRange, id: \.self) { index in
-                                                        Text("\(index)")
-                                                            .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 10))
-                                                            .font(.system(size: numberOfRounds == index ? 30 : 18, weight: numberOfRounds == index ? .bold : .regular))
-                                                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-                                                            .onTapGesture {
-                                                                withAnimation {
-                                                                    numberOfRounds = index
-                                                                    showMenuOfNumberOfRoundSelection.toggle()
-                                                                }
-                                                            }
-                                                    }
-                                                }
-                                                .frame(width: 100, height: 120, alignment: .trailing)
-                                                .background(
-                                                    RoundedRectangle(cornerRadius: 10, style: .circular)
-                                                        .fill(
-                                                            LinearGradient(stops: [
-                                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0),
-                                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0.12),
-                                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0.31),
-                                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 1)
-                                                            ], startPoint: .top, endPoint: .bottom)
-                                                        )
-                                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                                                )
-                                            }
-                                            .offset(x: -20, y: -80)
-                                            .transition(.scale)
-                                        }
-                                    }
-                                }
-                                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                                
-                            }
-                            .frame(maxWidth: .infinity, minHeight: 130)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10, style: .circular)
-                                    .fill(
-                                            LinearGradient(stops: [
-                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0),
-                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0.12),
-                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0.217),
-                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0.218),
-                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 0.31),
-                                                Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), location: 1)
-                                            ], startPoint: .top, endPoint: .bottom)
-                                         )
-                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                            )
-                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
-                            .offset(y: -10)
-                        }
+                        MGSettingsPanel(
+                            panelTitle: "SETTINGS",
+                            multiplicationTableSettingTitle: "Multiplication table",
+                            multiplicationTableOptionRange: Array(multiplicationTableRange),
+                            selectedMultiplicationTable: $multiplicationTable,
+                            showMenuOfMultiplicationTableSelection: $showMenuOfMultiplicationTableSelection,
+                            numberOfRoundSettingTitle: "Number of rounds",
+                            numberOfRoundOptionRange: numberOfRoundRange,
+                            selectedNumberOfRound: $numberOfRounds,
+                            showMenuOfNumberOfRoundSelection: $showMenuOfNumberOfRoundSelection
+                        )
                     }
                 }
             }
@@ -584,12 +387,6 @@ struct ContentView: View {
                         }
                     })
             )
-//            .onTapGesture {
-//                withAnimation() {
-//                    showMenuOfNumberOfRoundSelection = false
-//                    showMenuOfMultiplicationTableSelection = false
-//                }
-//            }
         }
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
@@ -642,50 +439,20 @@ struct ContentView: View {
                     
                     VStack(spacing: 20) {
                         ForEach(roundAnswers.indices, id: \.self) { answerIndex in
-                            Button {
-                                withAnimation {
-                                    handleAnswerButtonTapped(answerIndex: answerIndex)
-                                }
-                                
-                            } label: {
-                                Text("\(roundAnswers[answerIndex])")
-                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                    .font(.system(size: 50))
-                                    .fontWeight(.bold)
-                                    .frame(width: 300, height: 100)
-                                    .background(Color(UIColor.hexStringToUIColor(hex: ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07")))))
-                                    .clipShape(Capsule())
-                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                                    .overlay(content: {
-                                        if answerButtonSpotlightAnimationAmounts[answerIndex] ?? 0 > 0 {
-                                            RoundedRectangle(cornerRadius: 50)
-                                                .stroke(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                                .scaleEffect(answerButtonSpotlightAnimationAmounts[answerIndex] ?? 1.0)
-                                                .opacity(2 - (answerButtonSpotlightAnimationAmounts[answerIndex] ?? 1.0))
-                                                .animation(
-                                                    .easeOut(duration: 1)
-                                                    , value: answerButtonSpotlightAnimationAmounts[answerIndex] ?? 1.0
-                                                )
-                                        }
-                                    })
-                            }
-                            .scaleEffect((hideCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 0, height: 0) : CGSize(width: 1, height: 1))
-                            .animation(Animation.easeIn(duration: 0.3), value: hideCorrectAnswerButtonAnimations[answerIndex])
-                            .overlay(content: {
-                                let flag = showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
+                            MGAnswerButton(
+                                action: {
+                                    withAnimation {
+                                        handleAnswerButtonTapped(answerIndex: answerIndex)
+                                    }
 
-                                if flag {
-                                    Text("+ 1 score")
-                                        .font(.system(size: 60))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 6, x: 0, y: 1)
-                                        .scaleEffect((showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false) ? CGSize(width: 1, height: 1) : CGSize(width: 0, height: 0))
-                                        .animation(.easeIn(duration: 1), value: showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false)
-                                }
-                            })
-                            .rotation3DEffect(.degrees(roundAnswerButtonAnimations[answerIndex] ?? 0.0), axis: (x: 1, y: 0, z: 0))
-                            .buttonStyle(PlainButtonStyle())
+                                }, label: "\(roundAnswers[answerIndex])"
+                                , fontSize: 50, width: 300, height: 100
+                                , backgroundColor:  ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07"))
+                                , spotlightAnimationAmount: answerButtonSpotlightAnimationAmounts[answerIndex] ?? 0
+                                , spinDegreeWhenButtonTapped: roundAnswerButtonAnimations[answerIndex] ?? 0.0
+                                , hideAnimation: hideCorrectAnswerButtonAnimations[answerIndex] ?? false
+                                , isCorrectButtonTapped: showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
+                            )
                         }
                     }
                     Spacer()
