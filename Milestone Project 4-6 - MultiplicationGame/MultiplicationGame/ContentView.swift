@@ -19,479 +19,280 @@ enum SettingsToggle {
 }
 
 struct ContentView: View {
+    @State private var screenType = ScreenType.main
+    @State private var changeColorOfLargeTitleOnMainScreen = false
     @State private var multiplicationTable = 2
     @State private var numberOfRounds = 5
-    @State private var settingsToggle = SettingsToggle.off
-    @State private var screenType = ScreenType.main
-    
-    @State private var roundQuestion = ""
     @State private var roundAnswers = [Int]()
     @State private var roundCorrectAnswer = 0
-    
-    @State private var playerScore = 0
-    
     @State private var inPlay = false
     @State private var isEndGame = false
     @State private var finalScore = 0
-    
     @State private var playButtonTitle = "Start"
     
-    @State private var numberOfGeneratedRightOperands: Int = 0
+    //let limitedTableRange = 12
+    //@State private var settingsToggle = SettingsToggle.off
     
-    @State private var startButtonSpinDegree: Double = 0
-    @State private var roundAnswerButtonAnimations = [Int: Double]()
-    @State private var incorrectAnswerButtonAnimations = [Int: Bool]()
-    @State private var correctAnswerButtonAnimations = [Int: Bool]()
-    @State private var showScoreForTappingOnCorrectAnswerButtonAnimations = [Int: Bool]()
-    @State private var hideCorrectAnswerButtonAnimations = [Int: Bool]()
     
-    @State private var inProcessingATapOnAnAnswerButton = false
-    
-    @State private var showMenuOfNumberOfRoundSelection = false
-    @State private var showMenuOfMultiplicationTableSelection = false
-    
-    @State private var settingsButtonSpinDegree: Double = 0
-    
-    @State private var quitButtonSpinDegree: Double = 0
-    
-    @State private var goNextRound = false
-    
-    @State private var startButtonSpotlightAnimationAmount = 1.0
-    
-    @State private var answerButtonSpotlightAnimationAmounts = [Int: Double]()
-    @State private var changeColorOfLargeTitleOnMainScreen = false
+    //@State private var roundQuestion = ""
 
-    let limitedTableRange = 12
-    let numberOfRoundRange = [5, 10, 20]
-    let multiplicationTableRange = 2...12
+    
+    //@State private var playerScore = 0
+    
+
+    
+    //@State private var numberOfGeneratedRightOperands: Int = 0
+    
+    //@State private var startButtonSpinDegree: Double = 0
+    //@State private var roundAnswerButtonAnimations = [Int: Double]()
+    //@State private var incorrectAnswerButtonAnimations = [Int: Bool]()
+    //@State private var correctAnswerButtonAnimations = [Int: Bool]()
+    //@State private var showScoreForTappingOnCorrectAnswerButtonAnimations = [Int: Bool]()
+    //@State private var hideCorrectAnswerButtonAnimations = [Int: Bool]()
+    
+    //@State private var inProcessingATapOnAnAnswerButton = false
+    
+    //@State private var showMenuOfNumberOfRoundSelection = false
+    //@State private var showMenuOfMultiplicationTableSelection = false
+    
+    //@State private var settingsButtonSpinDegree: Double = 0
+    
+    //@State private var quitButtonSpinDegree: Double = 0
+    
+    //@State private var goNextRound = false
+    
+    //@State private var startButtonSpotlightAnimationAmount = 1.0
+    
+    //@State private var answerButtonSpotlightAnimationAmounts = [Int: Double]()
+    
+
+    
+    //let numberOfRoundRange = [5, 10, 20]
+    //let multiplicationTableRange = 2...12
     
     // MARK: - Extra Funcs
-    func play() {
-        withAnimation() {
-            screenType = ScreenType.play
-            
-            if inPlay == false {
-                numberOfGeneratedRightOperands = 0
-                inPlay = true
-                isEndGame = false
-                finalScore = 0
-                playerScore = 0
-                settingsButtonSpinDegree = 0
-                quitButtonSpinDegree = 0
-                goNextRound = false
-            }
-            
-            if !isGameOver() {
-                inProcessingATapOnAnAnswerButton = false
-                
-                generateQuestion()
-                generateAnswers()
-                generateAnswerButtonAnimations()
-                generateIncorrectAnswerButtonAnimations()
-                generateCorrectAnswerButtonAnimations()
-                generateHideCorrectAnswerButtonAnimations()
-                generateShowScoreForCorrectAnswerButtonAnimations()
-                generateAnswerButtonSpotlightAnimationAmounts()
-                
-                numberOfGeneratedRightOperands += 1
-                goNextRound.toggle()
-            } else {
-                gameOver()
-            }
-        }
-    }
+//    func play() {
+//        withAnimation() {
+//            screenType = ScreenType.play
+//
+//            if inPlay == false {
+//                numberOfGeneratedRightOperands = 0
+//                inPlay = true
+//                isEndGame = false
+//                finalScore = 0
+//                playerScore = 0
+//                //settingsButtonSpinDegree = 0
+//                quitButtonSpinDegree = 0
+//                goNextRound = false
+//            }
+//
+//            if !isGameOver() {
+//                inProcessingATapOnAnAnswerButton = false
+//
+//                generateQuestion()
+//                generateAnswers()
+//                generateAnswerButtonAnimations()
+//                generateIncorrectAnswerButtonAnimations()
+//                generateCorrectAnswerButtonAnimations()
+//                generateHideCorrectAnswerButtonAnimations()
+//                generateShowScoreForCorrectAnswerButtonAnimations()
+//                generateAnswerButtonSpotlightAnimationAmounts()
+//
+//                numberOfGeneratedRightOperands += 1
+//                goNextRound.toggle()
+//            } else {
+//                gameOver()
+//            }
+//        }
+//    }
+//
+//    func gameOver() {
+//        withAnimation() {
+//            screenType = ScreenType.main
+//            isEndGame = true
+//            inPlay = false
+//            finalScore = playerScore
+//            playButtonTitle = "Restart"
+//        }
+//    }
+//
+//    func quitPlayingGame() {
+//        withAnimation() {
+//            screenType = ScreenType.main
+//            inPlay = false
+//            playButtonTitle = "Start"
+//        }
+//    }
+//
+//    func isGameOver() -> Bool {
+//        numberOfGeneratedRightOperands == numberOfRounds
+//    }
+//
+//    func generateQuestion() {
+//        let rightSideOperand = Int.random(in: 1...12)
+//        roundQuestion = "\(multiplicationTable) x \(rightSideOperand)"
+//    }
     
-    func gameOver() {
-        withAnimation() {
-            screenType = ScreenType.main
-            isEndGame = true
-            inPlay = false
-            finalScore = playerScore
-            playButtonTitle = "Restart"
-        }
-    }
+//    func activateEffectOnIncorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
+//        guard let correctAnswerButtonIndex = roundAnswers.firstIndex(of: roundCorrectAnswer) else { return }
+//        
+//        incorrectAnswerButtonAnimations[answerIndex]?.toggle()
+//        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            correctAnswerButtonAnimations[correctAnswerButtonIndex]?.toggle()
+//            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                activateHideEffectOnIncorrectAnswerButton(correctAnswerIndex: correctAnswerButtonIndex)
+//                
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//                    execute()
+//                }
+//            }
+//        }
+//    }
     
-    func quitPlayingGame() {
-        withAnimation() {
-            screenType = ScreenType.main
-            inPlay = false
-            playButtonTitle = "Start"
-        }
-    }
+//    func activateEffectOnCorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
+//        correctAnswerButtonAnimations[answerIndex]?.toggle()
+//        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+//            activateHideEffectOnCorrectAnswerButton(answerIndex: answerIndex)
+//            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//                activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: answerIndex)
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+//                    execute()
+//                }
+//            }
+//        }
+//    }
     
-    func isGameOver() -> Bool {
-        numberOfGeneratedRightOperands == numberOfRounds
-    }
+//    func activateHideEffectOnCorrectAnswerButton(answerIndex: Int) {
+//        hideCorrectAnswerButtonAnimations[answerIndex] = true
+//    }
     
-    func generateQuestion() {
-        let rightSideOperand = Int.random(in: 1...12)
-        roundQuestion = "\(multiplicationTable) x \(rightSideOperand)"
-    }
+//    func activateHideEffectOnIncorrectAnswerButton(correctAnswerIndex: Int) {
+//        for (index, _) in roundAnswers.enumerated() {
+//            if index != correctAnswerIndex {
+//                hideCorrectAnswerButtonAnimations[index] = true
+//            }
+//        }
+//    }
     
-    func activateEffectOnIncorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
-        guard let correctAnswerButtonIndex = roundAnswers.firstIndex(of: roundCorrectAnswer) else { return }
-        
-        incorrectAnswerButtonAnimations[answerIndex]?.toggle()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            correctAnswerButtonAnimations[correctAnswerButtonIndex]?.toggle()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                activateHideEffectOnIncorrectAnswerButton(correctAnswerIndex: correctAnswerButtonIndex)
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    execute()
-                }
-            }
-        }
-    }
+//    func activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: Int) {
+//        showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] = true
+//    }
+//    
+//    func handleAnswerButtonTapped(answerIndex: Int) {
+//        if !inProcessingATapOnAnAnswerButton {
+//            inProcessingATapOnAnAnswerButton = true
+//            
+//            // make spotlight answer button
+//            answerButtonSpotlightAnimationAmounts[answerIndex] = 2.0
+//            
+//            // spin selected answer button
+//            roundAnswerButtonAnimations[answerIndex] = (roundAnswerButtonAnimations[answerIndex] ?? 0.0) + 360
+//            
+//            // increase player score if correct answer is tapped
+//            if roundAnswers[answerIndex] == roundCorrectAnswer {
+//                playerScore += 1
+//                activateEffectOnCorrectAnswerButton(answerIndex: answerIndex) {
+//                    goNextRound = false
+//                    
+//                    answerButtonSpotlightAnimationAmounts[answerIndex] = 1.0
+//                    runPlayAfter(deadline: .now() + 0.1)
+//                }
+//            } else {
+//                // selected answer is incorrect, make it red
+//                activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex) {
+//                    goNextRound = false
+//                    
+//                    answerButtonSpotlightAnimationAmounts[answerIndex] = 1.0
+//                    runPlayAfter(deadline: .now() + 0.1)
+//                }
+//            }
+//        }
+//    }
     
-    func activateEffectOnCorrectAnswerButton(answerIndex: Int, execute: @escaping () -> Void) {
-        correctAnswerButtonAnimations[answerIndex]?.toggle()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            activateHideEffectOnCorrectAnswerButton(answerIndex: answerIndex)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: answerIndex)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                    execute()
-                }
-            }
-        }
-    }
+//    func runPlayAfter(deadline: DispatchTime) {
+//        DispatchQueue.main.asyncAfter(deadline: deadline) {
+//            play()
+//        }
+//    }
     
-    func activateHideEffectOnCorrectAnswerButton(answerIndex: Int) {
-        hideCorrectAnswerButtonAnimations[answerIndex] = true
-    }
-    
-    func activateHideEffectOnIncorrectAnswerButton(correctAnswerIndex: Int) {
-        for (index, _) in roundAnswers.enumerated() {
-            if index != correctAnswerIndex {
-                hideCorrectAnswerButtonAnimations[index] = true
-            }
-        }
-    }
-    
-    func activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: Int) {
-        showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] = true
-    }
-    
-    func handleAnswerButtonTapped(answerIndex: Int) {
-        if !inProcessingATapOnAnAnswerButton {
-            inProcessingATapOnAnAnswerButton = true
-            
-            // make spotlight answer button
-            answerButtonSpotlightAnimationAmounts[answerIndex] = 2.0
-            
-            // spin selected answer button
-            roundAnswerButtonAnimations[answerIndex] = (roundAnswerButtonAnimations[answerIndex] ?? 0.0) + 360
-            
-            // increase player score if correct answer is tapped
-            if roundAnswers[answerIndex] == roundCorrectAnswer {
-                playerScore += 1
-                activateEffectOnCorrectAnswerButton(answerIndex: answerIndex) {
-                    goNextRound = false
-                    
-                    answerButtonSpotlightAnimationAmounts[answerIndex] = 1.0
-                    runPlayAfter(deadline: .now() + 0.1)
-                }
-            } else {
-                // selected answer is incorrect, make it red
-                activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex) {
-                    goNextRound = false
-                    
-                    answerButtonSpotlightAnimationAmounts[answerIndex] = 1.0
-                    runPlayAfter(deadline: .now() + 0.1)
-                }
-            }
-        }
-    }
-    
-    func runPlayAfter(deadline: DispatchTime) {
-        DispatchQueue.main.asyncAfter(deadline: deadline) {
-            play()
-        }
-    }
-    
-    func generateAnswers() {
-        var answers = [Int]()
-        
-        let questionData = roundQuestion.components(separatedBy: "x")
-        
-        guard
-            let leftOperand = Int(questionData[0].trimmingCharacters(in: .whitespaces)),
-            let rightOperand = Int(questionData[1].trimmingCharacters(in: .whitespaces))
-        else {
-            roundAnswers = answers
-            return
-        }
-        
-        roundCorrectAnswer = leftOperand * rightOperand
-        
-        answers.append(roundCorrectAnswer)
-        
-        let endRange = roundCorrectAnswer + 12
-        var startRange = endRange - 24
-        startRange = startRange >= 2 ? startRange : 2
-        
-        var arrayInts = Array(startRange...endRange)
-        arrayInts.removeAll { element in
-            element == roundCorrectAnswer
-        }
-        
-        let shuffedInts = arrayInts.shuffled()
-        answers += shuffedInts[0...2]
-        
-        roundAnswers = answers.shuffled()
-    }
-    
-    func generateAnswerButtonAnimations() {
-        roundAnswerButtonAnimations.removeAll(keepingCapacity: true)
-        for each in 0...3 {
-            roundAnswerButtonAnimations[each] = 0.0
-        }
-    }
-    
-    func generateIncorrectAnswerButtonAnimations() {
-        incorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
-        for each in 0...3 {
-            incorrectAnswerButtonAnimations[each] = false
-        }
-    }
-    
-    func generateCorrectAnswerButtonAnimations() {
-        correctAnswerButtonAnimations.removeAll(keepingCapacity: true)
-        for each in 0...3 {
-            correctAnswerButtonAnimations[each] = false
-        }
-    }
-    
-    func generateHideCorrectAnswerButtonAnimations() {
-        hideCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
-        for each in 0...3 {
-            hideCorrectAnswerButtonAnimations[each] = false
-        }
-    }
-    
-    func generateShowScoreForCorrectAnswerButtonAnimations() {
-        showScoreForTappingOnCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
-        for each in 0...3 {
-            showScoreForTappingOnCorrectAnswerButtonAnimations[each] = false
-        }
-    }
+//    func generateAnswers() {
+//        var answers = [Int]()
+//
+//        let questionData = roundQuestion.components(separatedBy: "x")
+//
+//        guard
+//            let leftOperand = Int(questionData[0].trimmingCharacters(in: .whitespaces)),
+//            let rightOperand = Int(questionData[1].trimmingCharacters(in: .whitespaces))
+//        else {
+//            roundAnswers = answers
+//            return
+//        }
+//
+//        roundCorrectAnswer = leftOperand * rightOperand
+//
+//        answers.append(roundCorrectAnswer)
+//
+//        let endRange = roundCorrectAnswer + 12
+//        var startRange = endRange - 24
+//        startRange = startRange >= 2 ? startRange : 2
+//
+//        var arrayInts = Array(startRange...endRange)
+//        arrayInts.removeAll { element in
+//            element == roundCorrectAnswer
+//        }
+//
+//        let shuffedInts = arrayInts.shuffled()
+//        answers += shuffedInts[0...2]
+//
+//        roundAnswers = answers.shuffled()
+//    }
+//
+//    func generateAnswerButtonAnimations() {
+//        roundAnswerButtonAnimations.removeAll(keepingCapacity: true)
+//        for each in 0...3 {
+//            roundAnswerButtonAnimations[each] = 0.0
+//        }
+//    }
+//
+//    func generateIncorrectAnswerButtonAnimations() {
+//        incorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+//        for each in 0...3 {
+//            incorrectAnswerButtonAnimations[each] = false
+//        }
+//    }
+//
+//    func generateCorrectAnswerButtonAnimations() {
+//        correctAnswerButtonAnimations.removeAll(keepingCapacity: true)
+//        for each in 0...3 {
+//            correctAnswerButtonAnimations[each] = false
+//        }
+//    }
+//
+//    func generateHideCorrectAnswerButtonAnimations() {
+//        hideCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+//        for each in 0...3 {
+//            hideCorrectAnswerButtonAnimations[each] = false
+//        }
+//    }
+//
+//    func generateShowScoreForCorrectAnswerButtonAnimations() {
+//        showScoreForTappingOnCorrectAnswerButtonAnimations.removeAll(keepingCapacity: true)
+//        for each in 0...3 {
+//            showScoreForTappingOnCorrectAnswerButtonAnimations[each] = false
+//        }
+//    }
+//
+//    func generateAnswerButtonSpotlightAnimationAmounts() {
+//        answerButtonSpotlightAnimationAmounts.removeAll(keepingCapacity: true)
+//        for each in 0...3 {
+//            answerButtonSpotlightAnimationAmounts[each] = 1.0
+//        }
+//    }
 
-    func generateAnswerButtonSpotlightAnimationAmounts() {
-        answerButtonSpotlightAnimationAmounts.removeAll(keepingCapacity: true)
-        for each in 0...3 {
-            answerButtonSpotlightAnimationAmounts[each] = 1.0
-        }
-    }
-    
-    func switchSettingsPanel() {
-        settingsButtonSpinDegree += 360
-        
-        if settingsToggle == SettingsToggle.off {
-            settingsToggle = SettingsToggle.on
-        } else {
-            settingsToggle = SettingsToggle.off
-            showMenuOfNumberOfRoundSelection = false
-            showMenuOfMultiplicationTableSelection = false
-        }
-    }
-    
-    func getMainScreen() -> some View {
-        ZStack {
-            VStack {
-                Text("MULTIPLICATION\nGAME")
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 35, weight: .bold))
-                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: changeColorOfLargeTitleOnMainScreen ? "05a899" : "ffff00")))
-                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), radius: 10, x: 0, y: 1)
-                    .animation(
-                        .easeInOut(duration: 2)
-                        .repeatForever(autoreverses: true)
-                        , value: changeColorOfLargeTitleOnMainScreen
-                    )
-                    .onAppear {
-                        changeColorOfLargeTitleOnMainScreen.toggle()
-                    }
-                
-                if isEndGame {
-                    Spacer()
-                    
-                    Text("GameOver!")
-                        .font(.system(size: 70))
-                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                        .fontWeight(.bold)
-                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                        .multilineTextAlignment(.center)
-                    
-                    Text("Final Score\n\(finalScore)/\(numberOfRounds)")
-                        .font(.system(size: 50))
-                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                        .fontWeight(.bold)
-                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                        .multilineTextAlignment(.center)
-                }
-                
-                Spacer()
-                
-                MGStartButton(
-                    action: {
-                        withAnimation {
-                            startButtonSpinDegree += 360
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                play()
-                            }
-                        }
-                }, label: playButtonTitle
-                    , fontSize: 40
-                    , width: 300
-                    , height: 100
-                    , spotlightAnimationAmount: $startButtonSpotlightAnimationAmount
-                    , spinDegreeWhenButtonTapped: startButtonSpinDegree
-                )
-                
-                Spacer()
-            }
-
-            VStack {
-                if settingsToggle == SettingsToggle.on {
-                    ZStack {
-                        Color(UIColor.hexStringToUIColor(hex: "05a899"))
-                            .opacity(0.8)
-                            .ignoresSafeArea()
-                        
-                        MGSettingsPanel(
-                            panelTitle: "SETTINGS",
-                            multiplicationTableSettingTitle: "Multiplication table",
-                            multiplicationTableOptionRange: Array(multiplicationTableRange),
-                            selectedMultiplicationTable: $multiplicationTable,
-                            showMenuOfMultiplicationTableSelection: $showMenuOfMultiplicationTableSelection,
-                            numberOfRoundSettingTitle: "Number of rounds",
-                            numberOfRoundOptionRange: numberOfRoundRange,
-                            selectedNumberOfRound: $numberOfRounds,
-                            showMenuOfNumberOfRoundSelection: $showMenuOfNumberOfRoundSelection
-                        )
-                    }
-                }
-            }
-            .gesture(
-                TapGesture(count: 1)
-                    .onEnded({ _ in
-                        withAnimation() {
-                            showMenuOfNumberOfRoundSelection = false
-                            showMenuOfMultiplicationTableSelection = false
-                        }
-                    })
-            )
-        }
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                Button {
-                    withAnimation {
-                        switchSettingsPanel()
-                    }
-                    
-                } label: {
-                    ZStack {
-                        Circle()
-                            .fill(Material.ultraThinMaterial)
-                            .frame(width: 40, height: 40)
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                        
-                        Image(systemName: settingsToggle == SettingsToggle.off ? "gearshape" : "xmark.circle")
-                            //.fontWeight(.bold)
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: settingsToggle == SettingsToggle.off ? "05a899" : "ffff00")))
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                    }
-                    
-                }
-                .rotation3DEffect(.degrees(settingsButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
-            }
-        }
-        .transition(.move(edge: Edge.bottom))
-        .animation(.easeOut(duration: 0.5), value: screenType)
-    }
-    
-    func getPlayScreen() -> some View {
-        VStack {
-            if goNextRound {
-                VStack {
-                    Text("ROUND \(numberOfGeneratedRightOperands)/\(numberOfRounds)")
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 25, weight: .bold))
-                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), radius: 10, x: 0, y: 1)
-                    
-                    Spacer()
-                    
-                    Text(roundQuestion)
-                        .font(.system(size: 100, weight: .bold))
-                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                    
-
-                    Spacer()
-                    
-                    VStack(spacing: 20) {
-                        ForEach(roundAnswers.indices, id: \.self) { answerIndex in
-                            MGAnswerButton(
-                                action: {
-                                    withAnimation {
-                                        handleAnswerButtonTapped(answerIndex: answerIndex)
-                                    }
-
-                                }, label: "\(roundAnswers[answerIndex])"
-                                , fontSize: 50, width: 300, height: 100
-                                , backgroundColor:  ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07"))
-                                , spotlightAnimationAmount: answerButtonSpotlightAnimationAmounts[answerIndex] ?? 0
-                                , spinDegreeWhenButtonTapped: roundAnswerButtonAnimations[answerIndex] ?? 0.0
-                                , hideAnimation: hideCorrectAnswerButtonAnimations[answerIndex] ?? false
-                                , isCorrectButtonTapped: showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
-                            )
-                        }
-                    }
-                    Spacer()
-                    Spacer()
-                }
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button {
-                            withAnimation {
-                                quitButtonSpinDegree += 360
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                    quitPlayingGame()
-                                }
-                            }
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 50, style: .circular)
-                                    .fill(Material.ultraThinMaterial)
-                                    .frame(width: 40, height: 40)
-                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                                
-                                Image(systemName: "xmark.circle")
-                                    //.fontWeight(.bold)
-                                    .font(.system(size: 18, weight: .bold))
-                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
-                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                            }
-                        }
-                        .rotation3DEffect(.degrees(quitButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
-                    }
-                }
-                .transition(.scale)
-                .animation(.easeOut(duration: 0.5), value: goNextRound)
-            }
-        }
-
-    }
-    
     func getAppContent() -> some View {
         VStack (spacing: 20) {
             ZStack {
@@ -502,15 +303,46 @@ struct ContentView: View {
                     Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
                 ], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
-                
+
                 switch screenType {
                 case .main:
-                    getMainScreen()
+                    showMainScreen()
                 case .play:
-                    getPlayScreen()
+                    showPlayScreen()
                 }
             }
         }
+    }
+    
+    func showMainScreen() -> some View {
+        MainScreen(
+            changeColorOfLargeTitleOnMainScreen: $changeColorOfLargeTitleOnMainScreen,
+            numberOfRounds: $numberOfRounds,
+            playButtonTitle: $playButtonTitle,
+            multiplicationTable: $multiplicationTable,
+            isEndGame: isEndGame,
+            finalScore: finalScore) {
+                screenType = ScreenType.play
+            }
+    }
+    
+    func runAfterGameIsOver(_ finalScore: Int) {
+        isEndGame = true
+        self.finalScore = finalScore
+        playButtonTitle = "Restart"
+        screenType = ScreenType.main
+    }
+    
+    func funAfterQuittingGame() {
+        screenType = ScreenType.main
+    }
+    
+    func showPlayScreen() -> some View {
+        PlayScreen(
+            numberOfRounds: $numberOfRounds,
+            multiplicationTable: $multiplicationTable,
+            runAfterGameIsOver: runAfterGameIsOver(_:),
+            runQuitGame: funAfterQuittingGame)
     }
     
     var body: some View {

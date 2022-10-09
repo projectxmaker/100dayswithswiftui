@@ -19,7 +19,8 @@
 		8AE1906C28F1352F006F85C0 /* MGSettingsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1906B28F1352F006F85C0 /* MGSettingsPanel.swift */; };
 		8AE1906E28F138C7006F85C0 /* MGSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1906D28F138C7006F85C0 /* MGSelector.swift */; };
 		8AE1907028F15C15006F85C0 /* MGPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1906F28F15C15006F85C0 /* MGPicker.swift */; };
-		8AE1907428F166E8006F85C0 /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1907328F166E8006F85C0 /* GameEngine.swift */; };
+		8AE1907428F166E8006F85C0 /* PlayScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1907328F166E8006F85C0 /* PlayScreen.swift */; };
+		8AE1907628F16AD2006F85C0 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1907528F16AD2006F85C0 /* MainScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +37,8 @@
 		8AE1906B28F1352F006F85C0 /* MGSettingsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGSettingsPanel.swift; sourceTree = "<group>"; };
 		8AE1906D28F138C7006F85C0 /* MGSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGSelector.swift; sourceTree = "<group>"; };
 		8AE1906F28F15C15006F85C0 /* MGPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGPicker.swift; sourceTree = "<group>"; };
-		8AE1907328F166E8006F85C0 /* GameEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngine.swift; sourceTree = "<group>"; };
+		8AE1907328F166E8006F85C0 /* PlayScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayScreen.swift; sourceTree = "<group>"; };
+		8AE1907528F16AD2006F85C0 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +73,8 @@
 			children = (
 				8AD8CAA028EA7EA300C7F173 /* MultiplicationGameApp.swift */,
 				8AD8CAA228EA7EA300C7F173 /* ContentView.swift */,
-				8AE1907328F166E8006F85C0 /* GameEngine.swift */,
+				8AE1907328F166E8006F85C0 /* PlayScreen.swift */,
+				8AE1907528F16AD2006F85C0 /* MainScreen.swift */,
 				8AD8CAA428EA7EA700C7F173 /* Assets.xcassets */,
 				8AD8CAA628EA7EA700C7F173 /* Preview Content */,
 				8AE1907128F1669C006F85C0 /* Views */,
@@ -180,13 +183,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AE1907628F16AD2006F85C0 /* MainScreen.swift in Sources */,
 				8AD8CAA328EA7EA300C7F173 /* ContentView.swift in Sources */,
 				8AE1906428F0FD03006F85C0 /* MGButtonText.swift in Sources */,
 				8AE1906628F103DE006F85C0 /* MGAnswerButton.swift in Sources */,
 				8AE1906828F10AD7006F85C0 /* MGButton.swift in Sources */,
 				8AD8CAAF28EA9E4300C7F173 /* UIColor+Hexstring.swift in Sources */,
 				8AE1907028F15C15006F85C0 /* MGPicker.swift in Sources */,
-				8AE1907428F166E8006F85C0 /* GameEngine.swift in Sources */,
+				8AE1907428F166E8006F85C0 /* PlayScreen.swift in Sources */,
 				8AE1906C28F1352F006F85C0 /* MGSettingsPanel.swift in Sources */,
 				8AD8CAA128EA7EA300C7F173 /* MultiplicationGameApp.swift in Sources */,
 				8AE1906A28F1305A006F85C0 /* MGStartButton.swift in Sources */,
