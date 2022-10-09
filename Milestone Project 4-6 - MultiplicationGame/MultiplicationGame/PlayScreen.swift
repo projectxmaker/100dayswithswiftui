@@ -28,6 +28,9 @@ struct PlayScreen: View {
     @Binding var numberOfRounds: Int
     @Binding var multiplicationTable: Int
     
+    @State private var roundContentRotationDegree: Double = 0
+    @State private var roundContentShowUp = false
+    
     var runAfterGameIsOver: (_: Int) -> Void
     var runQuitGame: () -> Void
     
@@ -50,6 +53,8 @@ struct PlayScreen: View {
                 playerScore += 1
                 activateEffectOnCorrectAnswerButton(answerIndex: answerIndex) {
                     goNextRound = false
+                    roundContentShowUp = false
+                    roundContentRotationDegree = 0
                     
                     answerButtonSpotlightAnimationAmounts[answerIndex] = 1.0
                     runPlayAfter(deadline: .now() + 0.1)
@@ -58,6 +63,8 @@ struct PlayScreen: View {
                 // selected answer is incorrect, make it red
                 activateEffectOnIncorrectAnswerButton(answerIndex: answerIndex) {
                     goNextRound = false
+                    roundContentShowUp = false
+                    roundContentRotationDegree = 0
                     
                     answerButtonSpotlightAnimationAmounts[answerIndex] = 1.0
                     runPlayAfter(deadline: .now() + 0.1)
@@ -84,7 +91,20 @@ struct PlayScreen: View {
             
             // start
             goNextRound = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                roundContentShowUp = true
+                if roundContentRotationDegree == 0 {
+                    roundContentRotationDegree = 360
+                } else {
+                    roundContentRotationDegree = 0
+                }
+            }
+            
         } else {
+            roundContentShowUp = false
+            roundContentRotationDegree = 0
+            
             goNextRound = false
             print("game over")
             gameOver { finalScore in
@@ -198,6 +218,7 @@ struct PlayScreen: View {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 activateShowScoreForTappingOnCorrectAnswerButton(answerIndex: answerIndex)
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     execute()
                 }
@@ -247,77 +268,76 @@ struct PlayScreen: View {
     
     var body: some View {
         VStack {
-            VStack {
-                if goNextRound {
-                    VStack {
-                        Text("ROUND \(numberOfGeneratedRightOperands)/\(numberOfRounds)")
-                            .multilineTextAlignment(.center)
-                            .font(.system(size: 25, weight: .bold))
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), radius: 10, x: 0, y: 1)
-                        
-                        Spacer()
-                        
-                        Text(roundQuestion)
-                            .font(.system(size: 100, weight: .bold))
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                        
-                        
-                        Spacer()
-                        
-                        VStack(spacing: 20) {
-                            ForEach(roundAnswers.indices, id: \.self) { answerIndex in
-                                MGAnswerButton(
-                                    action: {
-                                        withAnimation {
-                                            handleAnswerButtonTapped(answerIndex: answerIndex)
-                                        }
-                                        
-                                    }, label: "\(roundAnswers[answerIndex])"
-                                    , fontSize: 50, width: 300, height: 100
-                                    , backgroundColor:  ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07"))
-                                    , spotlightAnimationAmount: answerButtonSpotlightAnimationAmounts[answerIndex] ?? 0
-                                    , spinDegreeWhenButtonTapped: roundAnswerButtonAnimations[answerIndex] ?? 0.0
-                                    , hideAnimation: hideCorrectAnswerButtonAnimations[answerIndex] ?? false
-                                    , isCorrectButtonTapped: showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
-                                )
-                            }
-                        }
-                        Spacer()
-                        Spacer()
-                    }
-                    .toolbar {
-                        ToolbarItem(placement: .bottomBar) {
-                            Button {
-                                withAnimation {
-                                    quitButtonSpinDegree += 360
-                                    
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                        quitPlayingGame()
+            if goNextRound {
+                VStack {
+                    Text("ROUND \(numberOfGeneratedRightOperands)/\(numberOfRounds)")
+                        .multilineTextAlignment(.center)
+                        .font(.system(size: 25, weight: .bold))
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), radius: 10, x: 0, y: 1)
+                    
+                    Spacer()
+                    
+                    Text(roundQuestion)
+                        .font(.system(size: 100, weight: .bold))
+                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
+                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                    
+                    
+                    Spacer()
+                    
+                    VStack(spacing: 20) {
+                        ForEach(roundAnswers.indices, id: \.self) { answerIndex in
+                            MGAnswerButton(
+                                action: {
+                                    withAnimation {
+                                        handleAnswerButtonTapped(answerIndex: answerIndex)
                                     }
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 50, style: .circular)
-                                        .fill(Material.ultraThinMaterial)
-                                        .frame(width: 40, height: 40)
-                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                                     
-                                    Image(systemName: "xmark.circle")
-                                    //.fontWeight(.bold)
-                                        .font(.system(size: 18, weight: .bold))
-                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
-                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                                }, label: "\(roundAnswers[answerIndex])"
+                                , fontSize: 50, width: 300, height: 100
+                                , backgroundColor:  ((incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07"))
+                                , spotlightAnimationAmount: answerButtonSpotlightAnimationAmounts[answerIndex] ?? 0
+                                , spinDegreeWhenButtonTapped: roundAnswerButtonAnimations[answerIndex] ?? 0.0
+                                , hideAnimation: hideCorrectAnswerButtonAnimations[answerIndex] ?? false
+                                , isCorrectButtonTapped: showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
+                            )
+                        }
+                    }
+                    Spacer()
+                    Spacer()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        Button {
+                            withAnimation {
+                                quitButtonSpinDegree += 360
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                    quitPlayingGame()
                                 }
                             }
-                            .rotation3DEffect(.degrees(quitButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 50, style: .circular)
+                                    .fill(Material.ultraThinMaterial)
+                                    .frame(width: 40, height: 40)
+                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                                
+                                Image(systemName: "xmark.circle")
+                                //.fontWeight(.bold)
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
+                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
+                            }
                         }
+                        .rotation3DEffect(.degrees(quitButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
                     }
                 }
+                .scaleEffect(roundContentShowUp ? 1 : 0)
+                .rotation3DEffect(Angle(degrees: roundContentRotationDegree), axis: (x: 0, y: 1, z: 0))
+                .animation(.easeOut(duration: 0.5), value: roundContentRotationDegree)
             }
-            .transition(.scale(scale: goNextRound ? 1 : 0, anchor: .center))
-            .animation(.easeOut(duration: 0.5), value: goNextRound)
         }
         .onAppear {
             startRound()
