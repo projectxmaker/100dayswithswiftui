@@ -34,9 +34,6 @@ struct PlayScreen: View {
     var runAfterGameIsOver: (_: Int) -> Void
     var runQuitGame: () -> Void
     
-    
-//    @State private var finalScore = 0
-    
     // MARK: - Handle Answer Button Tapped
     func handleAnswerButtonTapped(answerIndex: Int) {
         if !inProcessingATapOnAnAnswerButton {
@@ -76,7 +73,6 @@ struct PlayScreen: View {
     func startRound() {
         // generate data for new round
         if !isGameOver() {
-            print("not game over")
             inProcessingATapOnAnAnswerButton = false
             generateQuestion()
             generateAnswers()
@@ -106,7 +102,7 @@ struct PlayScreen: View {
             roundContentRotationDegree = 0
             
             goNextRound = false
-            print("game over")
+            
             gameOver { finalScore in
                 runAfterGameIsOver(finalScore)
             }
@@ -325,7 +321,6 @@ struct PlayScreen: View {
                                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                                 
                                 Image(systemName: "xmark.circle")
-                                //.fontWeight(.bold)
                                     .font(.system(size: 18, weight: .bold))
                                     .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
                                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
