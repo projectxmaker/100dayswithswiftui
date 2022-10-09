@@ -335,6 +335,9 @@ struct ContentView: View {
     
     func funAfterQuittingGame() {
         screenType = ScreenType.main
+        isEndGame = false
+        finalScore = 0
+        playButtonTitle = "Start"
     }
     
     func showPlayScreen() -> some View {
