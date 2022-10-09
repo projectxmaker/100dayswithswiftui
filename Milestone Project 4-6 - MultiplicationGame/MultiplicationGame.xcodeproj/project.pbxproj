@@ -73,8 +73,6 @@
 			children = (
 				8AD8CAA028EA7EA300C7F173 /* MultiplicationGameApp.swift */,
 				8AD8CAA228EA7EA300C7F173 /* ContentView.swift */,
-				8AE1907328F166E8006F85C0 /* PlayScreen.swift */,
-				8AE1907528F16AD2006F85C0 /* MainScreen.swift */,
 				8AD8CAA428EA7EA700C7F173 /* Assets.xcassets */,
 				8AD8CAA628EA7EA700C7F173 /* Preview Content */,
 				8AE1907128F1669C006F85C0 /* Views */,
@@ -94,6 +92,8 @@
 		8AE1907128F1669C006F85C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8AE1907328F166E8006F85C0 /* PlayScreen.swift */,
+				8AE1907528F16AD2006F85C0 /* MainScreen.swift */,
 				8AE1906328F0FD03006F85C0 /* MGButtonText.swift */,
 				8AE1906528F103DE006F85C0 /* MGAnswerButton.swift */,
 				8AE1906728F10AD7006F85C0 /* MGButton.swift */,
