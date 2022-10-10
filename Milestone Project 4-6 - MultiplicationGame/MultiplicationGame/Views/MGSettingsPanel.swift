@@ -45,49 +45,6 @@ struct MGSettingsPanel: View {
                             showMenuOfNumberOfRoundSelection = false
                         }
                     }
-//                            HStack {
-//                                Text(multiplicationTableSettingTitle)
-//                                    .font(.system(size: 18))
-//                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-//                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-//
-//                                Spacer()
-//
-//                                HStack {
-//                                    Text("\(selectedMultiplicationTable)")
-//                                        .font(.system(size: 18))
-//                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-//                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-//                                        .frame(width: 50, height: 20, alignment: .trailing)
-//
-//                                    Image(systemName: "list.number")
-//                                        .scaleEffect(CGSize(width: 1, height: 1))
-//                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-//                                }
-//                                .gesture (
-//                                    TapGesture(count: 1)
-//                                        .onEnded { _ in
-//                                            withAnimation() {
-//                                                showMenuOfMultiplicationTableSelection.toggle()
-//                                                showMenuOfNumberOfRoundSelection = false
-//                                            }
-//                                        }
-//                                )
-//                                .overlay {
-//                                    if showMenuOfMultiplicationTableSelection == true {
-//                                        MGSelector(
-//                                            options: multiplicationTableOptionRange,
-//                                            width: 100,
-//                                            height: 380,
-//                                            offsetX: -20,
-//                                            offsetY: -210,
-//                                            selectedOption: $selectedMultiplicationTable,
-//                                            show: $showMenuOfMultiplicationTableSelection
-//                                        )
-//                                    }
-//                                }
-//                            }
-//                            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 
                 MGPicker(
                     title: numberOfRoundSettingTitle,
@@ -103,51 +60,6 @@ struct MGSettingsPanel: View {
                             showMenuOfMultiplicationTableSelection = false
                         }
                     }
-//
-//                            HStack {
-//                                Text("\(numberOfRoundSettingTitle)")
-//                                    .font(.system(size: 18))
-//                                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-//                                    .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-//
-//                                Spacer()
-//
-//                                HStack {
-//                                    Text("\(selectedNumberOfRound)")
-//                                        .font(.system(size: 18))
-//                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-//                                        .shadow(color: Color(UIColor.hexStringToUIColor(hex: "f99d07")), radius: 10, x: 0, y: 1)
-//                                        .frame(width: 50, height: 20, alignment: .trailing)
-//
-//                                    Image(systemName: "clock.arrow.circlepath")
-//                                        .scaleEffect(CGSize(width: 1, height: 1))
-//                                        .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
-//                                }
-//                                .gesture(
-//                                    TapGesture(count: 1)
-//                                        .onEnded { _ in
-//                                            withAnimation() {
-//                                                showMenuOfNumberOfRoundSelection.toggle()
-//                                                showMenuOfMultiplicationTableSelection = false
-//                                            }
-//                                        }
-//                                )
-//                                .overlay {
-//                                    if showMenuOfNumberOfRoundSelection == true {
-//                                        MGSelector(
-//                                            options: numberOfRoundOptionRange,
-//                                            width: 100,
-//                                            height: 120,
-//                                            offsetX: -20,
-//                                            offsetY: -80,
-//                                            selectedOption: $selectedNumberOfRound,
-//                                            show: $showMenuOfNumberOfRoundSelection
-//                                        )
-//                                    }
-//                                }
-//                            }
-//                            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-//
             }
             .frame(maxWidth: .infinity, minHeight: 130)
             .background(
