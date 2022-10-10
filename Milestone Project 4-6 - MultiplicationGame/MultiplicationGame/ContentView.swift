@@ -32,7 +32,6 @@ struct ContentView: View {
 
     func showMainScreen() -> some View {
         MainScreen(
-            changeColorOfLargeTitleOnMainScreen: $changeColorOfLargeTitleOnMainScreen,
             numberOfRounds: $numberOfRounds,
             playButtonTitle: $playButtonTitle,
             multiplicationTable: $multiplicationTable,

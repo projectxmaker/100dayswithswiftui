@@ -17,7 +17,7 @@ struct MainScreen: View {
     @State private var settingsToggle = SettingsToggle.off
     @State private var startButtonSpotlightAnimationAmount = 1.0
     
-    @Binding var changeColorOfLargeTitleOnMainScreen: Bool
+    @State private var changeColorOfLargeTitleOnMainScreen = false
     @Binding var numberOfRounds: Int
     @Binding var playButtonTitle: String
     @Binding var multiplicationTable: Int
@@ -47,15 +47,17 @@ struct MainScreen: View {
                 Text("MULTIPLICATION\nGAME")
                     .multilineTextAlignment(.center)
                     .font(.system(size: 35, weight: .bold))
-                    .foregroundColor(Color(UIColor.hexStringToUIColor(hex: changeColorOfLargeTitleOnMainScreen ? "05a899" : "ffff00")))
                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), radius: 10, x: 0, y: 1)
+                    .changeTextColor(Color(UIColor.hexStringToUIColor(hex: changeColorOfLargeTitleOnMainScreen ? "05a899" : "ffff00")))
                     .animation(
                         .easeInOut(duration: 2)
                         .repeatForever(autoreverses: true)
                         , value: changeColorOfLargeTitleOnMainScreen
                     )
                     .onAppear {
-                        changeColorOfLargeTitleOnMainScreen.toggle()
+                        withAnimation {
+                            changeColorOfLargeTitleOnMainScreen = true
+                        }
                     }
 
                 if isEndGame {
