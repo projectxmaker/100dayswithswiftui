@@ -94,7 +94,7 @@ struct MainScreen: View {
                     , spotlightAnimationAmount: $startButtonSpotlightAnimationAmount
                     , spinDegreeWhenButtonTapped: startButtonSpinDegree
                 )
-
+                
                 Spacer()
             }
 
@@ -104,33 +104,39 @@ struct MainScreen: View {
                         Color(UIColor.hexStringToUIColor(hex: "05a899"))
                             .opacity(0.8)
                             .ignoresSafeArea()
+                            .edgesIgnoringSafeArea(Edge.Set.all)
 
-                        MGSettingsPanel(
-                            panelTitle: "SETTINGS",
-                            multiplicationTableSettingTitle: "Multiplication table",
-                            multiplicationTableOptionRange: Array(multiplicationTableRange),
-                            selectedMultiplicationTable: $multiplicationTable,
-                            showMenuOfMultiplicationTableSelection: $showMenuOfMultiplicationTableSelection,
-                            numberOfRoundSettingTitle: "Number of rounds",
-                            numberOfRoundOptionRange: numberOfRoundRange,
-                            selectedNumberOfRound: $numberOfRounds,
-                            showMenuOfNumberOfRoundSelection: $showMenuOfNumberOfRoundSelection
-                        )
+                        VStack {
+                            Spacer()
+                            MGSettingsPanel(
+                                panelTitle: "SETTINGS",
+                                multiplicationTableSettingTitle: "Multiplication table",
+                                multiplicationTableOptionRange: Array(multiplicationTableRange),
+                                selectedMultiplicationTable: $multiplicationTable,
+                                showMenuOfMultiplicationTableSelection: $showMenuOfMultiplicationTableSelection,
+                                numberOfRoundSettingTitle: "Number of rounds",
+                                numberOfRoundOptionRange: numberOfRoundRange,
+                                selectedNumberOfRound: $numberOfRounds,
+                                showMenuOfNumberOfRoundSelection: $showMenuOfNumberOfRoundSelection
+                            )
+                        }
+                        .offset(y: -50)
                     }
+                    .gesture(
+                        TapGesture(count: 1)
+                            .onEnded({ _ in
+                                withAnimation() {
+                                    showMenuOfNumberOfRoundSelection = false
+                                    showMenuOfMultiplicationTableSelection = false
+                                }
+                            })
+                    )
                 }
             }
-            .gesture(
-                TapGesture(count: 1)
-                    .onEnded({ _ in
-                        withAnimation() {
-                            showMenuOfNumberOfRoundSelection = false
-                            showMenuOfMultiplicationTableSelection = false
-                        }
-                    })
-            )
-        }
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
+            
+            VStack {
+                Spacer()
+                
                 Button {
                     withAnimation {
                         switchSettingsPanel()
@@ -144,13 +150,13 @@ struct MainScreen: View {
                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
 
                         Image(systemName: settingsToggle == SettingsToggle.off ? "gearshape" : "xmark.circle")
-                            //.fontWeight(.bold)
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(Color(UIColor.hexStringToUIColor(hex: settingsToggle == SettingsToggle.off ? "05a899" : "ffff00")))
                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     }
 
                 }
+                .offset(y: -5)
                 .rotation3DEffect(.degrees(settingsButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
             }
         }

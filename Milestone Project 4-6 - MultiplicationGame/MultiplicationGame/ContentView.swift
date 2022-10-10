@@ -30,27 +30,6 @@ struct ContentView: View {
     @State private var finalScore = 0
     @State private var playButtonTitle = "Start"
 
-    func getAppContent() -> some View {
-        VStack (spacing: 20) {
-            ZStack {
-                LinearGradient(stops: [
-                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0),
-                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.17),
-                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.75),
-                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
-                ], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
-
-                switch screenType {
-                case .main:
-                    showMainScreen()
-                case .play:
-                    showPlayScreen()
-                }
-            }
-        }
-    }
-    
     func showMainScreen() -> some View {
         MainScreen(
             changeColorOfLargeTitleOnMainScreen: $changeColorOfLargeTitleOnMainScreen,
@@ -85,17 +64,30 @@ struct ContentView: View {
             runQuitGame: funAfterQuittingGame)
     }
     
-    var body: some View {
-        if #available(iOS 16, *) {
-            NavigationStack {
-                getAppContent()
+    func getAppContent() -> some View {
+        VStack (spacing: 20) {
+            ZStack {
+                LinearGradient(stops: [
+                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 0),
+                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.17),
+                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), location: 0.75),
+                    Gradient.Stop(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), location: 1)
+                ], startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
+
+                switch screenType {
+                case .main:
+                    showMainScreen()
+                case .play:
+                    showPlayScreen()
+                }
             }
-        } else {
-            NavigationView {
-                getAppContent()
-            }
-            .navigationViewStyle(.stack)
         }
+    }
+    
+    // MARK: - body
+    var body: some View {
+        getAppContent()
     }
 }
 
