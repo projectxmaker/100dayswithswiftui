@@ -7,34 +7,6 @@
 
 import SwiftUI
 
-struct ExpenseItem: Codable, Identifiable {
-    var id = UUID()
-    let name: String
-    let type: String
-    let amount: Double
-}
-
-class Expenses: ObservableObject {
-    @Published var items = [ExpenseItem]() {
-        didSet {
-            if let encoded = try? JSONEncoder().encode(items) {
-                UserDefaults.standard.set(encoded, forKey: "Items")
-            }
-        }
-    }
-    
-    init() {
-        if let savedItems = UserDefaults.standard.data(forKey: "Items") {
-            if let decodedItems = try? JSONDecoder().decode([ExpenseItem].self, from: savedItems) {
-                items = decodedItems
-                return
-            }
-        }
-
-        items = []
-    }
-}
-
 struct ContentView: View {
     @StateObject var expenses = Expenses()
     
@@ -52,6 +24,7 @@ struct ContentView: View {
         return code
     }
     
+    // MARK: - Extra Funcs
     func removeItems(at offsets: IndexSet) {
         expenses.items.remove(atOffsets: offsets)
     }
@@ -87,6 +60,7 @@ struct ContentView: View {
                 }
 
                 Spacer()
+                
                 Text(item.amount, format: .currency(code: currencyCode))
                     .foregroundColor(getColorByAmount(item.amount))
                     .shadow(color: .gray, radius: 1, x: 1, y: 1)
@@ -95,6 +69,7 @@ struct ContentView: View {
         .onDelete(perform: removeItems)
     }
     
+    // MARK: - Body
     var body: some View {
         NavigationView {
             List {
