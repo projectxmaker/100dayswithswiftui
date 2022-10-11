@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddView: View {
     @State private var name = ""
-    @State private var type = "Personal"
+    @State private var type = ExpenseType.personal
     @State private var amount = 0.0
     
     @ObservedObject var expenses: Expenses
@@ -26,8 +26,8 @@ struct AddView: View {
                 TextField("Name", text: $name)
 
                 Picker("Type", selection: $type) {
-                    ForEach(types, id: \.self) {
-                        Text($0)
+                    ForEach(ExpenseType.allCases, id: \.self) {
+                        Text($0.rawValue)
                     }
                 }
 

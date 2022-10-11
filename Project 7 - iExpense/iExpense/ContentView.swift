@@ -25,8 +25,10 @@ struct ContentView: View {
     }
     
     // MARK: - Extra Funcs
-    func removeItems(at offsets: IndexSet) {
-        expenses.items.remove(atOffsets: offsets)
+    func removeItemsByIds(ids: [UUID]) {
+        expenses.items = expenses.items.filter { expenseItem in
+            !ids.contains(expenseItem.id)
+        }
     }
     
     func getColorByAmount(_ amount: Double) -> Color {
@@ -46,41 +48,58 @@ struct ContentView: View {
         return color
     }
     
-    func getExpenseListByType(_ type: String) -> some View {
-        let arrExpenses = expenses.items.filter { expenseItem in
-            expenseItem.type == type
+    func displayList() -> some View {
+        let businessExpenses = expenses.items.filter { expenseItem in
+            expenseItem.type == ExpenseType.business
         }
         
-        return ForEach(arrExpenses) { item in
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(item.name)
-                        .font(.headline)
-                    Text(item.type)
-                }
-
-                Spacer()
-                
-                Text(item.amount, format: .currency(code: currencyCode))
-                    .foregroundColor(getColorByAmount(item.amount))
-                    .shadow(color: .gray, radius: 1, x: 1, y: 1)
+        let personalExpenses = expenses.items.filter { expenseItem in
+            expenseItem.type == ExpenseType.personal
+        }
+        
+        return List {
+            if !businessExpenses.isEmpty {
+                displayExpenseListByType(title: ExpenseType.business.rawValue, expenses: businessExpenses)
+            }
+            
+            if !personalExpenses.isEmpty {
+                displayExpenseListByType(title: ExpenseType.personal.rawValue, expenses: personalExpenses)
             }
         }
-        .onDelete(perform: removeItems)
+    }
+    
+    func displayExpenseListByType(title: String, expenses: [ExpenseItem]) -> some View {
+        Section(title) {
+            ForEach(expenses, id: \.id) { item in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(item.name)
+                            .font(.headline)
+                        Text(item.type.rawValue)
+                    }
+                    
+                    Spacer()
+                    
+                    Text(item.amount, format: .currency(code: currencyCode))
+                        .foregroundColor(getColorByAmount(item.amount))
+                        .shadow(color: .gray, radius: 1, x: 1, y: 1)
+                }
+            }
+            .onDelete { indexSet in
+                var arrItemIds = [UUID]()
+                for eachIndex in indexSet {
+                    arrItemIds.append(expenses[eachIndex].id)
+                }
+                
+                removeItemsByIds(ids: arrItemIds)
+            }
+        }
     }
     
     // MARK: - Body
     var body: some View {
         NavigationView {
-            List {
-                Section("Business") {
-                    getExpenseListByType("Business")
-                }
-                
-                Section("Personal") {
-                    getExpenseListByType("Personal")
-                }
-            }
+            displayList()
             .toolbar {
                 Button {
                     showingAddExpense = true
