@@ -73,24 +73,38 @@ struct ContentView: View {
         return color
     }
     
+    func getExpenseListByType(_ type: String) -> some View {
+        let arrExpenses = expenses.items.filter { expenseItem in
+            expenseItem.type == type
+        }
+        
+        return ForEach(arrExpenses) { item in
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(item.name)
+                        .font(.headline)
+                    Text(item.type)
+                }
+
+                Spacer()
+                Text(item.amount, format: .currency(code: currencyCode))
+                    .foregroundColor(getColorByAmount(item.amount))
+                    .shadow(color: .gray, radius: 1, x: 1, y: 1)
+            }
+        }
+        .onDelete(perform: removeItems)
+    }
+    
     var body: some View {
         NavigationView {
             List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            Text(item.type)
-                        }
-
-                        Spacer()
-                        Text(item.amount, format: .currency(code: currencyCode))
-                            .foregroundColor(getColorByAmount(item.amount))
-                            .shadow(color: .gray, radius: 1, x: 1, y: 1)
-                    }
+                Section("Business") {
+                    getExpenseListByType("Business")
                 }
-                .onDelete(perform: removeItems)
+                
+                Section("Personal") {
+                    getExpenseListByType("Personal")
+                }
             }
             .toolbar {
                 Button {
