@@ -40,6 +40,18 @@ struct ContentView: View {
     
     @State private var showingAddExpense = false
     
+    var currencyCode: String {
+        var code: String
+        
+        if #available(iOS 16, *) {
+            code = Locale.current.currency?.identifier ?? "USD"
+        } else {
+            code = Locale.current.currencyCode ?? "USD"
+        }
+        
+        return code
+    }
+    
     func removeItems(at offsets: IndexSet) {
         expenses.items.remove(atOffsets: offsets)
     }
@@ -56,7 +68,7 @@ struct ContentView: View {
                         }
 
                         Spacer()
-                        Text(item.amount, format: .currency(code: "USD"))
+                        Text(item.amount, format: .currency(code: currencyCode))
                     }
                 }
                 .onDelete(perform: removeItems)
@@ -71,7 +83,7 @@ struct ContentView: View {
             .navigationTitle("iExpense")
         }
         .sheet(isPresented: $showingAddExpense) {
-            AddView(expenses: expenses)
+            AddView(expenses: expenses, currencyCode: currencyCode)
         }
     }
 }

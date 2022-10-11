@@ -14,6 +14,8 @@ struct AddView: View {
     
     @ObservedObject var expenses: Expenses
     
+    var currencyCode: String
+    
     @Environment(\.dismiss) var dismiss
 
     let types = ["Business", "Personal"]
@@ -29,7 +31,7 @@ struct AddView: View {
                     }
                 }
 
-                TextField("Amount", value: $amount, format: .currency(code: "USD"))
+                TextField("Amount", value: $amount, format: .currency(code: currencyCode))
                     .keyboardType(.decimalPad)
             }
             .navigationTitle("Add new expense")
@@ -47,6 +49,6 @@ struct AddView: View {
 
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
-        AddView(expenses: Expenses())
+        AddView(expenses: Expenses(), currencyCode: "USD")
     }
 }
