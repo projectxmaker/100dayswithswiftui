@@ -56,6 +56,23 @@ struct ContentView: View {
         expenses.items.remove(atOffsets: offsets)
     }
     
+    func getColorByAmount(_ amount: Double) -> Color {
+        var color: Color
+        
+        switch amount {
+        case 0..<10:
+            color = Color(.green)
+        case 10..<100:
+            color = Color(.yellow)
+        case 100...:
+            color = Color(.red)
+        default:
+            color = Color(.purple)
+        }
+        
+        return color
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -69,6 +86,8 @@ struct ContentView: View {
 
                         Spacer()
                         Text(item.amount, format: .currency(code: currencyCode))
+                            .foregroundColor(getColorByAmount(item.amount))
+                            .shadow(color: .gray, radius: 1, x: 1, y: 1)
                     }
                 }
                 .onDelete(perform: removeItems)
