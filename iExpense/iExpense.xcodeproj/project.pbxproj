@@ -37,7 +37,6 @@
 		8A6F641C28F4173200DE1ECD = {
 			isa = PBXGroup;
 			children = (
-				8AF70AAD28F5109D00E93F50 /* AddView.swift */,
 				8A6F642728F4173300DE1ECD /* iExpense */,
 				8A6F642628F4173300DE1ECD /* Products */,
 			);
@@ -54,6 +53,7 @@
 		8A6F642728F4173300DE1ECD /* iExpense */ = {
 			isa = PBXGroup;
 			children = (
+				8AF70AAD28F5109D00E93F50 /* AddView.swift */,
 				8A6F642828F4173300DE1ECD /* iExpenseApp.swift */,
 				8A6F642A28F4173300DE1ECD /* ContentView.swift */,
 				8A6F642C28F4173400DE1ECD /* Assets.xcassets */,
