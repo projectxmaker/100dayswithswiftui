@@ -9,17 +9,23 @@ import SwiftUI
 
 
 struct ContentView: View {
+    @State private var showingGrid = false
+    
     let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
     let missions: [Mission] = Bundle.main.decode("missions.json")
     
-    let columns = [
+    let columnsOfGrid = [
         GridItem(.adaptive(minimum: 150))
+    ]
+    
+    let columnsOfList = [
+        GridItem(.flexible(minimum: 150))
     ]
     
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVGrid(columns: columns) {
+                LazyVGrid(columns: showingGrid ? columnsOfGrid : columnsOfList) {
                     ForEach(missions) { mission in
                         NavigationLink {
                             MissionView(mission: mission, astronauts: astronauts)
@@ -30,7 +36,7 @@ struct ContentView: View {
                                     .scaledToFit()
                                     .frame(width: 100, height: 100)
                                     .padding()
-
+                                
                                 VStack {
                                     Text(mission.displayName)
                                         .font(.headline)
@@ -42,6 +48,7 @@ struct ContentView: View {
                                 .padding(.vertical)
                                 .frame(maxWidth: .infinity)
                                 .background(.lightBackground)
+                                
                             }
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .overlay(
@@ -56,6 +63,14 @@ struct ContentView: View {
             .navigationTitle("Moonshot")
             .background(.darkBackground)
             .preferredColorScheme(.dark)
+            .toolbar {
+                Button {
+                    showingGrid.toggle()
+                } label: {
+                    Text(showingGrid ? "List" : "Grid")
+                }
+
+            }
         }
     }
 }
