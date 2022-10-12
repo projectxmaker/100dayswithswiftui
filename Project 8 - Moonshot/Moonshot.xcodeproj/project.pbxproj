@@ -71,16 +71,10 @@
 			children = (
 				8AF70ABF28F57EFE00E93F50 /* MoonshotApp.swift */,
 				8AF70AC128F57EFE00E93F50 /* ContentView.swift */,
-				8AF70AD528F652DA00E93F50 /* Astronaut.swift */,
-				8AF70AD728F6539400E93F50 /* Bundle+Decodable.swift */,
+				8AF70AED28F70A5E00E93F50 /* Views */,
+				8AF70AE928F70A0400E93F50 /* View Extensions */,
+				8AF70AEA28F70A1E00E93F50 /* Data Layer */,
 				8AF70AC328F57F0000E93F50 /* Assets.xcassets */,
-				8AF70AD128F6508500E93F50 /* astronauts.json */,
-				8AF70AD228F6508500E93F50 /* missions.json */,
-				8AF70ADB28F67E7E00E93F50 /* Color+Theme.swift */,
-				8AF70ADF28F6B05500E93F50 /* MissionView.swift */,
-				8AF70AD928F6568600E93F50 /* Mission.swift */,
-				8AF70AE328F6F54F00E93F50 /* CrewView.swift */,
-				8AF70AE128F6B90900E93F50 /* AstronautView.swift */,
 				8AF70AC528F57F0000E93F50 /* Preview Content */,
 			);
 			path = Moonshot;
@@ -92,6 +86,52 @@
 				8AF70AC628F57F0000E93F50 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8AF70AE928F70A0400E93F50 /* View Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70AD728F6539400E93F50 /* Bundle+Decodable.swift */,
+				8AF70ADB28F67E7E00E93F50 /* Color+Theme.swift */,
+			);
+			path = "View Extensions";
+			sourceTree = "<group>";
+		};
+		8AF70AEA28F70A1E00E93F50 /* Data Layer */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70AEC28F70A5100E93F50 /* Data */,
+				8AF70AEB28F70A4500E93F50 /* Models */,
+			);
+			path = "Data Layer";
+			sourceTree = "<group>";
+		};
+		8AF70AEB28F70A4500E93F50 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70AD528F652DA00E93F50 /* Astronaut.swift */,
+				8AF70AD928F6568600E93F50 /* Mission.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8AF70AEC28F70A5100E93F50 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70AD128F6508500E93F50 /* astronauts.json */,
+				8AF70AD228F6508500E93F50 /* missions.json */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8AF70AED28F70A5E00E93F50 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70ADF28F6B05500E93F50 /* MissionView.swift */,
+				8AF70AE328F6F54F00E93F50 /* CrewView.swift */,
+				8AF70AE128F6B90900E93F50 /* AstronautView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
