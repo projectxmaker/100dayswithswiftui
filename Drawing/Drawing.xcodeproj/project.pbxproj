@@ -11,6 +11,8 @@
 		8AF70AFD28F79A1A00E93F50 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70AFC28F79A1A00E93F50 /* ContentView.swift */; };
 		8AF70AFF28F79A1D00E93F50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AF70AFE28F79A1D00E93F50 /* Assets.xcassets */; };
 		8AF70B0228F79A1D00E93F50 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AF70B0128F79A1D00E93F50 /* Preview Assets.xcassets */; };
+		8AF70B0928F9237C00E93F50 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B0828F9237C00E93F50 /* ArrowView.swift */; };
+		8AF70B0B28F9238E00E93F50 /* ColorCyclingRetangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B0A28F9238E00E93F50 /* ColorCyclingRetangleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		8AF70AFC28F79A1A00E93F50 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8AF70AFE28F79A1D00E93F50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AF70B0128F79A1D00E93F50 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8AF70B0828F9237C00E93F50 /* ArrowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
+		8AF70B0A28F9238E00E93F50 /* ColorCyclingRetangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCyclingRetangleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +55,8 @@
 		8AF70AF928F79A1A00E93F50 /* Drawing */ = {
 			isa = PBXGroup;
 			children = (
+				8AF70B0828F9237C00E93F50 /* ArrowView.swift */,
+				8AF70B0A28F9238E00E93F50 /* ColorCyclingRetangleView.swift */,
 				8AF70AFA28F79A1A00E93F50 /* DrawingApp.swift */,
 				8AF70AFC28F79A1A00E93F50 /* ContentView.swift */,
 				8AF70AFE28F79A1D00E93F50 /* Assets.xcassets */,
@@ -139,6 +145,8 @@
 			files = (
 				8AF70AFD28F79A1A00E93F50 /* ContentView.swift in Sources */,
 				8AF70AFB28F79A1A00E93F50 /* DrawingApp.swift in Sources */,
+				8AF70B0B28F9238E00E93F50 /* ColorCyclingRetangleView.swift in Sources */,
+				8AF70B0928F9237C00E93F50 /* ArrowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
