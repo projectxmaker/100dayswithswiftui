@@ -8,32 +8,49 @@
 import SwiftUI
 
 struct ArrowView: View {
-    struct Arrow: Shape {
-        var insetAmount = 0.0
+    struct Arrow: Shape, InsettableShape {
+        var insetAmount: CGFloat = 0
         
-        func path(in rect: CGRect) -> Path {
+        var animatableData: CGFloat {
+            get { return insetAmount }
+            set { insetAmount = newValue }
+        }
+
+        func path(in newRect: CGRect) -> Path {
             var path = Path()
             
-            //path.move(to: CGPoint(x: rect.midX, y: rect.minY))
             path.addLines([
-                CGPoint(x: rect.midX, y: rect.minY),
-                CGPoint(x: rect.minX, y: rect.midY / 2),
-                CGPoint(x: rect.midX * 2/3, y: rect.midY / 2),
-                CGPoint(x: rect.midX * 2/3, y: rect.maxY),
-                CGPoint(x: rect.maxX * 4/6, y: rect.maxY),
-                CGPoint(x: rect.maxX * 4/6, y: rect.midY / 2),
-                CGPoint(x: rect.maxX, y: rect.midY / 2),
-                CGPoint(x: rect.midX, y: rect.minY)
+                CGPoint(x: newRect.midX, y: newRect.minY + insetAmount),
+                CGPoint(x: newRect.minX + insetAmount, y: newRect.midY / 2 - insetAmount),
+                CGPoint(x: newRect.maxX * 2/6 + insetAmount, y: newRect.midY / 2 - insetAmount),
+                CGPoint(x: newRect.maxX * 2/6 + insetAmount, y: newRect.maxY - insetAmount),
+                CGPoint(x: newRect.maxX * 4/6 - insetAmount, y: newRect.maxY - insetAmount),
+                CGPoint(x: newRect.maxX * 4/6 - insetAmount, y: newRect.midY / 2 - insetAmount),
+                CGPoint(x: newRect.maxX - insetAmount, y: newRect.midY / 2 - insetAmount),
+                CGPoint(x: newRect.midX, y: newRect.minY + insetAmount)
             ])
             
             return path
         }
+
+        func inset(by amount: CGFloat) -> some InsettableShape {
+            var arrow = self
+            arrow.insetAmount += amount
+            return arrow
+        }
     }
+    
+    @State private var insetAmount: CGFloat = 10
     
     var body: some View {
         Arrow()
-            .stroke(.blue, style: StrokeStyle(lineWidth: 10, lineCap: .round, lineJoin: .round))
-            .padding()
+            .strokeBorder(
+                Color.blue,
+                style: StrokeStyle(lineWidth: insetAmount, lineCap: .round, lineJoin: .round))
+            .onTapGesture {
+                insetAmount = CGFloat.random(in: 10...90)
+            }
+            
     }
 }
 
