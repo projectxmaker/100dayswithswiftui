@@ -7,26 +7,25 @@
 
 import SwiftUI
 
+
+
 struct ContentView: View {
     @State private var showActivityCreationView = false
-    let columnLayout: [GridItem] = [
-        GridItem(GridItem.Size.flexible(minimum: 150))
-    ]
+    
+    @StateObject private var activities = Activities()
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(0...10, id:\.self) { item in
+                ForEach(activities.list, id:\.id) { item in
                     NavigationLink {
-                        ActivityDetailView()
+                        ActivityDetailView(activities: activities, selectedActivityItem: item)
                     } label: {
-                        HStack {
-                            Image(systemName: "globe")
-                                .imageScale(.large)
-                                .foregroundColor(.accentColor)
-                            Text("Hello, world!")
-                            
-                            Spacer()
+                        VStack(alignment: .leading) {
+                            Text(item.title)
+                                .font(.title.bold())
+                            Text(item.description)
+                            Text("Completion: \(item.getCompletionCountDescription())")
                         }
                     }
                 }
@@ -43,7 +42,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showActivityCreationView) {
-                ActivityCreationView()
+                ActivityCreationView(activities: activities)
             }
         }
     }

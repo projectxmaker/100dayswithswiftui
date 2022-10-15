@@ -8,31 +8,48 @@
 import SwiftUI
 
 struct ActivityDetailView: View {
-    @State private var counter = 0
+    @ObservedObject var activities: Activities
     
-    func increaseActivityCounting() {
-        counter += 1
+    var selectedActivityItem: ActivityItem
+    
+    @State private var completionCounter: Int = 0
+    
+    func increaseCompletionCount() {
+        completionCounter += 1
+    }
+    
+    func saveActivityCompletionCount() {
+        let newActivity = ActivityItem(title: selectedActivityItem.title, description: selectedActivityItem.description, completionCount: completionCounter)
+
+        let selectedIndex = activities.list.firstIndex(of: selectedActivityItem) ?? 0
+
+        activities.list.remove(at: selectedIndex)
+        activities.list.insert(newActivity, at: selectedIndex)
     }
     
     var body: some View {
         VStack {
-            Text("Counting \(counter)")
-            Button {
-                increaseActivityCounting()
-            } label: {
-                Text("+ 1")
-                    .foregroundColor(Color.white)
-                    .frame(width: 100, height: 40)
-                    .background(Capsule())
-            }
+            Text(selectedActivityItem.title)
+                .font(.title.bold())
+            Text(selectedActivityItem.description)
+            Text("Completion: \(selectedActivityItem.getCompletionCountDescription(count: completionCounter))")
+            Text("+1")
+                .foregroundColor(Color.white)
+                .frame(width: 50, height: 40)
+                .background(RoundedRectangle(cornerRadius: 10))
+                .onTapGesture {
+                    increaseCompletionCount()
+                }
+
+            Spacer()
         }
         .navigationTitle("Activity Details")
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct ActivityDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityDetailView()
+        .onAppear {
+            completionCounter = selectedActivityItem.completionCount
+        }
+        .onDisappear {
+            saveActivityCompletionCount()
+        }
     }
 }

@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct ActivityCreationView: View {
-    @State private var activity = ""
+    @ObservedObject var activities: Activities
+    
+    @State private var title = ""
     @State private var description = ""
     
     @Environment(\.dismiss) var dismiss
     
     func createActivity() {
+        let newActivity = ActivityItem(title: title, description: description)
+        activities.list.insert(newActivity, at: 0)
         dismiss()
     }
     
@@ -22,12 +26,12 @@ struct ActivityCreationView: View {
             Form {
                 HStack(alignment: .center) {
                     Spacer()
-                    Text("Create New Activity")
+                    Text("New Activity")
                         .font(.largeTitle)
                     Spacer()
                 }
 
-                TextField("Activity", text: $activity)
+                TextField("Title", text: $title)
                 TextField("Description", text: $description)
                 
                 HStack(alignment: .center) {
@@ -45,11 +49,5 @@ struct ActivityCreationView: View {
 
             }
         }
-    }
-}
-
-struct ActivityCreationView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityCreationView()
     }
 }
