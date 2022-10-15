@@ -15,25 +15,23 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVGrid(columns: columnLayout, alignment: .leading) {
-                    ForEach(0...10, id:\.self) { item in
-                        NavigationLink {
-                            ActivityDetailView()
-                        } label: {
-                            HStack {
-                                Image(systemName: "globe")
-                                    .imageScale(.large)
-                                    .foregroundColor(.accentColor)
-                                Text("Hello, world!")
-                                
-                                Spacer()
-                                Image(systemName: "arrowtriangle.right")
-                                    .imageScale(Image.Scale.small)
-                                    .foregroundColor(.accentColor)
-                            }
+            List {
+                ForEach(0...10, id:\.self) { item in
+                    NavigationLink {
+                        ActivityDetailView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "globe")
+                                .imageScale(.large)
+                                .foregroundColor(.accentColor)
+                            Text("Hello, world!")
+                            
+                            Spacer()
                         }
                     }
+                }
+                .onDelete { indexSet in
+                    print("do something")
                 }
             }
             .navigationTitle("Habit Tracking")
@@ -41,15 +39,13 @@ struct ContentView: View {
                 Button {
                     showActivityCreationView.toggle()
                 } label: {
-                    Text("+")
+                    Image(systemName: "plus")
                 }
-
             }
             .sheet(isPresented: $showActivityCreationView) {
                 ActivityCreationView()
             }
         }
-        .padding()
     }
 }
 
