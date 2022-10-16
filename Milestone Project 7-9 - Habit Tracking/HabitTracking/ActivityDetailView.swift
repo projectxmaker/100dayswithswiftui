@@ -18,6 +18,10 @@ struct ActivityDetailView: View {
         completionCounter += 1
     }
     
+    func decreaseCompletionCount() {
+        completionCounter = completionCounter > 1 ? completionCounter - 1 : 0
+    }
+    
     func saveActivityCompletionCount() {
         let newActivity = ActivityItem(title: selectedActivityItem.title, description: selectedActivityItem.description, completionCount: completionCounter)
 
@@ -32,7 +36,16 @@ struct ActivityDetailView: View {
             Text(selectedActivityItem.title)
                 .font(.title.bold())
             Text(selectedActivityItem.description)
-            Text("Completion: \(selectedActivityItem.getCompletionCountDescription(count: completionCounter))")
+            
+            HStack(alignment: .center) {
+                Text("Completion: \(selectedActivityItem.getCompletionCountDescription(count: completionCounter))")
+                Image(systemName: "minus.circle")
+                    .foregroundColor(Color.accentColor)
+                    .onTapGesture {
+                        decreaseCompletionCount()
+                    }
+            }
+
             Rectangle()
                 .frame(width: 200, height: 2)
                 .background(Color.gray.opacity(0.2))
