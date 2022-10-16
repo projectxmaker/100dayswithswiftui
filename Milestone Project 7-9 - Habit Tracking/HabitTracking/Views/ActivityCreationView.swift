@@ -8,17 +8,14 @@
 import SwiftUI
 
 struct ActivityCreationView: View {
-    @ObservedObject var activities: Activities
-    
-    @State private var title = ""
-    @State private var description = ""
+    @StateObject var createActivityVM: CreateActivityViewModel
     
     @Environment(\.dismiss) var dismiss
     
     func createActivity() {
-        let newActivity = ActivityItem(title: title, description: description)
-        activities.list.insert(newActivity, at: 0)
-        dismiss()
+        createActivityVM.createActivity {
+            dismiss()
+        }
     }
     
     func cancelCreatingActivity() {
@@ -35,9 +32,10 @@ struct ActivityCreationView: View {
             }
             .frame(height: 80)
 
-            Form {    
-                TextField("Title", text: $title)
-                TextField("Description", text: $description)
+            Form {
+                HTTextField(value: $createActivityVM.title, prompt: createActivityVM.promptForTitle(), title: "Title")
+                
+                HTTextField(value: $createActivityVM.description, prompt: createActivityVM.promptForDescription(), title: "Description")
                 
                 HStack(alignment: .center) {
                     Spacer()
@@ -54,11 +52,12 @@ struct ActivityCreationView: View {
                         title: "Create") {
                             createActivity()
                         }
+                        .opacity(createActivityVM.isAllInfoValid() ? 1 : 0.6)
+                        .disabled(!createActivityVM.isAllInfoValid())
                     
                     Spacer()
                 }
             }
-            
         }
         .navigationBarTitle("TTT")
     }
