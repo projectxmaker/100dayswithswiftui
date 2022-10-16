@@ -33,10 +33,15 @@ struct ActivityDetailView: View {
                 .font(.title.bold())
             Text(selectedActivityItem.description)
             Text("Completion: \(selectedActivityItem.getCompletionCountDescription(count: completionCounter))")
-            Text("+1")
+            Rectangle()
+                .frame(width: 200, height: 2)
+                .background(Color.gray.opacity(0.2))
+            Text("Just completed this activity?")
+            Text("Tap Me!")
                 .foregroundColor(Color.white)
-                .frame(width: 50, height: 40)
-                .background(RoundedRectangle(cornerRadius: 10))
+                .frame(width: 100, height: 40)
+                .background(Color.accentColor)
+                .clipShape(Capsule())
                 .onTapGesture {
                     increaseCompletionCount()
                 }
