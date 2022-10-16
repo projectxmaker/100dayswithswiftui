@@ -13,6 +13,7 @@ struct ActivityItem: Codable, Identifiable {
     let description: String
     var completionCount: Int = 0
     
+    // MARK: - Extra Functions
     func getCompletionCountDescription(count: Int = -1) -> String {
         let countValue = count < 0 ? completionCount : count
         return "\(countValue) time\(countValue > 1 ? "s" : "")"

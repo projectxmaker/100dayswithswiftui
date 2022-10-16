@@ -22,6 +22,8 @@ class Activities: ObservableObject {
         self.list = UserDefaults.standard.getArray(dataKey: activityItemsDataKey)
     }
     
+    // MARK: - Extra Functions
+    
     func deleteActivityById(_ id: UUID) {
         list = list.filter { item in
             return item.id != id
@@ -29,12 +31,13 @@ class Activities: ObservableObject {
     }
     
     func updateCompletionCount(of updatedActivityItem: ActivityItem, newCompletionCount: Int) {
-        let newActivity = ActivityItem(title: updatedActivityItem.title, description: updatedActivityItem.description, completionCount: newCompletionCount)
-
-        let selectedIndex = list.firstIndex(of: updatedActivityItem) ?? 0
-
-        list.remove(at: selectedIndex)
-        list.insert(newActivity, at: selectedIndex)
+        guard
+            newCompletionCount >= 0,
+            let selectedIndex = list.firstIndex(of: updatedActivityItem) else {
+            return
+        }
+        
+        list[selectedIndex].completionCount = newCompletionCount
     }
 }
 
