@@ -45,6 +45,7 @@ struct ContentView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                EditButton()
             }
             .sheet(isPresented: $showActivityCreationView) {
                 ActivityCreationView(activities: activities)
