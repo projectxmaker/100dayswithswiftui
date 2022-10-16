@@ -16,6 +16,7 @@
 		8AF70B2B28FB039100E93F50 /* ActivityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B2A28FB039100E93F50 /* ActivityItem.swift */; };
 		8AF70B2D28FB046200E93F50 /* Activities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B2C28FB046200E93F50 /* Activities.swift */; };
 		8AF70B2F28FBB83400E93F50 /* HTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B2E28FBB83400E93F50 /* HTButton.swift */; };
+		8AF70B3128FBBB7F00E93F50 /* UserDefaults+GetArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3028FBBB7F00E93F50 /* UserDefaults+GetArray.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		8AF70B2A28FB039100E93F50 /* ActivityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityItem.swift; sourceTree = "<group>"; };
 		8AF70B2C28FB046200E93F50 /* Activities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activities.swift; sourceTree = "<group>"; };
 		8AF70B2E28FBB83400E93F50 /* HTButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTButton.swift; sourceTree = "<group>"; };
+		8AF70B3028FBBB7F00E93F50 /* UserDefaults+GetArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+GetArray.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,13 +63,11 @@
 		8AF70B1728FAEAC900E93F50 /* HabitTracking */ = {
 			isa = PBXGroup;
 			children = (
-				8AF70B2E28FBB83400E93F50 /* HTButton.swift */,
-				8AF70B2A28FB039100E93F50 /* ActivityItem.swift */,
-				8AF70B2C28FB046200E93F50 /* Activities.swift */,
+				8AF70B3228FBBC1600E93F50 /* Views */,
+				8AF70B3328FBBC2500E93F50 /* Data */,
+				8AF70B3428FBBC3400E93F50 /* Extensions */,
 				8AF70B1828FAEAC900E93F50 /* HabitTrackingApp.swift */,
 				8AF70B1A28FAEAC900E93F50 /* ContentView.swift */,
-				8AF70B2828FAF2CA00E93F50 /* ActivityCreationView.swift */,
-				8AF70B2628FAEFF700E93F50 /* ActivityDetailView.swift */,
 				8AF70B1C28FAEACB00E93F50 /* Assets.xcassets */,
 				8AF70B1E28FAEACB00E93F50 /* Preview Content */,
 			);
@@ -80,6 +80,33 @@
 				8AF70B1F28FAEACB00E93F50 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8AF70B3228FBBC1600E93F50 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70B2E28FBB83400E93F50 /* HTButton.swift */,
+				8AF70B2828FAF2CA00E93F50 /* ActivityCreationView.swift */,
+				8AF70B2628FAEFF700E93F50 /* ActivityDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8AF70B3328FBBC2500E93F50 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70B2A28FB039100E93F50 /* ActivityItem.swift */,
+				8AF70B2C28FB046200E93F50 /* Activities.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8AF70B3428FBBC3400E93F50 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70B3028FBBB7F00E93F50 /* UserDefaults+GetArray.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,6 +186,7 @@
 				8AF70B1928FAEAC900E93F50 /* HabitTrackingApp.swift in Sources */,
 				8AF70B2928FAF2CA00E93F50 /* ActivityCreationView.swift in Sources */,
 				8AF70B2728FAEFF700E93F50 /* ActivityDetailView.swift in Sources */,
+				8AF70B3128FBBB7F00E93F50 /* UserDefaults+GetArray.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

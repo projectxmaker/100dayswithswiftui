@@ -60,6 +60,7 @@ struct ContentView: View {
                 Text("Do you want to delete this Activity:\n \"\(deletedItem.title)\"")
             }
         }
+        .navigationViewStyle(.stack)
     }
 }
 

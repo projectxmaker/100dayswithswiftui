@@ -21,15 +21,6 @@ struct ActivityDetailView: View {
         completionCounter = completionCounter > 1 ? completionCounter - 1 : 0
     }
     
-    func saveActivityCompletionCount() {
-        let newActivity = ActivityItem(title: selectedActivityItem.title, description: selectedActivityItem.description, completionCount: completionCounter)
-
-        let selectedIndex = activities.list.firstIndex(of: selectedActivityItem) ?? 0
-
-        activities.list.remove(at: selectedIndex)
-        activities.list.insert(newActivity, at: selectedIndex)
-    }
-    
     var body: some View {
         VStack {
             Text(selectedActivityItem.title)
@@ -63,7 +54,7 @@ struct ActivityDetailView: View {
             completionCounter = selectedActivityItem.completionCount
         }
         .onDisappear {
-            saveActivityCompletionCount()
+            activities.updateCompletionCount(of: selectedActivityItem, newCompletionCount: completionCounter)
         }
     }
 }

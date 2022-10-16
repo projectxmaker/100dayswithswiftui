@@ -19,7 +19,7 @@ class Activities: ObservableObject {
     let activityItemsDataKey = "ActivityItems"
     
     init() {
-        self.list = UserDefaults.standard.getActivityItems(dataKey: activityItemsDataKey)
+        self.list = UserDefaults.standard.getArray(dataKey: activityItemsDataKey)
     }
     
     func deleteActivityById(_ id: UUID) {
@@ -27,19 +27,14 @@ class Activities: ObservableObject {
             return item.id != id
         }
     }
-}
+    
+    func updateCompletionCount(of updatedActivityItem: ActivityItem, newCompletionCount: Int) {
+        let newActivity = ActivityItem(title: updatedActivityItem.title, description: updatedActivityItem.description, completionCount: newCompletionCount)
 
-extension UserDefaults {
-    func getActivityItems<T: Codable>(dataKey: String) -> [T] {
-        if let data = self.data(forKey: dataKey) {
-            if let items = try? JSONDecoder().decode([T].self, from: data) {
-                return items
-            } else {
-                fatalError("FAILED")
-            }
-        } else {
-            return [T]()
-        }
+        let selectedIndex = list.firstIndex(of: updatedActivityItem) ?? 0
+
+        list.remove(at: selectedIndex)
+        list.insert(newActivity, at: selectedIndex)
     }
 }
 
