@@ -24,7 +24,6 @@ class Activities: ObservableObject {
     
     func deleteActivityById(_ id: UUID) {
         list = list.filter { item in
-            print("\(item.id) vs \(id)")
             return item.id != id
         }
     }
