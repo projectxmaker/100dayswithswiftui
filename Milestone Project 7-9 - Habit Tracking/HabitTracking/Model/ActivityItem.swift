@@ -18,6 +18,14 @@ struct ActivityItem: Codable, Identifiable {
         let countValue = count < 0 ? completionCount : count
         return "\(countValue) time\(countValue > 1 ? "s" : "")"
     }
+    
+    mutating func increaseCompletionCount() {
+        completionCount += 1
+    }
+
+    mutating func decreaseCompletionCount() {
+        completionCount = completionCount > 1 ? completionCount - 1 : 0
+    }
 }
 
 extension ActivityItem: Equatable {

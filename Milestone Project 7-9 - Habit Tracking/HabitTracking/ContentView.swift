@@ -19,7 +19,7 @@ struct ContentView: View {
             List {
                 ForEach(activities.list, id:\.id) { item in
                     NavigationLink {
-                        ActivityDetailView(activities: activities, selectedActivityItem: item)
+                        ActivityDetailView(showActivityDetailsVM: ShowActivityDetailsViewModel(activities: activities, selectedActivityItem: item))
                     } label: {
                         VStack(alignment: .leading) {
                             Text(item.title)

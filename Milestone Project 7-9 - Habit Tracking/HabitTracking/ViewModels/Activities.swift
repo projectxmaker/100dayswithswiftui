@@ -30,6 +30,14 @@ class Activities: ObservableObject {
         }
     }
     
+    func updateAnActivity(_ activityItem: ActivityItem) {
+        guard let selectedIndex = list.firstIndex(of: activityItem) else {
+            return
+        }
+        
+        list[selectedIndex] = activityItem
+    }
+    
     func updateCompletionCount(of updatedActivityItem: ActivityItem, newCompletionCount: Int) {
         guard
             newCompletionCount >= 0,

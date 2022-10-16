@@ -8,31 +8,20 @@
 import SwiftUI
 
 struct ActivityDetailView: View {
-    @State private var completionCounter: Int = 0
-    @ObservedObject var activities: Activities
-    
-    var selectedActivityItem: ActivityItem
-
-    func increaseCompletionCount() {
-        completionCounter += 1
-    }
-    
-    func decreaseCompletionCount() {
-        completionCounter = completionCounter > 1 ? completionCounter - 1 : 0
-    }
+    @StateObject var showActivityDetailsVM: ShowActivityDetailsViewModel
     
     var body: some View {
         VStack {
-            Text(selectedActivityItem.title)
+            Text(showActivityDetailsVM.selectedActivityItem.title)
                 .font(.title.bold())
-            Text(selectedActivityItem.description)
+            Text(showActivityDetailsVM.selectedActivityItem.description)
             
             HStack(alignment: .center) {
-                Text("Completion: \(selectedActivityItem.getCompletionCountDescription(count: completionCounter))")
+                Text("Completion: \(showActivityDetailsVM.getCompletionCountDescription())")
                 Image(systemName: "minus.circle")
                     .foregroundColor(Color.accentColor)
                     .onTapGesture {
-                        decreaseCompletionCount()
+                        showActivityDetailsVM.decreaseCompletionCount()
                     }
             }
 
@@ -43,18 +32,12 @@ struct ActivityDetailView: View {
             Text("Just completed this activity?")
             
             HTButton(title: "Tap Me!") {
-                increaseCompletionCount()
+                showActivityDetailsVM.increaseCompletionCount()
             }
 
             Spacer()
         }
         .navigationTitle("Activity Details")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            completionCounter = selectedActivityItem.completionCount
-        }
-        .onDisappear {
-            activities.updateCompletionCount(of: selectedActivityItem, newCompletionCount: completionCounter)
-        }
     }
 }
