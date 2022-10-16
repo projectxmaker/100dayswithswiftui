@@ -32,10 +32,10 @@ struct ActivityCreationView: View {
             }
             .frame(height: 80)
 
-            Form {
-                HTTextField(value: $createActivityVM.title, prompt: createActivityVM.promptForTitle(), title: "Title")
+            VStack(alignment: .leading) {
+                HTTextField(title: "Title", prompt: createActivityVM.promptForTitle(), value: $createActivityVM.title)
                 
-                HTTextField(value: $createActivityVM.description, prompt: createActivityVM.promptForDescription(), title: "Description")
+                HTTextField(title: "Description", prompt: createActivityVM.promptForDescription(), iconSystemName: "note.text", value: $createActivityVM.description)
                 
                 HStack(alignment: .center) {
                     Spacer()
@@ -58,6 +58,9 @@ struct ActivityCreationView: View {
                     Spacer()
                 }
             }
+            .padding()
+            
+            Spacer()
         }
     }
 }
