@@ -21,21 +21,39 @@ struct ActivityCreationView: View {
         dismiss()
     }
     
+    func cancelCreatingActivity() {
+        dismiss()
+    }
+    
     var body: some View {
         VStack {
-            Form {
-                HStack(alignment: .center) {
-                    Spacer()
-                    Text("New Activity")
-                        .font(.largeTitle)
-                    Spacer()
-                }
+            VStack(alignment: .center) {
+                Spacer()
+                Text("New Activity")
+                    .font(.largeTitle)
+                Spacer()
+            }
+            .frame(height: 80)
 
+            Form {    
                 TextField("Title", text: $title)
                 TextField("Description", text: $description)
                 
                 HStack(alignment: .center) {
                     Spacer()
+                    
+                    Button {
+                        cancelCreatingActivity()
+                    } label: {
+                        Text("Cancel")
+                            .foregroundColor(.white)
+                            .frame(width: 100, height: 40)
+                            .background(.red)
+                            .clipShape(Capsule())
+                    }
+                    
+                    Spacer()
+                    
                     Button {
                         createActivity()
                     } label: {
@@ -44,10 +62,12 @@ struct ActivityCreationView: View {
                             .frame(width: 100, height: 40)
                             .background(Capsule())
                     }
+                    
                     Spacer()
                 }
-
             }
+            
         }
+        .navigationBarTitle("TTT")
     }
 }
