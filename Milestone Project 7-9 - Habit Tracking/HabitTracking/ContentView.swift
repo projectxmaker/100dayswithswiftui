@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-
-
 struct ContentView: View {
     @State private var showActivityCreationView = false
+    @State private var showDeletionAlert = false
+    @State private var deletedItem: ActivityItem?
     
     @StateObject private var activities = Activities()
     
@@ -30,7 +30,12 @@ struct ContentView: View {
                     }
                 }
                 .onDelete { indexSet in
-                    print("do something")
+                    var deletedItems = [ActivityItem]()
+                    for index in indexSet {
+                        deletedItems.append(activities.list[index])
+                    }
+                    deletedItem = deletedItems[0]
+                    showDeletionAlert.toggle()
                 }
             }
             .navigationTitle("Habit Tracking")
@@ -43,6 +48,15 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showActivityCreationView) {
                 ActivityCreationView(activities: activities)
+            }
+            .alert("Delete An Activity", isPresented: $showDeletionAlert, presenting: deletedItem) { deletedItem in
+                Button(role: .destructive) {
+                    activities.deleteActivityById(deletedItem.id)
+                } label: {
+                    Text("Delete")
+                }
+            } message: { deletedItem in
+                Text("Do you want to delete this Activity:\n \"\(deletedItem.title)\"")
             }
         }
     }

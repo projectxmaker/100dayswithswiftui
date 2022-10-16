@@ -21,6 +21,13 @@ class Activities: ObservableObject {
     init() {
         self.list = UserDefaults.standard.getActivityItems(dataKey: activityItemsDataKey)
     }
+    
+    func deleteActivityById(_ id: UUID) {
+        list = list.filter { item in
+            print("\(item.id) vs \(id)")
+            return item.id != id
+        }
+    }
 }
 
 extension UserDefaults {
