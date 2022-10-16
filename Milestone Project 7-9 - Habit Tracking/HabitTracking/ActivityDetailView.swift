@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct ActivityDetailView: View {
+    @State private var completionCounter: Int = 0
     @ObservedObject var activities: Activities
     
     var selectedActivityItem: ActivityItem
-    
-    @State private var completionCounter: Int = 0
-    
+
     func increaseCompletionCount() {
         completionCounter += 1
     }
@@ -49,15 +48,12 @@ struct ActivityDetailView: View {
             Rectangle()
                 .frame(width: 200, height: 2)
                 .background(Color.gray.opacity(0.2))
+            
             Text("Just completed this activity?")
-            Text("Tap Me!")
-                .foregroundColor(Color.white)
-                .frame(width: 100, height: 40)
-                .background(Color.accentColor)
-                .clipShape(Capsule())
-                .onTapGesture {
-                    increaseCompletionCount()
-                }
+            
+            HTButton(title: "Tap Me!") {
+                increaseCompletionCount()
+            }
 
             Spacer()
         }

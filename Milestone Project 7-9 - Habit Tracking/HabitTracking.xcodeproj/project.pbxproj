@@ -15,6 +15,7 @@
 		8AF70B2928FAF2CA00E93F50 /* ActivityCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B2828FAF2CA00E93F50 /* ActivityCreationView.swift */; };
 		8AF70B2B28FB039100E93F50 /* ActivityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B2A28FB039100E93F50 /* ActivityItem.swift */; };
 		8AF70B2D28FB046200E93F50 /* Activities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B2C28FB046200E93F50 /* Activities.swift */; };
+		8AF70B2F28FBB83400E93F50 /* HTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B2E28FBB83400E93F50 /* HTButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		8AF70B2828FAF2CA00E93F50 /* ActivityCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCreationView.swift; sourceTree = "<group>"; };
 		8AF70B2A28FB039100E93F50 /* ActivityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityItem.swift; sourceTree = "<group>"; };
 		8AF70B2C28FB046200E93F50 /* Activities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activities.swift; sourceTree = "<group>"; };
+		8AF70B2E28FBB83400E93F50 /* HTButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 		8AF70B1728FAEAC900E93F50 /* HabitTracking */ = {
 			isa = PBXGroup;
 			children = (
+				8AF70B2E28FBB83400E93F50 /* HTButton.swift */,
 				8AF70B2A28FB039100E93F50 /* ActivityItem.swift */,
 				8AF70B2C28FB046200E93F50 /* Activities.swift */,
 				8AF70B1828FAEAC900E93F50 /* HabitTrackingApp.swift */,
@@ -152,6 +155,7 @@
 				8AF70B2B28FB039100E93F50 /* ActivityItem.swift in Sources */,
 				8AF70B1B28FAEAC900E93F50 /* ContentView.swift in Sources */,
 				8AF70B2D28FB046200E93F50 /* Activities.swift in Sources */,
+				8AF70B2F28FBB83400E93F50 /* HTButton.swift in Sources */,
 				8AF70B1928FAEAC900E93F50 /* HabitTrackingApp.swift in Sources */,
 				8AF70B2928FAF2CA00E93F50 /* ActivityCreationView.swift in Sources */,
 				8AF70B2728FAEFF700E93F50 /* ActivityDetailView.swift in Sources */,

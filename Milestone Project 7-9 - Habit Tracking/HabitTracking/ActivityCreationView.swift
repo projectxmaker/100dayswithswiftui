@@ -42,23 +42,16 @@ struct ActivityCreationView: View {
                 HStack(alignment: .center) {
                     Spacer()
                     
-                    Text("Cancel")
-                        .foregroundColor(.white)
-                        .frame(width: 100, height: 40)
-                        .background(.red)
-                        .clipShape(Capsule())
-                        .onTapGesture {
+                    HTButton(
+                        title: "Cancel",
+                        background: .red) {
                             cancelCreatingActivity()
                         }
                     
                     Spacer()
                     
-                    Text("Create")
-                        .foregroundColor(.white)
-                        .frame(width: 100, height: 40)
-                        .background(Color.accentColor)
-                        .clipShape(Capsule())
-                        .onTapGesture {
+                    HTButton(
+                        title: "Create") {
                             createActivity()
                         }
                     
