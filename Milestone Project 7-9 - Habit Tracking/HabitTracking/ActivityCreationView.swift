@@ -30,7 +30,7 @@ struct ActivityCreationView: View {
             VStack(alignment: .center) {
                 Spacer()
                 Text("New Activity")
-                    .font(.largeTitle)
+                    .font(.largeTitle.bold())
                 Spacer()
             }
             .frame(height: 80)
@@ -56,7 +56,8 @@ struct ActivityCreationView: View {
                     Text("Create")
                         .foregroundColor(.white)
                         .frame(width: 100, height: 40)
-                        .background(Capsule())
+                        .background(Color.accentColor)
+                        .clipShape(Capsule())
                         .onTapGesture {
                             createActivity()
                         }
