@@ -12,7 +12,6 @@ class ShowActivityDetailsViewModel: ObservableObject {
     var selectedActivityItem: ActivityItem {
         didSet {
             activities.updateAnActivity(selectedActivityItem)
-            print("updated \(selectedActivityItem)")
         }
     }
     
