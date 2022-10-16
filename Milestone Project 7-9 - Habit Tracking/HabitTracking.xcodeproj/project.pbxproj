@@ -43,8 +43,6 @@
 		8AF70B0C28FAEAC900E93F50 = {
 			isa = PBXGroup;
 			children = (
-				8AF70B2A28FB039100E93F50 /* ActivityItem.swift */,
-				8AF70B2C28FB046200E93F50 /* Activities.swift */,
 				8AF70B1728FAEAC900E93F50 /* HabitTracking */,
 				8AF70B1628FAEAC900E93F50 /* Products */,
 			);
@@ -61,6 +59,8 @@
 		8AF70B1728FAEAC900E93F50 /* HabitTracking */ = {
 			isa = PBXGroup;
 			children = (
+				8AF70B2A28FB039100E93F50 /* ActivityItem.swift */,
+				8AF70B2C28FB046200E93F50 /* Activities.swift */,
 				8AF70B1828FAEAC900E93F50 /* HabitTrackingApp.swift */,
 				8AF70B1A28FAEAC900E93F50 /* ContentView.swift */,
 				8AF70B2828FAF2CA00E93F50 /* ActivityCreationView.swift */,
