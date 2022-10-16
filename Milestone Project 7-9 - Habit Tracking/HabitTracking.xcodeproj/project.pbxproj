@@ -18,7 +18,7 @@
 		8AF70B2F28FBB83400E93F50 /* HTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B2E28FBB83400E93F50 /* HTButton.swift */; };
 		8AF70B3128FBBB7F00E93F50 /* UserDefaults+GetArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3028FBBB7F00E93F50 /* UserDefaults+GetArray.swift */; };
 		8AF70B3628FBFB2C00E93F50 /* CreateActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3528FBFB2C00E93F50 /* CreateActivityViewModel.swift */; };
-		8AF70B3828FBFF0500E93F50 /* HTTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3728FBFF0500E93F50 /* HTTextField.swift */; };
+		8AF70B3828FBFF0500E93F50 /* HTTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3728FBFF0500E93F50 /* HTTextInput.swift */; };
 		8AF70B3B28FC5AF300E93F50 /* ShowActivityDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3A28FC5AF300E93F50 /* ShowActivityDetailsViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +35,7 @@
 		8AF70B2E28FBB83400E93F50 /* HTButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTButton.swift; sourceTree = "<group>"; };
 		8AF70B3028FBBB7F00E93F50 /* UserDefaults+GetArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+GetArray.swift"; sourceTree = "<group>"; };
 		8AF70B3528FBFB2C00E93F50 /* CreateActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityViewModel.swift; sourceTree = "<group>"; };
-		8AF70B3728FBFF0500E93F50 /* HTTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTextField.swift; sourceTree = "<group>"; };
+		8AF70B3728FBFF0500E93F50 /* HTTextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTextInput.swift; sourceTree = "<group>"; };
 		8AF70B3A28FC5AF300E93F50 /* ShowActivityDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowActivityDetailsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,7 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				8AF70B2E28FBB83400E93F50 /* HTButton.swift */,
-				8AF70B3728FBFF0500E93F50 /* HTTextField.swift */,
+				8AF70B3728FBFF0500E93F50 /* HTTextInput.swift */,
 				8AF70B2828FAF2CA00E93F50 /* ActivityCreationView.swift */,
 				8AF70B2628FAEFF700E93F50 /* ActivityDetailView.swift */,
 			);
@@ -206,7 +206,7 @@
 				8AF70B3628FBFB2C00E93F50 /* CreateActivityViewModel.swift in Sources */,
 				8AF70B2728FAEFF700E93F50 /* ActivityDetailView.swift in Sources */,
 				8AF70B3128FBBB7F00E93F50 /* UserDefaults+GetArray.swift in Sources */,
-				8AF70B3828FBFF0500E93F50 /* HTTextField.swift in Sources */,
+				8AF70B3828FBFF0500E93F50 /* HTTextInput.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

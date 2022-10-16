@@ -33,9 +33,19 @@ struct ActivityCreationView: View {
             .frame(height: 80)
 
             VStack(alignment: .leading) {
-                HTTextField(title: "Title", prompt: createActivityVM.promptForTitle(), value: $createActivityVM.title)
+                HTTextInput(
+                    title: "Title",
+                    prompt: createActivityVM.promptForTitle(),
+                    value: $createActivityVM.title
+                )
                 
-                HTTextField(title: "Description", prompt: createActivityVM.promptForDescription(), iconSystemName: "note.text", value: $createActivityVM.description)
+                HTTextInput(
+                    title: "Description",
+                    prompt: createActivityVM.promptForDescription(),
+                    iconSystemName: "note.text",
+                    textInputType: .textEditor,
+                    value: $createActivityVM.description
+                )
                 
                 HStack(alignment: .center) {
                     Spacer()
