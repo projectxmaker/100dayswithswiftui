@@ -12,14 +12,15 @@ struct ContentView: View {
     @State private var showDeletionAlert = false
     @State private var deletedItem: ActivityItem?
     
-    @StateObject private var activities = Activities()
+    //@StateObject private var activities = Activities()
+    @StateObject private var showActivityListViewModel = ShowActivityListViewModel()
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(activities.list, id:\.id) { item in
+                ForEach(showActivityListViewModel.getActivities(), id:\.id) { item in
                     NavigationLink {
-                        ActivityDetailView(showActivityDetailsVM: ShowActivityDetailsViewModel(activities: activities, selectedActivityItem: item))
+                        //ActivityDetailView(showActivityDetailsVM: ShowActivityDetailsViewModel(activities: activities, selectedActivityItem: item))
                     } label: {
                         VStack(alignment: .leading) {
                             Text(item.title)
@@ -32,7 +33,7 @@ struct ContentView: View {
                 .onDelete { indexSet in
                     var deletedItems = [ActivityItem]()
                     for index in indexSet {
-                        deletedItems.append(activities.list[index])
+                        deletedItems.append(showActivityListViewModel.getActivities()[index])
                     }
                     deletedItem = deletedItems[0]
                     showDeletionAlert.toggle()
@@ -48,11 +49,11 @@ struct ContentView: View {
                 EditButton()
             }
             .sheet(isPresented: $showActivityCreationView) {
-                ActivityCreationView(createActivityVM: CreateActivityViewModel(activities: activities))
+                //ActivityCreationView(createActivityVM: CreateActivityViewModel(activities: activities))
             }
             .alert("Delete An Activity", isPresented: $showDeletionAlert, presenting: deletedItem) { deletedItem in
                 Button(role: .destructive) {
-                    activities.deleteActivityById(deletedItem.id)
+                    showActivityListViewModel.deleteActivityById(deletedItem.id)
                 } label: {
                     Text("Delete")
                 }

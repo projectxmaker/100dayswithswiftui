@@ -20,6 +20,7 @@
 		8AF70B3628FBFB2C00E93F50 /* CreateActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3528FBFB2C00E93F50 /* CreateActivityViewModel.swift */; };
 		8AF70B3828FBFF0500E93F50 /* HTTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3728FBFF0500E93F50 /* HTTextInput.swift */; };
 		8AF70B3B28FC5AF300E93F50 /* ShowActivityDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3A28FC5AF300E93F50 /* ShowActivityDetailsViewModel.swift */; };
+		8AF70B3F28FD477E00E93F50 /* ShowActivityListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70B3E28FD477E00E93F50 /* ShowActivityListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		8AF70B3528FBFB2C00E93F50 /* CreateActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityViewModel.swift; sourceTree = "<group>"; };
 		8AF70B3728FBFF0500E93F50 /* HTTextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTextInput.swift; sourceTree = "<group>"; };
 		8AF70B3A28FC5AF300E93F50 /* ShowActivityDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowActivityDetailsViewModel.swift; sourceTree = "<group>"; };
+		8AF70B3E28FD477E00E93F50 /* ShowActivityListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowActivityListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				8AF70B3A28FC5AF300E93F50 /* ShowActivityDetailsViewModel.swift */,
+				8AF70B3E28FD477E00E93F50 /* ShowActivityListViewModel.swift */,
 				8AF70B3528FBFB2C00E93F50 /* CreateActivityViewModel.swift */,
 			);
 			path = ViewModels;
@@ -206,6 +209,7 @@
 				8AF70B3628FBFB2C00E93F50 /* CreateActivityViewModel.swift in Sources */,
 				8AF70B2728FAEFF700E93F50 /* ActivityDetailView.swift in Sources */,
 				8AF70B3128FBBB7F00E93F50 /* UserDefaults+GetArray.swift in Sources */,
+				8AF70B3F28FD477E00E93F50 /* ShowActivityListViewModel.swift in Sources */,
 				8AF70B3828FBFF0500E93F50 /* HTTextInput.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

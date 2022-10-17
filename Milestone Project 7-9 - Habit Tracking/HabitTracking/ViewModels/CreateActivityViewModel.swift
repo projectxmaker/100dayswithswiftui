@@ -55,7 +55,7 @@ class CreateActivityViewModel: ObservableObject {
     func createActivity(extraAction: () -> Void) {
         if isAllInfoValid() {
             let newActivity = ActivityItem(title: title, description: description)
-            activities.list.insert(newActivity, at: 0)
+            //activities.list.insert(newActivity, at: 0)
             extraAction()
         }
     }

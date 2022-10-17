@@ -7,8 +7,8 @@
 
 import Foundation
 
-class Activities: ObservableObject {
-    @Published var list: [ActivityItem] {
+struct Activities {
+    private var list: [ActivityItem] {
         didSet {
             if let data = try? JSONEncoder().encode(list) {
                 UserDefaults.standard.set(data, forKey: activityItemsDataKey)
@@ -23,29 +23,22 @@ class Activities: ObservableObject {
     }
     
     // MARK: - Extra Functions
+    func getActivities() -> [ActivityItem] {
+        return list
+    }
     
-    func deleteActivityById(_ id: UUID) {
+    mutating func deleteActivityById(_ id: UUID) {
         list = list.filter { item in
             return item.id != id
         }
     }
     
-    func updateAnActivity(_ activityItem: ActivityItem) {
+    mutating func updateAnActivity(_ activityItem: ActivityItem) {
         guard let selectedIndex = list.firstIndex(of: activityItem) else {
             return
         }
         
         list[selectedIndex] = activityItem
-    }
-    
-    func updateCompletionCount(of updatedActivityItem: ActivityItem, newCompletionCount: Int) {
-        guard
-            newCompletionCount >= 0,
-            let selectedIndex = list.firstIndex(of: updatedActivityItem) else {
-            return
-        }
-        
-        list[selectedIndex].completionCount = newCompletionCount
     }
 }
 
