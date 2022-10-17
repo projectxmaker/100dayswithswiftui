@@ -24,8 +24,16 @@ struct ActivityListView: View {
                         VStack(alignment: .leading) {
                             Text(item.title)
                                 .font(.title.bold())
+                            
+                            HStack {
+                                Image(systemName: "flag.circle")
+                                //Text("Completion: \(item.getCompletionCountDescription())")
+                                Text("\(item.getCompletionCountDescription())")
+                                Spacer()
+                            }
+                            
                             Text(item.description)
-                            Text("Completion: \(item.getCompletionCountDescription())")
+                                .font(.caption)
                         }
                     }
                 }

@@ -15,10 +15,16 @@ struct ActivityDetailView: View {
             VStack {
                 Text(showActivityDetailsVM.selectedActivityItem.title)
                     .font(.title.bold())
+                
                 Text(showActivityDetailsVM.selectedActivityItem.description)
+                    .multilineTextAlignment(.center)
+                
+                Rectangle()
+                    .frame(width: 200, height: 2)
+                    .background(Color.gray.opacity(0.2))
                 
                 HStack(alignment: .center) {
-                    Text("Completion: \(showActivityDetailsVM.getCompletionCountDescription())")
+                    Text("You did \(showActivityDetailsVM.getCompletionCountDescription())")
                     Image(systemName: "minus.circle")
                         .foregroundColor(Color.accentColor)
                         .onTapGesture {
@@ -26,13 +32,9 @@ struct ActivityDetailView: View {
                         }
                 }
                 
-                Rectangle()
-                    .frame(width: 200, height: 2)
-                    .background(Color.gray.opacity(0.2))
-                
                 Text("Just completed this activity?")
                 
-                HTButton(title: "Tap Me!") {
+                HTButton(title: "Yes!") {
                     showActivityDetailsVM.increaseCompletionCount()
                 }
             }
