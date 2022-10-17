@@ -8,13 +8,13 @@
 import Foundation
 
 class CreateActivityViewModel: ObservableObject {
-    var activities: Activities
+    private var activityManager: ActivityManager
     
     @Published var title: String = ""
     @Published var description: String = ""
     
-    init(activities: Activities) {
-        self.activities = activities
+    init(activityManager: ActivityManager) {
+        self.activityManager = activityManager
     }
     
     // MARK - Extra Functions For Validation
@@ -55,7 +55,7 @@ class CreateActivityViewModel: ObservableObject {
     func createActivity(extraAction: () -> Void) {
         if isAllInfoValid() {
             let newActivity = ActivityItem(title: title, description: description)
-            //activities.list.insert(newActivity, at: 0)
+            activityManager.createNewActivity(newActivity)
             extraAction()
         }
     }

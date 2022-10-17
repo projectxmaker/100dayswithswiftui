@@ -8,15 +8,16 @@
 import Foundation
 
 class ShowActivityDetailsViewModel: ObservableObject {
-    var activities: Activities
+    private var activityManager: ActivityManager
+    
     var selectedActivityItem: ActivityItem {
         didSet {
-            activities.updateAnActivity(selectedActivityItem)
+            activityManager.updateAnActivity(selectedActivityItem)
         }
     }
     
-    init(activities: Activities, selectedActivityItem: ActivityItem) {
-        self.activities = activities
+    init(activityManager: ActivityManager, selectedActivityItem: ActivityItem) {
+        self.activityManager = activityManager
         self.selectedActivityItem = selectedActivityItem
     }
     

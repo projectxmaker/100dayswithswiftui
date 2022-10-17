@@ -8,13 +8,21 @@
 import Foundation
 
 class ShowActivityListViewModel: ObservableObject {
-    @Published private var activities = Activities()
+    private var activityManager: ActivityManager
+    
+    init(activityManager: ActivityManager) {
+        self.activityManager = activityManager
+    }
+    
+    func getActivityManager() -> ActivityManager {
+        return activityManager
+    }
     
     func getActivities() -> [ActivityItem] {
-        activities.getActivities()
+        activityManager.getActivities()
     }
     
     func deleteActivityById(_ id: UUID) {
-        activities.deleteActivityById(id)
+        activityManager.deleteActivityById(id)
     }
 }
