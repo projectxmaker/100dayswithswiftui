@@ -103,6 +103,7 @@
 		8AF70B3328FBBC2500E93F50 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8AF70B2C28FB046200E93F50 /* Activities.swift */,
 				8AF70B2A28FB039100E93F50 /* ActivityItem.swift */,
 			);
 			path = Model;
@@ -119,7 +120,6 @@
 		8AF70B3928FC580A00E93F50 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				8AF70B2C28FB046200E93F50 /* Activities.swift */,
 				8AF70B3A28FC5AF300E93F50 /* ShowActivityDetailsViewModel.swift */,
 				8AF70B3528FBFB2C00E93F50 /* CreateActivityViewModel.swift */,
 			);

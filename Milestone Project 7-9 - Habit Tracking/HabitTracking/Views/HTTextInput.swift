@@ -71,8 +71,10 @@ struct HTTextInput: View {
                 .padding(Edge.Set.leading, 10)
             }
             .frame(height: getFrameHeight())
-            .border(.gray, width: 0.5)
-            .clipShape(RoundedRectangle(cornerRadius: 2))
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
             
             Text(prompt)
                 .fixedSize(horizontal: false, vertical: true)

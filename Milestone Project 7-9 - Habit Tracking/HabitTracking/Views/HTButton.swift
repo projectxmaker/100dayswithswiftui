@@ -19,6 +19,7 @@ struct HTButton: View {
             .frame(width: 100, height: 40)
             .background(background)
             .clipShape(Capsule())
+            .shadow(color: .gray, radius: 2, x: 1, y: 1)
             .onTapGesture {
                 onTapGestureAction()
             }
