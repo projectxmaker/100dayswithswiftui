@@ -34,8 +34,12 @@ class Order: ObservableObject, Codable {
     @Published var city = ""
     @Published var zip = ""
     
+    func isValidInput(_ val: String) -> Bool {
+        !val.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+    
     var hasValidAddress: Bool {
-        if name.isEmpty || streetAddress.isEmpty || city.isEmpty || zip.isEmpty {
+        if !isValidInput(name) || !isValidInput(streetAddress) || !isValidInput(city) || !isValidInput(zip) {
             return false
         }
 
