@@ -10,12 +10,19 @@ import SwiftUI
 struct CheckoutView: View {
     @ObservedObject var order: Order
     
-    @State private var confirmationMessage = ""
-    @State private var showingConfirmation = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    @State private var showAlert = false
 
+    func showAlert(title: String, message: String) {
+        alertTitle = title
+        alertMessage = message
+        showAlert = true
+    }
+    
     func placeOrder() async {
         guard let encoded = try? JSONEncoder().encode(order) else {
-            print("Failed to encode order")
+            showAlert(title: "Oops!", message: "Failed to encode order")
             return
         }
         
@@ -28,10 +35,11 @@ struct CheckoutView: View {
             let (data, _) = try await URLSession.shared.upload(for: request, from: encoded)
             
             let decodedOrder = try JSONDecoder().decode(Order.self, from: data)
-            confirmationMessage = "Your order for \(decodedOrder.quantity)x \(Order.types[decodedOrder.type].lowercased()) cupcakes is on its way!"
-            showingConfirmation = true
+            let alertMessage = "Your order for \(decodedOrder.quantity)x \(Order.types[decodedOrder.type].lowercased()) cupcakes is on its way!"
+            
+            showAlert(title: "Thank you!", message: alertMessage)
         } catch {
-            print("Checkout failed.")
+            showAlert(title: "Oops!", message: "Checkout failed.")
         }
     }
     
@@ -60,10 +68,10 @@ struct CheckoutView: View {
         }
         .navigationTitle("Check out")
         .navigationBarTitleDisplayMode(.inline)
-        .alert("Thank you!", isPresented: $showingConfirmation) {
+        .alert(alertTitle, isPresented: $showAlert) {
             Button("OK") { }
         } message: {
-            Text(confirmationMessage)
+            Text(alertMessage)
         }
     }
 }
