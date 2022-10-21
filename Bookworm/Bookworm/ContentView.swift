@@ -16,6 +16,19 @@ struct ContentView: View {
 
     @State private var showingAddScreen = false
     
+    func deleteBooks(at offsets: IndexSet) {
+        for offset in offsets {
+            // find this book in our fetch request
+            let book = books[offset]
+
+            // delete it from the context
+            moc.delete(book)
+        }
+
+        // save the context
+        try? moc.save()
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -36,6 +49,9 @@ struct ContentView: View {
                         }
                     }
                 }
+                .onDelete { indexSet in
+                    deleteBooks(at: indexSet)
+                }
             }
            .navigationTitle("Bookworm")
            .toolbar {
@@ -45,6 +61,10 @@ struct ContentView: View {
                    } label: {
                        Label("Add Book", systemImage: "plus")
                    }
+               }
+               
+               ToolbarItem(placement: .navigationBarTrailing) {
+                   EditButton()
                }
            }
            .sheet(isPresented: $showingAddScreen) {
