@@ -13,17 +13,17 @@ struct AddBookView: View {
     @State private var title = ""
     @State private var author = ""
     @State private var rating = 3
-    @State private var genre = ""
+    @State private var genre = AddBookView.genres[0]
     @State private var review = ""
     
-    let genres = ["Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
+    static let genres = ["Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
 
     @Environment(\.dismiss) var dismiss
     
     func isAllFieldsValid() -> Bool {
         let isBookTitleValid = !title.trimmingCharacters(in: .whitespaces).isEmpty
         let isAuthorNameValid = !author.trimmingCharacters(in: .whitespaces).isEmpty
-        let isGenreValid = genres.contains(genre)
+        let isGenreValid = AddBookView.genres.contains(genre)
         
         return isBookTitleValid && isAuthorNameValid && isGenreValid
     }
@@ -50,7 +50,7 @@ struct AddBookView: View {
                     TextField("Author's name", text: $author)
 
                     Picker("Genre", selection: $genre) {
-                        ForEach(genres, id: \.self) {
+                        ForEach(AddBookView.genres, id: \.self) {
                             Text($0)
                         }
                     }
