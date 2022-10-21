@@ -19,12 +19,34 @@ struct AddBookView: View {
     let genres = ["Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
 
     @Environment(\.dismiss) var dismiss
-
+    
+    func isAllFieldsValid() -> Bool {
+        let isBookTitleValid = !title.trimmingCharacters(in: .whitespaces).isEmpty
+        let isAuthorNameValid = !author.trimmingCharacters(in: .whitespaces).isEmpty
+        let isGenreValid = genres.contains(genre)
+        
+        return isBookTitleValid && isAuthorNameValid && isGenreValid
+    }
+    
+    func save() {
+        let newBook = Book(context: moc)
+        newBook.id = UUID()
+        newBook.title = title
+        newBook.author = author
+        newBook.rating = Int16(rating)
+        newBook.genre = genre
+        newBook.review = review
+        
+        try? moc.save()
+        
+        dismiss()
+    }
+    
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Name of book", text: $title)
+                    TextField("Book's title", text: $title)
                     TextField("Author's name", text: $author)
 
                     Picker("Genre", selection: $genre) {
@@ -42,18 +64,13 @@ struct AddBookView: View {
                 }
 
                 Section {
-                    Button("Save") {
-                        let newBook = Book(context: moc)
-                        newBook.id = UUID()
-                        newBook.title = title
-                        newBook.author = author
-                        newBook.rating = Int16(rating)
-                        newBook.genre = genre
-                        newBook.review = review
-
-                        try? moc.save()
-                        
-                        dismiss()
+                    HStack {
+                        Spacer()
+                        Button("Save") {
+                            save()
+                        }
+                        .disabled(!isAllFieldsValid())
+                        Spacer()
                     }
                 }
             }

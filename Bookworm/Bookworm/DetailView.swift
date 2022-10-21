@@ -22,14 +22,25 @@ struct DetailView: View {
         dismiss()
     }
     
+    func getBookGerne() -> String {
+        guard
+            let genre = book.genre,
+            !genre.trimmingCharacters(in: .whitespaces).isEmpty
+        else {
+            return "Fantasy"
+        }
+        print(">>>>>\(genre)<<<<")
+        return genre
+    }
+    
     var body: some View {
         ScrollView {
             ZStack(alignment: .bottomTrailing) {
-                Image(book.genre ?? "Fantasy")
+                Image(getBookGerne())
                     .resizable()
                     .scaledToFit()
 
-                Text(book.genre?.uppercased() ?? "FANTASY")
+                Text(getBookGerne().uppercased())
                     .font(.caption)
                     .fontWeight(.black)
                     .padding(8)
