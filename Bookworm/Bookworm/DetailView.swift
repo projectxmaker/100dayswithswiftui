@@ -22,25 +22,37 @@ struct DetailView: View {
         dismiss()
     }
     
-    func getBookGerne() -> String {
+    func getBookGenre() -> String {
+        getDescription(of: book.genre, defaultString: "Fantasy")
+    }
+    
+    func getDescription(of info: String?, defaultString: String) -> String {
         guard
-            let genre = book.genre,
-            !genre.trimmingCharacters(in: .whitespaces).isEmpty
+            let val = info,
+            !val.trimmingCharacters(in: .whitespaces).isEmpty
         else {
-            return "Fantasy"
+            return defaultString
         }
-        print(">>>>>\(genre)<<<<")
-        return genre
+        
+        return val
+    }
+    
+    func getDateDescription() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .long
+        
+        return dateFormatter.string(from: book.date ?? .now)
     }
     
     var body: some View {
         ScrollView {
             ZStack(alignment: .bottomTrailing) {
-                Image(getBookGerne())
+                Image(getBookGenre())
                     .resizable()
                     .scaledToFit()
 
-                Text(getBookGerne().uppercased())
+                Text(getBookGenre().uppercased())
                     .font(.caption)
                     .fontWeight(.black)
                     .padding(8)
@@ -50,17 +62,21 @@ struct DetailView: View {
                     .offset(x: -5, y: -5)
             }
             
-            Text(book.author ?? "Unknown author")
+            Text(getDescription(of: book.author, defaultString: "Unknown author"))
                 .font(.title)
                 .foregroundColor(.secondary)
 
-            Text(book.review ?? "No review")
+            Text(getDescription(of: book.review, defaultString: "No review"))
                 .padding()
 
             RatingView(rating: .constant(Int(book.rating)))
                 .font(.largeTitle)
+            
+            Text(getDateDescription())
+                .padding()
+                .font(.caption2)
         }
-        .navigationTitle(book.title ?? "Unknown Book")
+        .navigationTitle(getDescription(of: book.title, defaultString: "Unknown book"))
         .navigationBarTitleDisplayMode(.inline)
         .alert("Delete book", isPresented: $showingDeleteAlert) {
             Button("Delete", role: .destructive, action: deleteBook)
