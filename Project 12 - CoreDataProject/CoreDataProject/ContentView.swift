@@ -10,11 +10,29 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
-    @State private var lastNameFilter = "A"
 
+    @State private var buttonName = "Show A"
+
+    func getFilterList() -> some View {
+        switch buttonName {
+        case "Show A":
+            return FilteredList(filterKey: "lastName", filterValue: "A") { (singer: Singer) in
+                Text("\(singer.wrappedFirstName) \(singer.wrappedLastName)")
+            }
+        case "Show B":
+            return FilteredList(filterKey: "lastName", filterValue: "S") {  (singer: Singer) in
+                Text("\(singer.wrappedFirstName) \(singer.wrappedLastName)")
+            }
+        default:
+            return FilteredList(filterKey: "lastName", filterValue: "S") {  (singer: Singer) in
+                Text("\(singer.wrappedFirstName) \(singer.wrappedLastName)")
+            }
+        }
+    }
+    
     var body: some View {
         VStack {
-            FilteredList(filter: lastNameFilter)
+            getFilterList()
             
             Button("Add Examples") {
                 let taylor = Singer(context: moc)
@@ -33,11 +51,11 @@ struct ContentView: View {
             }
             
             Button("Show A") {
-                lastNameFilter = "A"
-            }
+                buttonName = "Show A"
+           }
             
             Button("Show S") {
-                lastNameFilter = "S"
+                buttonName = "Show B"
             }
         }
     }
