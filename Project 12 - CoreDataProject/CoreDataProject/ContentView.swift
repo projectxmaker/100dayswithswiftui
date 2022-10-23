@@ -15,26 +15,37 @@ enum FilterComparionTypes: String, CaseIterable {
     case endsWith = "Ends with"
 }
 
+enum FilterEntityTypes: String, CaseIterable {
+    case country = "Country"
+    case candy = "Candy"
+}
+
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: []) var countries: FetchedResults<Country>
-
-    let searchForEntities = ["All", "Country", "Candy"]
     
     @State private var filterComparisonType = FilterComparionTypes.beginsWith
     @State private var filterKeyword = ""
-    @State private var filterForEntity = "All"
+    @State private var filterForEntity = FilterEntityTypes.country
     
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
-                    FilteredList(filterKey: "fullName", filterComparisionType: filterComparisonType, filterValue: filterKeyword) { (countries: FetchedResults<Country>) in
-                        ForEach(countries, id: \.self) { country in
-                            Section(country.wrappedFullName) {
-                                ForEach(country.candyArray, id: \.self) { candy in
-                                    Text(candy.wrappedName)
+                    if filterForEntity == .country {
+                        FilteredList(filterKeys: ["fullName", "shortName"], filterComparisionType: filterComparisonType, filterValue: filterKeyword) { (countries: FetchedResults<Country>) in
+                            ForEach(countries, id: \.self) { country in
+                                Section(country.wrappedFullName) {
+                                    ForEach(country.candyArray, id: \.self) { candy in
+                                        Text(candy.wrappedName)
+                                    }
                                 }
+                            }
+                        }
+                    } else {
+                        FilteredList(filterKeys: ["name"], filterComparisionType: filterComparisonType, filterValue: filterKeyword) { (candies: FetchedResults<Candy>) in
+                            ForEach(candies, id: \.self) { candy in
+                                getCandyText(candy: candy)
                             }
                         }
                     }
@@ -67,8 +78,8 @@ struct ContentView: View {
                                     .textInputAutocapitalization(.never)
                                 }
                                 Picker("", selection: $filterForEntity) {
-                                    ForEach(searchForEntities, id: \.self) { eachEntity in
-                                        Text(eachEntity)
+                                    ForEach(FilterEntityTypes.allCases, id: \.self) { eachEntity in
+                                        Text(eachEntity.rawValue)
                                     }
                                 }
                                 .pickerStyle(.segmented)
@@ -111,6 +122,22 @@ struct ContentView: View {
                     }
                 }
             }
+        }
+    }
+    
+    // MARK: - Extra Functions
+    
+    func getCandyText(candy: Candy) -> some View {
+        var countryInfo = ""
+        if let country = candy.origin {
+            countryInfo = country.wrappedFullName
+        }
+        
+        return VStack (alignment: .leading) {
+            Text(candy.wrappedName)
+                .font(.title)
+            Text(countryInfo)
+                .font(.caption)
         }
     }
 }

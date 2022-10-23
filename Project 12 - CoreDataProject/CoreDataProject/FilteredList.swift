@@ -14,12 +14,25 @@ struct FilteredList<T: NSManagedObject, Content: View>: View {
     // this is our content closure; we'll call this once for each item in the list
     let content: (FetchedResults<T>) -> Content
     
-    init(filterKey: String, filterComparisionType: FilterComparionTypes, filterValue: String, @ViewBuilder content: @escaping (FetchedResults<T>) -> Content) {
+    init(filterKeys: [String], filterComparisionType: FilterComparionTypes, filterValue: String, @ViewBuilder content: @escaping (FetchedResults<T>) -> Content) {
         let comparisonType = filterComparisionType.rawValue.replacingOccurrences(of: " ", with: "").uppercased()
 
+        // create compound predicate
+        var predicates = [NSPredicate]()
+        
+        if !filterValue.isEmpty {
+            for eachFilterKey in filterKeys {
+                predicates.append(NSPredicate(format: "ANY #\(eachFilterKey) \(comparisonType)[cd] %@", filterValue))
+            }
+        }
+        
+        let compoundPredicate = predicates.isEmpty ? nil : NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+            
+        
+        // create FetchRequest
         _fetchRequest = FetchRequest<T>(
             sortDescriptors: [],
-            predicate: NSPredicate(format: "%K \(comparisonType)[cd] %@", filterKey, filterValue))
+            predicate: compoundPredicate)
         self.content = content
     }
     
