@@ -31,49 +31,24 @@ struct ContentView: View {
     @State private var showFilterPanel = false
     @State private var resizeResultList = false
     
-    var sortDescriptorsOfCountry: [SortDescriptor<Country>] {
-        [
-            SortDescriptor(\.fullName, order: sortOrder),
-            SortDescriptor(\.shortName, order: sortOrder)
-        ]
-    }
-    
-    var sortDescriptorsOfCandy: [SortDescriptor<Candy>] {
-        [
-            SortDescriptor(\.name, order: sortOrder)
-        ]
-    }
-
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
                 ZStack {
                     VStack {
-                        VStack {
-                            if filterForEntity == .country {
-                                FilteredList(filterKeys: ["fullName", "shortName"], filterComparisionType: filterComparisonType, filterValue: filterKeyword, sortDescriptors: sortDescriptorsOfCountry) { (countries: FetchedResults<Country>) in
-                                    ForEach(countries, id: \.self) { country in
-                                        Section(country.wrappedFullName) {
-                                            ForEach(country.candyArray, id: \.self) { candy in
-                                                Text(candy.wrappedName)
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                FilteredList(filterKeys: ["name"], filterComparisionType: filterComparisonType, filterValue: filterKeyword, sortDescriptors: sortDescriptorsOfCandy) { (candies: FetchedResults<Candy>) in
-                                    ForEach(candies, id: \.self) { candy in
-                                        getCandyText(candy: candy)
-                                    }
-                                }
-                            }
-                        }
+                        displayResults()
                         Spacer(minLength: resizeResultList ? geometry.size.height * 1/3 : 0)
                     }
 
                     VStack {
                         Spacer()
-                        getSearchPanel(geometry)
+                        FilterPanel(
+                            filterComparisonType: $filterComparisonType,
+                            filterKeyword: $filterKeyword,
+                            filterForEntity: $filterForEntity,
+                            sortOrder: $sortOrder,
+                            showFilterPanel: $showFilterPanel,
+                            geometry: geometry)
                     }
                 }
                 .toolbar {
@@ -100,7 +75,42 @@ struct ContentView: View {
     
     // MARK: - Extra Functions
     
-    func getCandyText(candy: Candy) -> some View {
+    private func displayResults() -> some View {
+        var sortDescriptorsOfCountry: [SortDescriptor<Country>] {
+            [
+                SortDescriptor(\.fullName, order: sortOrder),
+                SortDescriptor(\.shortName, order: sortOrder)
+            ]
+        }
+        
+        var sortDescriptorsOfCandy: [SortDescriptor<Candy>] {
+            [
+                SortDescriptor(\.name, order: sortOrder)
+            ]
+        }
+        
+        return VStack {
+            if filterForEntity == .country {
+                FilteredList(filterKeys: ["fullName", "shortName"], filterComparisionType: filterComparisonType, filterValue: filterKeyword, sortDescriptors: sortDescriptorsOfCountry) { (countries: FetchedResults<Country>) in
+                    ForEach(countries, id: \.self) { country in
+                        Section(country.wrappedFullName) {
+                            ForEach(country.candyArray, id: \.self) { candy in
+                                Text(candy.wrappedName)
+                            }
+                        }
+                    }
+                }
+            } else {
+                FilteredList(filterKeys: ["name"], filterComparisionType: filterComparisonType, filterValue: filterKeyword, sortDescriptors: sortDescriptorsOfCandy) { (candies: FetchedResults<Candy>) in
+                    ForEach(candies, id: \.self) { candy in
+                        getCandyText(candy: candy)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func getCandyText(candy: Candy) -> some View {
         var countryInfo = ""
         if let country = candy.origin {
             countryInfo = country.wrappedFullName
@@ -111,7 +121,7 @@ struct ContentView: View {
         }
     }
     
-    func addSamplesButton() -> some View {
+    private func addSamplesButton() -> some View {
         Button("Add") {
             let candy1 = Candy(context: moc)
             candy1.name = "Mars"
@@ -137,66 +147,40 @@ struct ContentView: View {
             candy4.origin?.shortName = "CH"
             candy4.origin?.fullName = "Switzerland"
             
+            let candy5 = Candy(context: moc)
+            candy5.name = "Mè Xửng Huế"
+            candy5.origin = Country(context: moc)
+            candy5.origin?.shortName = "VN"
+            candy5.origin?.fullName = "Vietnam"
+            
+            let candy6 = Candy(context: moc)
+            candy6.name = "Kẹo Cu Đơ"
+            candy6.origin = Country(context: moc)
+            candy6.origin?.shortName = "VN"
+            candy6.origin?.fullName = "Vietnam"
+            
+            let candy7 = Candy(context: moc)
+            candy7.name = "Kẹo Dừa Bến Tre"
+            candy7.origin = Country(context: moc)
+            candy7.origin?.shortName = "VN"
+            candy7.origin?.fullName = "Vietnam"
+            
+            let candy8 = Candy(context: moc)
+            candy8.name = "Mứt Rong Sụn Phan Rang"
+            candy8.origin = Country(context: moc)
+            candy8.origin?.shortName = "VN"
+            candy8.origin?.fullName = "Vietnam"
+            
+            let candy9 = Candy(context: moc)
+            candy9.name = "Kẹo Sìu Châu Nam Định"
+            candy9.origin = Country(context: moc)
+            candy9.origin?.shortName = "VN"
+            candy9.origin?.fullName = "Vietnam"
+            
             try? moc.save()
         }
     }
     
-    func getSearchPanel(_ geometry: GeometryProxy) -> some View {
-        VStack {
-            Form {
-                Section {
-                    VStack {
-                        HStack {
-                            Picker("", selection: $filterComparisonType) {
-                                ForEach(FilterComparionTypes.allCases, id: \.self) { comparionType in
-                                    Text(comparionType.rawValue)
-                                }
-                            }
-                            .overlay {
-                                HStack {
-                                    Image(systemName: "chevron.up.chevron.down")
-                                        .font(.subheadline)
-                                    Text(filterComparisonType.rawValue)
-                                    Spacer()
-                                }
-                                .frame(maxWidth: .infinity)
-                                .background(.white)
-                            }
-                            .frame(width: 150)
-                            .padding(.trailing, -30)
-                            
-                            TextField(text: $filterKeyword) {
-                                Text("Keyword")
-                            }
-                            .textInputAutocapitalization(.never)
-                        }
-                        
-                        Picker("", selection: $filterForEntity) {
-                            ForEach(FilterEntityTypes.allCases, id: \.self) { eachEntity in
-                                Text(eachEntity.rawValue)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                    }
-                } header: {
-                    Text("Search")
-                }
-                
-                Section("Order by") {
-                    Picker("Order by: ", selection: $sortOrder) {
-                        Text("Accending").tag(SortOrder.forward)
-                        Text("Decreasing").tag(SortOrder.reverse)
-                    }
-                    .pickerStyle(.segmented)
-                }
-            }
-        }
-        .frame(maxHeight: showFilterPanel ? geometry.size.height/3 : 0)
-        .opacity(showFilterPanel ? 1 : 0)
-        .transition(.slide)
-        .animation(.easeInOut(duration: 0.5), value: showFilterPanel)
-        .layoutPriority(showFilterPanel ? 1 : 0)
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
