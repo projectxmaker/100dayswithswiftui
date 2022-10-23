@@ -32,8 +32,9 @@ struct ContentView: View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
+                    //["fullName", "shortName"]
                     if filterForEntity == .country {
-                        FilteredList(filterKeys: ["fullName", "shortName"], filterComparisionType: filterComparisonType, filterValue: filterKeyword) { (countries: FetchedResults<Country>) in
+                        FilteredList(filterKeys: ["candy.name"], filterComparisionType: filterComparisonType, filterValue: filterKeyword) { (countries: FetchedResults<Country>) in
                             ForEach(countries, id: \.self) { country in
                                 Section(country.wrappedFullName) {
                                     ForEach(country.candyArray, id: \.self) { candy in
@@ -133,11 +134,8 @@ struct ContentView: View {
             countryInfo = country.wrappedFullName
         }
         
-        return VStack (alignment: .leading) {
-            Text(candy.wrappedName)
-                .font(.title)
+        return Section(candy.wrappedName) {
             Text(countryInfo)
-                .font(.caption)
         }
     }
 }

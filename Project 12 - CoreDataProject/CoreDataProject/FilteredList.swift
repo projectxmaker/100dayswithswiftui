@@ -22,13 +22,12 @@ struct FilteredList<T: NSManagedObject, Content: View>: View {
         
         if !filterValue.isEmpty {
             for eachFilterKey in filterKeys {
-                predicates.append(NSPredicate(format: "ANY #\(eachFilterKey) \(comparisonType)[cd] %@", filterValue))
+                predicates.append(NSPredicate(format: "ANY \(eachFilterKey) \(comparisonType)[cd] %@", filterValue))
             }
         }
         
         let compoundPredicate = predicates.isEmpty ? nil : NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
-            
-        
+
         // create FetchRequest
         _fetchRequest = FetchRequest<T>(
             sortDescriptors: [],
