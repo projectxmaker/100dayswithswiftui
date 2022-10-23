@@ -27,14 +27,29 @@ struct ContentView: View {
     @State private var filterComparisonType = FilterComparionTypes.beginsWith
     @State private var filterKeyword = ""
     @State private var filterForEntity = FilterEntityTypes.country
+    @State private var sortOrder = SortOrder.forward
+    
+    var sortDescriptorsOfCountry: [SortDescriptor<Country>] {
+        [
+            SortDescriptor(\.fullName, order: sortOrder),
+            SortDescriptor(\.shortName, order: sortOrder)
+        ]
+    }
+    
+    var sortDescriptorsOfCandy: [SortDescriptor<Candy>] {
+        [
+            SortDescriptor(\.name, order: sortOrder)
+        ]
+    }
+    
+    
     
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
-                    //["fullName", "shortName"]
                     if filterForEntity == .country {
-                        FilteredList(filterKeys: ["candy.name"], filterComparisionType: filterComparisonType, filterValue: filterKeyword) { (countries: FetchedResults<Country>) in
+                        FilteredList(filterKeys: ["fullName", "shortName"], filterComparisionType: filterComparisonType, filterValue: filterKeyword, sortDescriptors: sortDescriptorsOfCountry) { (countries: FetchedResults<Country>) in
                             ForEach(countries, id: \.self) { country in
                                 Section(country.wrappedFullName) {
                                     ForEach(country.candyArray, id: \.self) { candy in
@@ -44,7 +59,7 @@ struct ContentView: View {
                             }
                         }
                     } else {
-                        FilteredList(filterKeys: ["name"], filterComparisionType: filterComparisonType, filterValue: filterKeyword) { (candies: FetchedResults<Candy>) in
+                        FilteredList(filterKeys: ["name"], filterComparisionType: filterComparisonType, filterValue: filterKeyword, sortDescriptors: sortDescriptorsOfCandy) { (candies: FetchedResults<Candy>) in
                             ForEach(candies, id: \.self) { candy in
                                 getCandyText(candy: candy)
                             }
@@ -78,6 +93,7 @@ struct ContentView: View {
                                     }
                                     .textInputAutocapitalization(.never)
                                 }
+                                
                                 Picker("", selection: $filterForEntity) {
                                     ForEach(FilterEntityTypes.allCases, id: \.self) { eachEntity in
                                         Text(eachEntity.rawValue)
@@ -88,8 +104,16 @@ struct ContentView: View {
                         } header: {
                             Text("Search")
                         }
+                        
+                        Section("Order by") {
+                            Picker("Order by: ", selection: $sortOrder) {
+                                Text("Accending").tag(SortOrder.forward)
+                                Text("Decreasing").tag(SortOrder.reverse)
+                            }
+                            .pickerStyle(.segmented)
+                        }
                     }
-                    .frame(maxHeight: geometry.size.height/5)
+                    .frame(maxHeight: geometry.size.height/3)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {

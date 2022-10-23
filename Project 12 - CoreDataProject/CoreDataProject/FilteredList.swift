@@ -14,7 +14,7 @@ struct FilteredList<T: NSManagedObject, Content: View>: View {
     // this is our content closure; we'll call this once for each item in the list
     let content: (FetchedResults<T>) -> Content
     
-    init(filterKeys: [String], filterComparisionType: FilterComparionTypes, filterValue: String, @ViewBuilder content: @escaping (FetchedResults<T>) -> Content) {
+    init(filterKeys: [String], filterComparisionType: FilterComparionTypes, filterValue: String, sortDescriptors: [SortDescriptor<T>], @ViewBuilder content: @escaping (FetchedResults<T>) -> Content) {
         let comparisonType = filterComparisionType.rawValue.replacingOccurrences(of: " ", with: "").uppercased()
 
         // create compound predicate
@@ -30,7 +30,7 @@ struct FilteredList<T: NSManagedObject, Content: View>: View {
 
         // create FetchRequest
         _fetchRequest = FetchRequest<T>(
-            sortDescriptors: [],
+            sortDescriptors: sortDescriptors,
             predicate: compoundPredicate)
         self.content = content
     }
