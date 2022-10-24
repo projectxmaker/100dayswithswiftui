@@ -26,7 +26,7 @@ struct ContentView: View {
                     LazyVGrid(columns: vGridLayout, alignment: .leading, spacing: 10) {
                         ForEach(userManager.users, id: \.id) { user in
                             NavigationLink {
-                                Text("\(user.name)")
+                                UserDetailsView(user: user)
                             } label: {
                                 HStack {
                                     Image(systemName: "person.circle")

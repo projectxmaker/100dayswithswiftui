@@ -19,4 +19,10 @@ struct User: Codable {
     var registered: String
     var tags: [String]
     var friends: [Friend]
+    
+    var wrappedRegistered: String {
+        guard let val = try? Date(registered, strategy: .iso8601).formatted(date: .abbreviated, time: .shortened) else { return "" }
+        
+        return val
+    }
 }
