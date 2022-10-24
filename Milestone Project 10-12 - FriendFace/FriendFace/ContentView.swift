@@ -29,19 +29,18 @@ struct ContentView: View {
                                 Text("\(user.name)")
                             } label: {
                                 HStack {
-                                    VStack(alignment: .leading, content: {
-                                        Text(user.name)
-                                            .font(.title)
-                                        
-                                        Text(user.isActive ? "Active" : "Inactive")
-                                            .font(.subheadline)
-                                    })
+                                    Image(systemName: "person.circle")
+                                        .font(.title)
+                                    
+                                    Text(user.name)
+                                        .font(.title3)
                                     
                                     Spacer()
                                     
                                     Image(systemName: "chevron.right")
                                         .font(.caption)
                                 }
+                                .foregroundColor(user.isActive ? .blue : .gray)
                                 .padding(.trailing, 10)
                             }
                         }
