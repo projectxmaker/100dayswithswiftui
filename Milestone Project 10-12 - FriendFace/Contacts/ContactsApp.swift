@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct FriendFaceApp: App {
+struct ContactsApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

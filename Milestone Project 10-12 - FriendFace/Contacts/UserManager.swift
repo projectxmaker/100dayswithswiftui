@@ -16,6 +16,7 @@ class UserManager: ObservableObject {
     func loadData(execute: @escaping (Bool) -> Void) async {
         guard let url = URL(string: userInfoURL)
         else {
+            execute(false)
             return
         }
         

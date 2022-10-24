@@ -47,7 +47,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("FriendFace")
+            .navigationTitle("Contacts")
             .padding()
             .task {
                 await userManager.loadData(execute: { isLoaded in

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8A75B00D2906777400C08597 /* FriendFaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B00C2906777400C08597 /* FriendFaceApp.swift */; };
+		8A75B00D2906777400C08597 /* ContactsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B00C2906777400C08597 /* ContactsApp.swift */; };
 		8A75B00F2906777400C08597 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B00E2906777400C08597 /* ContentView.swift */; };
 		8A75B0112906777700C08597 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A75B0102906777700C08597 /* Assets.xcassets */; };
 		8A75B0142906777900C08597 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A75B0132906777900C08597 /* Preview Assets.xcassets */; };
@@ -20,8 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8A75B0092906777300C08597 /* FriendFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8A75B00C2906777400C08597 /* FriendFaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFaceApp.swift; sourceTree = "<group>"; };
+		8A75B0092906777300C08597 /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A75B00C2906777400C08597 /* ContactsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsApp.swift; sourceTree = "<group>"; };
 		8A75B00E2906777400C08597 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A75B0102906777700C08597 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A75B0132906777900C08597 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -47,7 +47,7 @@
 		8A75B0002906777200C08597 = {
 			isa = PBXGroup;
 			children = (
-				8A75B00B2906777400C08597 /* FriendFace */,
+				8A75B00B2906777400C08597 /* Contacts */,
 				8A75B00A2906777300C08597 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,15 +55,15 @@
 		8A75B00A2906777300C08597 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8A75B0092906777300C08597 /* FriendFace.app */,
+				8A75B0092906777300C08597 /* Contacts.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8A75B00B2906777400C08597 /* FriendFace */ = {
+		8A75B00B2906777400C08597 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				8A75B00C2906777400C08597 /* FriendFaceApp.swift */,
+				8A75B00C2906777400C08597 /* ContactsApp.swift */,
 				8A75B00E2906777400C08597 /* ContentView.swift */,
 				8A75B02029069F0600C08597 /* UserDetailsView.swift */,
 				8A75B0242906C91000C08597 /* ScrollableInfo.swift */,
@@ -74,7 +74,7 @@
 				8A75B0102906777700C08597 /* Assets.xcassets */,
 				8A75B0122906777900C08597 /* Preview Content */,
 			);
-			path = FriendFace;
+			path = Contacts;
 			sourceTree = "<group>";
 		};
 		8A75B0122906777900C08597 /* Preview Content */ = {
@@ -88,9 +88,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8A75B0082906777300C08597 /* FriendFace */ = {
+		8A75B0082906777300C08597 /* Contacts */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8A75B0172906777900C08597 /* Build configuration list for PBXNativeTarget "FriendFace" */;
+			buildConfigurationList = 8A75B0172906777900C08597 /* Build configuration list for PBXNativeTarget "Contacts" */;
 			buildPhases = (
 				8A75B0052906777300C08597 /* Sources */,
 				8A75B0062906777300C08597 /* Frameworks */,
@@ -100,9 +100,9 @@
 			);
 			dependencies = (
 			);
-			name = FriendFace;
+			name = Contacts;
 			productName = FriendFace;
-			productReference = 8A75B0092906777300C08597 /* FriendFace.app */;
+			productReference = 8A75B0092906777300C08597 /* Contacts.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -120,7 +120,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8A75B0042906777300C08597 /* Build configuration list for PBXProject "FriendFace" */;
+			buildConfigurationList = 8A75B0042906777300C08597 /* Build configuration list for PBXProject "Contacts" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -133,7 +133,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8A75B0082906777300C08597 /* FriendFace */,
+				8A75B0082906777300C08597 /* Contacts */,
 			);
 		};
 /* End PBXProject section */
@@ -156,7 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A75B00F2906777400C08597 /* ContentView.swift in Sources */,
-				8A75B00D2906777400C08597 /* FriendFaceApp.swift in Sources */,
+				8A75B00D2906777400C08597 /* ContactsApp.swift in Sources */,
 				8A75B01B29067D4A00C08597 /* User.swift in Sources */,
 				8A75B01F29067E6F00C08597 /* UserManager.swift in Sources */,
 				8A75B0232906C85400C08597 /* TextFieldInfo.swift in Sources */,
@@ -219,7 +219,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -273,7 +273,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -290,7 +290,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"FriendFace/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Contacts/Preview Content\"";
 				DEVELOPMENT_TEAM = TT8TA55RWH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -305,7 +305,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.projectxmaker.100dosui.FriendFace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.projectxmaker.100dosui.Contacts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -320,7 +320,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"FriendFace/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Contacts/Preview Content\"";
 				DEVELOPMENT_TEAM = TT8TA55RWH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -335,7 +335,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.projectxmaker.100dosui.FriendFace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.projectxmaker.100dosui.Contacts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -346,7 +346,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8A75B0042906777300C08597 /* Build configuration list for PBXProject "FriendFace" */ = {
+		8A75B0042906777300C08597 /* Build configuration list for PBXProject "Contacts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8A75B0152906777900C08597 /* Debug */,
@@ -355,7 +355,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8A75B0172906777900C08597 /* Build configuration list for PBXNativeTarget "FriendFace" */ = {
+		8A75B0172906777900C08597 /* Build configuration list for PBXNativeTarget "Contacts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8A75B0182906777900C08597 /* Debug */,
