@@ -8,14 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
+    let vGridLayout: [GridItem] = [
+        GridItem(.adaptive(minimum: 200))
+    ]
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: vGridLayout, alignment: .leading, spacing: 10) {
+                    ForEach(0...200, id: \.self) { id in
+                        NavigationLink {
+                            Text("\(id)")
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, content: {
+                                    Text("Name \(id)")
+                                        .font(.title)
+                                    
+                                    Text("Active")
+                                        .font(.subheadline)
+                                })
+                                
+                                Spacer()
+                                
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                            }
+                            .padding(.trailing, 10)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("FriendFace")
+            .padding()
         }
-        .padding()
     }
 }
 
