@@ -8,7 +8,7 @@
 import CoreData
 
 class DataController {
-    let container = NSPersistentContainer(name: "ContactsModel")
+    let container = NSPersistentContainer(name: "Contacts")
     
     init() {
         container.loadPersistentStores { description, error in
