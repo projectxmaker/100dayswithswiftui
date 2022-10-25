@@ -12,10 +12,10 @@ struct ContactManager {
     let userInfoURL = "https://www.hackingwithswift.com/samples/friendface.json"
     
     // MARK: - Extra Funcs
-    func loadData(moc: NSManagedObjectContext, execute: (Bool) -> Void) async {
+    func loadData(moc: NSManagedObjectContext, execute: (Bool, Bool) -> Void) async {
         guard let url = URL(string: userInfoURL)
         else {
-            execute(false)
+            execute(false, false)
             return
         }
         
@@ -24,9 +24,9 @@ struct ContactManager {
             let decodedContacts = try JSONDecoder().decode([ContactModel].self, from: data)
             
             insertRemoteDataIntoDatabase(moc: moc, contacts: decodedContacts)
-            execute(true)
+            execute(true, decodedContacts.isEmpty ? false : true)
         } catch {
-            execute(false)
+            execute(false, false)
         }
     }
     

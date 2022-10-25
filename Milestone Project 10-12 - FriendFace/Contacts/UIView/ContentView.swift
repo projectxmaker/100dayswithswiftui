@@ -7,70 +7,72 @@
 
 import SwiftUI
 
+enum UserStatus {
+    case active
+    case inActive
+    case all
+}
+
 struct ContentView: View {
-    private var contactManager = ContactManager()
     @State private var showProgressView = true
-    
-    @Environment(\.managedObjectContext) var moc
-    @FetchRequest var fetchRequest: FetchedResults<Contact>
-    
-    let vGridLayout = [
-        GridItem(.adaptive(minimum: 200))
-    ]
+    @State private var filterKeyword = ""
+    @State private var sortOrder = SortOrder.forward
+    @State private var userStatus = UserStatus.all
+    @State private var showFilterPanel = false
+    @State private var resizeResultList = false
+    @State private var hasData = false
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                if showProgressView {
-                    ProgressView()
-                } else {
-                    if fetchRequest.isEmpty {
-                        Text("No data available!")
+        GeometryReader { geometry in
+            NavigationView {
+                
+                ZStack {
+                    if showProgressView {
+                        ProgressView()
+                    } else {
+                        if !hasData {
+                            Text("No data available!")
+                        }
+                    }
+                    
+                    VStack {
+                        ContactListView(filterKeyword: filterKeyword, sortOrder: sortOrder, userStatus: userStatus) { isLoaded, hasData in
+                            showProgressView = !isLoaded
+                            self.hasData = hasData
+                        }
+                        .padding()
+                        
+                        Spacer(minLength: resizeResultList ? geometry.size.height * 0.4 : 0)
+                    }
+                    
+                    VStack {
+                        Spacer()
+                        FilterPanelView(
+                            filterKeyword: $filterKeyword,
+                            sortOrder: $sortOrder,
+                            userStatus: $userStatus,
+                            showFilterPanel: $showFilterPanel,
+                            geometry: geometry
+                        )
                     }
                 }
-                
-                ScrollView {
-                    LazyVGrid(columns: vGridLayout, alignment: .leading, spacing: 10) {
-                        ForEach(fetchRequest, id: \.self) { contact in
-                            NavigationLink {
-                                ContactDetailsView(contactId: contact.wrappedId)
-                            } label: {
-                                HStack {
-                                    Image(systemName: "person.circle")
-                                        .font(.title)
-                                    
-                                    Text(contact.wrappedName)
-                                        .font(.title3)
-                                    
-                                    Spacer()
-                                    
-                                    Image(systemName: "chevron.right")
-                                        .font(.caption)
+                .navigationTitle("Contacts")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Filter") {
+                            showFilterPanel.toggle()
+                            
+                            if showFilterPanel {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                    resizeResultList.toggle()
                                 }
-                                .foregroundColor(contact.isActive ? .blue : .gray)
-                                .padding(.trailing, 10)
+                            } else {
+                                resizeResultList.toggle()
                             }
                         }
                     }
                 }
             }
-            .navigationTitle("Contacts")
-            .padding()
-            .task {
-                if fetchRequest.isEmpty {
-                    await contactManager.loadData(moc: moc, execute: { isLoaded in
-                        showProgressView = false
-                    })
-                } else {
-                    showProgressView = false
-                }
-            }
         }
-    }
-}
-
-extension ContentView {
-    init() {
-        _fetchRequest = FetchRequest(sortDescriptors: [])
     }
 }

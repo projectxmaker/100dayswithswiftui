@@ -23,6 +23,8 @@
 		8A75B04F2906D26E00C08597 /* ContactFriend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B04B2906D26E00C08597 /* ContactFriend+CoreDataClass.swift */; };
 		8A75B0502906D26E00C08597 /* ContactFriend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B04C2906D26E00C08597 /* ContactFriend+CoreDataProperties.swift */; };
 		8A75B0522906DB9100C08597 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0512906DB9100C08597 /* DataController.swift */; };
+		8A75B05A2907B9C000C08597 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0592907B9C000C08597 /* ContactListView.swift */; };
+		8A75B05C2907BAC300C08597 /* FilterPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B05B2907BAC300C08597 /* FilterPanelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		8A75B04B2906D26E00C08597 /* ContactFriend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactFriend+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8A75B04C2906D26E00C08597 /* ContactFriend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactFriend+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8A75B0512906DB9100C08597 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		8A75B0592907B9C000C08597 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
+		8A75B05B2907BAC300C08597 /* FilterPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPanelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 		8A75B0562907728A00C08597 /* UIView */ = {
 			isa = PBXGroup;
 			children = (
+				8A75B05B2907BAC300C08597 /* FilterPanelView.swift */,
+				8A75B0592907B9C000C08597 /* ContactListView.swift */,
 				8A75B0242906C91000C08597 /* ScrollableInfo.swift */,
 				8A75B0222906C85400C08597 /* TextFieldInfo.swift */,
 				8A75B00E2906777400C08597 /* ContentView.swift */,
@@ -205,7 +211,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A75B05A2907B9C000C08597 /* ContactListView.swift in Sources */,
 				8A75B00F2906777400C08597 /* ContentView.swift in Sources */,
+				8A75B05C2907BAC300C08597 /* FilterPanelView.swift in Sources */,
 				8A75B00D2906777400C08597 /* ContactsApp.swift in Sources */,
 				8A75B01B29067D4A00C08597 /* ContactModel.swift in Sources */,
 				8A75B01F29067E6F00C08597 /* ContactManager.swift in Sources */,
