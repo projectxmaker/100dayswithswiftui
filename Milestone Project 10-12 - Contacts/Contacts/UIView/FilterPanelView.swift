@@ -19,7 +19,7 @@ struct FilterPanelView: View {
     var body: some View {
         VStack {
             Form {
-                Section("Filter") {
+                Section("Filter (Name, Address, About)") {
                     TextField(text: $filterKeyword) {
                         Text("Keyword")
                     }

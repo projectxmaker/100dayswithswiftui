@@ -64,11 +64,13 @@ struct ContactManager {
                 let newFriend = ContactFriend(context: moc)
                 newFriend.id = friend.id
                 newFriend.name = friend.name
+                
                 newContact.addToFriends(newFriend)
             }
         }
         
         if moc.hasChanges {
+            print("done")
             try? moc.save()
         }
     }

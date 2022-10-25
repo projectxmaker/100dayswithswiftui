@@ -41,7 +41,8 @@ struct ContactListView: View {
             ]
         }
         
-        var predicates = [NSPredicate]()
+        var orKeywordPredicates = [NSPredicate]()
+        var allPredicates = [NSPredicate]()
         
         switch filterType {
         case .keyword:
@@ -49,14 +50,16 @@ struct ContactListView: View {
             
             if !filterKeyword.isEmpty {
                 for eachFilterKey in filterKeys {
-                    predicates.append(NSPredicate(format: "ANY \(eachFilterKey) like[cd] %@", "*\(filterKeyword)*"))
+                    orKeywordPredicates.append(NSPredicate(format: "ANY \(eachFilterKey) like[cd] %@", "*\(filterKeyword)*"))
                 }
             }
         case .tag:
-            predicates.append(NSPredicate(format: "ANY tags.id == %@", filterKeyword))
+            orKeywordPredicates.append(NSPredicate(format: "ANY tags.id == %@", filterKeyword))
         }
-
-        var compoundPredicate = predicates.isEmpty ? nil : NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        
+        if !orKeywordPredicates.isEmpty {
+            allPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: orKeywordPredicates))
+        }
         
         // user status
         if userStatus != UserStatus.all {
@@ -64,16 +67,15 @@ struct ContactListView: View {
             
             let userStatusPredicate = NSPredicate(format: "ANY isActive = %d", isActive)
             
-            compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
-                userStatusPredicate,
-                NSPredicate(format: "ANY isActive = %d", isActive)
-            ])
+            allPredicates.append(userStatusPredicate)
         }
 
+        let finalCompoundPredicates = allPredicates.isEmpty ? nil : NSCompoundPredicate(andPredicateWithSubpredicates: allPredicates)
+        
         // create FetchRequest
         _fetchRequest = FetchRequest<Contact>(
             sortDescriptors: sortDescriptors,
-            predicate: compoundPredicate)
+            predicate: finalCompoundPredicates)
         
         self.execute = execute
     }
