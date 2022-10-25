@@ -8,31 +8,38 @@
 import SwiftUI
 
 struct ContentView: View {
-    let vGridLayout: [GridItem] = [
+    private var contactManager = ContactManager()
+    @State private var showProgressView = true
+    
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest var fetchRequest: FetchedResults<Contact>
+    
+    let vGridLayout = [
         GridItem(.adaptive(minimum: 200))
     ]
-    
-    @StateObject var userManager = UserManager()
-    @State private var showProgressView = true
     
     var body: some View {
         NavigationView {
             ZStack {
                 if showProgressView {
                     ProgressView()
+                } else {
+                    if fetchRequest.isEmpty {
+                        Text("No data available!")
+                    }
                 }
                 
                 ScrollView {
                     LazyVGrid(columns: vGridLayout, alignment: .leading, spacing: 10) {
-                        ForEach(userManager.users, id: \.id) { user in
+                        ForEach(fetchRequest, id: \.self) { contact in
                             NavigationLink {
-                                UserDetailsView(user: user)
+                                ContactDetailsView(contact: contact)
                             } label: {
                                 HStack {
                                     Image(systemName: "person.circle")
                                         .font(.title)
                                     
-                                    Text(user.name)
+                                    Text(contact.wrappedName)
                                         .font(.title3)
                                     
                                     Spacer()
@@ -40,7 +47,7 @@ struct ContentView: View {
                                     Image(systemName: "chevron.right")
                                         .font(.caption)
                                 }
-                                .foregroundColor(user.isActive ? .blue : .gray)
+                                .foregroundColor(contact.isActive ? .blue : .gray)
                                 .padding(.trailing, 10)
                             }
                         }
@@ -50,16 +57,20 @@ struct ContentView: View {
             .navigationTitle("Contacts")
             .padding()
             .task {
-                await userManager.loadData(execute: { isLoaded in
+                if fetchRequest.isEmpty {
+                    await contactManager.loadData(moc: moc, execute: { isLoaded in
+                        showProgressView = false
+                    })
+                } else {
                     showProgressView = false
-                })
+                }
             }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+extension ContentView {
+    init() {
+        _fetchRequest = FetchRequest(sortDescriptors: [])
     }
 }

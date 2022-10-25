@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Friend: Codable {
+struct ContactFriendModel: Codable {
     var id: String
     var name: String
 }

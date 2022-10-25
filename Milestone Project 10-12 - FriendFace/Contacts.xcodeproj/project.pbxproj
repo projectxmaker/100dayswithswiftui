@@ -11,12 +11,18 @@
 		8A75B00F2906777400C08597 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B00E2906777400C08597 /* ContentView.swift */; };
 		8A75B0112906777700C08597 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A75B0102906777700C08597 /* Assets.xcassets */; };
 		8A75B0142906777900C08597 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A75B0132906777900C08597 /* Preview Assets.xcassets */; };
-		8A75B01B29067D4A00C08597 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B01A29067D4A00C08597 /* User.swift */; };
-		8A75B01D29067E1B00C08597 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B01C29067E1B00C08597 /* Friend.swift */; };
-		8A75B01F29067E6F00C08597 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B01E29067E6F00C08597 /* UserManager.swift */; };
-		8A75B02129069F0600C08597 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B02029069F0600C08597 /* UserDetailsView.swift */; };
+		8A75B01B29067D4A00C08597 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B01A29067D4A00C08597 /* ContactModel.swift */; };
+		8A75B01D29067E1B00C08597 /* ContactFriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B01C29067E1B00C08597 /* ContactFriendModel.swift */; };
+		8A75B01F29067E6F00C08597 /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B01E29067E6F00C08597 /* ContactManager.swift */; };
+		8A75B02129069F0600C08597 /* ContactDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B02029069F0600C08597 /* ContactDetailsView.swift */; };
 		8A75B0232906C85400C08597 /* TextFieldInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0222906C85400C08597 /* TextFieldInfo.swift */; };
 		8A75B0252906C91000C08597 /* ScrollableInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0242906C91000C08597 /* ScrollableInfo.swift */; };
+		8A75B0282906CD9500C08597 /* ContactsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0262906CD9500C08597 /* ContactsModel.xcdatamodeld */; };
+		8A75B04D2906D26E00C08597 /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0492906D26E00C08597 /* Contact+CoreDataClass.swift */; };
+		8A75B04E2906D26E00C08597 /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B04A2906D26E00C08597 /* Contact+CoreDataProperties.swift */; };
+		8A75B04F2906D26E00C08597 /* ContactFriend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B04B2906D26E00C08597 /* ContactFriend+CoreDataClass.swift */; };
+		8A75B0502906D26E00C08597 /* ContactFriend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B04C2906D26E00C08597 /* ContactFriend+CoreDataProperties.swift */; };
+		8A75B0522906DB9100C08597 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0512906DB9100C08597 /* DataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,12 +31,18 @@
 		8A75B00E2906777400C08597 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A75B0102906777700C08597 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A75B0132906777900C08597 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		8A75B01A29067D4A00C08597 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		8A75B01C29067E1B00C08597 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
-		8A75B01E29067E6F00C08597 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
-		8A75B02029069F0600C08597 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
+		8A75B01A29067D4A00C08597 /* ContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
+		8A75B01C29067E1B00C08597 /* ContactFriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactFriendModel.swift; sourceTree = "<group>"; };
+		8A75B01E29067E6F00C08597 /* ContactManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
+		8A75B02029069F0600C08597 /* ContactDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsView.swift; sourceTree = "<group>"; };
 		8A75B0222906C85400C08597 /* TextFieldInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldInfo.swift; sourceTree = "<group>"; };
 		8A75B0242906C91000C08597 /* ScrollableInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableInfo.swift; sourceTree = "<group>"; };
+		8A75B0272906CD9500C08597 /* User.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = User.xcdatamodel; sourceTree = "<group>"; };
+		8A75B0492906D26E00C08597 /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8A75B04A2906D26E00C08597 /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8A75B04B2906D26E00C08597 /* ContactFriend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactFriend+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8A75B04C2906D26E00C08597 /* ContactFriend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactFriend+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8A75B0512906DB9100C08597 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,14 +75,20 @@
 		8A75B00B2906777400C08597 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
+				8A75B0492906D26E00C08597 /* Contact+CoreDataClass.swift */,
+				8A75B04A2906D26E00C08597 /* Contact+CoreDataProperties.swift */,
+				8A75B04B2906D26E00C08597 /* ContactFriend+CoreDataClass.swift */,
+				8A75B04C2906D26E00C08597 /* ContactFriend+CoreDataProperties.swift */,
 				8A75B00C2906777400C08597 /* ContactsApp.swift */,
+				8A75B0512906DB9100C08597 /* DataController.swift */,
 				8A75B00E2906777400C08597 /* ContentView.swift */,
-				8A75B02029069F0600C08597 /* UserDetailsView.swift */,
+				8A75B02029069F0600C08597 /* ContactDetailsView.swift */,
 				8A75B0242906C91000C08597 /* ScrollableInfo.swift */,
 				8A75B0222906C85400C08597 /* TextFieldInfo.swift */,
-				8A75B01A29067D4A00C08597 /* User.swift */,
-				8A75B01C29067E1B00C08597 /* Friend.swift */,
-				8A75B01E29067E6F00C08597 /* UserManager.swift */,
+				8A75B01A29067D4A00C08597 /* ContactModel.swift */,
+				8A75B01C29067E1B00C08597 /* ContactFriendModel.swift */,
+				8A75B01E29067E6F00C08597 /* ContactManager.swift */,
+				8A75B0262906CD9500C08597 /* ContactsModel.xcdatamodeld */,
 				8A75B0102906777700C08597 /* Assets.xcassets */,
 				8A75B0122906777900C08597 /* Preview Content */,
 			);
@@ -157,12 +175,18 @@
 			files = (
 				8A75B00F2906777400C08597 /* ContentView.swift in Sources */,
 				8A75B00D2906777400C08597 /* ContactsApp.swift in Sources */,
-				8A75B01B29067D4A00C08597 /* User.swift in Sources */,
-				8A75B01F29067E6F00C08597 /* UserManager.swift in Sources */,
+				8A75B01B29067D4A00C08597 /* ContactModel.swift in Sources */,
+				8A75B01F29067E6F00C08597 /* ContactManager.swift in Sources */,
+				8A75B04F2906D26E00C08597 /* ContactFriend+CoreDataClass.swift in Sources */,
+				8A75B04D2906D26E00C08597 /* Contact+CoreDataClass.swift in Sources */,
 				8A75B0232906C85400C08597 /* TextFieldInfo.swift in Sources */,
-				8A75B02129069F0600C08597 /* UserDetailsView.swift in Sources */,
+				8A75B0522906DB9100C08597 /* DataController.swift in Sources */,
+				8A75B04E2906D26E00C08597 /* Contact+CoreDataProperties.swift in Sources */,
+				8A75B02129069F0600C08597 /* ContactDetailsView.swift in Sources */,
+				8A75B0282906CD9500C08597 /* ContactsModel.xcdatamodeld in Sources */,
 				8A75B0252906C91000C08597 /* ScrollableInfo.swift in Sources */,
-				8A75B01D29067E1B00C08597 /* Friend.swift in Sources */,
+				8A75B0502906D26E00C08597 /* ContactFriend+CoreDataProperties.swift in Sources */,
+				8A75B01D29067E1B00C08597 /* ContactFriendModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +389,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8A75B0262906CD9500C08597 /* ContactsModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8A75B0272906CD9500C08597 /* User.xcdatamodel */,
+			);
+			currentVersion = 8A75B0272906CD9500C08597 /* User.xcdatamodel */;
+			path = ContactsModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8A75B0012906777300C08597 /* Project object */;
 }

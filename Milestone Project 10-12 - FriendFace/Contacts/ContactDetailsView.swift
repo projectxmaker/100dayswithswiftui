@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct UserDetailsView: View {
-    var user: User
+struct ContactDetailsView: View {
+    var contact: Contact
     
     var body: some View {
         GeometryReader { geometry in
@@ -19,32 +19,32 @@ struct UserDetailsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: geometry.size.width / 2)
-                            .foregroundColor(user.isActive ? .blue : .gray)
+                            .foregroundColor(contact.isActive ? .blue : .gray)
                         
-                        Text(user.name)
+                        Text(contact.wrappedName)
                             .font(.largeTitle)
                         
-                        Text("\(user.age) years old")
+                        Text("\(contact.age) years old")
                             .font(.caption)
                     }
                     
-                    TextFieldInfo(label: "Company", content: user.company, geometry: geometry)
-                    TextFieldInfo(label: "Email", content: user.email, geometry: geometry)
-                    TextFieldInfo(label: "Address", content: user.address, geometry: geometry)
-                    ScrollableInfo(label: "About", content: user.about, geometry: geometry)
-                    TextFieldInfo(label: "Registered", content: user.wrappedRegistered, geometry: geometry)
-                    TextFieldInfo(label: "Tags", content: user.tags.joined(separator: ", "), geometry: geometry)
+                    TextFieldInfo(label: "Company", content: contact.wrappedCompany, geometry: geometry)
+                    TextFieldInfo(label: "Email", content: contact.wrappedEmail, geometry: geometry)
+                    TextFieldInfo(label: "Address", content: contact.wrappedAddress, geometry: geometry)
+                    ScrollableInfo(label: "About", content: contact.wrappedAbout, geometry: geometry)
+                    TextFieldInfo(label: "Registered", content: contact.wrappedRegistered, geometry: geometry)
+                    TextFieldInfo(label: "Tags", content: contact.wrappedTags, geometry: geometry)
                     
                     VStack(alignment: .leading, spacing: 0) {
                         Text("Friends")
                             .font(.headline)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                ForEach(user.friends, id: \.id) { friend in
+                                ForEach(contact.friendsArray, id: \.id) { friend in
                                     NavigationLink {
-                                        Text(friend.name)
+                                        Text(friend.wrappedName)
                                     } label: {
-                                        Text(friend.name)
+                                        Text(friend.wrappedName)
                                             .padding()
                                             .frame(height: 40)
                                             .foregroundColor(Color.white)
