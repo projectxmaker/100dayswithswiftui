@@ -70,7 +70,6 @@ struct ContactManager {
         }
         
         if moc.hasChanges {
-            print("done")
             try? moc.save()
         }
     }
