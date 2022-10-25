@@ -57,7 +57,6 @@ struct ContactListView: View {
             ])
         }
 
-        
         // create FetchRequest
         _fetchRequest = FetchRequest<Contact>(
             sortDescriptors: sortDescriptors,
@@ -75,10 +74,14 @@ struct ContactListView: View {
                     } label: {
                         HStack {
                             Image(systemName: "person.circle")
-                                .font(.title)
+                                .font(.largeTitle)
                             
-                            Text(contact.wrappedName)
-                                .font(.title3)
+                            VStack(alignment: .leading) {
+                                Text(contact.wrappedName)
+                                    .font(.title3)
+                                Text(contact.wrappedEmail)
+                                    .font(.caption)
+                            }
                             
                             Spacer()
                             
