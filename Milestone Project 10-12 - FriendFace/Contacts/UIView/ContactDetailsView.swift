@@ -35,35 +35,18 @@ struct ContactDetailsView: View {
                     }
                     
                     TextFieldInfo(label: "Company", content: contactDetail.wrappedCompany, geometry: geometry)
+                    
                     TextFieldInfo(label: "Email", content: contactDetail.wrappedEmail, geometry: geometry)
+                    
                     TextFieldInfo(label: "Address", content: contactDetail.wrappedAddress, geometry: geometry)
+                    
                     ScrollableInfo(label: "About", content: contactDetail.wrappedAbout, geometry: geometry)
+                    
                     TextFieldInfo(label: "Registered", content: contactDetail.wrappedRegistered, geometry: geometry)
+                    
                     TextFieldInfo(label: "Tags", content: contactDetail.wrappedTags, geometry: geometry)
                     
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Friends")
-                            .font(.headline)
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(contactDetail.friendsArray, id: \.id) { friend in
-                                    NavigationLink {
-                                        ContactDetailsView(contactId: friend.wrappedId)
-                                    } label: {
-                                        Text(friend.wrappedName)
-                                            .padding()
-                                            .frame(height: 40)
-                                            .foregroundColor(Color.white)
-                                            .background(Color.blue)
-                                            .clipShape(Capsule(style: .continuous))
-                                            .shadow(color: Color.gray, radius: 2, x: 0, y: 2)
-                                    }
-                                }
-                            }
-                        }
-                        .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
-                        .background(RoundedRectangle(cornerRadius: 10).fill(.thinMaterial))
-                    }
+                    ScrollableItems(label: "Friends", items: contactDetail.friendsArray)
                 }
             }
         }

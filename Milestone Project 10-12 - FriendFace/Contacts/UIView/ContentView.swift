@@ -42,7 +42,7 @@ struct ContentView: View {
                         }
                         .padding()
                         
-                        Spacer(minLength: resizeResultList ? geometry.size.height * 0.4 : 0)
+                        Spacer(minLength: resizeResultList ? geometry.size.height * 0.38 : 0)
                     }
                     
                     VStack {

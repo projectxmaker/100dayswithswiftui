@@ -25,6 +25,7 @@
 		8A75B0522906DB9100C08597 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0512906DB9100C08597 /* DataController.swift */; };
 		8A75B05A2907B9C000C08597 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0592907B9C000C08597 /* ContactListView.swift */; };
 		8A75B05C2907BAC300C08597 /* FilterPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B05B2907BAC300C08597 /* FilterPanelView.swift */; };
+		8AE990D02907D8940028CE00 /* ScrollableItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE990CF2907D8940028CE00 /* ScrollableItems.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		8A75B0512906DB9100C08597 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		8A75B0592907B9C000C08597 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		8A75B05B2907BAC300C08597 /* FilterPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPanelView.swift; sourceTree = "<group>"; };
+		8AE990CF2907D8940028CE00 /* ScrollableItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableItems.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				8A75B0222906C85400C08597 /* TextFieldInfo.swift */,
 				8A75B00E2906777400C08597 /* ContentView.swift */,
 				8A75B02029069F0600C08597 /* ContactDetailsView.swift */,
+				8AE990CF2907D8940028CE00 /* ScrollableItems.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				8A75B05C2907BAC300C08597 /* FilterPanelView.swift in Sources */,
 				8A75B00D2906777400C08597 /* ContactsApp.swift in Sources */,
 				8A75B01B29067D4A00C08597 /* ContactModel.swift in Sources */,
+				8AE990D02907D8940028CE00 /* ScrollableItems.swift in Sources */,
 				8A75B01F29067E6F00C08597 /* ContactManager.swift in Sources */,
 				8A75B04F2906D26E00C08597 /* ContactFriend+CoreDataClass.swift in Sources */,
 				8A75B04D2906D26E00C08597 /* Contact+CoreDataClass.swift in Sources */,
