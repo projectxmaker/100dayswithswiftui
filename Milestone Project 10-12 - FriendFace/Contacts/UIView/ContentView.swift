@@ -33,7 +33,7 @@ struct ContentView: View {
                     LazyVGrid(columns: vGridLayout, alignment: .leading, spacing: 10) {
                         ForEach(fetchRequest, id: \.self) { contact in
                             NavigationLink {
-                                ContactDetailsView(contact: contact)
+                                ContactDetailsView(contactId: contact.wrappedId)
                             } label: {
                                 HStack {
                                     Image(systemName: "person.circle")

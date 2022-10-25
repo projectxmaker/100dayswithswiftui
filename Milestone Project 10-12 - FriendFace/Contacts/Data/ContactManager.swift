@@ -11,10 +11,6 @@ import SwiftUI
 struct ContactManager {
     let userInfoURL = "https://www.hackingwithswift.com/samples/friendface.json"
     
-    init() {
-    }
-    
-    
     // MARK: - Extra Funcs
     func loadData(moc: NSManagedObjectContext, execute: (Bool) -> Void) async {
         guard let url = URL(string: userInfoURL)
@@ -37,6 +33,7 @@ struct ContactManager {
     func insertRemoteDataIntoDatabase(moc: NSManagedObjectContext, contacts: [ContactModel]) {
         for contact in contacts {
             let newContact = Contact(context: moc)
+            newContact.id = contact.id
             newContact.age = Int16(contact.age)
             newContact.name = contact.name
             newContact.company = contact.company

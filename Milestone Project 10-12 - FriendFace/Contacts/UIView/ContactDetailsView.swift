@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct ContactDetailsView: View {
-    var contact: Contact
+    @FetchRequest var fetchRequest: FetchedResults<Contact>
+    
+    var contactId: String
+    
+    private var contactDetail: Contact {
+        return getContactDetail()
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -19,30 +25,30 @@ struct ContactDetailsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: geometry.size.width / 2)
-                            .foregroundColor(contact.isActive ? .blue : .gray)
+                            .foregroundColor(contactDetail.isActive ? .blue : .gray)
                         
-                        Text(contact.wrappedName)
+                        Text(contactDetail.wrappedName)
                             .font(.largeTitle)
                         
-                        Text("\(contact.age) years old")
+                        Text("\(contactDetail.age) years old")
                             .font(.caption)
                     }
                     
-                    TextFieldInfo(label: "Company", content: contact.wrappedCompany, geometry: geometry)
-                    TextFieldInfo(label: "Email", content: contact.wrappedEmail, geometry: geometry)
-                    TextFieldInfo(label: "Address", content: contact.wrappedAddress, geometry: geometry)
-                    ScrollableInfo(label: "About", content: contact.wrappedAbout, geometry: geometry)
-                    TextFieldInfo(label: "Registered", content: contact.wrappedRegistered, geometry: geometry)
-                    TextFieldInfo(label: "Tags", content: contact.wrappedTags, geometry: geometry)
+                    TextFieldInfo(label: "Company", content: contactDetail.wrappedCompany, geometry: geometry)
+                    TextFieldInfo(label: "Email", content: contactDetail.wrappedEmail, geometry: geometry)
+                    TextFieldInfo(label: "Address", content: contactDetail.wrappedAddress, geometry: geometry)
+                    ScrollableInfo(label: "About", content: contactDetail.wrappedAbout, geometry: geometry)
+                    TextFieldInfo(label: "Registered", content: contactDetail.wrappedRegistered, geometry: geometry)
+                    TextFieldInfo(label: "Tags", content: contactDetail.wrappedTags, geometry: geometry)
                     
                     VStack(alignment: .leading, spacing: 0) {
                         Text("Friends")
                             .font(.headline)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                ForEach(contact.friendsArray, id: \.id) { friend in
+                                ForEach(contactDetail.friendsArray, id: \.id) { friend in
                                     NavigationLink {
-                                        Text(friend.wrappedName)
+                                        ContactDetailsView(contactId: friend.wrappedId)
                                     } label: {
                                         Text(friend.wrappedName)
                                             .padding()
@@ -63,5 +69,27 @@ struct ContactDetailsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .padding()
+    }
+    
+    // MARK - Extra Functions
+    func getContactDetail() -> Contact {
+        if !fetchRequest.isEmpty {
+            guard let contact = fetchRequest.first else {
+                return Contact()
+            }
+            
+            return contact
+        } else {
+            return Contact()
+        }
+    }
+}
+
+extension ContactDetailsView {
+    init(contactId: String) {
+        self.contactId = contactId
+        
+        let predicate = NSPredicate(format: "ANY id == %@", contactId)
+        _fetchRequest = FetchRequest<Contact>(sortDescriptors: [], predicate: predicate)
     }
 }
