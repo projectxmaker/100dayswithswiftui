@@ -2,7 +2,7 @@
 //  Contact+CoreDataProperties.swift
 //  Contacts
 //
-//  Created by Pham Anh Tuan on 10/24/22.
+//  Created by Pham Anh Tuan on 10/25/22.
 //
 //
 
@@ -11,23 +11,23 @@ import CoreData
 
 
 extension Contact {
-    
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Contact> {
         return NSFetchRequest<Contact>(entityName: "Contact")
     }
-    
-    @NSManaged public var id: String?
-    @NSManaged public var isActive: Bool
-    @NSManaged public var name: String?
+
+    @NSManaged public var about: String?
+    @NSManaged public var address: String?
     @NSManaged public var age: Int16
     @NSManaged public var company: String?
     @NSManaged public var email: String?
-    @NSManaged public var address: String?
-    @NSManaged public var about: String?
+    @NSManaged public var id: String?
+    @NSManaged public var isActive: Bool
+    @NSManaged public var name: String?
     @NSManaged public var registered: Date?
-    @NSManaged public var tags: String?
     @NSManaged public var friends: NSSet?
-    
+    @NSManaged public var tags: NSSet?
+
     var wrappedId: String {
         id ?? ""
     }
@@ -63,9 +63,13 @@ extension Contact {
     
         return registeredDate.formatted(date: .abbreviated, time: .shortened)
     }
-    
-    var wrappedTags: String {
-        tags ?? ""
+        
+    var tagsArray: [Tag] {
+        let set = tags as? Set<Tag> ?? []
+        
+        return set.sorted {
+            $0.wrappedName < $1.wrappedName
+        }
     }
     
     var friendsArray: [ContactFriend] {
@@ -74,7 +78,6 @@ extension Contact {
             $0.wrappedName < $1.wrappedName
         }
     }
-
 }
 
 // MARK: Generated accessors for friends
@@ -91,6 +94,23 @@ extension Contact {
 
     @objc(removeFriends:)
     @NSManaged public func removeFromFriends(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for tags
+extension Contact {
+
+    @objc(addTagsObject:)
+    @NSManaged public func addToTags(_ value: Tag)
+
+    @objc(removeTagsObject:)
+    @NSManaged public func removeFromTags(_ value: Tag)
+
+    @objc(addTags:)
+    @NSManaged public func addToTags(_ values: NSSet)
+
+    @objc(removeTags:)
+    @NSManaged public func removeFromTags(_ values: NSSet)
 
 }
 

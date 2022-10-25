@@ -40,11 +40,32 @@ struct ContactDetailsView: View {
                     
                     TextFieldInfo(label: "Address", content: contactDetail.wrappedAddress, geometry: geometry)
                     
-                    ScrollableInfo(label: "About", content: contactDetail.wrappedAbout, geometry: geometry)
+                    ScrollableInfo(label: "About", geometry: geometry) {
+                        Text(contactDetail.wrappedAbout)
+                    }
                     
                     TextFieldInfo(label: "Registered", content: contactDetail.wrappedRegistered, geometry: geometry)
                     
-                    TextFieldInfo(label: "Tags", content: contactDetail.wrappedTags, geometry: geometry)
+                    ScrollableInfo(label: "Tags", geometry: geometry, axis: .vertical, heightRatio: 0.1) {
+                        
+                        LazyVGrid(columns: [
+                            GridItem(.flexible()),
+                            GridItem(.flexible()),
+                            GridItem(.flexible())
+                        ]) {
+                            ForEach(contactDetail.tagsArray, id: \.id) { tag in
+                                NavigationLink {
+                                    ContactListView(filterType: .tag, filterKeyword: tag.wrappedId, sortOrder: SortOrder.forward, userStatus: .all) { isLoaded, hasData in
+                                            // all done
+                                    }
+                                    .navigationTitle("Tag \"\(tag.wrappedName)\"")
+                                } label: {
+                                    Text(tag.wrappedName)
+                                        .underline(true, color: Color.accentColor)
+                                }
+                            }
+                        }
+                    }
                     
                     ScrollableItems(label: "Friends", items: contactDetail.friendsArray)
                 }

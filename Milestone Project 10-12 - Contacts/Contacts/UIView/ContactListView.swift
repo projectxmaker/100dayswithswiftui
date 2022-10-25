@@ -7,23 +7,30 @@
 
 import SwiftUI
 
+enum FilterType {
+    case keyword
+    case tag
+}
+
 struct ContactListView: View {
     @FetchRequest private var fetchRequest: FetchedResults<Contact>
     @Environment(\.managedObjectContext) var moc
-    
+
+    var filterType = FilterType.keyword
     var filterKeyword: String
     var sortOrder: SortOrder
     var userStatus: UserStatus
     
     private var contactManager = ContactManager()
-    
+
     var execute: (Bool, Bool) -> Void
     
     let vGridLayout = [
         GridItem(.adaptive(minimum: 200))
     ]
     
-    init(filterKeyword: String, sortOrder: SortOrder, userStatus: UserStatus, execute: @escaping (Bool, Bool) -> Void) {
+    init(filterType: FilterType = FilterType.keyword, filterKeyword: String, sortOrder: SortOrder, userStatus: UserStatus, execute: @escaping (Bool, Bool) -> Void) {
+        self.filterType = filterType
         self.filterKeyword = filterKeyword
         self.sortOrder = sortOrder
         self.userStatus = userStatus
@@ -35,12 +42,18 @@ struct ContactListView: View {
         }
         
         var predicates = [NSPredicate]()
-        let filterKeys = ["name", "address", "about"]
         
-        if !filterKeyword.isEmpty {
-            for eachFilterKey in filterKeys {
-                predicates.append(NSPredicate(format: "ANY \(eachFilterKey) like[cd] %@", "*\(filterKeyword)*"))
+        switch filterType {
+        case .keyword:
+            let filterKeys = ["name", "address", "about"]
+            
+            if !filterKeyword.isEmpty {
+                for eachFilterKey in filterKeys {
+                    predicates.append(NSPredicate(format: "ANY \(eachFilterKey) like[cd] %@", "*\(filterKeyword)*"))
+                }
             }
+        case .tag:
+            predicates.append(NSPredicate(format: "ANY tags.id == %@", filterKeyword))
         }
 
         var compoundPredicate = predicates.isEmpty ? nil : NSCompoundPredicate(orPredicateWithSubpredicates: predicates)

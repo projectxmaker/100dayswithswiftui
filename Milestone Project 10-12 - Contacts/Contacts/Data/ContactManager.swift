@@ -15,22 +15,25 @@ struct ContactManager {
     func loadData(moc: NSManagedObjectContext, execute: (Bool, Bool) -> Void) async {
         guard let url = URL(string: userInfoURL)
         else {
-            execute(false, false)
+            execute(true, false)
             return
         }
-        
+
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decodedContacts = try JSONDecoder().decode([ContactModel].self, from: data)
             
             insertRemoteDataIntoDatabase(moc: moc, contacts: decodedContacts)
             execute(true, decodedContacts.isEmpty ? false : true)
+            
         } catch {
-            execute(false, false)
+            execute(true, false)
         }
     }
     
     func insertRemoteDataIntoDatabase(moc: NSManagedObjectContext, contacts: [ContactModel]) {
+        var tags = [String: Tag]()
+        
         for contact in contacts {
             let newContact = Contact(context: moc)
             newContact.id = contact.id
@@ -42,7 +45,20 @@ struct ContactManager {
             newContact.about = contact.about
             newContact.address = contact.address
             newContact.isActive = contact.isActive
-            newContact.tags = contact.tags.joined(separator: ", ")
+            
+            for tag in contact.tags {
+                // use existing tag if it exists already
+                if let existingTag = tags[tag] {
+                    newContact.addToTags(existingTag)
+                } else {
+                    let newTag = Tag(context: moc)
+                    newTag.id = UUID()
+                    newTag.name = tag
+                    tags[tag] = newTag
+
+                    newContact.addToTags(newTag)
+                }
+            }
             
             for friend in contact.friends {
                 let newFriend = ContactFriend(context: moc)
