@@ -15,7 +15,7 @@ struct ScrollableItems: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Friends")
+            Text(label)
                 .font(.headline)
             ScrollView(axis, showsIndicators: false) {
                 HStack {

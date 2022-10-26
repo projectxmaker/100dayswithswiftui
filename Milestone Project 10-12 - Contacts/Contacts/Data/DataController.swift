@@ -15,6 +15,8 @@ class DataController {
             if let error = error {
                 print("Cannot load data \(error.localizedDescription)")
             }
+            
+            self.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         }
     }
 }

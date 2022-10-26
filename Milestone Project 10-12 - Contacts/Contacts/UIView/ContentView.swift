@@ -22,6 +22,9 @@ struct ContentView: View {
     @State private var resizeResultList = false
     @State private var hasData = false
     
+    @Environment(\.managedObjectContext) var moc
+    private var contactManager = ContactManager()
+    
     var body: some View {
         GeometryReader { geometry in
             NavigationView {
@@ -73,6 +76,12 @@ struct ContentView: View {
                     }
                 }
             }
+        }
+        .task {
+            await contactManager.loadData(moc: moc, execute: { isLoaded, hasData in
+                // if app is showing data, just leave it like that, otherwise depending on the data have just been loaded from remote api.
+                self.hasData = self.hasData ? true : hasData
+            })
         }
     }
 }

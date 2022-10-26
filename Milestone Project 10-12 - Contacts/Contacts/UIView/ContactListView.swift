@@ -14,14 +14,11 @@ enum FilterType {
 
 struct ContactListView: View {
     @FetchRequest private var fetchRequest: FetchedResults<Contact>
-    @Environment(\.managedObjectContext) var moc
 
     var filterType = FilterType.keyword
     var filterKeyword: String
     var sortOrder: SortOrder
     var userStatus: UserStatus
-    
-    private var contactManager = ContactManager()
 
     var execute: (Bool, Bool) -> Void
     
@@ -109,16 +106,8 @@ struct ContactListView: View {
                 }
             }
         }
-        .task {
-            if fetchRequest.isEmpty {
-                await contactManager.loadData(moc: moc, execute: { isLoaded, hasData in
-                    // always return true at this phase means the process finished
-                    execute(isLoaded, hasData)
-                })
-            } else {
-                execute(true, true)
-            }
+        .onAppear {
+            execute(true, fetchRequest.isEmpty ? false : true)
         }
-
     }
 }

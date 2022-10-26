@@ -16,13 +16,11 @@ struct ContactModel: Codable {
     var email: String
     var address: String
     var about: String
-    var registered: String
+    var registered: Date
     var tags: [String]
     var friends: [ContactFriendModel]
     
     var wrappedRegistered: String {
-        guard let val = try? Date(registered, strategy: .iso8601).formatted(date: .abbreviated, time: .shortened) else { return "" }
-        
-        return val
+        registered.formatted(date: .abbreviated, time: .shortened)
     }
 }

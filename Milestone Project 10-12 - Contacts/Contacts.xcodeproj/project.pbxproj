@@ -18,14 +18,14 @@
 		8A75B0232906C85400C08597 /* TextFieldInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0222906C85400C08597 /* TextFieldInfo.swift */; };
 		8A75B0252906C91000C08597 /* ScrollableInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0242906C91000C08597 /* ScrollableInfo.swift */; };
 		8A75B0282906CD9500C08597 /* Contacts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0262906CD9500C08597 /* Contacts.xcdatamodeld */; };
-		8A75B04F2906D26E00C08597 /* ContactFriend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B04B2906D26E00C08597 /* ContactFriend+CoreDataClass.swift */; };
-		8A75B0502906D26E00C08597 /* ContactFriend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B04C2906D26E00C08597 /* ContactFriend+CoreDataProperties.swift */; };
 		8A75B0522906DB9100C08597 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0512906DB9100C08597 /* DataController.swift */; };
 		8A75B05A2907B9C000C08597 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B0592907B9C000C08597 /* ContactListView.swift */; };
 		8A75B05C2907BAC300C08597 /* FilterPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B05B2907BAC300C08597 /* FilterPanelView.swift */; };
+		8AA333952908E2DA00A6A48E /* ContactFriend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA333912908E2DA00A6A48E /* ContactFriend+CoreDataClass.swift */; };
+		8AA333962908E2DA00A6A48E /* ContactFriend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA333922908E2DA00A6A48E /* ContactFriend+CoreDataProperties.swift */; };
+		8AA333972908E2DA00A6A48E /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA333932908E2DA00A6A48E /* Contact+CoreDataClass.swift */; };
+		8AA333982908E2DA00A6A48E /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA333942908E2DA00A6A48E /* Contact+CoreDataProperties.swift */; };
 		8ACEAF9D2907FFB200F76278 /* TagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACEAF9C2907FFB200F76278 /* TagModel.swift */; };
-		8ACEAFA62908157300F76278 /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACEAFA22908157300F76278 /* Contact+CoreDataClass.swift */; };
-		8ACEAFA72908157300F76278 /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACEAFA32908157300F76278 /* Contact+CoreDataProperties.swift */; };
 		8ACEAFA82908157300F76278 /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACEAFA42908157300F76278 /* Tag+CoreDataClass.swift */; };
 		8ACEAFA92908157300F76278 /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACEAFA52908157300F76278 /* Tag+CoreDataProperties.swift */; };
 		8AE990D02907D8940028CE00 /* ScrollableItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE990CF2907D8940028CE00 /* ScrollableItems.swift */; };
@@ -44,14 +44,14 @@
 		8A75B0222906C85400C08597 /* TextFieldInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldInfo.swift; sourceTree = "<group>"; };
 		8A75B0242906C91000C08597 /* ScrollableInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableInfo.swift; sourceTree = "<group>"; };
 		8A75B0272906CD9500C08597 /* User.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = User.xcdatamodel; sourceTree = "<group>"; };
-		8A75B04B2906D26E00C08597 /* ContactFriend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactFriend+CoreDataClass.swift"; sourceTree = "<group>"; };
-		8A75B04C2906D26E00C08597 /* ContactFriend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactFriend+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8A75B0512906DB9100C08597 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		8A75B0592907B9C000C08597 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		8A75B05B2907BAC300C08597 /* FilterPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPanelView.swift; sourceTree = "<group>"; };
+		8AA333912908E2DA00A6A48E /* ContactFriend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactFriend+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8AA333922908E2DA00A6A48E /* ContactFriend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactFriend+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8AA333932908E2DA00A6A48E /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8AA333942908E2DA00A6A48E /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8ACEAF9C2907FFB200F76278 /* TagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagModel.swift; sourceTree = "<group>"; };
-		8ACEAFA22908157300F76278 /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
-		8ACEAFA32908157300F76278 /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8ACEAFA42908157300F76278 /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8ACEAFA52908157300F76278 /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8AE990CF2907D8940028CE00 /* ScrollableItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableItems.swift; sourceTree = "<group>"; };
@@ -108,12 +108,12 @@
 		8A75B0552907726800C08597 /* NSManagedObject Subclasses */ = {
 			isa = PBXGroup;
 			children = (
-				8ACEAFA22908157300F76278 /* Contact+CoreDataClass.swift */,
-				8ACEAFA32908157300F76278 /* Contact+CoreDataProperties.swift */,
+				8AA333912908E2DA00A6A48E /* ContactFriend+CoreDataClass.swift */,
+				8AA333922908E2DA00A6A48E /* ContactFriend+CoreDataProperties.swift */,
+				8AA333932908E2DA00A6A48E /* Contact+CoreDataClass.swift */,
+				8AA333942908E2DA00A6A48E /* Contact+CoreDataProperties.swift */,
 				8ACEAFA42908157300F76278 /* Tag+CoreDataClass.swift */,
 				8ACEAFA52908157300F76278 /* Tag+CoreDataProperties.swift */,
-				8A75B04B2906D26E00C08597 /* ContactFriend+CoreDataClass.swift */,
-				8A75B04C2906D26E00C08597 /* ContactFriend+CoreDataProperties.swift */,
 			);
 			path = "NSManagedObject Subclasses";
 			sourceTree = "<group>";
@@ -231,17 +231,17 @@
 				8AE990D02907D8940028CE00 /* ScrollableItems.swift in Sources */,
 				8ACEAFA92908157300F76278 /* Tag+CoreDataProperties.swift in Sources */,
 				8A75B01F29067E6F00C08597 /* ContactManager.swift in Sources */,
-				8A75B04F2906D26E00C08597 /* ContactFriend+CoreDataClass.swift in Sources */,
+				8AA333982908E2DA00A6A48E /* Contact+CoreDataProperties.swift in Sources */,
 				8A75B0232906C85400C08597 /* TextFieldInfo.swift in Sources */,
 				8ACEAF9D2907FFB200F76278 /* TagModel.swift in Sources */,
+				8AA333962908E2DA00A6A48E /* ContactFriend+CoreDataProperties.swift in Sources */,
 				8A75B0522906DB9100C08597 /* DataController.swift in Sources */,
-				8ACEAFA62908157300F76278 /* Contact+CoreDataClass.swift in Sources */,
-				8ACEAFA72908157300F76278 /* Contact+CoreDataProperties.swift in Sources */,
 				8ACEAFA82908157300F76278 /* Tag+CoreDataClass.swift in Sources */,
 				8A75B02129069F0600C08597 /* ContactDetailsView.swift in Sources */,
 				8A75B0282906CD9500C08597 /* Contacts.xcdatamodeld in Sources */,
+				8AA333952908E2DA00A6A48E /* ContactFriend+CoreDataClass.swift in Sources */,
+				8AA333972908E2DA00A6A48E /* Contact+CoreDataClass.swift in Sources */,
 				8A75B0252906C91000C08597 /* ScrollableInfo.swift in Sources */,
-				8A75B0502906D26E00C08597 /* ContactFriend+CoreDataProperties.swift in Sources */,
 				8A75B01D29067E1B00C08597 /* ContactFriendModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
