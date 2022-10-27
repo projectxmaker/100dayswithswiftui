@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var filterIntensity = 0.5
     @State private var showingImagePicker = false
     @State private var showingFilterSheet = false
+    @State private var showingSaveButton = false
 
     @State private var inputImage: UIImage?
     @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
@@ -40,6 +41,13 @@ struct ContentView: View {
                 .onTapGesture {
                     showingImagePicker = true
                 }
+                .onChange(of: image) { newValue in
+                    guard let _ = newValue else {
+                        return
+                    }
+                    
+                    showingSaveButton = true
+                }
 
                 HStack {
                     Text("Intensity")
@@ -58,6 +66,7 @@ struct ContentView: View {
                     Spacer()
 
                     Button("Save", action: save)
+                        .disabled(!showingSaveButton)
                 }
             }
             .padding([.horizontal, .bottom])
