@@ -6,85 +6,54 @@
 //
 
 import SwiftUI
-import PhotosUI
 
 struct ContentView: View {
     @State private var image: Image?
-    @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
-
-    func loadImage() {
-        guard let inputImage = inputImage else { return }
-        image = Image(uiImage: inputImage)
-    }
+    @State private var filterIntensity = 0.5
     
     var body: some View {
-        VStack {
-            image?
-                .resizable()
-                .scaledToFit()
+        NavigationView {
+            VStack {
+                ZStack {
+                    Rectangle()
+                        .fill(.secondary)
 
-            Button("Select Image") {
-               showingImagePicker = true
-            }
-            
-            Button("Save Image") {
-                guard let inputImage = inputImage else { return }
+                    Text("Tap to select a picture")
+                        .foregroundColor(.white)
+                        .font(.headline)
 
-                let imageSaver = ImageSaver()
-                imageSaver.writeToPhotoAlbum(image: inputImage)
-            }
-        }
-        .sheet(isPresented: $showingImagePicker) {
-            ImagePicker(image: $inputImage)
-        }
-        .onChange(of: inputImage) { _ in loadImage() }
-    }
-}
+                    image?
+                        .resizable()
+                        .scaledToFit()
+                }
+                .onTapGesture {
+                    // select an image
+                }
 
-struct ImagePicker: UIViewControllerRepresentable {
-    class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            // Tell the picker to go away
-            picker.dismiss(animated: true)
+                HStack {
+                    Text("Intensity")
+                    Slider(value: $filterIntensity)
+                }
+                .padding(.vertical)
 
-            // Exit if no selection was made
-            guard let provider = results.first?.itemProvider else { return }
+                HStack {
+                    Button("Change Filter") {
+                        // change filter
+                    }
 
-            // If this has an image we can use, use it
-            if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self) { image, _ in
-                    self.parent.image = image as? UIImage
+                    Spacer()
+
+                    Button("Save", action: save) {
+                        // save the picture
+                    }
                 }
             }
-        }
-        
-        var parent: ImagePicker
-
-        init(_ parent: ImagePicker) {
-            self.parent = parent
+            .padding([.horizontal, .bottom])
+            .navigationTitle("Instafilter")
         }
     }
     
-    @Binding var image: UIImage?
-
-    func makeUIViewController(context: Context) -> PHPickerViewController {
-        var config = PHPickerConfiguration()
-        config.filter = .images
-
-        let picker = PHPickerViewController(configuration: config)
-        
-        picker.delegate = context.coordinator
-
-        return picker
-    }
-    
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
-        
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+    func save() {
     }
 }
 

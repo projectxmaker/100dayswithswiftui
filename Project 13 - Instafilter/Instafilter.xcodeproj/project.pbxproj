@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8A9B6721290A010E0019831B /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B6720290A010E0019831B /* ImageSaver.swift */; };
+		8A9B6723290A03400019831B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B6722290A03400019831B /* ImagePicker.swift */; };
 		8AA333A6290923CC00A6A48E /* InstafilterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA333A5290923CC00A6A48E /* InstafilterApp.swift */; };
 		8AA333A8290923CC00A6A48E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA333A7290923CC00A6A48E /* ContentView.swift */; };
 		8AA333AA290923CE00A6A48E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AA333A9290923CE00A6A48E /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		8A9B6720290A010E0019831B /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
+		8A9B6722290A03400019831B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8AA333A2290923CC00A6A48E /* Instafilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instafilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AA333A5290923CC00A6A48E /* InstafilterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstafilterApp.swift; sourceTree = "<group>"; };
 		8AA333A7290923CC00A6A48E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 			children = (
 				8AA333A5290923CC00A6A48E /* InstafilterApp.swift */,
 				8AA333A7290923CC00A6A48E /* ContentView.swift */,
+				8A9B6722290A03400019831B /* ImagePicker.swift */,
 				8A9B6720290A010E0019831B /* ImageSaver.swift */,
 				8AA333A9290923CE00A6A48E /* Assets.xcassets */,
 				8AA333AB290923CE00A6A48E /* Preview Content */,
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AA333A8290923CC00A6A48E /* ContentView.swift in Sources */,
+				8A9B6723290A03400019831B /* ImagePicker.swift in Sources */,
 				8A9B6721290A010E0019831B /* ImageSaver.swift in Sources */,
 				8AA333A6290923CC00A6A48E /* InstafilterApp.swift in Sources */,
 			);
