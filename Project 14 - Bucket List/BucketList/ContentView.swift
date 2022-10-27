@@ -27,15 +27,30 @@ struct ContentView: View {
 //        Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
 //            MapMarker(coordinate: location.coordinate)
 //        }
-        Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
-            MapAnnotation(coordinate: location.coordinate) {
-                Circle()
-                    .stroke(.red, lineWidth: 3)
-                    .frame(width: 44, height: 44)
-                    .onTapGesture {
-                        print("Tapped on \(location.name)")
+//        Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
+//            MapAnnotation(coordinate: location.coordinate) {
+//                Circle()
+//                    .stroke(.red, lineWidth: 3)
+//                    .frame(width: 44, height: 44)
+//                    .onTapGesture {
+//                        print("Tapped on \(location.name)")
+//                    }
+//            }
+//        }
+        
+        NavigationView {
+            Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
+                MapAnnotation(coordinate: location.coordinate) {
+                    NavigationLink {
+                        Text(location.name)
+                    } label: {
+                        Circle()
+                            .stroke(.red, lineWidth: 3)
+                            .frame(width: 44, height: 44)
                     }
+                }
             }
+            .navigationTitle("London Explorer")
         }
     }
 }
