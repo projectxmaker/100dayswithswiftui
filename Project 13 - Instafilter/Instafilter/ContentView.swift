@@ -35,6 +35,7 @@ struct ContentView: View {
                     Text("Tap to select a picture")
                         .foregroundColor(.white)
                         .font(.headline)
+                        .scaleEffect(x: showingSaveButton ? 0 : 1, y: showingSaveButton ? 0 : 1)
 
                     image?
                         .resizable()
@@ -80,8 +81,6 @@ struct ContentView: View {
                                 applyProcessing()
                             }
                 }
-                
-                .padding(.vertical)
 
                 HStack {
                     Button("Change Filter") {
@@ -101,13 +100,18 @@ struct ContentView: View {
                 ImagePicker(image: $inputImage)
             }
             .confirmationDialog("Select a filter", isPresented: $showingFilterSheet) {
-                Button("Crystallize") { setFilter(CIFilter.crystallize()) }
-                Button("Edges") { setFilter(CIFilter.edges()) }
-                Button("Gaussian Blur") { setFilter(CIFilter.gaussianBlur()) }
-                Button("Pixellate") { setFilter(CIFilter.pixellate()) }
-                Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
-                Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
-                Button("Vignette") { setFilter(CIFilter.vignette()) }
+                Group {
+                    Button("Crystallize") { setFilter(CIFilter.crystallize()) }
+                    Button("Edges") { setFilter(CIFilter.edges()) }
+                    Button("Edge Work") { setFilter(CIFilter.edgeWork()) }
+                    Button("Gaussian Blur") { setFilter(CIFilter.gaussianBlur()) }
+                    Button("Pixellate") { setFilter(CIFilter.pixellate()) }
+                    Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
+                    Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
+                    Button("Vignette") { setFilter(CIFilter.vignette()) }
+                    Button("Bloom") { setFilter(CIFilter.bloom()) }
+                    Button("Gloom") { setFilter(CIFilter.gloom()) }
+                }
                 Button("Cancel", role: .cancel) { }
             }
         }
