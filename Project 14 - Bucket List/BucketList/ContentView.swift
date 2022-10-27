@@ -7,27 +7,31 @@
 
 import SwiftUI
 
-struct User: Identifiable, Comparable {
-    let id = UUID()
-    let firstName: String
-    let lastName: String
-    
-    static func <(lhs: User, rhs: User) -> Bool {
-        lhs.lastName < rhs.lastName
-    }
+struct User: Codable {
+    var name: String
 }
 
 struct ContentView: View {
-    let users = [
-        User(firstName: "Arnold", lastName: "Rimmer"),
-        User(firstName: "Kristine", lastName: "Kochanski"),
-        User(firstName: "David", lastName: "Lister"),
-    ].sorted()
-
     var body: some View {
-        List(users) { user in
-            Text("\(user.lastName), \(user.firstName)")
-        }
+        Text("Hello World")
+            .onTapGesture {
+                let arrUsers = [
+                    User(name: "Nam"),
+                    User(name: "Phuong"),
+                    User(name: "Bee"),
+                    User(name: "Vy")
+                ]
+                
+                let url = FileManager.default.encodeJSON("users", fileData: arrUsers)
+                
+                if let _ = url {
+                    let users: [User] = FileManager.default.decodeJSON("users")
+                    
+                    print(users)
+                } else {
+                    print("oops")
+                }
+            }
     }
 }
 
