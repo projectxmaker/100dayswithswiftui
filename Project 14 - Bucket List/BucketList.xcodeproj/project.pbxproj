@@ -15,6 +15,8 @@
 		8A2DB8E5290B673400BD36E5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB8E4290B673400BD36E5 /* Location.swift */; };
 		8A2DB8E7290B6C1E00BD36E5 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB8E6290B6C1E00BD36E5 /* EditView.swift */; };
 		8A2DB8E9290B7B9A00BD36E5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB8E8290B7B9A00BD36E5 /* Result.swift */; };
+		8A2DB8EB290B8FFE00BD36E5 /* ContentView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB8EA290B8FFE00BD36E5 /* ContentView-ViewModel.swift */; };
+		8A2DB8ED290B945D00BD36E5 /* FileManager-DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB8EC290B945D00BD36E5 /* FileManager-DocumentsDirectory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		8A2DB8E4290B673400BD36E5 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		8A2DB8E6290B6C1E00BD36E5 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		8A2DB8E8290B7B9A00BD36E5 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		8A2DB8EA290B8FFE00BD36E5 /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
+		8A2DB8EC290B945D00BD36E5 /* FileManager-DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager-DocumentsDirectory.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,7 +47,9 @@
 		8A2DB8C6290A794500BD36E5 = {
 			isa = PBXGroup;
 			children = (
+				8A2DB8EC290B945D00BD36E5 /* FileManager-DocumentsDirectory.swift */,
 				8A2DB8E8290B7B9A00BD36E5 /* Result.swift */,
+				8A2DB8EA290B8FFE00BD36E5 /* ContentView-ViewModel.swift */,
 				8A2DB8D1290A794500BD36E5 /* BucketList */,
 				8A2DB8D0290A794500BD36E5 /* Products */,
 			);
@@ -154,6 +160,8 @@
 				8A2DB8E7290B6C1E00BD36E5 /* EditView.swift in Sources */,
 				8A2DB8D3290A794500BD36E5 /* BucketListApp.swift in Sources */,
 				8A2DB8E5290B673400BD36E5 /* Location.swift in Sources */,
+				8A2DB8EB290B8FFE00BD36E5 /* ContentView-ViewModel.swift in Sources */,
+				8A2DB8ED290B945D00BD36E5 /* FileManager-DocumentsDirectory.swift in Sources */,
 				8A2DB8E3290A8B9400BD36E5 /* FileManager+EncodeAndDecodeJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
