@@ -70,6 +70,11 @@ struct ContentView: View {
                 viewModel.update(location: $0)
             }
         }
+        .alert("Alert", isPresented: $viewModel.showAlert, presenting: viewModel.alertMessage, actions: { alertMessage in
+            Button("OK", role: .cancel) {}
+        }, message: { alertMessage in
+            Text(alertMessage)
+        })
     }
 }
 
