@@ -10,13 +10,15 @@ import LocalAuthentication
 
 extension ContentView {
     @MainActor class ViewModel: ObservableObject {
-        @Published var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 50, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25))
+        @Published var mapRegion = ViewModel.defaultPlace
         @Published private(set) var locations: [Location]
         @Published var selectedPlace: Location?
         @Published var isUnlocked = false
         @Published var showAlert = false
         @Published var alertMessage: String?
 
+        static var defaultPlace = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 50, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25))
+        
         let savePath = FileManager.documentsDirectory.appendingPathComponent("SavedPlaces")
         
         init() {
