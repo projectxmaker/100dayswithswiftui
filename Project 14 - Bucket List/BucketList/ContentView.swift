@@ -8,14 +8,6 @@
 import SwiftUI
 import MapKit
 
-struct Location: Identifiable, Codable, Equatable {
-    let id: UUID
-    var name: String
-    var description: String
-    let latitude: Double
-    let longitude: Double
-}
-
 struct ContentView: View {
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 50, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25))
 
@@ -24,7 +16,18 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
-                MapMarker(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+                MapAnnotation(coordinate: location.coordinate) {
+                    VStack {
+                        Image(systemName: "star.circle")
+                            .resizable()
+                            .foregroundColor(.red)
+                            .frame(width: 44, height: 44)
+                            .background(.white)
+                            .clipShape(Circle())
+
+                        Text(location.name)
+                    }
+                }
             }
             .ignoresSafeArea()
             Circle()

@@ -12,6 +12,7 @@
 		8A2DB8D7290A794600BD36E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A2DB8D6290A794600BD36E5 /* Assets.xcassets */; };
 		8A2DB8DA290A794600BD36E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A2DB8D9290A794600BD36E5 /* Preview Assets.xcassets */; };
 		8A2DB8E3290A8B9400BD36E5 /* FileManager+EncodeAndDecodeJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB8E2290A8B9400BD36E5 /* FileManager+EncodeAndDecodeJSON.swift */; };
+		8A2DB8E5290B673400BD36E5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB8E4290B673400BD36E5 /* Location.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		8A2DB8D6290A794600BD36E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A2DB8D9290A794600BD36E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8A2DB8E2290A8B9400BD36E5 /* FileManager+EncodeAndDecodeJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+EncodeAndDecodeJSON.swift"; sourceTree = "<group>"; };
+		8A2DB8E4290B673400BD36E5 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			children = (
 				8A2DB8D2290A794500BD36E5 /* BucketListApp.swift */,
 				8A2DB8D4290A794500BD36E5 /* ContentView.swift */,
+				8A2DB8E4290B673400BD36E5 /* Location.swift */,
 				8A2DB8E2290A8B9400BD36E5 /* FileManager+EncodeAndDecodeJSON.swift */,
 				8A2DB8D6290A794600BD36E5 /* Assets.xcassets */,
 				8A2DB8D8290A794600BD36E5 /* Preview Content */,
@@ -142,6 +145,7 @@
 			files = (
 				8A2DB8D5290A794500BD36E5 /* ContentView.swift in Sources */,
 				8A2DB8D3290A794500BD36E5 /* BucketListApp.swift in Sources */,
+				8A2DB8E5290B673400BD36E5 /* Location.swift in Sources */,
 				8A2DB8E3290A8B9400BD36E5 /* FileManager+EncodeAndDecodeJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
