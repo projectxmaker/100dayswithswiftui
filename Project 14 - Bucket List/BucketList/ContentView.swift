@@ -13,6 +13,8 @@ struct ContentView: View {
 
     @State private var locations = [Location]()
 
+    @State private var selectedPlace: Location?
+    
     var body: some View {
         ZStack {
             Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
@@ -26,6 +28,9 @@ struct ContentView: View {
                             .clipShape(Circle())
 
                         Text(location.name)
+                    }
+                    .onTapGesture {
+                        selectedPlace = location
                     }
                 }
             }
@@ -51,6 +56,13 @@ struct ContentView: View {
                     .font(.title)
                     .clipShape(Circle())
                     .padding(.trailing)
+                }
+            }
+        }
+        .sheet(item: $selectedPlace) { place in
+            EditView(location: place) { newLocation in
+                if let index = locations.firstIndex(of: place) {
+                    locations[index] = newLocation
                 }
             }
         }
