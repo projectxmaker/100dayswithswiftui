@@ -36,6 +36,7 @@ struct ContentView: View {
                                     .scaledToFit()
                                     .frame(width: 100, height: 100)
                                     .padding()
+                                    .accessibilityHidden(true)
                                 
                                 VStack {
                                     Text(mission.displayName)
@@ -48,16 +49,15 @@ struct ContentView: View {
                                 .padding(.vertical)
                                 .frame(maxWidth: .infinity)
                                 .background(.lightBackground)
-                                
+                                .accessibilityElement()
+                                .accessibilityLabel(mission.displayName)
+                                .accessibilityHint(mission.formattedLaunchDate != "N/A" ? "Launch date: \(mission.formattedLaunchDate)" : "")
                             }
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(.lightBackground)
                             )
-                            .accessibilityElement()
-                            .accessibilityLabel(mission.displayName)
-                            .accessibilityHint("Launch date: \(mission.formattedLaunchDate)")
                         }
                     }
                 }
