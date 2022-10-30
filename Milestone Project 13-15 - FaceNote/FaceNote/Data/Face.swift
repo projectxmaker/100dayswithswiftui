@@ -7,8 +7,12 @@
 
 import Foundation
 
-struct Face: Codable, Identifiable {
+struct Face: Codable, Identifiable, Equatable {
     let id: UUID
     let name: String
-    let picture: String
+    var picture: String
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
+    }
 }

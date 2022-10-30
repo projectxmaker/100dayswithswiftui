@@ -19,19 +19,26 @@ extension ListView {
             faces = dataController.getFaceList()
         }
         
-        func createNewFace(action: @escaping (Bool, Face?) -> Void) {
+        func createNewFace(actionBefore: (Bool) -> Void, actionAfter: @escaping (Bool, Face?) -> Void) {
             guard let faceImage = newFaceImage else {
-                action(false, nil)
+                actionBefore(false)
                 return
             }
             
-            dataController.createNewFace(uiImage: faceImage, name: newFaceName) { succeeded, newFace in
-                
+            // create a place holder for new Face on List
+            dataController.createNewFace(uiImage: faceImage, name: newFaceName) { newFace in
+                // create a place holder for new Face on List
+                self.faces.insert(newFace, at: 0)
+                actionBefore(true)
+            } actionAfter: { succeeded, newFace in
+                // update new Face to relating place holder on List
                 if let newFace = newFace {
-                    self.faces.insert(newFace, at: 0)
+                    if let tobeUpdatedFaceIndex = self.faces.firstIndex(of: newFace) {
+                        self.faces[tobeUpdatedFaceIndex] = newFace
+                    }
                 }
                 
-                action(succeeded, newFace)
+                actionAfter(succeeded, newFace)
             }
         }
     }

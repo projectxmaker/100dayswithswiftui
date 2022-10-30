@@ -41,17 +41,25 @@ struct ListView: View {
                 ScrollView {
                     LazyVGrid(columns: listVGridColumns) {
                         ForEach(viewModel.faces) { face in
-                            VStack {
-                                if let data = try? Data(contentsOf: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.id.uuidString)), let loaded = UIImage(data: data) {
-                                    Image(uiImage: loaded)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(maxWidth: 100, maxHeight: 100)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                        .shadow(color: .gray, radius: 10, x: 1, y: 1)
-                                    
+                            if face.picture.isEmpty {
+                                ProgressView()
+                                    .frame(maxWidth: 100, maxHeight: 100)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .shadow(color: .gray, radius: 10, x: 1, y: 1)
+                            } else {
+                                VStack {
+                                    if let data = try? Data(contentsOf: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.id.uuidString)), let loaded = UIImage(data: data) {
+                                        Image(uiImage: loaded)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(maxWidth: 100, maxHeight: 100)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                            .shadow(color: .gray, radius: 10, x: 1, y: 1)
+                                        
+                                    }
+                                    Text(face.name)
                                 }
-                                Text(face.name)
+                                
                             }
                         }
                     }
@@ -110,15 +118,17 @@ struct ListView: View {
                         .buttonStyle(.bordered)
                         
                         Button {
-                            // save name
-                            viewModel.createNewFace { result, newFace in
-                                
-                                print("create new face \(result)")
-                                newFaceName = ""
-                                
-                                // close this form
-                                sceneFlow = .list
-                            }
+                            sceneFlow = .list
+//                            // save name
+//                            viewModel.createNewFace { succeeded in
+//                                newFaceName = ""
+//                                print("start closing the form for new face")
+//                                // close this form
+//                                sceneFlow = .list
+//                                print("close the form for new face")
+//                            } actionAfter: { succeeded, newFace in
+//                                print("update new face \(newFace?.name)")
+//                            }
                         } label: {
                             Text("Create")
                         }

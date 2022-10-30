@@ -24,29 +24,35 @@ class DataController {
         return faces
     }
     
-    func createNewFace(uiImage: UIImage, name: String, action: @escaping (Bool, Face?) -> Void) {
+    func createNewFace(uiImage: UIImage, name: String, actionBefore: (Face) -> Void, actionAfter: @escaping (Bool, Face?) -> Void) {
         let faceId = UUID()
         
-        if let faceImageURL = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString) {
-            
-            var picturePath = ""
-            if #available(iOS 16, *) {
-                picturePath = faceImageURL.path()
+        var newFace = Face(id: faceId, name: name, picture: "")
+        actionBefore(newFace)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            if let faceImageURL = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString) {
+                
+                var picturePath = ""
+                if #available(iOS 16, *) {
+                    picturePath = faceImageURL.path()
+                } else {
+                    picturePath = faceImageURL.path
+                }
+                
+                //let newFace = Face(id: faceId, name: name, picture: picturePath)
+                newFace.picture = picturePath
+                
+                self.faces.insert(newFace, at: 0)
+                
+                if let _ = FileManager.default.encodeJSON(self.jsonFileName, fileData: self.faces) {
+                    actionAfter(true, newFace)
+                } else {
+                    actionAfter(false, nil)
+                }
             } else {
-                picturePath = faceImageURL.path
+                actionAfter(false, nil)
             }
-            
-            let newFace = Face(id: faceId, name: name, picture: picturePath)
-            
-            faces.append(newFace)
-            
-            if let _ = FileManager.default.encodeJSON(jsonFileName, fileData: self.faces) {
-                action(true, newFace)
-            } else {
-                action(false, nil)
-            }
-        } else {
-            action(false, nil)
         }
     }
 }
