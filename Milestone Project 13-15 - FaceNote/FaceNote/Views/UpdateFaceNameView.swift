@@ -8,19 +8,22 @@
 import SwiftUI
 
 struct UpdateFaceNameView: View {
+    @StateObject private var viewModel: ViewModel
     var geometry: GeometryProxy
-    var newFaceImage: UIImage
     
     @Binding var newFaceName: String
     @FocusState private var isTextFieldNameFocused: Bool
-    @State private var faceName: String = ""
-    
-    var actionCancel: () -> Void
-    var actionCreate: () -> Void
 
+    init(geometry: GeometryProxy, newFaceImage: UIImage, newFaceName: Binding<String>, actionCancel: @escaping () -> Void, actionCreate: @escaping () -> Void) {
+        self.geometry = geometry
+        self._newFaceName = newFaceName
+        
+        self._viewModel = StateObject(wrappedValue: ViewModel(newFaceImage: newFaceImage, actionCancel: actionCancel, actionCreate: actionCreate))
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
-            Image(uiImage: newFaceImage)
+            Image(uiImage: viewModel.newFaceImage)
                 .resizable()
                 .scaledToFill()
                 .padding(1)
@@ -29,7 +32,7 @@ struct UpdateFaceNameView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .shadow(color: .gray, radius: 10, x: 1, y: 1)
 
-            TextField(text: $faceName, prompt: Text("Enter name here")) {
+            TextField(text: $viewModel.faceName, prompt: Text("Enter name here")) {
                 Text("Name")
             }
             .focused($isTextFieldNameFocused)
@@ -42,22 +45,31 @@ struct UpdateFaceNameView: View {
             .onAppear {
                 isTextFieldNameFocused.toggle()
             }
-            .onChange(of: faceName) { newValue in
+            .onChange(of: viewModel.faceName) { newValue in
                 newFaceName = newValue
             }
+            
+            if !viewModel.isFaceNameValid() {
+                Text("Name must have at least 1 character")
+                    .font(.caption)
+                    .foregroundColor(.red)
+                    .padding(.top, 5)
+            }
+                
 
             HStack {
                 Button("Cancel", role: .cancel) {
-                    actionCancel()
+                    viewModel.actionCancel()
                 }
                 .buttonStyle(.bordered)
                 
                 Button {
-                    actionCreate()
+                    viewModel.actionCreate()
                 } label: {
                     Text("Create")
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(!viewModel.isFaceNameValid())
             }
             .padding([.top], 20)
 
