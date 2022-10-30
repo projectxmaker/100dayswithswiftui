@@ -24,7 +24,7 @@ class DataController {
         return faces
     }
     
-    func createNewFace(uiImage: UIImage, name: String, action: (Bool, Face?) -> Void) {
+    func createNewFace(uiImage: UIImage, name: String, action: @escaping (Bool, Face?) -> Void) {
         let faceId = UUID()
         
         if let faceImageURL = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString) {
@@ -42,9 +42,9 @@ class DataController {
             
             if let _ = FileManager.default.encodeJSON(jsonFileName, fileData: self.faces) {
                 action(true, newFace)
+            } else {
+                action(false, nil)
             }
-            
-            action(false, nil)
         } else {
             action(false, nil)
         }

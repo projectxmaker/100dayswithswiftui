@@ -19,7 +19,7 @@ extension ListView {
             faces = dataController.getFaceList()
         }
         
-        func createNewFace(action: (Bool, Face?) -> Void) {
+        func createNewFace(action: @escaping (Bool, Face?) -> Void) {
             guard let faceImage = newFaceImage else {
                 action(false, nil)
                 return
@@ -28,7 +28,7 @@ extension ListView {
             dataController.createNewFace(uiImage: faceImage, name: newFaceName) { succeeded, newFace in
                 
                 if let newFace = newFace {
-                    faces.insert(newFace, at: 0)
+                    self.faces.insert(newFace, at: 0)
                 }
                 
                 action(succeeded, newFace)

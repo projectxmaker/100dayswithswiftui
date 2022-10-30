@@ -11,31 +11,13 @@ enum SceneFlow {
     case list, askForFaceName
 }
 
-extension URL {
-    func loadImage(_ image: inout UIImage?) {
-        if let data = try? Data(contentsOf: self), let loaded = UIImage(data: data) {
-            image = loaded
-        } else {
-            image = nil
-        }
-    }
-    func saveImage(_ image: UIImage?) {
-        if let image = image {
-            if let data = image.jpegData(compressionQuality: 1.0) {
-                try? data.write(to: self)
-            }
-        } else {
-            try? FileManager.default.removeItem(at: self)
-        }
-    }
-}
-
 struct ListView: View {
     @State private var sceneFlow = SceneFlow.list
     @State private var showingImagePicker = false
     @State private var showFormToSetFaceName = false
     //@State private var inputImage: UIImage?
     @FocusState private var isTextFieldNameFocused: Bool
+    @State private var newFaceName = ""
     
     var geometry: GeometryProxy
     var imageOfNameForm: Image {
@@ -103,7 +85,7 @@ struct ListView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(color: .gray, radius: 10, x: 1, y: 1)
                     
-                    TextField(text: $viewModel.newFaceName, prompt: Text("Enter name here")) {
+                    TextField(text: $newFaceName, prompt: Text("Enter name here")) {
                         Text("Name")
                     }
                     .focused($isTextFieldNameFocused)
@@ -114,6 +96,9 @@ struct ListView: View {
                     .shadow(color: .gray, radius: 5, x: 1, y: 1)
                     .onAppear {
                         isTextFieldNameFocused.toggle()
+                    }
+                    .onChange(of: newFaceName) { newValue in
+                        viewModel.newFaceName = newValue
                     }
 
                     HStack {
@@ -129,6 +114,8 @@ struct ListView: View {
                             viewModel.createNewFace { result, newFace in
                                 
                                 print("create new face \(result)")
+                                newFaceName = ""
+                                
                                 // close this form
                                 sceneFlow = .list
                             }
