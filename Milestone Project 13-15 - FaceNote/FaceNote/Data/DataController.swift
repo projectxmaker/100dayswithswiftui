@@ -30,29 +30,26 @@ class DataController {
         var newFace = Face(id: faceId, name: name, picture: "")
         actionBefore(newFace)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-            if let faceImageURL = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString) {
-                
-                var picturePath = ""
-                if #available(iOS 16, *) {
-                    picturePath = faceImageURL.path()
-                } else {
-                    picturePath = faceImageURL.path
-                }
-                
-                //let newFace = Face(id: faceId, name: name, picture: picturePath)
-                newFace.picture = picturePath
-                
-                self.faces.insert(newFace, at: 0)
-                
-                if let _ = FileManager.default.encodeJSON(self.jsonFileName, fileData: self.faces) {
-                    actionAfter(true, newFace)
-                } else {
-                    actionAfter(false, nil)
-                }
+        if let faceImageURL = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString) {
+            
+            var picturePath = ""
+            if #available(iOS 16, *) {
+                picturePath = faceImageURL.path()
+            } else {
+                picturePath = faceImageURL.path
+            }
+            
+            newFace.picture = picturePath
+            
+            self.faces.insert(newFace, at: 0)
+            
+            if let _ = FileManager.default.encodeJSON(self.jsonFileName, fileData: self.faces) {
+                actionAfter(true, newFace)
             } else {
                 actionAfter(false, nil)
             }
+        } else {
+            actionAfter(false, nil)
         }
     }
 }

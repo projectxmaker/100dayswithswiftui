@@ -9,14 +9,19 @@ import UIKit
 
 extension ListView {
     @MainActor class ViewModel: ObservableObject {
-        @Published private(set) var faces = [Face]()
+        @Published var faces = [Face]()
         @Published var newFaceImage: UIImage?
         @Published var newFaceName: String = ""
         
         private var dataController = DataController.shared
         
+        var wrappedNewFaceImage: UIImage {
+            newFaceImage ?? UIImage()
+        }
+        
         init() {
             faces = dataController.getFaceList()
+            print("load view model")
         }
         
         func createNewFace(actionBefore: (Bool) -> Void, actionAfter: @escaping (Bool, Face?) -> Void) {
