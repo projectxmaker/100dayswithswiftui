@@ -5,7 +5,7 @@
 //  Created by Pham Anh Tuan on 10/29/22.
 //
 
-import Foundation
+import UIKit
 
 extension FileManager {
     func getDocumentsDirectory() -> URL {
@@ -51,6 +51,20 @@ extension FileManager {
         }
         
         return url
+    }
+    
+    func saveUIImage(_ uiImage: UIImage, name: String, compressionQuality: Double = 0.8) -> URL? {
+        guard let data = uiImage.jpegData(compressionQuality: compressionQuality) else { return nil }
+        
+        let imageURL = self.getDocumentsDirectory().appendingPathComponent(name)
+
+        do {
+            try data.write(to: imageURL)
+        } catch {
+            return nil
+        }
+        
+        return imageURL
     }
 }
 

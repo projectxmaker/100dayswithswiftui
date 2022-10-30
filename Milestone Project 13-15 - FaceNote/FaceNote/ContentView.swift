@@ -13,7 +13,6 @@ struct ContentView: View {
             NavigationView {
                 ListView(geometry: geometry)
             }
-            .padding()
         }
     }
 }
