@@ -30,7 +30,7 @@ class DataController {
         var newFace = Face(id: faceId, name: name, picture: "")
         actionBefore(newFace)
         
-        if let faceImageURL = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString) {
+        if let faceImageURL = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString, compressionQuality: 0.5) {
             
             var picturePath = ""
             if #available(iOS 16, *) {

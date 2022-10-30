@@ -29,7 +29,7 @@ struct FaceList: View {
                                 Image(uiImage: loaded)
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(maxWidth: 100, maxHeight: 100)
+                                    .frame(width: 100, height: 100)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .shadow(color: .gray, radius: 10, x: 1, y: 1)
 

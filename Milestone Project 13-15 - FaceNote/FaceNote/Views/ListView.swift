@@ -41,6 +41,12 @@ struct ListView: View {
             }
 
             if showFormToSetFaceName {
+                Color.white
+                    .opacity(0.8)
+                    .onTapGesture {
+                        showFormToSetFaceName = false
+                    }
+
                 UpdateFaceNameView(geometry: geometry, newFaceImage: viewModel.wrappedNewFaceImage, newFaceName: $viewModel.newFaceName) {
                     // save name
                     // close this form
@@ -69,5 +75,6 @@ struct ListView: View {
         .onChange(of: viewModel.newFaceImage) { _ in
             showFormToSetFaceName = true
         }
+        .padding(.horizontal, 10)
     }
 }
