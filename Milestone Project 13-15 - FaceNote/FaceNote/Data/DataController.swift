@@ -27,22 +27,27 @@ class DataController {
     func createNewFace(uiImage: UIImage, name: String, actionBefore: (Face) -> Void, actionAfter: @escaping (Bool, Face?) -> Void) {
         let faceId = UUID()
         
-        var newFace = Face(id: faceId, name: name, picture: "")
+        var newFace = Face(id: faceId, name: name, picture: "", thumbnail: "")
         actionBefore(newFace)
-        
-        if let faceImageURL = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString, compressionQuality: 0.5) {
+
+        // save large image into app document directory
+        if let _ = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString) {
+
+            newFace.picture = faceId.uuidString
             
-            var picturePath = ""
-            if #available(iOS 16, *) {
-                picturePath = faceImageURL.path()
-            } else {
-                picturePath = faceImageURL.path
+            let thumbnailSize = CGSize(width: 200, height: 200)
+            if let thumbnailUIImage = uiImage.preparingThumbnail(of: thumbnailSize) {
+                let thumbnailName = "\(faceId.uuidString)_thumbnail"
+                
+                // save thumbnail image into app document directory
+                if let _ = FileManager.default.saveUIImage(thumbnailUIImage, name: thumbnailName) {
+                    newFace.thumbnail = thumbnailName
+                }
             }
             
-            newFace.picture = picturePath
-            
             self.faces.insert(newFace, at: 0)
-            
+
+            // save JSON file into app document directory
             if let _ = FileManager.default.encodeJSON(self.jsonFileName, fileData: self.faces) {
                 actionAfter(true, newFace)
             } else {

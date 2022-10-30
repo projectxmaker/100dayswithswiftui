@@ -11,6 +11,7 @@ struct Face: Codable, Identifiable, Equatable {
     let id: UUID
     let name: String
     var picture: String
+    var thumbnail: String
     
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id

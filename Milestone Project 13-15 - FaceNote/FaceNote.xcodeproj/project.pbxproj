@@ -51,7 +51,6 @@
 		8ACAD7BE290D737100E9699D = {
 			isa = PBXGroup;
 			children = (
-				8A92CF3D290E65EA00279FBA /* UpdateFaceNameView.swift */,
 				8ACAD7C9290D737100E9699D /* FaceNote */,
 				8ACAD7C8290D737100E9699D /* Products */,
 			);
@@ -94,6 +93,7 @@
 				8ACAD7D8290D75C200E9699D /* ListView.swift */,
 				8A61D37A290E5F4E006EAAF8 /* FaceList.swift */,
 				8ACAD7E2290D81D500E9699D /* ImagePicker.swift */,
+				8A92CF3D290E65EA00279FBA /* UpdateFaceNameView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -38,6 +38,7 @@ struct UpdateFaceNameView: View {
             .frame(maxWidth: geometry.size.width * 0.6)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .shadow(color: .gray, radius: 5, x: 1, y: 1)
+            .padding(.top, 5)
             .onAppear {
                 isTextFieldNameFocused.toggle()
             }

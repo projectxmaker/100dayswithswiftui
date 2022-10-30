@@ -10,7 +10,6 @@ import SwiftUI
 struct ListView: View {
     @State private var showingImagePicker = false
     @State private var showFormToSetFaceName = false
-    //@State private var inputImage: UIImage?
     @FocusState private var isTextFieldNameFocused: Bool
     @State private var newFaceName = ""
     
@@ -50,19 +49,15 @@ struct ListView: View {
                 UpdateFaceNameView(geometry: geometry, newFaceImage: viewModel.wrappedNewFaceImage, newFaceName: $viewModel.newFaceName) {
                     // save name
                     // close this form
-                    print("start canceling the form for new face")
                     showFormToSetFaceName = false
-                    print("cancelled")
                 } actionCreate: {
                     // save name
                     viewModel.createNewFace { succeeded in
                         newFaceName = ""
-                        print("start closing the form for new face")
                         // close this form
                         showFormToSetFaceName = false
-                        print("close the form for new face")
                     } actionAfter: { succeeded, newFace in
-                        print("update new face \(newFace?.name)")
+                        // highlight the face has just been created?
                     }
                 }
 

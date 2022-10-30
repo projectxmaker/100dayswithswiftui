@@ -25,7 +25,7 @@ struct FaceList: View {
                             .shadow(color: .gray, radius: 10, x: 1, y: 1)
                     } else {
                         VStack {
-                            if let data = try? Data(contentsOf: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.id.uuidString)), let loaded = UIImage(data: data) {
+                            if let data = try? Data(contentsOf: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail)), let loaded = UIImage(data: data) {
                                 Image(uiImage: loaded)
                                     .resizable()
                                     .scaledToFill()
