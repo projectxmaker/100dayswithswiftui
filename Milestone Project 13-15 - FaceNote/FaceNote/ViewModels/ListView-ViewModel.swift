@@ -9,7 +9,7 @@ import UIKit
 
 extension ListView {
     @MainActor class ViewModel: ObservableObject {
-        @Published var faces = [Face]()
+        @Published var faces: [Face]
         @Published var newFaceImage: UIImage?
         @Published var newFaceName: String = ""
         
@@ -20,7 +20,7 @@ extension ListView {
         }
         
         init() {
-            faces = dataController.getFaceList()
+            _faces = Published(initialValue: dataController.getFaceList())
             print("load view model")
         }
         
