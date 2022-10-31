@@ -10,6 +10,7 @@
 		8A61D37B290E5F4E006EAAF8 /* FaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A61D37A290E5F4E006EAAF8 /* FaceList.swift */; };
 		8A92CF3E290E65EA00279FBA /* UpdateFaceNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A92CF3D290E65EA00279FBA /* UpdateFaceNameView.swift */; };
 		8A92CF40290ECDEF00279FBA /* UpdateFaceNameView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A92CF3F290ECDEF00279FBA /* UpdateFaceNameView-ViewModel.swift */; };
+		8A92CF42290F559B00279FBA /* FaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A92CF41290F559B00279FBA /* FaceView.swift */; };
 		8ACAD7CB290D737100E9699D /* FaceNoteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACAD7CA290D737100E9699D /* FaceNoteApp.swift */; };
 		8ACAD7CD290D737100E9699D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACAD7CC290D737100E9699D /* ContentView.swift */; };
 		8ACAD7CF290D737200E9699D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8ACAD7CE290D737200E9699D /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		8A61D37A290E5F4E006EAAF8 /* FaceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceList.swift; sourceTree = "<group>"; };
 		8A92CF3D290E65EA00279FBA /* UpdateFaceNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFaceNameView.swift; sourceTree = "<group>"; };
 		8A92CF3F290ECDEF00279FBA /* UpdateFaceNameView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UpdateFaceNameView-ViewModel.swift"; sourceTree = "<group>"; };
+		8A92CF41290F559B00279FBA /* FaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceView.swift; sourceTree = "<group>"; };
 		8ACAD7C7290D737100E9699D /* FaceNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ACAD7CA290D737100E9699D /* FaceNoteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceNoteApp.swift; sourceTree = "<group>"; };
 		8ACAD7CC290D737100E9699D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			children = (
 				8ACAD7D8290D75C200E9699D /* ListView.swift */,
 				8A61D37A290E5F4E006EAAF8 /* FaceList.swift */,
+				8A92CF41290F559B00279FBA /* FaceView.swift */,
 				8ACAD7E2290D81D500E9699D /* ImagePicker.swift */,
 				8A92CF3D290E65EA00279FBA /* UpdateFaceNameView.swift */,
 			);
@@ -207,6 +210,7 @@
 				8ACAD7E3290D81D500E9699D /* ImagePicker.swift in Sources */,
 				8ACAD7DB290D76A300E9699D /* ListView-ViewModel.swift in Sources */,
 				8ACAD7DF290D7B4600E9699D /* FileManager+JSONEncodeDecode.swift in Sources */,
+				8A92CF42290F559B00279FBA /* FaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
