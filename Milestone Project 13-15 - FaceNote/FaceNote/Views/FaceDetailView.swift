@@ -13,8 +13,6 @@ struct FaceDetailView: View {
     let label: String
     let geometry: GeometryProxy
     
-    @State private var showFace = false
-    
     @State var flipDegree: Double = 0
 
     @State private var backgroundUIImage = UIImage()
@@ -36,7 +34,6 @@ struct FaceDetailView: View {
     static func getUIImage(url: URL, size: CGSize) -> UIImage? {
         var image = getUIImage(url: url)
         if let newImage = image {
-            print("resize \(size)")
             image = newImage.preparingThumbnail(of: size)
         }
         

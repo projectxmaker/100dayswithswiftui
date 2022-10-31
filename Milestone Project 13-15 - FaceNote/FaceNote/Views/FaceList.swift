@@ -30,16 +30,6 @@ struct FaceList: View {
                             .onTapGesture {
                                 tapOnAFaceAction(face)
                             }
-//
-//                        NavigationLink {
-//                            FaceDetailView(
-//                                backgrounUIImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail),
-//                                mainUIImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.picture),
-//                                label: face.name,
-//                                geometry: geometry)
-//                        } label: {
-//                            FaceView(uiImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail), label: face.name)
-//                        }
                     }
                 }
             }
