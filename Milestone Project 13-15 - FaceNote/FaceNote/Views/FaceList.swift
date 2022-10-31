@@ -26,10 +26,7 @@ struct FaceList: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .shadow(color: .gray, radius: 10, x: 1, y: 1)
                     } else {
-                        FaceView(uiImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail), label: face.name)
-                            .onTapGesture {
-                                tapOnAFaceAction(face)
-                            }
+                        FaceView(face: face, tapOnAFaceAction: tapOnAFaceAction)
                     }
                 }
             }

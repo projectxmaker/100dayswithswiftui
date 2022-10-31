@@ -12,12 +12,12 @@ struct FaceDetailView: View {
     let mainUIImageURL: URL
     let label: String
     let geometry: GeometryProxy
+    var tapOnAFaceDetailAction: () -> Void
     
-    @State var flipDegree: Double = 0
-
     @State private var backgroundUIImage = UIImage()
-    
     @State private var mainUIImage = UIImage()
+    
+    @State private var showFaceDetailView = false
 
     static func getUIImage(url: URL) -> UIImage? {
         var data: Data
@@ -42,38 +42,36 @@ struct FaceDetailView: View {
     
     var body: some View {
         ZStack {
-            if let newBackgroundUIImage = backgroundUIImage {
-                Image(uiImage: newBackgroundUIImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: geometry.size.width)
-                    .ignoresSafeArea()
-                    .blur(radius: 10, opaque: true)
-                    .saturation(0.2)
-            }
-                
-            if let newMainUIImage = mainUIImage {
-                VStack {
-                    Image(uiImage: newMainUIImage)
+            Color.gray
+                .ignoresSafeArea()
+                .opacity(0.1)
+                .padding([.horizontal], -20)
+                .overlay {
+                    Image(uiImage: backgroundUIImage)
                         .resizable()
                         .scaledToFill()
-                        .frame(height: geometry.size.width * 0.9)
-                        .clipShape(Circle())
-                        .shadow(color: .white, radius: 10, x: 1, y: 1)
-                        .padding()
+                        .frame(maxWidth: geometry.size.width)
+                        .ignoresSafeArea()
+                        .blur(radius: 10, opaque: true)
+                        .saturation(0.2)
+                        .opacity(showFaceDetailView ? 0.7 : 0)
                     
-                    Text(label)
-                        .font(.title)
-                        .foregroundColor(.white)
-                        .shadow(color: .white, radius: 10, x: 1, y: 1)
-                }
-                .rotation3DEffect(.degrees(flipDegree), axis: (x: 0, y: 1, z: 0))
-                .onAppear {
-                    withAnimation {
-                        flipDegree = flipDegree == 360 ? 0 : 360
+                    VStack {
+                        Image(uiImage: mainUIImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: geometry.size.width * 0.9)
+                            .clipShape(Circle())
+                            .shadow(color: .white, radius: 10, x: 1, y: 1)
+                            .padding()
+    
+                        Text(label)
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .shadow(color: .white, radius: 10, x: 1, y: 1)
                     }
+                    .scaleEffect(showFaceDetailView ? 1 : 0)
                 }
-            }
         }
         .onAppear {
             backgroundUIImage = FaceDetailView.getUIImage(url: backgrounUIImageURL) ?? UIImage()
@@ -82,6 +80,19 @@ struct FaceDetailView: View {
             , height: geometry.size.width * 0.9)
 
             mainUIImage = FaceDetailView.getUIImage(url: mainUIImageURL, size: newSize) ?? UIImage()
+            
+            withAnimation(.easeOut(duration: 0.5)) {
+                showFaceDetailView.toggle()
+            }
+        }
+        .onTapGesture {
+            withAnimation(.easeIn(duration: 0.2)) {
+                showFaceDetailView.toggle()
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                tapOnAFaceDetailAction()
+            }
         }
 
     }

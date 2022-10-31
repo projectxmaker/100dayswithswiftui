@@ -26,6 +26,10 @@ struct ListView: View {
         screenFlow = .viewFaceDetail
     }
     
+    private func closeFaceDetailAction() {
+        screenFlow = .viewFaceList
+    }
+    
     var body: some View {
         ZStack {
             FaceList(faces: $viewModel.faces, geometry: geometry, tapOnAFaceAction: viewFaceDetail)
@@ -78,10 +82,8 @@ struct ListView: View {
                         backgrounUIImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(tappedFace.thumbnail),
                         mainUIImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(tappedFace.picture),
                         label: tappedFace.name,
-                        geometry: geometry)
-                    .onTapGesture {
-                        screenFlow = .viewFaceList
-                    }
+                        geometry: geometry,
+                        tapOnAFaceDetailAction: closeFaceDetailAction)
                 }
             }
         }
@@ -94,9 +96,6 @@ struct ListView: View {
                 screenFlow = .setFaceName
             }
         }
-        .onChange(of: tappedFace, perform: { _ in
-            screenFlow = .viewFaceDetail
-        })
         .padding(.horizontal, 10)
     }
 }

@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct FaceView: View {
-    let uiImageURL: URL
-    let label: String
+    let face: Face
     
     @State private var showFace = false
+    @State private var flipDegree: Double = 0
+    
+    var tapOnAFaceAction: (Face) -> Void
     
     private func getUIImage() -> UIImage? {
+        let uiImageURL = FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail)
+        
         var data: Data
         do {
             data = try Data(contentsOf: uiImageURL)
@@ -34,8 +38,9 @@ struct FaceView: View {
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
                     .shadow(color: .gray, radius: 10, x: 1, y: 1)
+                    .rotation3DEffect(.degrees(flipDegree), axis: (x: 0, y: 1, z: 0))
             }
-            Text(label)
+            Text(face.name)
                 .lineLimit(2)
                 .font(.caption)
         }
@@ -47,6 +52,13 @@ struct FaceView: View {
         }
         .onDisappear {
             showFace = false
+        }
+        .onTapGesture {
+            withAnimation {
+                flipDegree = flipDegree == 360 ? 0 : 360
+            }
+            
+            tapOnAFaceAction(face)
         }
     }
 }
