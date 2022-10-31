@@ -8,12 +8,12 @@
 import SwiftUI
 
 enum ScreenFlow {
-    case viewFaceList, setFaceName, viewFaceDetail, viewFilterPanel
+    case viewNothing, setFaceName, viewFaceDetail, viewFilterPanel
 }
 
 struct ListView: View {
     @State private var showingImagePicker = false
-    @State private var screenFlow = ScreenFlow.viewFaceList
+    @State private var screenFlow = ScreenFlow.viewNothing
     @State private var newFaceName = ""
     @State private var tappedFace: Face?
     
@@ -33,7 +33,7 @@ struct ListView: View {
     }
     
     private func closeFaceDetailAction() {
-        screenFlow = .viewFaceList
+        screenFlow = .viewNothing
     }
     
     private func resizeFaceList() {
@@ -79,25 +79,25 @@ struct ListView: View {
             }
             
             switch screenFlow {
-            case .viewFaceList:
+            case .viewNothing:
                 Text("")
             case .setFaceName:
                 Color.white
                     .opacity(0.8)
                     .onTapGesture {
-                        screenFlow = .viewFaceList
+                        screenFlow = .viewNothing
                     }
 
                 UpdateFaceNameView(geometry: geometry, newFaceImage: viewModel.wrappedNewFaceImage, newFaceName: $viewModel.newFaceName) {
                     // save name
                     // close this form
-                    screenFlow = .viewFaceList
+                    screenFlow = .viewNothing
                 } actionCreate: {
                     // save name
                     viewModel.createNewFace { succeeded in
                         newFaceName = ""
                         // close this form
-                        screenFlow = .viewFaceList
+                        screenFlow = .viewNothing
                     } actionAfter: { succeeded, newFace in
                         // highlight the face has just been created?
                     }

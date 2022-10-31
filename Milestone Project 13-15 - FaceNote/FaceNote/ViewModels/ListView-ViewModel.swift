@@ -23,13 +23,10 @@ extension ListView {
         
         init() {
             filteredFaces()
-            print("load view model")
         }
         
         func filteredFaces() {
             faces = dataController.filteredFaces(keyword: keyword, sortOrder: sortOrder)
-            
-            print(faces)
         }
         
         func createNewFace(actionBefore: (Bool) -> Void, actionAfter: @escaping (Bool, Face?) -> Void) {
