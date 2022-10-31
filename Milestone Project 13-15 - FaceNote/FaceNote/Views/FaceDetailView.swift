@@ -69,6 +69,12 @@ struct FaceDetailView: View {
                         .foregroundColor(.white)
                         .shadow(color: .white, radius: 10, x: 1, y: 1)
                 }
+                .rotation3DEffect(.degrees(flipDegree), axis: (x: 0, y: 1, z: 0))
+                .onAppear {
+                    withAnimation {
+                        flipDegree = flipDegree == 360 ? 0 : 360
+                    }
+                }
             }
         }
         .onAppear {
