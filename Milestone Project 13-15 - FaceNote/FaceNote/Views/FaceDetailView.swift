@@ -56,8 +56,9 @@ struct FaceDetailView: View {
                 VStack {
                     Image(uiImage: newMainUIImage)
                         .resizable()
-                        .scaledToFit()
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .scaledToFill()
+                        .frame(height: geometry.size.width * 0.9)
+                        .clipShape(Circle())
                         .shadow(color: .white, radius: 10, x: 1, y: 1)
                         .padding()
                     
@@ -77,8 +78,8 @@ struct FaceDetailView: View {
         .onAppear {
             backgroundUIImage = FaceDetailView.getUIImage(url: backgrounUIImageURL) ?? UIImage()
             
-            let newSize = CGSize(width: geometry.size
-                .width, height: geometry.size.width)
+            let newSize = CGSize(width: geometry.size.width * 0.9
+            , height: geometry.size.width * 0.9)
 
             mainUIImage = FaceDetailView.getUIImage(url: mainUIImageURL, size: newSize) ?? UIImage()
         }

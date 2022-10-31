@@ -32,7 +32,7 @@ struct FaceView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: 100, height: 100)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .clipShape(Circle())
                     .shadow(color: .gray, radius: 10, x: 1, y: 1)
             }
             Text(label)
