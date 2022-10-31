@@ -14,6 +14,12 @@ class DataController {
     
     var faces = [Face]()
     
+    init() {
+        if faces.isEmpty {
+            _ = getFaceList()
+        }
+    }
+    
     func getFaceList() -> [Face] {
         guard let faces = FileManager.default.decodeJSON(jsonFileName) as [Face]? else {
             return [Face]()
@@ -22,6 +28,26 @@ class DataController {
         self.faces = faces
         
         return faces
+    }
+    
+    func filteredFaces(keyword: String, sortOrder: SortOrder) -> [Face] {
+        var newFaces = faces
+        
+        if !keyword.trimmingCharacters(in: .whitespaces).isEmpty {
+            newFaces = faces.filter { face in
+                face.name.lowercased().contains(keyword.lowercased())
+            }
+        }
+        
+        newFaces.sort { lhs, rhs in
+            if sortOrder == .forward {
+                return lhs < rhs
+            } else {
+                return lhs > rhs
+            }
+        }
+        
+        return newFaces
     }
     
     func createNewFace(uiImage: UIImage, name: String, actionBefore: (Face) -> Void, actionAfter: @escaping (Bool, Face?) -> Void) {

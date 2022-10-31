@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum ScreenFlow {
-    case viewFaceList, setFaceName, viewFaceDetail
+    case viewFaceList, setFaceName, viewFaceDetail, viewFilterPanel
 }
 
 struct ListView: View {
@@ -16,6 +16,12 @@ struct ListView: View {
     @State private var screenFlow = ScreenFlow.viewFaceList
     @State private var newFaceName = ""
     @State private var tappedFace: Face?
+    
+    @State private var filterKeyword = ""
+    @State private var sortOrder = SortOrder.forward
+    @State private var showFilterPanel = false
+    @State private var resizeResultList = false
+    
     @StateObject private var viewModel = ViewModel()
     @FocusState private var isTextFieldNameFocused: Bool
     
@@ -30,9 +36,29 @@ struct ListView: View {
         screenFlow = .viewFaceList
     }
     
+    private func resizeFaceList() {
+        if showFilterPanel {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                resizeResultList = true
+            }
+        } else {
+            resizeResultList = false
+        }
+    }
+    
     var body: some View {
         ZStack {
-            FaceList(faces: $viewModel.faces, geometry: geometry, tapOnAFaceAction: viewFaceDetail)
+            VStack {
+                FaceList(faces: $viewModel.faces, geometry: geometry, tapOnAFaceAction: viewFaceDetail)
+                    .onChange(of: viewModel.keyword) { _ in
+                        viewModel.filteredFaces()
+                    }
+                    .onChange(of: viewModel.sortOrder) { _ in
+                        viewModel.filteredFaces()
+                    }
+                
+                Spacer(minLength: resizeResultList ? geometry.size.height * 0.23 : 0)
+            }
             
             VStack {
                 Spacer()
@@ -85,9 +111,31 @@ struct ListView: View {
                         geometry: geometry,
                         tapOnAFaceDetailAction: closeFaceDetailAction)
                 }
+            case .viewFilterPanel:
+                VStack {
+                    Spacer()
+                    FilterPanelView(
+                        filterKeyword: $viewModel.keyword,
+                        sortOrder: $viewModel.sortOrder,
+                        showFilterPanel: $showFilterPanel,
+                        geometry: geometry
+                    )
+                }
             }
         }
         .navigationTitle("FaceNote")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Filter") {
+                    screenFlow = .viewFilterPanel
+                    withAnimation {
+                        showFilterPanel.toggle()
+                    }
+                    
+                    resizeFaceList()
+                }
+            }
+        }
         .sheet(isPresented: $showingImagePicker) {
             ImagePicker(image: $viewModel.newFaceImage)
         }
@@ -96,6 +144,14 @@ struct ListView: View {
                 screenFlow = .setFaceName
             }
         }
+        .onChange(of: screenFlow, perform: { newValue in
+            if newValue != .viewFilterPanel {
+                if showFilterPanel {
+                    showFilterPanel.toggle()
+                    resizeFaceList()
+                }
+            }
+        })
         .padding(.horizontal, 10)
     }
 }

@@ -9,9 +9,11 @@ import UIKit
 
 extension ListView {
     @MainActor class ViewModel: ObservableObject {
-        @Published var faces: [Face]
+        @Published var faces = [Face]()
         @Published var newFaceImage: UIImage?
         @Published var newFaceName: String = ""
+        @Published var keyword: String = ""
+        @Published var sortOrder = SortOrder.forward
         
         private var dataController = DataController.shared
         
@@ -20,8 +22,14 @@ extension ListView {
         }
         
         init() {
-            _faces = Published(initialValue: dataController.getFaceList())
+            filteredFaces()
             print("load view model")
+        }
+        
+        func filteredFaces() {
+            faces = dataController.filteredFaces(keyword: keyword, sortOrder: sortOrder)
+            
+            print(faces)
         }
         
         func createNewFace(actionBefore: (Bool) -> Void, actionAfter: @escaping (Bool, Face?) -> Void) {

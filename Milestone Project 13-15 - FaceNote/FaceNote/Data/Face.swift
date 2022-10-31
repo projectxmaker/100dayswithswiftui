@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Face: Codable, Identifiable, Equatable {
+struct Face: Codable, Identifiable, Equatable, Comparable {
     let id: UUID
     let name: String
     var picture: String
@@ -15,5 +15,9 @@ struct Face: Codable, Identifiable, Equatable {
     
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id
+    }
+    
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.name < rhs.name
     }
 }
