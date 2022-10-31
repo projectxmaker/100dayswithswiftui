@@ -19,7 +19,7 @@ struct ListView: View {
     
     var body: some View {
         ZStack {
-            FaceList(faces: $viewModel.faces)
+            FaceList(faces: $viewModel.faces, geometry: geometry)
             
             VStack {
                 Spacer()

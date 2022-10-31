@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FaceList: View {
     @Binding var faces: [Face]
+    let geometry: GeometryProxy
     
     let listVGridColumns: [GridItem] = [
         GridItem(.adaptive(minimum: 100))
@@ -24,7 +25,15 @@ struct FaceList: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .shadow(color: .gray, radius: 10, x: 1, y: 1)
                     } else {
-                        FaceView(uiImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail), label: face.name)
+                        NavigationLink {
+                            FaceDetailView(
+                                backgrounUIImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail),
+                                mainUIImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.picture),
+                                label: face.name,
+                                geometry: geometry)
+                        } label: {
+                            FaceView(uiImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail), label: face.name)
+                        }
                     }
                 }
             }
