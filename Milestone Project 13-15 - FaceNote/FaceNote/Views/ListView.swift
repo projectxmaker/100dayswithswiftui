@@ -68,7 +68,9 @@ struct ListView: View {
             ImagePicker(image: $viewModel.newFaceImage)
         }
         .onChange(of: viewModel.newFaceImage) { _ in
-            showFormToSetFaceName = true
+            withAnimation(.easeIn(duration: 0.3)) {
+                showFormToSetFaceName = true
+            }
         }
         .padding(.horizontal, 10)
     }
