@@ -12,6 +12,7 @@ struct FaceView: View {
     
     @State private var showFace = false
     @State private var flipDegree: Double = 0
+    @State private var showActions = false
     
     var tapOnAFaceAction: (Face) -> Void
     
@@ -59,6 +60,22 @@ struct FaceView: View {
             }
             
             tapOnAFaceAction(face)
+        }
+        .onLongPressGesture(perform: {
+            showActions.toggle()
+        })
+        .confirmationDialog("Modify \(face.name)", isPresented: $showActions) {
+            Button("Change Name") {
+                //showEditNameView()
+            }
+            
+            Button("Delete", role: .destructive) {
+                //showDeleteAlert()
+            }
+            
+            Button("Cancel", role: .cancel, action: {})
+        } message: {
+            Text(String("\(face.name)").uppercased())
         }
     }
 }
