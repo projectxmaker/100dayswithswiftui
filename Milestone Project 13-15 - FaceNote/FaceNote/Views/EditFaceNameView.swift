@@ -33,7 +33,7 @@ struct EditFaceNameView: View {
                 .padding(1)
                 .background(Color.white)
                 .frame(maxWidth: geometry.size.width * 0.4, maxHeight: geometry.size.height * 0.25)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .clipShape(Circle())
                 .shadow(color: .gray, radius: 10, x: 1, y: 1)
 
             TextField(text: $viewModel.faceName, prompt: Text("Enter name here")) {
