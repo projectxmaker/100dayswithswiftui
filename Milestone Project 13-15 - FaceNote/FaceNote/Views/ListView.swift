@@ -57,7 +57,7 @@ struct ListView: View {
     var body: some View {
         ZStack {
             VStack {
-                FaceList(faces: $viewModel.faces, geometry: geometry, tapOnAFaceAction: viewFaceDetail,
+                FaceList(faces: $viewModel.faces, geometry: geometry, showDetailAction: viewFaceDetail,
                     showEditNameAction: showEditNameView,
                     showDeleteAction: showDeleteView
                 )

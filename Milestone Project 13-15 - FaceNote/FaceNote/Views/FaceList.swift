@@ -10,7 +10,7 @@ import SwiftUI
 struct FaceList: View {
     @Binding var faces: [Face]
     let geometry: GeometryProxy
-    var tapOnAFaceAction: (Face) -> Void
+    var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
     var showDeleteAction: (Face) -> Void
 
@@ -24,7 +24,7 @@ struct FaceList: View {
                 ForEach(faces) { face in
                     FaceView(
                         face: face,
-                        tapOnAFaceAction: tapOnAFaceAction,
+                        showDetailAction: showDetailAction,
                         showEditNameAction: showEditNameAction,
                         showDeleteAction: showDeleteAction
                     )

@@ -13,7 +13,7 @@ struct FaceView: View {
     @State private var showActions = false
     
     var face: Face
-    var tapOnAFaceAction: (Face) -> Void
+    var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
     var showDeleteAction: (Face) -> Void
     
@@ -46,7 +46,7 @@ struct FaceView: View {
                 flipDegree = flipDegree == 360 ? 0 : 360
             }
 
-            tapOnAFaceAction(face)
+            showDetailAction(face)
         }
         .onLongPressGesture(perform: {
             showActions.toggle()
