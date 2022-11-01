@@ -109,6 +109,18 @@ class DataController {
         }
     }
     
+    func deleteFace(_ face: Face, action: @escaping (Bool, [Face]) -> Void) {
+        if let index = faces.firstIndex(of: face) {
+            faces.remove(at: index)
+            
+            saveFaces { result in
+                action(result, faces)
+            }
+        } else {
+            action(false, faces)
+        }
+    }
+    
     // save JSON file into app document directory
     func saveFaces(action: (Bool) -> Void) {
         // save JSON file into app document directory

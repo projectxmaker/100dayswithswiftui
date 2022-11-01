@@ -12,6 +12,7 @@ enum ScreenFlow {
 }
 
 struct ListView: View {
+    @State private var showDeleteAlert = false
     @State private var showingImagePicker = false
     @State private var screenFlow = ScreenFlow.viewNothing
     @State private var tappedFace: Face?
@@ -35,7 +36,8 @@ struct ListView: View {
     }
     
     private func showDeleteView(face: Face) {
-        screenFlow = .viewFaceDetail
+        tappedFace = face
+        showDeleteAlert.toggle()
     }
     
     private func closeFaceDetailAction() {
@@ -67,6 +69,9 @@ struct ListView: View {
                 }
                 .onChange(of: refreshTheList) { _ in
                     viewModel.refreshFaceList()
+                }
+                .onChange(of: tappedFace) { newValue in
+                    viewModel.tappedFace = newValue
                 }
                 
                 Spacer(minLength: resizeResultList ? geometry.size.height * 0.23 : 0)
@@ -163,6 +168,21 @@ struct ListView: View {
                 }
             }
         }
+        .alert("Delete", isPresented: $showDeleteAlert, actions: {
+            Button(role: .cancel, action: {}) {
+                Text("Cancel")
+            }
+            
+            Button(role: .destructive, action: {
+                viewModel.deleteFace { succeeded, faces in
+                    refreshTheList.toggle()
+                }
+            }) {
+                Text("Delete")
+            }
+       }, message: {
+           Text(viewModel.deleteMessage)
+        })
         .sheet(isPresented: $showingImagePicker) {
             ImagePicker(image: $viewModel.newFaceImage)
         }

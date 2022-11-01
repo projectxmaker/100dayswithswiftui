@@ -10,6 +10,7 @@ import UIKit
 extension ListView {
     @MainActor class ViewModel: ObservableObject {
         @Published var faces = [Face]()
+        @Published var tappedFace: Face?
         @Published var newFaceImage: UIImage?
         @Published var keyword: String = ""
         @Published var sortOrder = SortOrder.forward
@@ -19,6 +20,12 @@ extension ListView {
         
         var wrappedNewFaceImage: UIImage {
             newFaceImage ?? UIImage()
+        }
+        
+        var deleteMessage: String {
+            guard let tappedFace = tappedFace else { return "Unknown Face"}
+            
+            return "Delete \"\(tappedFace.name)\"\nTap Delete to confirm."
         }
         
         init() {
@@ -32,6 +39,17 @@ extension ListView {
         func refreshFaceList() {
             modifiedFace = dataController.modifiedFace
             filteredFaces()
+        }
+        
+        func deleteFace(action: @escaping (Bool, [Face]) -> Void) {
+            guard let tappedFace = tappedFace else {
+                action(false, faces)
+                return
+            }
+            
+            dataController.deleteFace(tappedFace) { succeeded, faces in
+                action(succeeded, faces)
+            }
         }
     }
 }
