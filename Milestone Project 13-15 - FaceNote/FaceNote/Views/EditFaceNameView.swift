@@ -7,23 +7,27 @@
 
 import SwiftUI
 
-struct UpdateFaceNameView: View {
+struct EditFaceNameView: View {
     @StateObject private var viewModel: ViewModel
     var geometry: GeometryProxy
     
-    @Binding var newFaceName: String
     @FocusState private var isTextFieldNameFocused: Bool
 
-    init(geometry: GeometryProxy, newFaceImage: UIImage, newFaceName: Binding<String>, actionCancel: @escaping () -> Void, actionCreate: @escaping () -> Void) {
+    init(geometry: GeometryProxy, newFaceImage: UIImage, actionCancel: @escaping () -> Void, actionSave: @escaping (EditFaceNameView.ViewModel.ActionType, Bool, Face?) -> Void) {
         self.geometry = geometry
-        self._newFaceName = newFaceName
         
-        self._viewModel = StateObject(wrappedValue: ViewModel(newFaceImage: newFaceImage, actionCancel: actionCancel, actionCreate: actionCreate))
+        self._viewModel = StateObject(wrappedValue: ViewModel(newFaceImage: newFaceImage, actionCancel: actionCancel, actionSave: actionSave))
+    }
+    
+    init(geometry: GeometryProxy, face: Face, actionCancel: @escaping () -> Void, actionSave: @escaping (EditFaceNameView.ViewModel.ActionType, Bool, Face?) -> Void) {
+        self.geometry = geometry
+        
+        self._viewModel = StateObject(wrappedValue: ViewModel(face: face, actionCancel: actionCancel, actionSave: actionSave))
     }
     
     var body: some View {
         VStack(spacing: 0) {
-            Image(uiImage: viewModel.newFaceImage)
+            Image(uiImage: viewModel.faceImage)
                 .resizable()
                 .scaledToFill()
                 .padding(1)
@@ -45,10 +49,7 @@ struct UpdateFaceNameView: View {
             .onAppear {
                 isTextFieldNameFocused.toggle()
             }
-            .onChange(of: viewModel.faceName) { newValue in
-                newFaceName = newValue
-            }
-            
+
             if !viewModel.isFaceNameValid() {
                 Text("Name must have at least 1 character")
                     .font(.caption)
@@ -64,9 +65,9 @@ struct UpdateFaceNameView: View {
                 .buttonStyle(.bordered)
                 
                 Button {
-                    viewModel.actionCreate()
+                    viewModel.save()
                 } label: {
-                    Text("Create")
+                    Text("Save")
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(!viewModel.isFaceNameValid())

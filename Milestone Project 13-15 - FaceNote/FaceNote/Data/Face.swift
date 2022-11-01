@@ -9,7 +9,7 @@ import Foundation
 
 struct Face: Codable, Identifiable, Equatable, Comparable {
     let id: UUID
-    let name: String
+    var name: String
     var picture: String
     var thumbnail: String
     

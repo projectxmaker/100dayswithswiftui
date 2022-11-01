@@ -8,19 +8,19 @@
 import SwiftUI
 
 enum ScreenFlow {
-    case viewNothing, setFaceName, viewFaceDetail, viewFilterPanel
+    case viewNothing, setFaceName, editFaceName, viewFaceDetail, viewFilterPanel
 }
 
 struct ListView: View {
     @State private var showingImagePicker = false
     @State private var screenFlow = ScreenFlow.viewNothing
-    @State private var newFaceName = ""
     @State private var tappedFace: Face?
     
     @State private var filterKeyword = ""
     @State private var sortOrder = SortOrder.forward
     @State private var showFilterPanel = false
     @State private var resizeResultList = false
+    @State private var refreshTheList = false
     
     @StateObject private var viewModel = ViewModel()
     @FocusState private var isTextFieldNameFocused: Bool
@@ -29,6 +29,15 @@ struct ListView: View {
     
     private func viewFaceDetail(face: Face) {
         tappedFace = face
+        screenFlow = .viewFaceDetail
+    }
+    
+    private func showEditNameView(face: Face) {
+        tappedFace = face
+        screenFlow = .editFaceName
+    }
+    
+    private func showDeleteView(face: Face) {
         screenFlow = .viewFaceDetail
     }
     
@@ -49,13 +58,19 @@ struct ListView: View {
     var body: some View {
         ZStack {
             VStack {
-                FaceList(faces: $viewModel.faces, geometry: geometry, tapOnAFaceAction: viewFaceDetail)
-                    .onChange(of: viewModel.keyword) { _ in
-                        viewModel.filteredFaces()
-                    }
-                    .onChange(of: viewModel.sortOrder) { _ in
-                        viewModel.filteredFaces()
-                    }
+                FaceList(faces: $viewModel.faces, geometry: geometry, tapOnAFaceAction: viewFaceDetail,
+                    showEditNameAction: showEditNameView,
+                    showDeleteAction: showDeleteView
+                )
+                .onChange(of: viewModel.keyword) { _ in
+                    viewModel.filteredFaces()
+                }
+                .onChange(of: viewModel.sortOrder) { _ in
+                    viewModel.filteredFaces()
+                }
+                .onChange(of: refreshTheList) { _ in
+                    viewModel.refreshFaceList()
+                }
                 
                 Spacer(minLength: resizeResultList ? geometry.size.height * 0.23 : 0)
             }
@@ -87,19 +102,36 @@ struct ListView: View {
                     .onTapGesture {
                         screenFlow = .viewNothing
                     }
-
-                UpdateFaceNameView(geometry: geometry, newFaceImage: viewModel.wrappedNewFaceImage, newFaceName: $viewModel.newFaceName) {
+                
+                EditFaceNameView(geometry: geometry, newFaceImage: viewModel.wrappedNewFaceImage) {
                     // save name
                     // close this form
                     screenFlow = .viewNothing
-                } actionCreate: {
-                    // save name
-                    viewModel.createNewFace { succeeded in
-                        newFaceName = ""
+                } actionSave: { actionType, isSucceeded, newFace in
+                    if isSucceeded {
+                        refreshTheList.toggle()
+                    }
+                    
+                    screenFlow = .viewNothing
+                }
+            case .editFaceName:
+                if let tappedFace = tappedFace {
+                    Color.white
+                        .opacity(0.8)
+                        .onTapGesture {
+                            screenFlow = .viewNothing
+                        }
+                    
+                    EditFaceNameView(geometry: geometry, face: tappedFace) {
+                        // save name
                         // close this form
                         screenFlow = .viewNothing
-                    } actionAfter: { succeeded, newFace in
-                        // highlight the face has just been created?
+                    } actionSave: { actionType, isSucceeded, updatedFace in
+                        if isSucceeded {
+                            refreshTheList.toggle()
+                        }
+                        
+                        screenFlow = .viewNothing
                     }
                 }
             case .viewFaceDetail:

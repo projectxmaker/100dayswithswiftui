@@ -11,6 +11,8 @@ struct FaceList: View {
     @Binding var faces: [Face]
     let geometry: GeometryProxy
     var tapOnAFaceAction: (Face) -> Void
+    var showEditNameAction: (Face) -> Void
+    var showDeleteAction: (Face) -> Void
 
     let listVGridColumns: [GridItem] = [
         GridItem(.adaptive(minimum: 100))
@@ -26,7 +28,12 @@ struct FaceList: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .shadow(color: .gray, radius: 10, x: 1, y: 1)
                     } else {
-                        FaceView(face: face, tapOnAFaceAction: tapOnAFaceAction)
+                        FaceView(
+                            face: face,
+                            tapOnAFaceAction: tapOnAFaceAction,
+                            showEditNameAction: showEditNameAction,
+                            showDeleteAction: showDeleteAction
+                        )
                     }
                 }
             }

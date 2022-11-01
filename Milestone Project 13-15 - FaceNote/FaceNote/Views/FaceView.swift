@@ -15,6 +15,8 @@ struct FaceView: View {
     @State private var showActions = false
     
     var tapOnAFaceAction: (Face) -> Void
+    var showEditNameAction: (Face) -> Void
+    var showDeleteAction: (Face) -> Void
     
     private func getUIImage() -> UIImage? {
         let uiImageURL = FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail)
@@ -66,11 +68,11 @@ struct FaceView: View {
         })
         .confirmationDialog("Modify \(face.name)", isPresented: $showActions) {
             Button("Change Name") {
-                //showEditNameView()
+                showEditNameAction(face)
             }
             
             Button("Delete", role: .destructive) {
-                //showDeleteAlert()
+                showDeleteAction(face)
             }
             
             Button("Cancel", role: .cancel, action: {})
