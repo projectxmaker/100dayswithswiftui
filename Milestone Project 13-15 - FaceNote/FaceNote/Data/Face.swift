@@ -8,7 +8,7 @@
 import Foundation
 
 struct Face: Codable, Identifiable, Equatable, Comparable {
-    let id: UUID
+    var id: UUID
     var name: String
     var picture: String
     var thumbnail: String

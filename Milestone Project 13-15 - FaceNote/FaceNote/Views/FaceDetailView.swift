@@ -8,36 +8,17 @@
 import SwiftUI
 
 struct FaceDetailView: View {
-    let backgrounUIImageURL: URL
-    let mainUIImageURL: URL
-    let label: String
-    let geometry: GeometryProxy
+    @StateObject private var viewModel = FaceDetailView.ViewModel()
+    @State private var showFaceDetailView = false
+    
+    var face: Face
+    var geometry: GeometryProxy
     var tapOnAFaceDetailAction: () -> Void
     
-    @State private var backgroundUIImage = UIImage()
-    @State private var mainUIImage = UIImage()
-    
-    @State private var showFaceDetailView = false
-
-    static func getUIImage(url: URL) -> UIImage? {
-        var data: Data
-        do {
-            data = try Data(contentsOf: url)
-        } catch {
-            print("Cannot get image: \(error.localizedDescription)")
-            return nil
-        }
-        
-        return UIImage(data: data)
-    }
-    
-    static func getUIImage(url: URL, size: CGSize) -> UIImage? {
-        var image = getUIImage(url: url)
-        if let newImage = image {
-            image = newImage.preparingThumbnail(of: size)
-        }
-        
-        return image
+    init(face: Face, geometry: GeometryProxy, tapOnAFaceDetailAction: @escaping () -> Void) {
+        self.face = face
+        self.geometry = geometry
+        self.tapOnAFaceDetailAction = tapOnAFaceDetailAction
     }
     
     var body: some View {
@@ -47,7 +28,7 @@ struct FaceDetailView: View {
                 .opacity(0.1)
                 .padding([.horizontal], -20)
                 .overlay {
-                    Image(uiImage: backgroundUIImage)
+                    Image(uiImage: viewModel.backgroundUIImage)
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: geometry.size.width)
@@ -57,7 +38,7 @@ struct FaceDetailView: View {
                         .opacity(showFaceDetailView ? 0.7 : 0)
                     
                     VStack {
-                        Image(uiImage: mainUIImage)
+                        Image(uiImage: viewModel.mainUIImage)
                             .resizable()
                             .scaledToFill()
                             .frame(height: geometry.size.width * 0.9)
@@ -65,7 +46,7 @@ struct FaceDetailView: View {
                             .shadow(color: .white, radius: 10, x: 1, y: 1)
                             .padding()
     
-                        Text(label)
+                        Text(face.name)
                             .font(.title)
                             .foregroundColor(.white)
                             .shadow(color: .white, radius: 10, x: 1, y: 1)
@@ -74,12 +55,8 @@ struct FaceDetailView: View {
                 }
         }
         .onAppear {
-            backgroundUIImage = FaceDetailView.getUIImage(url: backgrounUIImageURL) ?? UIImage()
-            
-            let newSize = CGSize(width: geometry.size.width * 0.9
-            , height: geometry.size.width * 0.9)
-
-            mainUIImage = FaceDetailView.getUIImage(url: mainUIImageURL, size: newSize) ?? UIImage()
+            viewModel.face = self.face
+            viewModel.geometry = self.geometry
             
             withAnimation(.easeOut(duration: 0.5)) {
                 showFaceDetailView.toggle()

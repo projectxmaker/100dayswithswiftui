@@ -22,19 +22,12 @@ struct FaceList: View {
         ScrollView {
             LazyVGrid(columns: listVGridColumns) {
                 ForEach(faces) { face in
-                    if face.picture.isEmpty {
-                        ProgressView()
-                            .frame(maxWidth: 100, maxHeight: 100)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .shadow(color: .gray, radius: 10, x: 1, y: 1)
-                    } else {
-                        FaceView(
-                            face: face,
-                            tapOnAFaceAction: tapOnAFaceAction,
-                            showEditNameAction: showEditNameAction,
-                            showDeleteAction: showDeleteAction
-                        )
-                    }
+                    FaceView(
+                        face: face,
+                        tapOnAFaceAction: tapOnAFaceAction,
+                        showEditNameAction: showEditNameAction,
+                        showDeleteAction: showDeleteAction
+                    )
                 }
             }
         }

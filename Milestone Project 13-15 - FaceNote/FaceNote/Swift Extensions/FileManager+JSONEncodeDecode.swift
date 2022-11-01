@@ -66,4 +66,12 @@ extension FileManager {
         
         return imageURL
     }
+    
+    func getFileURL(fileName: String) -> URL {
+        if #available(iOS 16, *) {
+            return self.getDocumentsDirectory().appending(component: fileName)
+        } else {
+            return self.getDocumentsDirectory().appendingPathComponent(fileName)
+        }
+    }
 }

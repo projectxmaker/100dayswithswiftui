@@ -29,13 +29,21 @@ extension EditFaceNameView {
         }
         
         init(face: Face, actionCancel: @escaping () -> Void, actionSave: @escaping (EditFaceNameView.ViewModel.ActionType, Bool, Face?) -> Void) {
-            let faceImageURL = FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail)
+
+            let faceImageURL = FileManager.default.getFileURL(fileName: face.thumbnail)
             
-            let faceImage = UIImage.getUIImage(url: faceImageURL) ?? UIImage()
-            
+            if let existingFaceImage = UIImage.getUIImage(url: faceImageURL) {
+                self.faceImage = existingFaceImage
+            } else {
+                if let defaultImage = UIImage(systemName: "person") {
+                    self.faceImage = defaultImage
+                } else {
+                    self.faceImage = UIImage()
+                }
+            }
+
             self.face = face
             self.faceName = face.name
-            self.faceImage = faceImage
             self.actionCancel = actionCancel
             self.actionSave = actionSave
         }

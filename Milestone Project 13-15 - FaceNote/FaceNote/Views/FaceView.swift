@@ -8,33 +8,18 @@
 import SwiftUI
 
 struct FaceView: View {
-    let face: Face
-    
     @State private var showFace = false
     @State private var flipDegree: Double = 0
     @State private var showActions = false
     
+    var face: Face
     var tapOnAFaceAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
     var showDeleteAction: (Face) -> Void
     
-    private func getUIImage() -> UIImage? {
-        let uiImageURL = FileManager.default.getDocumentsDirectory().appendingPathComponent(face.thumbnail)
-        
-        var data: Data
-        do {
-            data = try Data(contentsOf: uiImageURL)
-        } catch {
-            print("Cannot get image: \(error.localizedDescription)")
-            return nil
-        }
-        
-        return UIImage(data: data)
-    }
-    
     var body: some View {
         VStack {
-            if let loadedUIImage = getUIImage() {
+            if let loadedUIImage = UIImage.getUIImage(url: FileManager.default.getFileURL(fileName: face.thumbnail)) {
                 Image(uiImage: loadedUIImage)
                     .resizable()
                     .scaledToFill()
@@ -60,13 +45,13 @@ struct FaceView: View {
             withAnimation {
                 flipDegree = flipDegree == 360 ? 0 : 360
             }
-            
+
             tapOnAFaceAction(face)
         }
         .onLongPressGesture(perform: {
             showActions.toggle()
         })
-        .confirmationDialog("Modify \(face.name)", isPresented: $showActions) {
+        .confirmationDialog("\(face.name)".uppercased(), isPresented: $showActions) {
             Button("Change Name") {
                 showEditNameAction(face)
             }

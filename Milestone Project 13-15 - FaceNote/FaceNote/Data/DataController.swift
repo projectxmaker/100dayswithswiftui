@@ -62,13 +62,14 @@ class DataController {
         var newFace = Face(id: faceId, name: name, picture: "", thumbnail: "")
 
         // save large image into app document directory
-        if let _ = FileManager.default.saveUIImage(uiImage, name: faceId.uuidString) {
+        let pictureName = faceId.uuidString
+        if let _ = FileManager.default.saveUIImage(uiImage, name: pictureName) {
 
-            newFace.picture = faceId.uuidString
+            newFace.picture = pictureName
             
             let thumbnailSize = CGSize(width: 200, height: 200)
             if let thumbnailUIImage = uiImage.preparingThumbnail(of: thumbnailSize) {
-                let thumbnailName = "\(faceId.uuidString)_thumbnail"
+                let thumbnailName = "\(pictureName)_thumbnail"
                 
                 // save thumbnail image into app document directory
                 if let _ = FileManager.default.saveUIImage(thumbnailUIImage, name: thumbnailName) {
@@ -95,6 +96,7 @@ class DataController {
         if let index = faces.firstIndex(of: face) {
             var updatedFace = face
             updatedFace.name = newName
+            updatedFace.id = UUID()
             faces[index] = updatedFace
             
             justModifiedFace = updatedFace

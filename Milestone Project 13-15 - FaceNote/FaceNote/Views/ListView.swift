@@ -15,9 +15,6 @@ struct ListView: View {
     @State private var showingImagePicker = false
     @State private var screenFlow = ScreenFlow.viewNothing
     @State private var tappedFace: Face?
-    
-    @State private var filterKeyword = ""
-    @State private var sortOrder = SortOrder.forward
     @State private var showFilterPanel = false
     @State private var resizeResultList = false
     @State private var refreshTheList = false
@@ -135,11 +132,9 @@ struct ListView: View {
                     }
                 }
             case .viewFaceDetail:
-                if let tappedFace = tappedFace {
+                if let newTappedFace = tappedFace {
                     FaceDetailView(
-                        backgrounUIImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(tappedFace.thumbnail),
-                        mainUIImageURL: FileManager.default.getDocumentsDirectory().appendingPathComponent(tappedFace.picture),
-                        label: tappedFace.name,
+                        face: newTappedFace,
                         geometry: geometry,
                         tapOnAFaceDetailAction: closeFaceDetailAction)
                 }
