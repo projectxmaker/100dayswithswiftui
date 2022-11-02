@@ -13,7 +13,7 @@ struct ContentView: View {
 
     private func longPressOnFace() -> some Gesture {
         let minimumLongPressDuration: Double = 1
-        let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration)
+        let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration, maximumDistance: 30)
             .onEnded { value in
                 print("long press on screen")
                 longPressOnScreen.toggle()
@@ -28,14 +28,14 @@ struct ContentView: View {
             }
             .onTapGesture(count: 2, perform: {
             })
-            .gesture(longPressOnFace())
-            .gesture(TapGesture(count: 1)
+            .simultaneousGesture(longPressOnFace())
+            .simultaneousGesture(TapGesture(count: 1)
                 .onEnded({ void in
                     print("tap on screen")
                     tapOnScreen.toggle()
                 })
             )
-            
+
         }
     }
 }

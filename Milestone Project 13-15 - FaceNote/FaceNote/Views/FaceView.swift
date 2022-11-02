@@ -85,7 +85,7 @@ struct FaceView: View {
     }
     
     private func tapOnFace() -> some Gesture {
-        let onTap = TapGesture()
+        let onTap = TapGesture(count: 1)
             .onEnded({ ended in
                 runActionForTapOnFace()
             })
@@ -145,8 +145,9 @@ struct FaceView: View {
                     .lineLimit(2)
                     .font(.caption)
             }
-            .onTapGesture {}
-            .gesture(longPressOnFace())
+            .onTapGesture(count: 2, perform: {})
+            //.gesture(longPressOnFace())
+            .highPriorityGesture(longPressOnFace())
         }
         .simultaneousGesture(tapOnFace())
         .onChange(of: longPressType, perform: runActionForLongPressOnFace)
