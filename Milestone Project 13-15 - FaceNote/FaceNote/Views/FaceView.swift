@@ -69,13 +69,13 @@ struct FaceView: View {
     private func tapOnFace() -> some Gesture {
         let onTap = TapGesture()
             .onEnded({ ended in
-                deleteTheFace()
+                runActionForTapOnFace()
             })
 
         return onTap
     }
     
-    private func deleteTheFace() {
+    private func runActionForTapOnFace() {
         let _ = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
             if tappedOnDeletionIcon {
                 print("tap on deletion icon")
