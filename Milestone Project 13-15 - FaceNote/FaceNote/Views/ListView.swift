@@ -12,6 +12,15 @@ enum ScreenFlow {
 }
 
 struct ListView: View {
+    enum CurrentAction {
+        case list, alertForDeletion
+    }
+    
+    @State private var currentAction = CurrentAction.list
+    
+    @Binding var tapOnScreen: Bool
+    @Binding var longPressOnScreen: Bool
+    @State private var longPressOnFace = false
     @State private var showDeleteOptionOnEachFace = false
     @State private var showDeleteAlert = false
     @State private var showingImagePicker = false
@@ -39,10 +48,37 @@ struct ListView: View {
     private func showDeleteView(face: Face) {
         tappedFace = face
         showDeleteAlert.toggle()
+        currentAction = .alertForDeletion
+        print("set current action \(currentAction)")
     }
     
     private func showDeleteOptionOnEachFaceAction(status: Bool) {
         showDeleteOptionOnEachFace = status
+        
+        // reset to false as default
+        longPressOnFace = false
+    }
+    
+    private func hideDeleteOptionOnEveryFace() {
+        print("current action \(currentAction)")
+        if (currentAction != .alertForDeletion && showDeleteOptionOnEachFace) {
+            showDeleteOptionOnEachFaceAction(status: false)
+        }
+    }
+    
+    private func longPressToEnableDeleteOptionOnEveryFace() {
+        print("long press on face \(longPressOnFace)")
+        if (!showDeleteOptionOnEachFace) {
+            if !longPressOnFace {
+                showDeleteOptionOnEachFaceAction(status: true)
+            }
+        } else {
+            showDeleteOptionOnEachFaceAction(status: false)
+        }
+    }
+    
+    private func longPressOnFaceAction(status: Bool) {
+        longPressOnFace = status
     }
     
     private func closeFaceDetailAction() {
@@ -66,7 +102,8 @@ struct ListView: View {
                          showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
                          showDetailAction: viewFaceDetail,
                          showEditNameAction: showEditNameView,
-                         showDeleteAction: showDeleteView
+                         showDeleteAction: showDeleteView,
+                         longPressOnFaceAction: longPressOnFaceAction
                 )
                 .onChange(of: viewModel.keyword) { _ in
                     viewModel.filteredFaces()
@@ -163,6 +200,7 @@ struct ListView: View {
             }
         }
         .navigationTitle("FaceNote")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Filter") {
@@ -176,7 +214,9 @@ struct ListView: View {
             }
         }
         .alert("Delete", isPresented: $showDeleteAlert, actions: {
-            Button(role: .cancel, action: {}) {
+            Button(role: .cancel, action: {
+                currentAction = .list
+            }) {
                 Text("Cancel")
             }
             
@@ -184,10 +224,12 @@ struct ListView: View {
                 viewModel.deleteFace { succeeded, faces in
                     refreshTheList.toggle()
                 }
+                
+                currentAction = .list
             }) {
                 Text("Delete")
             }
-       }, message: {
+        }, message: {
            Text(viewModel.deleteMessage)
         })
         .sheet(isPresented: $showingImagePicker) {
@@ -206,6 +248,19 @@ struct ListView: View {
                 }
             }
         })
+        .onChange(of: longPressOnScreen, perform: { newValue in
+            print("long press on screen CHANGED")
+            longPressToEnableDeleteOptionOnEveryFace()
+        })
+        
+        .onChange(of: tapOnScreen, perform: { newValue in
+            // wait for update of Delete A Face from FaceView
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                hideDeleteOptionOnEveryFace()
+            }
+        })
+        
+        
         .padding(.horizontal, 10)
     }
 }

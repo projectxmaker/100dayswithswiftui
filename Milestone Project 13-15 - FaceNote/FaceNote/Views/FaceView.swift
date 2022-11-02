@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct FaceView: View {
-    enum DragState {
-        case inactive
-        case pressingInOneSecond
-        case pressingInThreeSecond
+    enum LongPressActionType {
+        case nothing, showActionDialog, showDeletionOption
     }
     
-    @GestureState var dragState = DragState.inactive
-    
+    @GestureState var longPressState = false
+    @State private var longPressType = LongPressActionType.nothing
     @State private var showFace = false
     @State private var flipDegree: Double = 0
     @State private var showActionDialog = false
@@ -27,6 +25,7 @@ struct FaceView: View {
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
     var showDeleteAction: (Face) -> Void
+    var longPressOnFaceAction: (Bool) -> Void
     
     private func switchActionDialog() {
         withAnimation {
@@ -36,33 +35,52 @@ struct FaceView: View {
     }
 
     private func longPressOnFace() -> some Gesture {
-        
-        let minimumLongPressDuration: Double = 3
+        let minimumLongPressDuration: Double = 1
         let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration)
             .sequenced(before: LongPressGesture(minimumDuration: 1))
-            .updating($dragState, body: { value, state, transaction in
+            .updating($longPressState, body: { value, state, transaction in
+                print("\(value) --- \(state)")
+                
                 switch value {
                 case .first(true):
-                    state = .pressingInOneSecond
-                case .second(true, nil):
-                    state = .pressingInThreeSecond
+                    print("start")
+                case .second(true, let done) where done == nil:
+                    DispatchQueue.main.async {
+                        longPressType = .showActionDialog
+                    }
                 default:
-                    state = .inactive
+                    print("default")
                 }
             })
+            .onEnded { value in
+                DispatchQueue.main.async {
+                    longPressType = .showDeletionOption
+                }
+                
+            }
         return longPressDrag
     }
     
-    private func runActionForLongPressOnFace(newValue: DragState) {
-        if newValue == .pressingInOneSecond {
+    private func runActionForLongPressOnFace(newValue: LongPressActionType) {
+        print("long press on face UPDATED ")
+        switch newValue {
+        case .showActionDialog:
+            print("here 1")
+            longPressOnFaceAction(true)
+
             // show Action Dialog
             switchActionDialog()
-            
-        } else if newValue == .pressingInThreeSecond {
+        case .showDeletionOption:
+            print("here 2")
+            longPressOnFaceAction(true)
+
             // close Action Dialog
             switchActionDialog()
-            
+
             showDeleteOptionOnEachFaceAction(true)
+        case .nothing:
+            print("here 3")
+            longPressOnFaceAction(false)
         }
     }
     
@@ -80,6 +98,7 @@ struct FaceView: View {
             if tappedOnDeletionIcon {
                 print("tap on deletion icon")
                 showDeleteAction(face)
+                tappedOnDeletionIcon = false
             } else {
                 print("tap on scroller")
                 if showDeleteOptionOnEachFace {
@@ -97,33 +116,40 @@ struct FaceView: View {
     
     var body: some View {
         VStack {
-            if let loadedUIImage = UIImage.getUIImage(url: FileManager.default.getFileURL(fileName: face.thumbnail)) {
-                Image(uiImage: loadedUIImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-                    .shadow(color: .gray, radius: 10, x: 1, y: 1)
-                    .rotation3DEffect(.degrees(flipDegree), axis: (x: 0, y: 1, z: 0))
-                    .overlay(alignment: .topLeading) {
-                        if showDeleteOptionOnEachFace {
-                            Image(systemName: "minus.circle.fill")
-                                .font(.title2)
-                                .foregroundColor(.red.opacity(0.8))
-                                .onTapGesture {
-                                    tappedOnDeletionIcon = true
-                                }
+            VStack {
+                if let loadedUIImage = UIImage.getUIImage(url: FileManager.default.getFileURL(fileName: face.thumbnail)) {
+                    Image(uiImage: loadedUIImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                        .shadow(color: .gray, radius: 10, x: 1, y: 1)
+                        .rotation3DEffect(.degrees(flipDegree), axis: (x: 0, y: 1, z: 0))
+                        .overlay(alignment: .topLeading) {
+                            if showDeleteOptionOnEachFace {
+                                Image(systemName: "minus.circle.fill")
+                                    .font(.title2)
+                                    .foregroundColor(.red.opacity(0.8))
+                                    .onTapGesture {
+                                        tappedOnDeletionIcon = true
+                                    }
+                                    .onChange(of: showDeleteOptionOnEachFace) { newValue in
+                                        if !showDeleteOptionOnEachFace {
+                                            tappedOnDeletionIcon = false
+                                        }
+                                    }
+                            }
                         }
-                    }
+                }
+                Text(face.name)
+                    .lineLimit(2)
+                    .font(.caption)
             }
-            Text(face.name)
-                .lineLimit(2)
-                .font(.caption)
+            .onTapGesture {}
+            .gesture(longPressOnFace())
         }
-        .onTapGesture {  }
-        .gesture(longPressOnFace())
-        .onChange(of: dragState, perform: runActionForLongPressOnFace)
         .simultaneousGesture(tapOnFace())
+        .onChange(of: longPressType, perform: runActionForLongPressOnFace)
         .scaleEffect(showFace ? 1 : 0)
         .onAppear {
             withAnimation(.easeInOut(duration: 0.7)) {

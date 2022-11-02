@@ -15,6 +15,7 @@ struct FaceList: View {
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
     var showDeleteAction: (Face) -> Void
+    var longPressOnFaceAction: (Bool) -> Void
 
     let listVGridColumns: [GridItem] = [
         GridItem(.adaptive(minimum: 100))
@@ -30,7 +31,8 @@ struct FaceList: View {
                         showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
                         showDetailAction: showDetailAction,
                         showEditNameAction: showEditNameAction,
-                        showDeleteAction: showDeleteAction
+                        showDeleteAction: showDeleteAction,
+                        longPressOnFaceAction: longPressOnFaceAction
                     )
                 }
             }
