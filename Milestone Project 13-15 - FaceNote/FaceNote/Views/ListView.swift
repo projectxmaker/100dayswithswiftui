@@ -12,6 +12,7 @@ enum ScreenFlow {
 }
 
 struct ListView: View {
+    @State private var showDeleteOptionOnEachFace = false
     @State private var showDeleteAlert = false
     @State private var showingImagePicker = false
     @State private var screenFlow = ScreenFlow.viewNothing
@@ -40,6 +41,10 @@ struct ListView: View {
         showDeleteAlert.toggle()
     }
     
+    private func showDeleteOptionOnEachFaceAction(status: Bool) {
+        showDeleteOptionOnEachFace = status
+    }
+    
     private func closeFaceDetailAction() {
         screenFlow = .viewNothing
     }
@@ -57,9 +62,11 @@ struct ListView: View {
     var body: some View {
         ZStack {
             VStack {
-                FaceList(faces: $viewModel.faces, geometry: geometry, showDetailAction: viewFaceDetail,
-                    showEditNameAction: showEditNameView,
-                    showDeleteAction: showDeleteView
+                FaceList(faces: $viewModel.faces, showDeleteOptionOnEachFace: showDeleteOptionOnEachFace, geometry: geometry,
+                         showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
+                         showDetailAction: viewFaceDetail,
+                         showEditNameAction: showEditNameView,
+                         showDeleteAction: showDeleteView
                 )
                 .onChange(of: viewModel.keyword) { _ in
                     viewModel.filteredFaces()
