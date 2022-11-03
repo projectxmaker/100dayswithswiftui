@@ -58,14 +58,12 @@ struct ListView: View {
     
     private func showDeleteOptionOnEachFaceAction(status: Bool) {
         showDeleteOptionOnEachFace = status
-        
-        // reset to false as default
-        longPressOnFace = false
     }
     
     private func hideDeleteOptionOnEveryFace() {
         print("current action \(currentAction)")
         if (currentAction != .alertForDeletion && showDeleteOptionOnEachFace) {
+            print("hide all deletions")
             showDeleteOptionOnEachFaceAction(status: false)
         }
     }
@@ -79,10 +77,6 @@ struct ListView: View {
         } else {
             showDeleteOptionOnEachFaceAction(status: false)
         }
-    }
-    
-    private func longPressOnFaceAction(status: Bool) {
-        longPressOnFace = status
     }
     
     private func closeFaceDetailAction() {
@@ -113,8 +107,7 @@ struct ListView: View {
                          showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
                          showDetailAction: viewFaceDetail,
                          showEditNameAction: showEditNameView,
-                         showDeleteAction: showDeleteView,
-                         longPressOnFaceAction: longPressOnFaceAction
+                         showDeleteAction: showDeleteView
                 )
                 .onChange(of: viewModel.keyword) { _ in
                     viewModel.filteredFaces()
@@ -266,6 +259,7 @@ struct ListView: View {
         .onChange(of: tapOnFaceList, perform: { newValue in
             // wait for update of Delete A Face from FaceView
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                
                 hideDeleteOptionOnEveryFace()
             }
         })

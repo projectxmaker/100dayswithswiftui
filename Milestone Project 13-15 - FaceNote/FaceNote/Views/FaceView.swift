@@ -8,15 +8,8 @@
 import SwiftUI
 
 struct FaceView: View {
-    enum LongPressActionType {
-        case nothing, showActionDialog, showDeletionOption
-    }
-    
-    @GestureState var longPressState = false
-    @State private var longPressType = LongPressActionType.nothing
     @State private var showFace = false
     @State private var flipDegree: Double = 0
-    @State private var showActionDialog = false
     @State private var tappedOnDeletionIcon = false
     
     var face: Face
@@ -25,64 +18,21 @@ struct FaceView: View {
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
     var showDeleteAction: (Face) -> Void
-    var longPressOnFaceAction: (Bool) -> Void
-    
-    private func switchActionDialog() {
-        withAnimation {
-            flipDegree = flipDegree == 360 ? 0 : 360
-        }
-        showActionDialog.toggle()
-    }
-
-    private func longPressOnFace() -> some Gesture {
-        let minimumLongPressDuration: Double = 1
-        let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration)
-            .sequenced(before: LongPressGesture(minimumDuration: 1))
-            .updating($longPressState, body: { value, state, transaction in
-                print("\(value) --- \(state)")
-                
-                switch value {
-                case .first(true):
-                    print("start")
-                case .second(true, let done) where done == nil:
-                    DispatchQueue.main.async {
-                        longPressType = .showActionDialog
-                    }
-                default:
-                    print("default")
-                }
-            })
-            .onEnded { value in
-                DispatchQueue.main.async {
-                    longPressType = .showDeletionOption
-                }
-                
-            }
-        return longPressDrag
-    }
-    
-    private func runActionForLongPressOnFace(newValue: LongPressActionType) {
-        print("long press on face UPDATED ")
-        switch newValue {
-        case .showActionDialog:
-            print("here 1")
-            longPressOnFaceAction(true)
-
-            // show Action Dialog
-            switchActionDialog()
-        case .showDeletionOption:
-            print("here 2")
-            longPressOnFaceAction(true)
-
-            // close Action Dialog
-            switchActionDialog()
-
-            showDeleteOptionOnEachFaceAction(true)
-        case .nothing:
-            print("here 3")
-            longPressOnFaceAction(false)
-        }
-    }
+//
+//    private func longPressOnFace() -> some Gesture {
+//        let minimumLongPressDuration: Double = 2
+//        let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration)
+//            .onEnded { value in
+//                DispatchQueue.main.async {
+//                    withAnimation {
+//                        flipDegree = flipDegree == 360 ? 0 : 360
+//                    }
+//                    
+//                    showDeleteOptionOnEachFaceAction(true)
+//                }
+//            }
+//        return longPressDrag
+//    }
     
     private func tapOnFace() -> some Gesture {
         let onTap = TapGesture(count: 1)
@@ -100,14 +50,8 @@ struct FaceView: View {
                 showDeleteAction(face)
                 tappedOnDeletionIcon = false
             } else {
-                print("tap on scroller")
-                if showDeleteOptionOnEachFace {
-                    showDeleteOptionOnEachFaceAction(false)
-                } else {
-                    withAnimation {
-                        flipDegree = flipDegree == 360 ? 0 : 360
-                    }
-
+                print("tap on face")
+                if !showDeleteOptionOnEachFace {
                     showDetailAction(face)
                 }
             }
@@ -134,23 +78,33 @@ struct FaceView: View {
                                         print("tap on deletion icon")
                                         tappedOnDeletionIcon = true
                                     }
-                                    .onChange(of: showDeleteOptionOnEachFace) { newValue in
-                                        if !showDeleteOptionOnEachFace {
-                                            tappedOnDeletionIcon = false
-                                        }
-                                    }
                             }
                         }
+                        .contentShape(.contextMenuPreview, Circle())
+                        .contextMenu(menuItems: {
+                            Button() {
+                                showEditNameAction(face)
+                            } label: {
+                                Label("Change Name", systemImage: "pencil")
+                                    .font(.title)
+                            }
+
+                            Button(role: .destructive) {
+                                showDeleteAction(face)
+                            } label: {
+                                Label("Delete", systemImage: "minus.circle")
+                                    .font(.title)
+                            }
+                        })
                 }
                 Text(face.name)
                     .lineLimit(2)
                     .font(.caption)
             }
             .onTapGesture(count: 1, perform: {})
-            .gesture(longPressOnFace())
+            //.gesture(longPressOnFace())
         }
         .simultaneousGesture(tapOnFace())
-        .onChange(of: longPressType, perform: runActionForLongPressOnFace)
         .scaleEffect(showFace ? 1 : 0)
         .onAppear {
             withAnimation(.easeInOut(duration: 0.7)) {
@@ -159,19 +113,6 @@ struct FaceView: View {
         }
         .onDisappear {
             showFace = false
-        }
-        .confirmationDialog("\(face.name)".uppercased(), isPresented: $showActionDialog) {
-            Button("Change Name") {
-                showEditNameAction(face)
-            }
-            
-            Button("Delete", role: .destructive) {
-                showDeleteAction(face)
-            }
-            
-            Button("Cancel", role: .cancel, action: {})
-        } message: {
-            Text(String("\(face.name)").uppercased())
         }
     }
 }
