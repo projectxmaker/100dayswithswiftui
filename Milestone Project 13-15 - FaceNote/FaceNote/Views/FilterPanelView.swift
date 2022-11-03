@@ -16,6 +16,7 @@ struct FilterPanelView: View {
     var filterPanelHeightRatio = 0.05
     var animationDuration = 0.5
     var filterSystemImage = "arrow.up.arrow.down.square"
+    @FocusState private var isKeywordFocused: Bool
 
     var body: some View {
         HStack {
@@ -24,6 +25,7 @@ struct FilterPanelView: View {
             }
             .textInputAutocapitalization(.never)
             .textFieldStyle(.roundedBorder)
+            .focused($isKeywordFocused)
 
             Image(systemName: "arrow.up.arrow.down.square")
                 .font(.title)
@@ -39,5 +41,8 @@ struct FilterPanelView: View {
         .transition(.slide)
         .animation(.easeInOut(duration: 0.5), value: showFilterPanel)
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .onAppear {
+            isKeywordFocused = true
+        }
     }
 }
