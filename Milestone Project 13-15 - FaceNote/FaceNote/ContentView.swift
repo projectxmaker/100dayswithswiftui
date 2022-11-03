@@ -8,34 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var longPressOnScreen = false
-    @State private var tapOnScreen = false
-
-    private func longPressOnFace() -> some Gesture {
-        let minimumLongPressDuration: Double = 1
-        let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration, maximumDistance: 30)
-            .onEnded { value in
-                print("long press on screen")
-                longPressOnScreen.toggle()
-            }
-        return longPressDrag
-    }
-
     var body: some View {
         GeometryReader { geometry in
             NavigationView {
-                ListView(tapOnScreen: $tapOnScreen, longPressOnScreen: $longPressOnScreen, geometry: geometry)
+                ListView(geometry: geometry)
             }
-            .onTapGesture(count: 2, perform: {
-            })
-            .simultaneousGesture(longPressOnFace())
-            .simultaneousGesture(TapGesture(count: 1)
-                .onEnded({ void in
-                    print("tap on screen")
-                    tapOnScreen.toggle()
-                })
-            )
-
         }
     }
 }

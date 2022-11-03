@@ -131,6 +131,7 @@ struct FaceView: View {
                                     .font(.title2)
                                     .foregroundColor(.red.opacity(0.8))
                                     .onTapGesture {
+                                        print("tap on deletion icon")
                                         tappedOnDeletionIcon = true
                                     }
                                     .onChange(of: showDeleteOptionOnEachFace) { newValue in
@@ -145,9 +146,8 @@ struct FaceView: View {
                     .lineLimit(2)
                     .font(.caption)
             }
-            .onTapGesture(count: 2, perform: {})
-            //.gesture(longPressOnFace())
-            .highPriorityGesture(longPressOnFace())
+            .onTapGesture(count: 1, perform: {})
+            .gesture(longPressOnFace())
         }
         .simultaneousGesture(tapOnFace())
         .onChange(of: longPressType, perform: runActionForLongPressOnFace)

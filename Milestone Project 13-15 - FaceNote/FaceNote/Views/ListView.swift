@@ -18,8 +18,9 @@ struct ListView: View {
     
     @State private var currentAction = CurrentAction.list
     
-    @Binding var tapOnScreen: Bool
-    @Binding var longPressOnScreen: Bool
+    @State private var longPressOnFaceList = false
+    @State private var tapOnFaceList = false
+    
     @State private var longPressOnFace = false
     @State private var showDeleteOptionOnEachFace = false
     @State private var showDeleteAlert = false
@@ -120,6 +121,16 @@ struct ListView: View {
                 
                 Spacer(minLength: resizeResultList ? geometry.size.height * 0.23 : 0)
             }
+            .gesture(LongPressGesture(minimumDuration: 1).onEnded({ value in
+                print("long press on face list")
+                longPressOnFaceList.toggle()
+            }))
+            .simultaneousGesture(TapGesture(count: 1)
+                .onEnded({ void in
+                    print("tap on face list")
+                    tapOnFaceList.toggle()
+                })
+            )
             
             VStack {
                 Spacer()
@@ -248,12 +259,12 @@ struct ListView: View {
                 }
             }
         })
-        .onChange(of: longPressOnScreen, perform: { newValue in
+        .onChange(of: longPressOnFaceList, perform: { newValue in
             print("long press on screen CHANGED")
             longPressToEnableDeleteOptionOnEveryFace()
         })
         
-        .onChange(of: tapOnScreen, perform: { newValue in
+        .onChange(of: tapOnFaceList, perform: { newValue in
             // wait for update of Delete A Face from FaceView
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 hideDeleteOptionOnEveryFace()
