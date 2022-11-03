@@ -22,7 +22,7 @@ struct ListView: View {
     @State private var tapOnFaceList = false
     
     @State private var longPressOnFace = false
-    @State private var showDeleteOptionOnEachFace = false
+    @State private var showDeleteOption = false
     @State private var showingImagePicker = false
     @State private var screenFlow = ScreenFlow.viewNothing
     @State private var tappedFace: Face?
@@ -50,20 +50,20 @@ struct ListView: View {
     
     private func hideDeleteOptionOnEveryFace() {
         print("current action \(currentAction)")
-        if (showDeleteOptionOnEachFace) {
+        if (showDeleteOption) {
             print("hide all deletions")
-            showDeleteOptionOnEachFace = false
+            showDeleteOption = false
         }
     }
     
     private func longPressToEnableDeleteOptionOnEveryFace() {
         print("long press on face \(longPressOnFace)")
-        if (!showDeleteOptionOnEachFace) {
+        if (!showDeleteOption) {
             if !longPressOnFace {
-                showDeleteOptionOnEachFace = true
+                showDeleteOption = true
             }
         } else {
-            showDeleteOptionOnEachFace = false
+            showDeleteOption = false
         }
     }
     
@@ -91,7 +91,7 @@ struct ListView: View {
             VStack {
                 Spacer(minLength: resizeResultList ? geometry.size.height * filterPanelHeightRatio : 0)
                 
-                FaceList(faces: $viewModel.faces, showDeleteOptionOnEachFace: $showDeleteOptionOnEachFace, geometry: geometry,
+                FaceList(faces: $viewModel.faces, showDeleteOption: $showDeleteOption, geometry: geometry,
                          refreshTheList: $refreshTheList,
                          showDetailAction: viewFaceDetail,
                          showEditNameAction: showEditNameView

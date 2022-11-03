@@ -17,25 +17,9 @@ struct FaceView: View {
     
     var face: Face
     @Binding var refreshTheList: Bool
-    @Binding var showDeleteOptionOnEachFace: Bool
+    @Binding var showDeleteOption: Bool
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
-    
-//
-//    private func longPressOnFace() -> some Gesture {
-//        let minimumLongPressDuration: Double = 2
-//        let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration)
-//            .onEnded { value in
-//                DispatchQueue.main.async {
-//                    withAnimation {
-//                        flipDegree = flipDegree == 360 ? 0 : 360
-//                    }
-//                    
-//                    showDeleteOptionOnEachFaceAction(true)
-//                }
-//            }
-//        return longPressDrag
-//    }
     
     private func tapOnFace() -> some Gesture {
         let onTap = TapGesture(count: 1)
@@ -53,10 +37,10 @@ struct FaceView: View {
                 runDeleteFaceAction()
             } else {
                 print("tap on face")
-                if !showDeleteOptionOnEachFace {
+                if !showDeleteOption {
                     showDetailAction(face)
                 } else {
-                    showDeleteOptionOnEachFace = false
+                    showDeleteOption = false
                 }
             }
         }
@@ -80,7 +64,7 @@ struct FaceView: View {
                         .shadow(color: .gray, radius: 10, x: 1, y: 1)
                         .rotation3DEffect(.degrees(flipDegree), axis: (x: 0, y: 1, z: 0))
                         .overlay(alignment: .topLeading) {
-                            if showDeleteOptionOnEachFace {
+                            if showDeleteOption {
                                 Image(systemName: "minus.circle.fill")
                                     .font(.title2)
                                     .foregroundColor(.red.opacity(0.8))
@@ -112,7 +96,6 @@ struct FaceView: View {
                     .font(.caption)
             }
             .onTapGesture(count: 1, perform: {})
-            //.gesture(longPressOnFace())
         }
         .simultaneousGesture(tapOnFace())
         .scaleEffect(showFace ? 1 : 0)
