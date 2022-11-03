@@ -17,8 +17,7 @@ struct FaceView: View {
     
     var face: Face
     @Binding var refreshTheList: Bool
-    var showDeleteOptionOnEachFace: Bool
-    var showDeleteOptionOnEachFaceAction: (Bool) -> Void
+    @Binding var showDeleteOptionOnEachFace: Bool
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
     
@@ -56,6 +55,8 @@ struct FaceView: View {
                 print("tap on face")
                 if !showDeleteOptionOnEachFace {
                     showDetailAction(face)
+                } else {
+                    showDeleteOptionOnEachFace = false
                 }
             }
         }

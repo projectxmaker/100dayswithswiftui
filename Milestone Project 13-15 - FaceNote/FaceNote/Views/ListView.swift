@@ -48,15 +48,11 @@ struct ListView: View {
         screenFlow = .editFaceName
     }
     
-    private func showDeleteOptionOnEachFaceAction(status: Bool) {
-        showDeleteOptionOnEachFace = status
-    }
-    
     private func hideDeleteOptionOnEveryFace() {
         print("current action \(currentAction)")
         if (showDeleteOptionOnEachFace) {
             print("hide all deletions")
-            showDeleteOptionOnEachFaceAction(status: false)
+            showDeleteOptionOnEachFace = false
         }
     }
     
@@ -64,10 +60,10 @@ struct ListView: View {
         print("long press on face \(longPressOnFace)")
         if (!showDeleteOptionOnEachFace) {
             if !longPressOnFace {
-                showDeleteOptionOnEachFaceAction(status: true)
+                showDeleteOptionOnEachFace = true
             }
         } else {
-            showDeleteOptionOnEachFaceAction(status: false)
+            showDeleteOptionOnEachFace = false
         }
     }
     
@@ -95,9 +91,8 @@ struct ListView: View {
             VStack {
                 Spacer(minLength: resizeResultList ? geometry.size.height * filterPanelHeightRatio : 0)
                 
-                FaceList(faces: $viewModel.faces, showDeleteOptionOnEachFace: showDeleteOptionOnEachFace, geometry: geometry,
+                FaceList(faces: $viewModel.faces, showDeleteOptionOnEachFace: $showDeleteOptionOnEachFace, geometry: geometry,
                          refreshTheList: $refreshTheList,
-                         showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
                          showDetailAction: viewFaceDetail,
                          showEditNameAction: showEditNameView
                 )

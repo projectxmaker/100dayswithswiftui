@@ -9,10 +9,10 @@ import SwiftUI
 
 struct FaceList: View {
     @Binding var faces: [Face]
-    var showDeleteOptionOnEachFace: Bool
+    @Binding var showDeleteOptionOnEachFace: Bool
     let geometry: GeometryProxy
     @Binding var refreshTheList: Bool
-    var showDeleteOptionOnEachFaceAction: (Bool) -> Void
+//    var showDeleteOptionOnEachFaceAction: (Bool) -> Void
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
 
@@ -27,8 +27,7 @@ struct FaceList: View {
                     FaceView(
                         face: face,
                         refreshTheList: $refreshTheList,
-                        showDeleteOptionOnEachFace: showDeleteOptionOnEachFace,
-                        showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
+                        showDeleteOptionOnEachFace: $showDeleteOptionOnEachFace,
                         showDetailAction: showDetailAction,
                         showEditNameAction: showEditNameAction
                     )
