@@ -12,7 +12,6 @@ struct FaceList: View {
     @Binding var showDeleteOptionOnEachFace: Bool
     let geometry: GeometryProxy
     @Binding var refreshTheList: Bool
-//    var showDeleteOptionOnEachFaceAction: (Bool) -> Void
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
 
