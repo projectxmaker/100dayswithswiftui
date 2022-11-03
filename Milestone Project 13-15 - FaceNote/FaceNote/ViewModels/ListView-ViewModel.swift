@@ -51,5 +51,11 @@ extension ListView {
                 action(succeeded, faces)
             }
         }
+        
+        func deleteFace(face: Face, action: @escaping (Bool, [Face]) -> Void) {
+            dataController.deleteFace(face) { succeeded, faces in
+                action(succeeded, faces)
+            }
+        }
     }
 }

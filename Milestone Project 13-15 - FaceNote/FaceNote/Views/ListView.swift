@@ -13,7 +13,7 @@ enum ScreenFlow {
 
 struct ListView: View {
     enum CurrentAction {
-        case list, alertForDeletion
+        case list
     }
     
     @State private var currentAction = CurrentAction.list
@@ -23,7 +23,6 @@ struct ListView: View {
     
     @State private var longPressOnFace = false
     @State private var showDeleteOptionOnEachFace = false
-    @State private var showDeleteAlert = false
     @State private var showingImagePicker = false
     @State private var screenFlow = ScreenFlow.viewNothing
     @State private var tappedFace: Face?
@@ -49,20 +48,13 @@ struct ListView: View {
         screenFlow = .editFaceName
     }
     
-    private func showDeleteView(face: Face) {
-        tappedFace = face
-        showDeleteAlert.toggle()
-        currentAction = .alertForDeletion
-        print("set current action \(currentAction)")
-    }
-    
     private func showDeleteOptionOnEachFaceAction(status: Bool) {
         showDeleteOptionOnEachFace = status
     }
     
     private func hideDeleteOptionOnEveryFace() {
         print("current action \(currentAction)")
-        if (currentAction != .alertForDeletion && showDeleteOptionOnEachFace) {
+        if (showDeleteOptionOnEachFace) {
             print("hide all deletions")
             showDeleteOptionOnEachFaceAction(status: false)
         }
@@ -104,10 +96,10 @@ struct ListView: View {
                 Spacer(minLength: resizeResultList ? geometry.size.height * filterPanelHeightRatio : 0)
                 
                 FaceList(faces: $viewModel.faces, showDeleteOptionOnEachFace: showDeleteOptionOnEachFace, geometry: geometry,
+                         refreshTheList: $refreshTheList,
                          showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
                          showDetailAction: viewFaceDetail,
-                         showEditNameAction: showEditNameView,
-                         showDeleteAction: showDeleteView
+                         showEditNameAction: showEditNameView
                 )
                 .onChange(of: viewModel.keyword) { _ in
                     viewModel.filteredFaces()
@@ -121,17 +113,24 @@ struct ListView: View {
                 .onChange(of: tappedFace) { newValue in
                     viewModel.tappedFace = newValue
                 }
+                .gesture(TapGesture(count: 1)
+                    .onEnded({ void in
+                        print("tap on face list 2")
+                        tapOnFaceList.toggle()
+                    })
+                )
+                
             }
             .gesture(LongPressGesture(minimumDuration: 1).onEnded({ value in
                 print("long press on face list")
                 longPressOnFaceList.toggle()
             }))
-            .simultaneousGesture(TapGesture(count: 1)
-                .onEnded({ void in
-                    print("tap on face list")
-                    tapOnFaceList.toggle()
-                })
-            )
+//            .gesture(TapGesture(count: 1)
+//                .onEnded({ void in
+//                    print("tap on face list")
+//                    tapOnFaceList.toggle()
+//                })
+//            )
             
             VStack {
                 Spacer()
@@ -217,25 +216,6 @@ struct ListView: View {
                 }
             }
         }
-        .alert("Delete", isPresented: $showDeleteAlert, actions: {
-            Button(role: .cancel, action: {
-                currentAction = .list
-            }) {
-                Text("Cancel")
-            }
-            
-            Button(role: .destructive, action: {
-                viewModel.deleteFace { succeeded, faces in
-                    refreshTheList.toggle()
-                }
-                
-                currentAction = .list
-            }) {
-                Text("Delete")
-            }
-        }, message: {
-           Text(viewModel.deleteMessage)
-        })
         .sheet(isPresented: $showingImagePicker) {
             ImagePicker(image: $viewModel.newFaceImage)
         }

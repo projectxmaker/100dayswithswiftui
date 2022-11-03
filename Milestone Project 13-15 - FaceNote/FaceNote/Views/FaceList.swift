@@ -11,10 +11,10 @@ struct FaceList: View {
     @Binding var faces: [Face]
     var showDeleteOptionOnEachFace: Bool
     let geometry: GeometryProxy
+    @Binding var refreshTheList: Bool
     var showDeleteOptionOnEachFaceAction: (Bool) -> Void
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
-    var showDeleteAction: (Face) -> Void
 
     let listVGridColumns: [GridItem] = [
         GridItem(.adaptive(minimum: 100))
@@ -26,11 +26,11 @@ struct FaceList: View {
                 ForEach(faces) { face in
                     FaceView(
                         face: face,
+                        refreshTheList: $refreshTheList,
                         showDeleteOptionOnEachFace: showDeleteOptionOnEachFace,
                         showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
                         showDetailAction: showDetailAction,
-                        showEditNameAction: showEditNameAction,
-                        showDeleteAction: showDeleteAction
+                        showEditNameAction: showEditNameAction
                     )
                 }
             }

@@ -8,16 +8,20 @@
 import SwiftUI
 
 struct FaceView: View {
+    @ObservedObject private var viewModel = ListView.ViewModel()
+    
     @State private var showFace = false
     @State private var flipDegree: Double = 0
     @State private var tappedOnDeletionIcon = false
+    @State private var showDeleteAlert = false
     
     var face: Face
+    @Binding var refreshTheList: Bool
     var showDeleteOptionOnEachFace: Bool
     var showDeleteOptionOnEachFaceAction: (Bool) -> Void
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
-    var showDeleteAction: (Face) -> Void
+    
 //
 //    private func longPressOnFace() -> some Gesture {
 //        let minimumLongPressDuration: Double = 2
@@ -46,9 +50,8 @@ struct FaceView: View {
     private func runActionForTapOnFace() {
         let _ = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
             if tappedOnDeletionIcon {
-                print("tap on deletion icon")
-                showDeleteAction(face)
-                tappedOnDeletionIcon = false
+                print("tap on deletion icon 2")
+                runDeleteFaceAction()
             } else {
                 print("tap on face")
                 if !showDeleteOptionOnEachFace {
@@ -56,6 +59,12 @@ struct FaceView: View {
                 }
             }
         }
+    }
+    
+    private func runDeleteFaceAction() {
+        viewModel.tappedFace = face
+        showDeleteAlert.toggle()
+        tappedOnDeletionIcon = false
     }
     
     var body: some View {
@@ -75,7 +84,7 @@ struct FaceView: View {
                                     .font(.title2)
                                     .foregroundColor(.red.opacity(0.8))
                                     .onTapGesture {
-                                        print("tap on deletion icon")
+                                        print("tap on deletion icon 1")
                                         tappedOnDeletionIcon = true
                                     }
                             }
@@ -90,7 +99,7 @@ struct FaceView: View {
                             }
 
                             Button(role: .destructive) {
-                                showDeleteAction(face)
+                                runDeleteFaceAction()
                             } label: {
                                 Label("Delete", systemImage: "minus.circle")
                                     .font(.title)
@@ -106,13 +115,30 @@ struct FaceView: View {
         }
         .simultaneousGesture(tapOnFace())
         .scaleEffect(showFace ? 1 : 0)
-        .onAppear {
-            withAnimation(.easeInOut(duration: 0.7)) {
-                showFace.toggle()
+        .animation(.easeIn(duration: 0.3), value: showFace)
+        .alert("Delete", isPresented: $showDeleteAlert, actions: {
+            Button(role: .cancel, action: {
+            }) {
+                Text("Cancel")
             }
+            
+            Button(role: .destructive, action: {
+                showFace.toggle()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    viewModel.deleteFace { succeeded, faces in
+                        refreshTheList.toggle()
+                    }
+                }
+            }) {
+                Text("Delete")
+            }
+        }, message: {
+           Text(viewModel.deleteMessage)
+        })
+        .onAppear {
+            showFace.toggle()
         }
-        .onDisappear {
-            showFace = false
-        }
+        
     }
 }
