@@ -10,9 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
-            NavigationView {
-                ListView(geometry: geometry)
-            }
+            ListView(geometry: geometry)
         }
     }
 }

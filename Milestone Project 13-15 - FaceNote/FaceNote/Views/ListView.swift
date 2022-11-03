@@ -34,6 +34,9 @@ struct ListView: View {
     @StateObject private var viewModel = ViewModel()
     @FocusState private var isTextFieldNameFocused: Bool
     
+    private let filterPanelHeightRatio = 0.06
+    private let filterPanelAnimationDuration = 0.5
+    
     var geometry: GeometryProxy
     
     private func viewFaceDetail(face: Face) {
@@ -87,18 +90,25 @@ struct ListView: View {
     }
     
     private func resizeFaceList() {
-        if showFilterPanel {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                resizeResultList = true
+        let animationDuration = filterPanelAnimationDuration - 0.1
+            if showFilterPanel {
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    withAnimation(.easeIn(duration: animationDuration)) {
+                        resizeResultList = true
+                    }
+                }
+            } else {
+                withAnimation(.easeIn(duration: animationDuration)) {
+                    resizeResultList = false
+                }
             }
-        } else {
-            resizeResultList = false
-        }
     }
     
     var body: some View {
         ZStack {
             VStack {
+                Spacer(minLength: resizeResultList ? geometry.size.height * filterPanelHeightRatio : 0)
+                
                 FaceList(faces: $viewModel.faces, showDeleteOptionOnEachFace: showDeleteOptionOnEachFace, geometry: geometry,
                          showDeleteOptionOnEachFaceAction: showDeleteOptionOnEachFaceAction,
                          showDetailAction: viewFaceDetail,
@@ -118,8 +128,6 @@ struct ListView: View {
                 .onChange(of: tappedFace) { newValue in
                     viewModel.tappedFace = newValue
                 }
-                
-                Spacer(minLength: resizeResultList ? geometry.size.height * 0.23 : 0)
             }
             .gesture(LongPressGesture(minimumDuration: 1).onEnded({ value in
                 print("long press on face list")
@@ -136,17 +144,21 @@ struct ListView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Button {
-                        showingImagePicker = true
-                    } label: {
-                        Image(systemName: "plus")
-                            .padding()
-                            .background(.blue.opacity(0.75))
-                            .foregroundColor(.white)
-                            .font(.title)
-                            .clipShape(Circle())
-                            .padding(.trailing)
+                    VStack {
+                        CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
+                            screenFlow = .viewFilterPanel
+                            withAnimation {
+                                showFilterPanel.toggle()
+                            }
+                            
+                            resizeFaceList()
+                        }
+                        
+                        CircleButton(imageSystemName: "plus") {
+                            showingImagePicker = true
+                        }
                     }
+                    
                 }
             }
             
@@ -200,27 +212,15 @@ struct ListView: View {
                 }
             case .viewFilterPanel:
                 VStack {
-                    Spacer()
                     FilterPanelView(
                         filterKeyword: $viewModel.keyword,
                         sortOrder: $viewModel.sortOrder,
                         showFilterPanel: $showFilterPanel,
-                        geometry: geometry
+                        geometry: geometry,
+                        filterPanelHeightRatio: filterPanelHeightRatio,
+                        animationDuration: filterPanelAnimationDuration
                     )
-                }
-            }
-        }
-        .navigationTitle("FaceNote")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Filter") {
-                    screenFlow = .viewFilterPanel
-                    withAnimation {
-                        showFilterPanel.toggle()
-                    }
-                    
-                    resizeFaceList()
+                    Spacer()
                 }
             }
         }
@@ -253,8 +253,7 @@ struct ListView: View {
         }
         .onChange(of: screenFlow, perform: { newValue in
             if newValue != .viewFilterPanel {
-                if showFilterPanel {
-                    showFilterPanel.toggle()
+                if showFilterPanel {                        showFilterPanel.toggle()
                     resizeFaceList()
                 }
             }

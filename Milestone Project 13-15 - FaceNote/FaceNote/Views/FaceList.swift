@@ -36,6 +36,7 @@ struct FaceList: View {
                     )
                 }
             }
+            .padding(.top, 10)
         }
     }
 }

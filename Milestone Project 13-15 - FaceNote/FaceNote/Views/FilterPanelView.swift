@@ -11,29 +11,30 @@ struct FilterPanelView: View {
     @Binding var filterKeyword: String
     @Binding var sortOrder: SortOrder
     @Binding var showFilterPanel: Bool
-    
+
     var geometry: GeometryProxy
+    var filterPanelHeightRatio = 0.05
+    var animationDuration = 0.5
+    var filterSystemImage = "arrow.up.arrow.down.square"
 
     var body: some View {
-        VStack {
-            Form {
-                Section("Filter") {
-                    TextField(text: $filterKeyword) {
-                        Text("Keyword")
-                    }
-                    .textInputAutocapitalization(.never)
-                }
-                
-                Section("Order by") {
-                    Picker("Order by: ", selection: $sortOrder) {
-                        Text("Accending").tag(SortOrder.forward)
-                        Text("Decreasing").tag(SortOrder.reverse)
-                    }
-                    .pickerStyle(.segmented)
-                }
+        HStack {
+            TextField(text: $filterKeyword) {
+                Text("Keyword")
             }
+            .textInputAutocapitalization(.never)
+            .textFieldStyle(.roundedBorder)
+
+            Image(systemName: "arrow.up.arrow.down.square")
+                .font(.title)
+                .foregroundColor(.white)
+                .onTapGesture {
+                    sortOrder = (sortOrder == .forward) ? .reverse : .forward
+                }
         }
-        .frame(maxWidth: geometry.size.width, maxHeight: showFilterPanel ? geometry.size.height * 0.23 : 0)
+        .padding(.horizontal, 5)
+        .frame(maxWidth: geometry.size.width, maxHeight: showFilterPanel ? geometry.size.height * filterPanelHeightRatio : 0)
+        .background(.blue)
         .opacity(showFilterPanel ? 1 : 0)
         .transition(.slide)
         .animation(.easeInOut(duration: 0.5), value: showFilterPanel)
