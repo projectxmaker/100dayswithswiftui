@@ -7,15 +7,9 @@
 
 import SwiftUI
 
-enum ScreenFlow {
-    case viewNothing, setFaceName, editFaceName, viewFaceDetail, viewFilterPanel
-}
-
 struct ListView: View {
     @StateObject private var viewModel = ViewModel()
-    
-    @State private var showingImagePicker = false
-    @State private var screenFlow = ScreenFlow.viewNothing
+
     @State private var showFilterPanel = false
     @State private var isFaceListResized = false
     @State private var refreshTheList = false
@@ -27,12 +21,12 @@ struct ListView: View {
     
     private func viewFaceDetail(face: Face) {
         viewModel.tappedFace = face
-        screenFlow = .viewFaceDetail
+        viewModel.screenFlow = .viewFaceDetail
     }
     
     private func showEditNameView(face: Face) {
         viewModel.tappedFace = face
-        screenFlow = .editFaceName
+        viewModel.screenFlow = .editFaceName
     }
     
     private func hideDeleteOptionOnEveryFace() {
@@ -43,7 +37,7 @@ struct ListView: View {
     }
     
     private func closeFaceDetailAction() {
-        screenFlow = .viewNothing
+        viewModel.screenFlow = .viewNothing
     }
     
     private func resizeFaceList() {
@@ -98,7 +92,7 @@ struct ListView: View {
                     Spacer()
                     VStack {
                         CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
-                            screenFlow = .viewFilterPanel
+                            viewModel.screenFlow = .viewFilterPanel
                             withAnimation {
                                 showFilterPanel.toggle()
                             }
@@ -107,52 +101,52 @@ struct ListView: View {
                         }
                         
                         CircleButton(imageSystemName: "plus") {
-                            showingImagePicker = true
+                            viewModel.showingImagePicker.toggle()
                         }
                     }
                     
                 }
             }
             
-            switch screenFlow {
+            switch viewModel.screenFlow {
             case .viewNothing:
                 Text("")
             case .setFaceName:
                 Color.white
                     .opacity(0.8)
                     .onTapGesture {
-                        screenFlow = .viewNothing
+                        viewModel.screenFlow = .viewNothing
                     }
                 
                 EditFaceNameView(geometry: geometry, newFaceImage: viewModel.wrappedNewFaceImage) {
                     // save name
                     // close this form
-                    screenFlow = .viewNothing
+                    viewModel.screenFlow = .viewNothing
                 } actionSave: { actionType, isSucceeded, newFace in
                     if isSucceeded {
                         refreshTheList.toggle()
                     }
                     
-                    screenFlow = .viewNothing
+                    viewModel.screenFlow = .viewNothing
                 }
             case .editFaceName:
                 if let tappedFace = viewModel.tappedFace {
                     Color.white
                         .opacity(0.8)
                         .onTapGesture {
-                            screenFlow = .viewNothing
+                            viewModel.screenFlow = .viewNothing
                         }
                     
                     EditFaceNameView(geometry: geometry, face: tappedFace) {
                         // save name
                         // close this form
-                        screenFlow = .viewNothing
+                        viewModel.screenFlow = .viewNothing
                     } actionSave: { actionType, isSucceeded, updatedFace in
                         if isSucceeded {
                             refreshTheList.toggle()
                         }
                         
-                        screenFlow = .viewNothing
+                        viewModel.screenFlow = .viewNothing
                     }
                 }
             case .viewFaceDetail:
@@ -176,15 +170,15 @@ struct ListView: View {
                 }
             }
         }
-        .sheet(isPresented: $showingImagePicker) {
+        .sheet(isPresented: $viewModel.showingImagePicker) {
             ImagePicker(image: $viewModel.newFaceImage)
         }
         .onChange(of: viewModel.newFaceImage) { _ in
             withAnimation(.easeIn(duration: 0.3)) {
-                screenFlow = .setFaceName
+                viewModel.screenFlow = .setFaceName
             }
         }
-        .onChange(of: screenFlow, perform: { newValue in
+        .onChange(of: viewModel.screenFlow, perform: { newValue in
             if newValue != .viewFilterPanel {
                 if showFilterPanel {                        showFilterPanel.toggle()
                     resizeFaceList()

@@ -8,8 +8,14 @@
 import UIKit
 
 extension ListView {
+    enum ScreenFlow {
+        case viewNothing, setFaceName, editFaceName, viewFaceDetail, viewFilterPanel
+    }
+    
     @MainActor class ViewModel: ObservableObject {
         @Published var showDeleteOption = false
+        @Published var showingImagePicker = false
+        @Published var screenFlow = ScreenFlow.viewNothing
         
         @Published var faces = [Face]()
         @Published var tappedFace: Face?
