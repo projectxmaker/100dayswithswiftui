@@ -33,6 +33,7 @@ struct FaceList: View {
                 }
             }
             .padding(.top, 10)
+            .padding(.horizontal, 10)
         }
     }
 }

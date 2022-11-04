@@ -237,9 +237,6 @@ struct ListView: View {
                 
                 hideDeleteOptionOnEveryFace()
             }
-        })
-        
-        
-        .padding(.horizontal, 10)
+        })        
     }
 }

@@ -38,6 +38,9 @@ struct FaceView: View {
             } else {
                 print("tap on face")
                 if !showDeleteOption {
+                    withAnimation(.easeIn(duration: 0.2)) {
+                        flipDegree = flipDegree == 360 ? 0 : 360
+                    }
                     showDetailAction(face)
                 } else {
                     showDeleteOption = false
