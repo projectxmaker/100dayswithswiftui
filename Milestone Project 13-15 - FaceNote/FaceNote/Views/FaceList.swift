@@ -13,7 +13,7 @@ struct FaceList: View {
     let geometry: GeometryProxy
     @Binding var needToRefreshFaceList: Bool
     var showDetailAction: @MainActor (Face) -> Void
-    var showEditNameAction: (Face) -> Void
+    var showEditNameAction: @MainActor (Face) -> Void
 
     let listVGridColumns: [GridItem] = [
         GridItem(.adaptive(minimum: 100))

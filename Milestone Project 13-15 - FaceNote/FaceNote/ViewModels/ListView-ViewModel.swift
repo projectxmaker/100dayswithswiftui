@@ -99,5 +99,11 @@ extension ListView {
             tappedFace = face
             screenFlow = .viewFaceDetail
         }
+        
+        func showEditNameView(face: Face) {
+            tappedFace = face
+            screenFlow = .editFaceName
+        }
+        
     }
 }

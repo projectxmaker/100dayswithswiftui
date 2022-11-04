@@ -12,11 +12,7 @@ struct ListView: View {
 
     var geometry: GeometryProxy
     
-    private func showEditNameView(face: Face) {
-        viewModel.tappedFace = face
-        viewModel.screenFlow = .editFaceName
-    }
-    
+
     private func hideDeleteOptionOnEveryFace() {
         if (viewModel.showDeleteOption) {
             print("hide all deletions")
@@ -39,7 +35,7 @@ struct ListView: View {
                     geometry: geometry,
                     needToRefreshFaceList: $viewModel.needToRefreshFaceList,
                     showDetailAction: viewModel.showFaceDetail,
-                    showEditNameAction: showEditNameView
+                    showEditNameAction: viewModel.showEditNameView
                 )
                 .onChange(of: viewModel.keyword) { _ in
                     viewModel.filteredFaces()
