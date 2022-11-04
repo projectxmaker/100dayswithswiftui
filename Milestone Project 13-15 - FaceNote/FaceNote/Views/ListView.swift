@@ -20,10 +20,6 @@ struct ListView: View {
         }
     }
     
-    private func closeFaceDetailAction() {
-        viewModel.screenFlow = .viewNothing
-    }
-    
     var body: some View {
         ZStack {
             VStack {
@@ -128,7 +124,7 @@ struct ListView: View {
                     FaceDetailView(
                         face: newTappedFace,
                         geometry: geometry,
-                        tapOnAFaceDetailAction: closeFaceDetailAction)
+                        tapOnAFaceDetailAction: viewModel.closeFaceDetailAction)
                 }
             case .viewFilterPanel:
                 VStack {

@@ -105,5 +105,10 @@ extension ListView {
             screenFlow = .editFaceName
         }
         
+        func closeFaceDetailAction() -> Void {
+            screenFlow = .viewNothing
+        }
+        
+        
     }
 }

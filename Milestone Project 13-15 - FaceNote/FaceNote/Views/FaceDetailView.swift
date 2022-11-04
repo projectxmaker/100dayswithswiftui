@@ -13,9 +13,9 @@ struct FaceDetailView: View {
     
     var face: Face
     var geometry: GeometryProxy
-    var tapOnAFaceDetailAction: () -> Void
+    var tapOnAFaceDetailAction: @MainActor () -> Void
     
-    init(face: Face, geometry: GeometryProxy, tapOnAFaceDetailAction: @escaping () -> Void) {
+    init(face: Face, geometry: GeometryProxy, tapOnAFaceDetailAction: @escaping @MainActor () -> Void) {
         self.face = face
         self.geometry = geometry
         self.tapOnAFaceDetailAction = tapOnAFaceDetailAction
