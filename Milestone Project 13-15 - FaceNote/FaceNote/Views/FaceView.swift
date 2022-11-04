@@ -110,7 +110,7 @@ struct FaceView: View {
             }
             
             Button(role: .destructive, action: {
-                showFace.toggle()
+                showFace = false
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     viewModel.deleteFace { succeeded, faces in
@@ -124,7 +124,10 @@ struct FaceView: View {
            Text(viewModel.deleteMessage)
         })
         .onAppear {
-            showFace.toggle()
+            showFace = true
+        }
+        .onDisappear {
+            showFace = false
         }
         
     }

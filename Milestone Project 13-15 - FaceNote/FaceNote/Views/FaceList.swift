@@ -35,5 +35,7 @@ struct FaceList: View {
             .padding(.top, 10)
             .padding(.horizontal, 10)
         }
+        .animation(.linear, value: faces)
+        //.transition(.scale)
     }
 }
