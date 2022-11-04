@@ -12,26 +12,13 @@ enum ScreenFlow {
 }
 
 struct ListView: View {
-    enum CurrentAction {
-        case list
-    }
+    @StateObject private var viewModel = ViewModel()
     
-    @State private var currentAction = CurrentAction.list
-    
-    @State private var longPressOnFaceList = false
-    @State private var tapOnFaceList = false
-    
-    @State private var longPressOnFace = false
-    @State private var showDeleteOption = false
     @State private var showingImagePicker = false
     @State private var screenFlow = ScreenFlow.viewNothing
-    @State private var tappedFace: Face?
     @State private var showFilterPanel = false
-    @State private var resizeResultList = false
+    @State private var isFaceListResized = false
     @State private var refreshTheList = false
-    
-    @StateObject private var viewModel = ViewModel()
-    @FocusState private var isTextFieldNameFocused: Bool
     
     private let filterPanelHeightRatio = 0.06
     private let filterPanelAnimationDuration = 0.5
@@ -39,31 +26,19 @@ struct ListView: View {
     var geometry: GeometryProxy
     
     private func viewFaceDetail(face: Face) {
-        tappedFace = face
+        viewModel.tappedFace = face
         screenFlow = .viewFaceDetail
     }
     
     private func showEditNameView(face: Face) {
-        tappedFace = face
+        viewModel.tappedFace = face
         screenFlow = .editFaceName
     }
     
     private func hideDeleteOptionOnEveryFace() {
-        print("current action \(currentAction)")
-        if (showDeleteOption) {
+        if (viewModel.showDeleteOption) {
             print("hide all deletions")
-            showDeleteOption = false
-        }
-    }
-    
-    private func longPressToEnableDeleteOptionOnEveryFace() {
-        print("long press on face \(longPressOnFace)")
-        if (!showDeleteOption) {
-            if !longPressOnFace {
-                showDeleteOption = true
-            }
-        } else {
-            showDeleteOption = false
+            viewModel.showDeleteOption = false
         }
     }
     
@@ -72,29 +47,27 @@ struct ListView: View {
     }
     
     private func resizeFaceList() {
-        let animationDuration = filterPanelAnimationDuration - 0.1
-            if showFilterPanel {
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    withAnimation(.easeIn(duration: animationDuration)) {
-                        resizeResultList = true
-                    }
-                }
-            } else {
-                withAnimation(.easeIn(duration: animationDuration)) {
-                    resizeResultList = false
-                }
+        if showFilterPanel {
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                isFaceListResized = true
             }
+        } else {
+            isFaceListResized = false
+        }
     }
     
     var body: some View {
         ZStack {
             VStack {
-                Spacer(minLength: resizeResultList ? geometry.size.height * filterPanelHeightRatio : 0)
+                Spacer(minLength: isFaceListResized ? geometry.size.height * filterPanelHeightRatio : 0)
                 
-                FaceList(faces: $viewModel.faces, showDeleteOption: $showDeleteOption, geometry: geometry,
-                         refreshTheList: $refreshTheList,
-                         showDetailAction: viewFaceDetail,
-                         showEditNameAction: showEditNameView
+                FaceList(
+                    faces: $viewModel.faces,
+                    showDeleteOption: $viewModel.showDeleteOption,
+                    geometry: geometry,
+                    refreshTheList: $refreshTheList,
+                    showDetailAction: viewFaceDetail,
+                    showEditNameAction: showEditNameView
                 )
                 .onChange(of: viewModel.keyword) { _ in
                     viewModel.filteredFaces()
@@ -105,27 +78,19 @@ struct ListView: View {
                 .onChange(of: refreshTheList) { _ in
                     viewModel.refreshFaceList()
                 }
-                .onChange(of: tappedFace) { newValue in
-                    viewModel.tappedFace = newValue
+//                .onChange(of: tappedFace) { newValue in
+//                    viewModel.tappedFace = newValue
+//                }
+                .onTapGesture {
+                    viewModel.switchDeleteOptionOnEveryFace(newState: false)
                 }
-                .gesture(TapGesture(count: 1)
-                    .onEnded({ void in
-                        print("tap on face list 2")
-                        tapOnFaceList.toggle()
-                    })
-                )
+                .onLongPressGesture(minimumDuration: 1, perform: {
+                    viewModel.switchDeleteOptionOnEveryFace(newState: true)
+                })
+                .animation(.easeIn(duration: filterPanelAnimationDuration - 0.1), value: isFaceListResized)
+                //.animation(.easeIn, value: showFilterPanel)
                 
             }
-            .gesture(LongPressGesture(minimumDuration: 1).onEnded({ value in
-                print("long press on face list")
-                longPressOnFaceList.toggle()
-            }))
-//            .gesture(TapGesture(count: 1)
-//                .onEnded({ void in
-//                    print("tap on face list")
-//                    tapOnFaceList.toggle()
-//                })
-//            )
             
             VStack {
                 Spacer()
@@ -171,7 +136,7 @@ struct ListView: View {
                     screenFlow = .viewNothing
                 }
             case .editFaceName:
-                if let tappedFace = tappedFace {
+                if let tappedFace = viewModel.tappedFace {
                     Color.white
                         .opacity(0.8)
                         .onTapGesture {
@@ -191,7 +156,7 @@ struct ListView: View {
                     }
                 }
             case .viewFaceDetail:
-                if let newTappedFace = tappedFace {
+                if let newTappedFace = viewModel.tappedFace {
                     FaceDetailView(
                         face: newTappedFace,
                         geometry: geometry,
@@ -226,17 +191,5 @@ struct ListView: View {
                 }
             }
         })
-        .onChange(of: longPressOnFaceList, perform: { newValue in
-            print("long press on screen CHANGED")
-            longPressToEnableDeleteOptionOnEveryFace()
-        })
-        
-        .onChange(of: tapOnFaceList, perform: { newValue in
-            // wait for update of Delete A Face from FaceView
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                
-                hideDeleteOptionOnEveryFace()
-            }
-        })        
     }
 }

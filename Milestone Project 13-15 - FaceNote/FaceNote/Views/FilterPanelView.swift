@@ -38,7 +38,6 @@ struct FilterPanelView: View {
         .frame(maxWidth: geometry.size.width, maxHeight: showFilterPanel ? geometry.size.height * filterPanelHeightRatio : 0)
         .background(.blue)
         .opacity(showFilterPanel ? 1 : 0)
-        .transition(.slide)
         .animation(.easeInOut(duration: 0.5), value: showFilterPanel)
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .onAppear {

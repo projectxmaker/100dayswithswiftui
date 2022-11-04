@@ -9,6 +9,8 @@ import UIKit
 
 extension ListView {
     @MainActor class ViewModel: ObservableObject {
+        @Published var showDeleteOption = false
+        
         @Published var faces = [Face]()
         @Published var tappedFace: Face?
         @Published var newFaceImage: UIImage?
@@ -55,6 +57,18 @@ extension ListView {
         func deleteFace(face: Face, action: @escaping (Bool, [Face]) -> Void) {
             dataController.deleteFace(face) { succeeded, faces in
                 action(succeeded, faces)
+            }
+        }
+        
+        func switchDeleteOptionOnEveryFace(newState: Bool) {
+            if newState {
+                if !showDeleteOption {
+                    showDeleteOption = true
+                }
+            } else if showDeleteOption {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.showDeleteOption = false
+                }
             }
         }
     }
