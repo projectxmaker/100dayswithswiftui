@@ -33,10 +33,8 @@ struct FaceView: View {
     private func runActionForTapOnFace() {
         let _ = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
             if tappedOnDeletionIcon {
-                print("tap on deletion icon 2")
                 runDeleteFaceAction()
             } else {
-                print("tap on face")
                 if !showDeleteOption {
                     withAnimation(.easeIn(duration: 0.2)) {
                         flipDegree = flipDegree == 360 ? 0 : 360
@@ -72,7 +70,6 @@ struct FaceView: View {
                                     .font(.title2)
                                     .foregroundColor(.red.opacity(0.8))
                                     .onTapGesture {
-                                        print("tap on deletion icon 1")
                                         tappedOnDeletionIcon = true
                                     }
                             }

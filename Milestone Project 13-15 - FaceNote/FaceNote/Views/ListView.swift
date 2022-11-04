@@ -12,14 +12,6 @@ struct ListView: View {
 
     var geometry: GeometryProxy
     
-
-    private func hideDeleteOptionOnEveryFace() {
-        if (viewModel.showDeleteOption) {
-            print("hide all deletions")
-            viewModel.showDeleteOption = false
-        }
-    }
-    
     var body: some View {
         ZStack {
             VStack {
