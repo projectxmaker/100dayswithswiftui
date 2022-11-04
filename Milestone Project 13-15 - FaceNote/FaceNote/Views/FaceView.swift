@@ -18,7 +18,7 @@ struct FaceView: View {
     var face: Face
     @Binding var needToRefreshFaceList: Bool
     @Binding var showDeleteOption: Bool
-    var showDetailAction: (Face) -> Void
+    var showDetailAction: @MainActor (Face) -> Void
     var showEditNameAction: (Face) -> Void
     
     private func tapOnFace() -> some Gesture {

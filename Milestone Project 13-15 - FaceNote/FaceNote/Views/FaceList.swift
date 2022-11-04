@@ -12,7 +12,7 @@ struct FaceList: View {
     @Binding var showDeleteOption: Bool
     let geometry: GeometryProxy
     @Binding var needToRefreshFaceList: Bool
-    var showDetailAction: (Face) -> Void
+    var showDetailAction: @MainActor (Face) -> Void
     var showEditNameAction: (Face) -> Void
 
     let listVGridColumns: [GridItem] = [

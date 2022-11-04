@@ -10,14 +10,7 @@ import SwiftUI
 struct ListView: View {
     @StateObject private var viewModel = ViewModel()
 
-    
-    
     var geometry: GeometryProxy
-    
-    private func viewFaceDetail(face: Face) {
-        viewModel.tappedFace = face
-        viewModel.screenFlow = .viewFaceDetail
-    }
     
     private func showEditNameView(face: Face) {
         viewModel.tappedFace = face
@@ -45,7 +38,7 @@ struct ListView: View {
                     showDeleteOption: $viewModel.showDeleteOption,
                     geometry: geometry,
                     needToRefreshFaceList: $viewModel.needToRefreshFaceList,
-                    showDetailAction: viewFaceDetail,
+                    showDetailAction: viewModel.showFaceDetail,
                     showEditNameAction: showEditNameView
                 )
                 .onChange(of: viewModel.keyword) { _ in

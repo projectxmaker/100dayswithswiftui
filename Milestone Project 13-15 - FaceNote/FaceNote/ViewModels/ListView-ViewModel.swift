@@ -95,5 +95,9 @@ extension ListView {
             }
         }
         
+        func showFaceDetail(face: Face) {
+            tappedFace = face
+            screenFlow = .viewFaceDetail
+        }
     }
 }
