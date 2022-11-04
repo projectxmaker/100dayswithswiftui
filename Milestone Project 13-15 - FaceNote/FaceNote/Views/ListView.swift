@@ -10,12 +10,7 @@ import SwiftUI
 struct ListView: View {
     @StateObject private var viewModel = ViewModel()
 
-    @State private var showFilterPanel = false
-    @State private var isFaceListResized = false
     @State private var refreshTheList = false
-    
-    private let filterPanelHeightRatio = 0.06
-    private let filterPanelAnimationDuration = 0.5
     
     var geometry: GeometryProxy
     
@@ -40,20 +35,10 @@ struct ListView: View {
         viewModel.screenFlow = .viewNothing
     }
     
-    private func resizeFaceList() {
-        if showFilterPanel {
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-                isFaceListResized = true
-            }
-        } else {
-            isFaceListResized = false
-        }
-    }
-    
     var body: some View {
         ZStack {
             VStack {
-                Spacer(minLength: isFaceListResized ? geometry.size.height * filterPanelHeightRatio : 0)
+                Spacer(minLength: viewModel.isFaceListResized ? geometry.size.height * viewModel.filterPanelHeightRatio : 0)
                 
                 FaceList(
                     faces: $viewModel.faces,
@@ -81,7 +66,7 @@ struct ListView: View {
                 .onLongPressGesture(minimumDuration: 1, perform: {
                     viewModel.switchDeleteOptionOnEveryFace(newState: true)
                 })
-                .animation(.easeIn(duration: filterPanelAnimationDuration - 0.1), value: isFaceListResized)
+                .animation(.easeIn(duration: viewModel.filterPanelAnimationDuration - 0.1), value: viewModel.isFaceListResized)
                 //.animation(.easeIn, value: showFilterPanel)
                 
             }
@@ -94,10 +79,10 @@ struct ListView: View {
                         CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
                             viewModel.screenFlow = .viewFilterPanel
                             withAnimation {
-                                showFilterPanel.toggle()
+                                viewModel.showFilterPanel.toggle()
                             }
                             
-                            resizeFaceList()
+                            viewModel.resizeFaceList()
                         }
                         
                         CircleButton(imageSystemName: "plus") {
@@ -161,10 +146,10 @@ struct ListView: View {
                     FilterPanelView(
                         filterKeyword: $viewModel.keyword,
                         sortOrder: $viewModel.sortOrder,
-                        showFilterPanel: $showFilterPanel,
+                        showFilterPanel: $viewModel.showFilterPanel,
                         geometry: geometry,
-                        filterPanelHeightRatio: filterPanelHeightRatio,
-                        animationDuration: filterPanelAnimationDuration
+                        filterPanelHeightRatio: viewModel.filterPanelHeightRatio,
+                        animationDuration: viewModel.filterPanelAnimationDuration
                     )
                     Spacer()
                 }
@@ -180,8 +165,8 @@ struct ListView: View {
         }
         .onChange(of: viewModel.screenFlow, perform: { newValue in
             if newValue != .viewFilterPanel {
-                if showFilterPanel {                        showFilterPanel.toggle()
-                    resizeFaceList()
+                if viewModel.showFilterPanel {                        viewModel.showFilterPanel.toggle()
+                    viewModel.resizeFaceList()
                 }
             }
         })

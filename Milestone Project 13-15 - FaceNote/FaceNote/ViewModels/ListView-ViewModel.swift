@@ -16,6 +16,11 @@ extension ListView {
         @Published var showDeleteOption = false
         @Published var showingImagePicker = false
         @Published var screenFlow = ScreenFlow.viewNothing
+        @Published var showFilterPanel = false
+        
+        @Published var isFaceListResized = false
+        let filterPanelHeightRatio = 0.06
+        let filterPanelAnimationDuration = 0.5
         
         @Published var faces = [Face]()
         @Published var tappedFace: Face?
@@ -77,5 +82,16 @@ extension ListView {
                 }
             }
         }
+        
+        func resizeFaceList() {
+            if showFilterPanel {
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    self.isFaceListResized = true
+                }
+            } else {
+                isFaceListResized = false
+            }
+        }
+        
     }
 }
