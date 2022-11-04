@@ -11,7 +11,7 @@ struct FaceList: View {
     @Binding var faces: [Face]
     @Binding var showDeleteOption: Bool
     let geometry: GeometryProxy
-    @Binding var refreshTheList: Bool
+    @Binding var needToRefreshFaceList: Bool
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
 
@@ -25,7 +25,7 @@ struct FaceList: View {
                 ForEach(faces) { face in
                     FaceView(
                         face: face,
-                        refreshTheList: $refreshTheList,
+                        needToRefreshFaceList: $needToRefreshFaceList,
                         showDeleteOption: $showDeleteOption,
                         showDetailAction: showDetailAction,
                         showEditNameAction: showEditNameAction

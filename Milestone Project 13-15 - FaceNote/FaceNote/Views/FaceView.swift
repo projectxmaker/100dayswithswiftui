@@ -16,7 +16,7 @@ struct FaceView: View {
     @State private var showDeleteAlert = false
     
     var face: Face
-    @Binding var refreshTheList: Bool
+    @Binding var needToRefreshFaceList: Bool
     @Binding var showDeleteOption: Bool
     var showDetailAction: (Face) -> Void
     var showEditNameAction: (Face) -> Void
@@ -114,7 +114,7 @@ struct FaceView: View {
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     viewModel.deleteFace { succeeded, faces in
-                        refreshTheList.toggle()
+                        needToRefreshFaceList.toggle()
                     }
                 }
             }) {

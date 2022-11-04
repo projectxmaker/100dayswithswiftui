@@ -10,7 +10,7 @@ import SwiftUI
 struct ListView: View {
     @StateObject private var viewModel = ViewModel()
 
-    @State private var refreshTheList = false
+    
     
     var geometry: GeometryProxy
     
@@ -44,7 +44,7 @@ struct ListView: View {
                     faces: $viewModel.faces,
                     showDeleteOption: $viewModel.showDeleteOption,
                     geometry: geometry,
-                    refreshTheList: $refreshTheList,
+                    needToRefreshFaceList: $viewModel.needToRefreshFaceList,
                     showDetailAction: viewFaceDetail,
                     showEditNameAction: showEditNameView
                 )
@@ -54,7 +54,7 @@ struct ListView: View {
                 .onChange(of: viewModel.sortOrder) { _ in
                     viewModel.filteredFaces()
                 }
-                .onChange(of: refreshTheList) { _ in
+                .onChange(of: viewModel.needToRefreshFaceList) { _ in
                     viewModel.refreshFaceList()
                 }
 //                .onChange(of: tappedFace) { newValue in
@@ -109,7 +109,7 @@ struct ListView: View {
                     viewModel.screenFlow = .viewNothing
                 } actionSave: { actionType, isSucceeded, newFace in
                     if isSucceeded {
-                        refreshTheList.toggle()
+                        viewModel.needToRefreshFaceList.toggle()
                     }
                     
                     viewModel.screenFlow = .viewNothing
@@ -128,7 +128,7 @@ struct ListView: View {
                         viewModel.screenFlow = .viewNothing
                     } actionSave: { actionType, isSucceeded, updatedFace in
                         if isSucceeded {
-                            refreshTheList.toggle()
+                            viewModel.needToRefreshFaceList.toggle()
                         }
                         
                         viewModel.screenFlow = .viewNothing
