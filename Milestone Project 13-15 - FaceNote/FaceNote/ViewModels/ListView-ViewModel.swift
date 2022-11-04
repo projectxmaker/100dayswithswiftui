@@ -109,6 +109,12 @@ extension ListView {
             screenFlow = .viewNothing
         }
         
-        
+        func closeFilterPanel(newScreen: ScreenFlow) {
+            if newScreen != .viewFilterPanel {
+                if showFilterPanel {                        showFilterPanel.toggle()
+                    resizeFaceList()
+                }
+            }
+        }
     }
 }

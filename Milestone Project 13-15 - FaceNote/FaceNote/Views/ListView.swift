@@ -42,18 +42,21 @@ struct ListView: View {
                 .onChange(of: viewModel.needToRefreshFaceList) { _ in
                     viewModel.refreshFaceList()
                 }
-//                .onChange(of: tappedFace) { newValue in
-//                    viewModel.tappedFace = newValue
-//                }
                 .onTapGesture {
                     viewModel.switchDeleteOptionOnEveryFace(newState: false)
                 }
                 .onLongPressGesture(minimumDuration: 1, perform: {
                     viewModel.switchDeleteOptionOnEveryFace(newState: true)
                 })
+                .onChange(of: viewModel.newFaceImage) { _ in
+                    withAnimation(.easeIn(duration: 0.3)) {
+                        viewModel.screenFlow = .setFaceName
+                    }
+                }
+                .onChange(of: viewModel.screenFlow, perform: { newValue in
+                    viewModel.closeFilterPanel(newScreen: newValue)
+                })
                 .animation(.easeIn(duration: viewModel.filterPanelAnimationDuration - 0.1), value: viewModel.isFaceListResized)
-                //.animation(.easeIn, value: showFilterPanel)
-                
             }
             
             VStack {
@@ -143,17 +146,5 @@ struct ListView: View {
         .sheet(isPresented: $viewModel.showingImagePicker) {
             ImagePicker(image: $viewModel.newFaceImage)
         }
-        .onChange(of: viewModel.newFaceImage) { _ in
-            withAnimation(.easeIn(duration: 0.3)) {
-                viewModel.screenFlow = .setFaceName
-            }
-        }
-        .onChange(of: viewModel.screenFlow, perform: { newValue in
-            if newValue != .viewFilterPanel {
-                if viewModel.showFilterPanel {                        viewModel.showFilterPanel.toggle()
-                    viewModel.resizeFaceList()
-                }
-            }
-        })
     }
 }
