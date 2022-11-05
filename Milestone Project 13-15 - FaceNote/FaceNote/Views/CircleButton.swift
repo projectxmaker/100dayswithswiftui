@@ -26,7 +26,7 @@ struct CircleButton: View {
                 .font(font)
                 .clipShape(Circle())
                 .padding(.trailing)
-                .shadow(color: .gray, radius: 10, x: 1, y: 1)
+                .shadow(color: .white, radius: 10, x: 1, y: 1)
         }
     }
 }
