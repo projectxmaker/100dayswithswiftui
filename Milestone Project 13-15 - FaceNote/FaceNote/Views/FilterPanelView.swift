@@ -50,7 +50,7 @@ struct FilterPanelView: View {
                 }
                 .padding(.horizontal, 5)
                 .frame(maxWidth: geometry.size.width, maxHeight: switcher ? geometry.size.height * filterPanelHeightRatio : 0)
-                .background(.blue)
+                .background(.blue.opacity(0.5))
                 .transition(transition)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
