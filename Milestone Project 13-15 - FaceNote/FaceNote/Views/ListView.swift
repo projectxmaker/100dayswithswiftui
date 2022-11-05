@@ -25,9 +25,6 @@ struct ListView: View {
                     showDetailAction: viewModel.showFaceDetail,
                     showEditNameAction: viewModel.showEditNameView
                 )
-                .onChange(of: viewModel.needToRefreshFaceList) { _ in
-                    viewModel.refreshFaceList()
-                }
                 .onTapGesture {
                     viewModel.switchDeleteOptionOnEveryFace(newState: false)
                 }

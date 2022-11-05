@@ -22,7 +22,11 @@ extension ListView {
         let filterPanelHeightRatio = 0.06
         let filterPanelAnimationDuration = 0.5
         
-        @Published var needToRefreshFaceList = false
+        @Published var needToRefreshFaceList = false {
+            didSet {
+                refreshFaceList()
+            }
+        }
         
         @Published var faces = [Face]()
         @Published var tappedFace: Face?
