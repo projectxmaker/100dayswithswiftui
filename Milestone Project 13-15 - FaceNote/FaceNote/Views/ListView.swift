@@ -14,6 +14,7 @@ struct ListView: View {
     
     var body: some View {
         ZStack {
+            // MARK: - Face List
             VStack {
                 Spacer(minLength: viewModel.isFaceListResized ? geometry.size.height * viewModel.filterPanelHeightRatio : 0)
                 
@@ -37,6 +38,41 @@ struct ListView: View {
                 .animation(.easeIn(duration: viewModel.filterPanelAnimationDuration - 0.1), value: viewModel.isFaceListResized)
             }
             
+            // MARK: - Buttons
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    VStack {
+                        CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
+                            viewModel.openFilterPanel()
+                        }
+                        
+                        CircleButton(imageSystemName: "plus") {
+                            viewModel.closeFilterPanel()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                viewModel.showingImagePicker.toggle()
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            
+            // MARK: - Filter
+            VStack {
+                FilterPanelView(
+                    filterKeyword: $viewModel.keyword,
+                    sortOrder: $viewModel.sortOrder,
+                    isFilterPanelShowed: viewModel.isFilterPanelShowed,
+                    geometry: geometry,
+                    filterPanelHeightRatio: viewModel.filterPanelHeightRatio,
+                    filterPanelAnimationDuration: viewModel.filterPanelAnimationDuration
+                )
+                Spacer()
+            }
+            
+            // MARK: - Set/Edit Face Name
             switch viewModel.screenFlow {
             case .viewNothing:
                 Text("XXXXX")
@@ -86,38 +122,6 @@ struct ListView: View {
                         geometry: geometry,
                         tapOnAFaceDetailAction: viewModel.closeFaceDetailAction)
                 }
-            }
-            
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    VStack {
-                        CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
-                            viewModel.openFilterPanel()
-                        }
-                        
-                        CircleButton(imageSystemName: "plus") {
-                            viewModel.closeFilterPanel()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                viewModel.showingImagePicker.toggle()
-                            }
-                        }
-                    }
-                    
-                }
-            }
-            
-            VStack {
-                FilterPanelView(
-                    filterKeyword: $viewModel.keyword,
-                    sortOrder: $viewModel.sortOrder,
-                    isFilterPanelShowed: viewModel.isFilterPanelShowed,
-                    geometry: geometry,
-                    filterPanelHeightRatio: viewModel.filterPanelHeightRatio,
-                    filterPanelAnimationDuration: viewModel.filterPanelAnimationDuration
-                )
-                Spacer()
             }
         }
         .sheet(isPresented: $viewModel.showingImagePicker) {
