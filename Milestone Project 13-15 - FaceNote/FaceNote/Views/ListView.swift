@@ -72,15 +72,9 @@ struct ListView: View {
             // MARK: - Set/Edit Face Name
             switch viewModel.screenFlow {
             case .viewNothing:
-                Text("XXXXX")
+                Text("")
                     .hidden()
             case .setFaceName:
-                Color.white
-                    .opacity(0.8)
-                    .onTapGesture {
-                        viewModel.screenFlow = .viewNothing
-                    }
-                
                 EditFaceNameView(geometry: geometry, newFaceImage: viewModel.wrappedNewFaceImage) {
                     // save name
                     // close this form
@@ -94,12 +88,6 @@ struct ListView: View {
                 }
             case .editFaceName:
                 if let tappedFace = viewModel.tappedFace {
-                    Color.white
-                        .opacity(0.8)
-                        .onTapGesture {
-                            viewModel.screenFlow = .viewNothing
-                        }
-                    
                     EditFaceNameView(geometry: geometry, face: tappedFace) {
                         // save name
                         // close this form

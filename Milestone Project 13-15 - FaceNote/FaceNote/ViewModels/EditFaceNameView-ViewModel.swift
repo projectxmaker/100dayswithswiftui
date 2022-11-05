@@ -14,13 +14,31 @@ extension EditFaceNameView {
         }
         
         @Published var faceName: String = ""
-        @Published var face: Face?
+        
+        #warning("improve: use enum to differentiate between create new and update instead of using faceImage and face")
+        @Published var face: Face? // existing Face
         
         private var dataController = DataController.shared
         
-        var faceImage: UIImage
+        var faceImage: UIImage // new Face
         var actionCancel: () -> Void
         var actionSave: (EditFaceNameView.ViewModel.ActionType, Bool, Face?) -> Void
+        
+        var backgroundUIImage: UIImage {
+            if let face = self.face {
+                let backgroundImageURL = FileManager.default.getFileURL(fileName: face.thumbnail)
+                return UIImage.getUIImage(url: backgroundImageURL) ?? UIImage()
+            } else {
+                let thumbnailSize = CGSize(width: 200, height: 200)
+                return faceImage.preparingThumbnail(of: thumbnailSize) ?? UIImage()
+            }
+//            if let face = self.faceImage {
+//                let backgroundImageURL = FileManager.default.getFileURL(fileName: face.thumbnail)
+//                return UIImage.getUIImage(url: backgroundImageURL) ?? UIImage()
+//            } else {
+//                return UIImage()
+//            }
+        }
         
         init(newFaceImage: UIImage, actionCancel: @escaping () -> Void, actionSave: @escaping (EditFaceNameView.ViewModel.ActionType, Bool, Face?) -> Void) {
             self.faceImage = newFaceImage
