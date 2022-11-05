@@ -32,7 +32,7 @@ struct FaceList: View {
                     )
                 }
             }
-            .padding(.top, 10)
+            .padding(.top, 12)
             .padding(.horizontal, 10)
         }
         .animation(.linear, value: faces)

@@ -25,12 +25,6 @@ struct ListView: View {
                     showDetailAction: viewModel.showFaceDetail,
                     showEditNameAction: viewModel.showEditNameView
                 )
-                .onChange(of: viewModel.keyword) { _ in
-                    viewModel.filteredFaces()
-                }
-                .onChange(of: viewModel.sortOrder) { _ in
-                    viewModel.filteredFaces()
-                }
                 .onChange(of: viewModel.needToRefreshFaceList) { _ in
                     viewModel.refreshFaceList()
                 }
@@ -46,36 +40,15 @@ struct ListView: View {
                     }
                 }
                 .onChange(of: viewModel.screenFlow, perform: { newValue in
-                    viewModel.closeFilterPanel(newScreen: newValue)
+                    viewModel.closeFilterPanel()
                 })
                 .animation(.easeIn(duration: viewModel.filterPanelAnimationDuration - 0.1), value: viewModel.isFaceListResized)
             }
             
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    VStack {
-                        CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
-                            viewModel.screenFlow = .viewFilterPanel
-                            withAnimation {
-                                viewModel.showFilterPanel.toggle()
-                            }
-                            
-                            viewModel.resizeFaceList()
-                        }
-                        
-                        CircleButton(imageSystemName: "plus") {
-                            viewModel.showingImagePicker.toggle()
-                        }
-                    }
-                    
-                }
-            }
-            
             switch viewModel.screenFlow {
             case .viewNothing:
-                Text("")
+                Text("XXXXX")
+                    .hidden()
             case .setFaceName:
                 Color.white
                     .opacity(0.8)
@@ -121,18 +94,38 @@ struct ListView: View {
                         geometry: geometry,
                         tapOnAFaceDetailAction: viewModel.closeFaceDetailAction)
                 }
-            case .viewFilterPanel:
-                VStack {
-                    FilterPanelView(
-                        filterKeyword: $viewModel.keyword,
-                        sortOrder: $viewModel.sortOrder,
-                        showFilterPanel: $viewModel.showFilterPanel,
-                        geometry: geometry,
-                        filterPanelHeightRatio: viewModel.filterPanelHeightRatio,
-                        animationDuration: viewModel.filterPanelAnimationDuration
-                    )
+            }
+            
+            VStack {
+                Spacer()
+                HStack {
                     Spacer()
+                    VStack {
+                        CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
+                            viewModel.openFilterPanel()
+                        }
+                        
+                        CircleButton(imageSystemName: "plus") {
+                            viewModel.closeFilterPanel()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                viewModel.showingImagePicker.toggle()
+                            }
+                        }
+                    }
+                    
                 }
+            }
+            
+            VStack {
+                FilterPanelView(
+                    filterKeyword: $viewModel.keyword,
+                    sortOrder: $viewModel.sortOrder,
+                    isFilterPanelShowed: viewModel.isFilterPanelShowed,
+                    geometry: geometry,
+                    filterPanelHeightRatio: viewModel.filterPanelHeightRatio,
+                    filterPanelAnimationDuration: viewModel.filterPanelAnimationDuration
+                )
+                Spacer()
             }
         }
         .sheet(isPresented: $viewModel.showingImagePicker) {

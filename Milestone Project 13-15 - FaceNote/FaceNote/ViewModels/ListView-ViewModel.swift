@@ -9,14 +9,14 @@ import UIKit
 
 extension ListView {
     enum ScreenFlow {
-        case viewNothing, setFaceName, editFaceName, viewFaceDetail, viewFilterPanel
+        case viewNothing, setFaceName, editFaceName, viewFaceDetail
     }
     
     @MainActor class ViewModel: ObservableObject {
         @Published var showDeleteOption = false
         @Published var showingImagePicker = false
         @Published var screenFlow = ScreenFlow.viewNothing
-        @Published var showFilterPanel = false
+        @Published var isFilterPanelShowed = false
         
         @Published var isFaceListResized = false
         let filterPanelHeightRatio = 0.06
@@ -27,8 +27,18 @@ extension ListView {
         @Published var faces = [Face]()
         @Published var tappedFace: Face?
         @Published var newFaceImage: UIImage?
-        @Published var keyword: String = ""
-        @Published var sortOrder = SortOrder.forward
+        @Published var keyword: String = "" {
+            didSet {
+                filteredFaces()
+            }
+        }
+        
+        @Published var sortOrder = SortOrder.forward {
+            didSet {
+                filteredFaces()
+            }
+        }
+        
         @Published var modifiedFace: Face?
         
         private var dataController = DataController.shared
@@ -86,7 +96,7 @@ extension ListView {
         }
         
         func resizeFaceList() {
-            if showFilterPanel {
+            if isFilterPanelShowed {
                 DispatchQueue.main.asyncAfter(deadline: .now()) {
                     self.isFaceListResized = true
                 }
@@ -109,12 +119,16 @@ extension ListView {
             screenFlow = .viewNothing
         }
         
-        func closeFilterPanel(newScreen: ScreenFlow) {
-            if newScreen != .viewFilterPanel {
-                if showFilterPanel {                        showFilterPanel.toggle()
-                    resizeFaceList()
-                }
+        func closeFilterPanel() {
+            if isFilterPanelShowed {
+                isFilterPanelShowed.toggle()
+                resizeFaceList()
             }
+        }
+        
+        func openFilterPanel() {
+            isFilterPanelShowed.toggle()
+            resizeFaceList()
         }
     }
 }
