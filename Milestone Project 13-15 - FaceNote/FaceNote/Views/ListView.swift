@@ -32,9 +32,6 @@ struct ListView: View {
                 .onLongPressGesture(minimumDuration: 1, perform: {
                     viewModel.switchDeleteOptionOnEveryFace(newState: true)
                 })
-                .onChange(of: viewModel.screenFlow, perform: { newValue in
-                    viewModel.closeFilterPanel()
-                })
                 .animation(.easeIn(duration: viewModel.filterPanelAnimationDuration - 0.1), value: viewModel.isFaceListResized)
             }
             

@@ -15,7 +15,12 @@ extension ListView {
     @MainActor class ViewModel: ObservableObject {
         @Published var showDeleteOption = false
         @Published var showingImagePicker = false
-        @Published var screenFlow = ScreenFlow.viewNothing
+        @Published var screenFlow = ScreenFlow.viewNothing {
+            didSet {
+                closeFilterPanel()
+            }
+        }
+        
         @Published var isFilterPanelShowed = false
         
         @Published var isFaceListResized = false
