@@ -31,11 +31,6 @@ struct ListView: View {
                 .onLongPressGesture(minimumDuration: 1, perform: {
                     viewModel.switchDeleteOptionOnEveryFace(newState: true)
                 })
-                .onChange(of: viewModel.newFaceImage) { _ in
-                    withAnimation(.easeIn(duration: 0.3)) {
-                        viewModel.screenFlow = .setFaceName
-                    }
-                }
                 .onChange(of: viewModel.screenFlow, perform: { newValue in
                     viewModel.closeFilterPanel()
                 })
@@ -127,6 +122,11 @@ struct ListView: View {
         }
         .sheet(isPresented: $viewModel.showingImagePicker) {
             ImagePicker(image: $viewModel.newFaceImage)
+        }
+        .onChange(of: viewModel.newFaceImage) { _ in
+            withAnimation(.easeIn(duration: 0.5)) {
+                viewModel.screenFlow = .setFaceName
+            }
         }
     }
 }
