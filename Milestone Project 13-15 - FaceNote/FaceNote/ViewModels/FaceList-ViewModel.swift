@@ -9,12 +9,13 @@ import UIKit
 import SwiftUI
 
 enum ScreenFlow {
-    case viewNothing, createFaceName, editFaceName, viewFaceDetail
+    case viewNothing, createFaceName, editFaceName, viewFaceDetail, changeFace
 }
 
 @MainActor class FaceList: ObservableObject {
     @Published var showDeleteOption = false
     @Published var showingImagePicker = false
+    @Published var isChangeImageShowed = false
     @Published var screenFlow = ScreenFlow.viewNothing {
         didSet {
             closeFilterPanel()
@@ -30,6 +31,7 @@ enum ScreenFlow {
     @Published var faces = [Face]()
     @Published var tappedFace: Face?
     @Published var newFaceImage: UIImage?
+    @Published var changeNewFaceImage: UIImage?
     @Published var keyword: String = "" {
         didSet {
             filteredFaces()
@@ -114,6 +116,11 @@ enum ScreenFlow {
         screenFlow = .editFaceName
     }
     
+    func openImagePickerToChangeImage(face: Face) {
+        tappedFace = face
+        isChangeImageShowed.toggle()
+    }
+    
     func closeFaceDetailAction() -> Void {
         screenFlow = .viewNothing
     }
@@ -194,13 +201,33 @@ enum ScreenFlow {
     func save(actionType: ActionType, faceName: String) {
         switch actionType {
         case .create:
-            guard let newFaceImage = newFaceImage else { return }
+            guard let newFaceImage = newFaceImage else {
+                self.updateFaceDone(isSucceeded: false)
+                return
+            }
+            
             dataController.createNewFace(uiImage: newFaceImage, name: faceName) { isSucceeded, newFace in
                 self.updateFaceDone(isSucceeded: isSucceeded)
             }
-        case .update:
-            guard let existingFace = tappedFace else { return }
+        case .rename:
+            guard let existingFace = tappedFace else {
+                self.updateFaceDone(isSucceeded: false)
+                return
+            }
+            
             dataController.renameFace(existingFace, newName: faceName) { isSucceeded, updatedFace in
+                self.updateFaceDone(isSucceeded: isSucceeded)
+            }
+        case .changeFace:
+            guard
+                let existingFace = tappedFace,
+                let newFaceImage = changeNewFaceImage
+            else {
+                self.updateFaceDone(isSucceeded: false)
+                return
+            }
+            
+            dataController.changeFace(existingFace, uiImage: newFaceImage, newName: faceName) { isSucceeded, updatedFace in
                 self.updateFaceDone(isSucceeded: isSucceeded)
             }
         }

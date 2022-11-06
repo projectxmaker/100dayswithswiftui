@@ -90,9 +90,11 @@ struct ListView: View {
                 Text("")
                     .hidden()
             case .createFaceName:
-                SetFaceNameView(actionType: .create, geometry: geometry)
+                SetFaceInfoView(actionType: .create, geometry: geometry)
             case .editFaceName:
-                SetFaceNameView(actionType: .update, geometry: geometry)
+                SetFaceInfoView(actionType: .rename, geometry: geometry)
+            case .changeFace:
+                SetFaceInfoView(actionType: .changeFace, geometry: geometry)
             case .viewFaceDetail:
                 FaceDetailView(geometry: geometry)
             }
@@ -103,6 +105,14 @@ struct ListView: View {
         .onChange(of: faceList.newFaceImage) { _ in
             withAnimation(.easeIn(duration: 0.5)) {
                 faceList.screenFlow = .createFaceName
+            }
+        }
+        .sheet(isPresented: $faceList.isChangeImageShowed) {
+            ImagePicker(image: $faceList.changeNewFaceImage)
+        }
+        .onChange(of: faceList.changeNewFaceImage) { _ in
+            withAnimation(.easeIn(duration: 0.5)) {
+                faceList.screenFlow = .changeFace
             }
         }
         .environmentObject(faceList)

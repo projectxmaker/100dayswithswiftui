@@ -8,10 +8,10 @@
 import SwiftUI
 
 enum ActionType {
-    case create, update
+    case create, rename, changeFace
 }
 
-struct SetFaceNameView: View {
+struct SetFaceInfoView: View {
     @EnvironmentObject var faceList: FaceList
 
     @State private var isShowed = false
@@ -103,10 +103,14 @@ struct SetFaceNameView: View {
             case .create:
                 self.mainImage = faceList.mainUIImage(geometry: geometry, uiImage: faceList.newFaceImage)
                 self.backgroundImage = faceList.backgroundUIImage(uiImage: faceList.newFaceImage)
-            case .update:
+            case .rename:
                 faceName = faceList.tappedFace?.name ?? "Unknown"
                 self.backgroundImage = faceList.backgroundUIImage(face: faceList.tappedFace)
                 self.mainImage = faceList.mainUIImage(geometry: geometry, face: faceList.tappedFace)
+            case .changeFace:
+                faceName = faceList.tappedFace?.name ?? "Unknown"
+                self.backgroundImage = faceList.backgroundUIImage(uiImage: faceList.changeNewFaceImage)
+                self.mainImage = faceList.mainUIImage(geometry: geometry, uiImage: faceList.changeNewFaceImage)
             }
             
             withAnimation(.easeOut(duration: 0.5)) {

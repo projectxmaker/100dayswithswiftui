@@ -62,6 +62,13 @@ struct FaceView: View {
                         .contentShape(.contextMenuPreview, Circle())
                         .contextMenu(menuItems: {
                             Button() {
+                                faceList.openImagePickerToChangeImage(face: face)
+                            } label: {
+                                Label("Change Image", systemImage: "photo.circle")
+                                    .font(.title)
+                            }
+                            
+                            Button() {
                                 faceList.showEditNameView(face: face)
                             } label: {
                                 Label("Change Name", systemImage: "pencil")

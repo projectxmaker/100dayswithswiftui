@@ -56,6 +56,25 @@ class DataController {
         return newFaces
     }
     
+    private func generateNewFace(uiImage: UIImage, name: String) -> Face? {
+        let faceId = UUID()
+        let pictureName = faceId.uuidString
+        let thumbnailName = "\(pictureName)_thumbnail"
+        let thumbnailSize = CGSize(width: 200, height: 200)
+        
+        var newFace = Face(id: faceId, name: name, picture: pictureName, thumbnail: thumbnailName)
+
+        guard
+            let _ = FileManager.default.saveUIImage(uiImage, name: pictureName),
+            let thumbnailUIImage = uiImage.preparingThumbnail(of: thumbnailSize),
+            let _ = FileManager.default.saveUIImage(thumbnailUIImage, name: thumbnailName)
+        else {
+            return nil
+        }
+        
+        return newFace
+    }
+    
     func createNewFace(uiImage: UIImage, name: String, action: @escaping (Bool, Face?) -> Void) {
         let faceId = UUID()
         
@@ -106,6 +125,24 @@ class DataController {
             }
         } else {
             action(false, nil)
+        }
+    }
+    
+    func changeFace(_ face: Face, uiImage: UIImage, newName: String, action: (Bool, Face?) -> Void) {
+        guard
+            let index = faces.firstIndex(of: face),
+            let newFace = generateNewFace(uiImage: uiImage, name: newName)
+        else {
+            action(false, nil)
+            return
+        }
+        
+        faces[index] = newFace
+        
+        justModifiedFace = newFace
+        
+        saveFaces { result in
+            action(result, newFace)
         }
     }
     
