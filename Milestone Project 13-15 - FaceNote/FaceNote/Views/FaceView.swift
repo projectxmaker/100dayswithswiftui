@@ -62,7 +62,7 @@ struct FaceView: View {
                         .scaledToFill()
                         .frame(width: 100, height: 100)
                         .clipShape(Circle())
-                        .shadow(color: .gray, radius: 10, x: 1, y: 1)
+                        .shadow(color: .white, radius: 10, x: 1, y: 1)
                         .rotation3DEffect(.degrees(flipDegree), axis: (x: 0, y: 1, z: 0))
                         .overlay(alignment: .topLeading) {
                             if showDeleteOption {
