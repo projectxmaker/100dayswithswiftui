@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FaceView: View {
-    @ObservedObject private var viewModel = ListView.ViewModel()
+    @EnvironmentObject var faceList: FaceList
     
     @State private var showFace = false
     @State private var flipDegree: Double = 0
@@ -16,39 +16,24 @@ struct FaceView: View {
     @State private var showDeleteAlert = false
     
     @Binding var face: Face
-    @Binding var needToRefreshFaceList: Bool
-    @Binding var showDeleteOption: Bool
-    var showDetailAction: @MainActor (Face) -> Void
-    var showEditNameAction: @MainActor (Face) -> Void
-    
-    private func tapOnFace() -> some Gesture {
-        let onTap = TapGesture(count: 1)
-            .onEnded({ ended in
-                runActionForTapOnFace()
-            })
-
-        return onTap
-    }
     
     private func runActionForTapOnFace() {
-        let _ = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
-            if tappedOnDeletionIcon {
-                runDeleteFaceAction()
-            } else {
-                if !showDeleteOption {
-                    withAnimation(.easeIn(duration: 0.2)) {
-                        flipDegree = flipDegree == 360 ? 0 : 360
-                    }
-                    showDetailAction(face)
-                } else {
-                    showDeleteOption = false
+        if tappedOnDeletionIcon {
+            runDeleteFaceAction()
+        } else {
+            if !faceList.showDeleteOption {
+                withAnimation(.easeIn(duration: 0.2)) {
+                    flipDegree = flipDegree == 360 ? 0 : 360
                 }
+                faceList.showFaceDetail(face: face)
+            } else {
+                faceList.showDeleteOption = false
             }
         }
     }
     
     private func runDeleteFaceAction() {
-        viewModel.tappedFace = face
+        faceList.tappedFace = face
         showDeleteAlert.toggle()
         tappedOnDeletionIcon = false
     }
@@ -65,7 +50,7 @@ struct FaceView: View {
                         .shadow(color: .white, radius: 10, x: 1, y: 1)
                         .rotation3DEffect(.degrees(flipDegree), axis: (x: 0, y: 1, z: 0))
                         .overlay(alignment: .topLeading) {
-                            if showDeleteOption {
+                            if faceList.showDeleteOption {
                                 Image(systemName: "minus.circle.fill")
                                     .font(.title2)
                                     .foregroundColor(.red.opacity(0.8))
@@ -77,7 +62,7 @@ struct FaceView: View {
                         .contentShape(.contextMenuPreview, Circle())
                         .contextMenu(menuItems: {
                             Button() {
-                                showEditNameAction(face)
+                                faceList.showEditNameView(face: face)
                             } label: {
                                 Label("Change Name", systemImage: "pencil")
                                     .font(.title)
@@ -99,7 +84,12 @@ struct FaceView: View {
             }
             .onTapGesture(count: 1, perform: {})
         }
-        .simultaneousGesture(tapOnFace())
+        .simultaneousGesture(
+            TapGesture()
+                .onEnded({ _ in
+                    runActionForTapOnFace()
+                })
+        )
         .scaleEffect(showFace ? 1 : 0)
         .animation(.easeIn(duration: 0.3), value: showFace)
         .alert("Delete", isPresented: $showDeleteAlert, actions: {
@@ -112,15 +102,15 @@ struct FaceView: View {
                 showFace = false
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    viewModel.deleteFace { succeeded, faces in
-                        needToRefreshFaceList.toggle()
+                    faceList.deleteFace { succeeded, faces in
+                        faceList.refreshFaceList()
                     }
                 }
             }) {
                 Text("Delete")
             }
         }, message: {
-           Text(viewModel.deleteMessage)
+           Text(faceList.deleteMessage)
         })
         .onAppear {
             showFace = true

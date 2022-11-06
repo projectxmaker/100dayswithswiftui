@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ListView: View {
-    @StateObject private var viewModel = ViewModel()
+    @StateObject var faceList = FaceList()
 
     var geometry: GeometryProxy
     
@@ -27,31 +27,27 @@ struct ListView: View {
             
             // MARK: - Face List
             VStack {
-                Spacer(minLength: viewModel.isFaceListResized ? geometry.size.height * viewModel.filterPanelHeightRatio : 0)
+                Spacer(minLength: faceList.isFaceListResized ? geometry.size.height * faceList.filterPanelHeightRatio : 0)
                 
                 ScrollView {
                     LazyVGrid(columns: listVGridColumns) {
-                        ForEach($viewModel.faces) { face in
+                        ForEach($faceList.faces) { face in
                             FaceView(
-                                face: face,
-                                needToRefreshFaceList: $viewModel.needToRefreshFaceList,
-                                showDeleteOption: $viewModel.showDeleteOption,
-                                showDetailAction: viewModel.showFaceDetail,
-                                showEditNameAction: viewModel.showEditNameView
+                                face: face
                             )
                         }
                     }
                     .padding(.top, 12)
                     .padding(.horizontal, 10)
                 }
-                .animation(.linear, value: viewModel.faces)
+                .animation(.linear, value: faceList.faces)
                 .onTapGesture {
-                    viewModel.switchDeleteOptionOnEveryFace(newState: false)
+                    faceList.switchDeleteOptionOnEveryFace(newState: false)
                 }
                 .onLongPressGesture(minimumDuration: 1, perform: {
-                    viewModel.switchDeleteOptionOnEveryFace(newState: true)
+                    faceList.switchDeleteOptionOnEveryFace(newState: true)
                 })
-                .animation(.easeIn(duration: viewModel.filterPanelAnimationDuration - 0.1), value: viewModel.isFaceListResized)
+                .animation(.easeIn(duration: faceList.filterPanelAnimationDuration - 0.1), value: faceList.isFaceListResized)
             }
             
             // MARK: - Buttons
@@ -61,13 +57,13 @@ struct ListView: View {
                     Spacer()
                     VStack {
                         CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
-                            viewModel.openFilterPanel()
+                            faceList.openFilterPanel()
                         }
                         
                         CircleButton(imageSystemName: "plus") {
-                            viewModel.closeFilterPanel()
+                            faceList.closeFilterPanel()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                viewModel.showingImagePicker.toggle()
+                                faceList.showingImagePicker.toggle()
                             }
                         }
                     }
@@ -78,64 +74,64 @@ struct ListView: View {
             // MARK: - Filter
             VStack {
                 FilterPanelView(
-                    filterKeyword: $viewModel.keyword,
-                    sortOrder: $viewModel.sortOrder,
-                    isFilterPanelShowed: viewModel.isFilterPanelShowed,
+                    filterKeyword: $faceList.keyword,
+                    sortOrder: $faceList.sortOrder,
+                    isFilterPanelShowed: faceList.isFilterPanelShowed,
                     geometry: geometry,
-                    filterPanelHeightRatio: viewModel.filterPanelHeightRatio,
-                    filterPanelAnimationDuration: viewModel.filterPanelAnimationDuration
+                    filterPanelHeightRatio: faceList.filterPanelHeightRatio,
+                    filterPanelAnimationDuration: faceList.filterPanelAnimationDuration
                 )
                 Spacer()
             }
             
             // MARK: - Set/Edit Face Name
-            switch viewModel.screenFlow {
+            switch faceList.screenFlow {
             case .viewNothing:
                 Text("")
                     .hidden()
             case .setFaceName:
-                EditFaceNameView(geometry: geometry, newFaceImage: viewModel.wrappedNewFaceImage) {
+                EditFaceNameView(geometry: geometry, newFaceImage: faceList.wrappedNewFaceImage) {
                     // save name
                     // close this form
-                    viewModel.screenFlow = .viewNothing
+                    faceList.screenFlow = .viewNothing
                 } actionSave: { actionType, isSucceeded, newFace in
                     if isSucceeded {
-                        viewModel.needToRefreshFaceList.toggle()
+                        faceList.refreshFaceList()
                     }
                     
-                    viewModel.screenFlow = .viewNothing
+                    faceList.screenFlow = .viewNothing
                 }
             case .editFaceName:
-                if let tappedFace = viewModel.tappedFace {
+                if let tappedFace = faceList.tappedFace {
                     EditFaceNameView(geometry: geometry, face: tappedFace) {
                         // save name
                         // close this form
-                        viewModel.screenFlow = .viewNothing
+                        faceList.screenFlow = .viewNothing
                     } actionSave: { actionType, isSucceeded, updatedFace in
                         if isSucceeded {
-                            viewModel.needToRefreshFaceList.toggle()
+                            faceList.refreshFaceList()
                         }
                         
-                        viewModel.screenFlow = .viewNothing
+                        faceList.screenFlow = .viewNothing
                     }
                 }
             case .viewFaceDetail:
-                if let newTappedFace = viewModel.tappedFace {
+                if let newTappedFace = faceList.tappedFace {
                     FaceDetailView(
                         face: newTappedFace,
                         geometry: geometry,
-                        tapOnAFaceDetailAction: viewModel.closeFaceDetailAction)
+                        tapOnAFaceDetailAction: faceList.closeFaceDetailAction)
                 }
             }
         }
-        .sheet(isPresented: $viewModel.showingImagePicker) {
-            ImagePicker(image: $viewModel.newFaceImage)
+        .sheet(isPresented: $faceList.showingImagePicker) {
+            ImagePicker(image: $faceList.newFaceImage)
         }
-        .onChange(of: viewModel.newFaceImage) { _ in
+        .onChange(of: faceList.newFaceImage) { _ in
             withAnimation(.easeIn(duration: 0.5)) {
-                viewModel.screenFlow = .setFaceName
+                faceList.screenFlow = .setFaceName
             }
         }
-        .environmentObject(viewModel)
+        .environmentObject(faceList)
     }
 }
