@@ -14,7 +14,7 @@ enum ScreenFlow {
 
 @MainActor class FaceList: ObservableObject {
     @Published var showDeleteOption = false
-    @Published var showingImagePicker = false
+    //@Published var showingImagePicker = false
     @Published var isChangeImageShowed = false
     @Published var screenFlow = ScreenFlow.viewNothing {
         didSet {
@@ -145,16 +145,7 @@ enum ScreenFlow {
             return UIImage()
         }
     }
-    
-    func backgroundUIImage(uiImage: UIImage?) -> UIImage {
-        if let newImage = uiImage {
-            let thumbnailSize = CGSize(width: 200, height: 200)
-            return newImage.preparingThumbnail(of: thumbnailSize) ?? UIImage()
-        } else {
-            return UIImage()
-        }
-    }
-    
+
     func mainUIImage(geometry: GeometryProxy, face: Face?) -> UIImage {
         guard
             let face = face
@@ -168,69 +159,17 @@ enum ScreenFlow {
         let mainImageURL = FileManager.default.getFileURL(fileName: face.picture)
         return UIImage.getUIImage(url: mainImageURL, size: newSize) ?? UIImage()
     }
-    
-    func mainUIImage(geometry: GeometryProxy, uiImage: UIImage?) -> UIImage {
-        guard
-            let newImage = uiImage
-        else {
-            return UIImage()
-        }
-        
-        let newSize = CGSize(width: geometry.size.width * 0.9
-        , height: geometry.size.width * 0.9)
 
-        return newImage.preparingThumbnail(of: newSize) ?? UIImage()
-    }
-    
-    func isFaceNameValid(name: String) -> Bool {
-        !name.trimmingCharacters(in: .whitespaces).isEmpty
-    }
-    
     func cancelAction() {
         screenFlow = .viewNothing
     }
     
-    func updateFaceDone(isSucceeded: Bool) {
+    func updateFaceDone(_ isSucceeded: Bool) {
         if isSucceeded {
             refreshFaceList()
         }
         
         screenFlow = .viewNothing
-    }
-    
-    func save(actionType: ActionType, faceName: String) {
-        switch actionType {
-        case .create:
-            guard let newFaceImage = newFaceImage else {
-                self.updateFaceDone(isSucceeded: false)
-                return
-            }
-            
-            dataController.createNewFace(uiImage: newFaceImage, name: faceName) { isSucceeded, newFace in
-                self.updateFaceDone(isSucceeded: isSucceeded)
-            }
-        case .rename:
-            guard let existingFace = tappedFace else {
-                self.updateFaceDone(isSucceeded: false)
-                return
-            }
-            
-            dataController.renameFace(existingFace, newName: faceName) { isSucceeded, updatedFace in
-                self.updateFaceDone(isSucceeded: isSucceeded)
-            }
-        case .changeFace:
-            guard
-                let existingFace = tappedFace,
-                let newFaceImage = changeNewFaceImage
-            else {
-                self.updateFaceDone(isSucceeded: false)
-                return
-            }
-            
-            dataController.changeFace(existingFace, uiImage: newFaceImage, newName: faceName) { isSucceeded, updatedFace in
-                self.updateFaceDone(isSucceeded: isSucceeded)
-            }
-        }
     }
 
 }

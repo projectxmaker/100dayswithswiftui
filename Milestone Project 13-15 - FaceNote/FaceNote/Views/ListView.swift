@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ListView: View {
     @StateObject var faceList = FaceList()
+    @StateObject var setFaceInfoVM = SetFaceInfoViewModel()
 
     var geometry: GeometryProxy
     
@@ -63,7 +64,7 @@ struct ListView: View {
                         CircleButton(imageSystemName: "plus") {
                             faceList.closeFilterPanel()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                faceList.showingImagePicker.toggle()
+                                setFaceInfoVM.isImagePickerForNewFaceShowed.toggle()
                             }
                         }
                     }
@@ -90,31 +91,36 @@ struct ListView: View {
                 Text("")
                     .hidden()
             case .createFaceName:
-                SetFaceInfoView(actionType: .create, geometry: geometry)
+                CreateFaceView(geometry: geometry)
             case .editFaceName:
-                SetFaceInfoView(actionType: .rename, geometry: geometry)
+                if let tappedFace = faceList.tappedFace {
+                    RenameFaceView(geometry: geometry, face: tappedFace)
+                }
             case .changeFace:
-                SetFaceInfoView(actionType: .changeFace, geometry: geometry)
+                if let tappedFace = faceList.tappedFace {
+                    ChangeFaceInfoView(geometry: geometry, face: tappedFace)
+                }
             case .viewFaceDetail:
                 FaceDetailView(geometry: geometry)
             }
         }
-        .sheet(isPresented: $faceList.showingImagePicker) {
-            ImagePicker(image: $faceList.newFaceImage)
+        .sheet(isPresented: $setFaceInfoVM.isImagePickerForNewFaceShowed) {
+            ImagePicker(image: $setFaceInfoVM.newFaceImage)
         }
-        .onChange(of: faceList.newFaceImage) { _ in
+        .onChange(of: setFaceInfoVM.newFaceImage) { _ in
             withAnimation(.easeIn(duration: 0.5)) {
                 faceList.screenFlow = .createFaceName
             }
         }
         .sheet(isPresented: $faceList.isChangeImageShowed) {
-            ImagePicker(image: $faceList.changeNewFaceImage)
+            ImagePicker(image: $setFaceInfoVM.changeNewFaceImage)
         }
-        .onChange(of: faceList.changeNewFaceImage) { _ in
+        .onChange(of: setFaceInfoVM.changeNewFaceImage) { _ in
             withAnimation(.easeIn(duration: 0.5)) {
                 faceList.screenFlow = .changeFace
             }
         }
         .environmentObject(faceList)
+        .environmentObject(setFaceInfoVM)
     }
 }

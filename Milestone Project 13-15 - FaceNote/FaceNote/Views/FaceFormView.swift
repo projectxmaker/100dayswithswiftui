@@ -1,27 +1,20 @@
 //
-//  UpdateFaceNameView.swift
+//  FaceFormView.swift
 //  FaceNote
 //
-//  Created by Pham Anh Tuan on 10/30/22.
+//  Created by Pham Anh Tuan on 11/6/22.
 //
 
 import SwiftUI
 
-enum ActionType {
-    case create, rename, changeFace
-}
-
-struct SetFaceInfoView: View {
+struct FaceFormView: View {
+    @EnvironmentObject var setFaceInfoVM: SetFaceInfoViewModel
     @EnvironmentObject var faceList: FaceList
 
     @State private var isShowed = false
-    @State private var backgroundImage = UIImage()
-    @State private var mainImage = UIImage()
-    @State private var faceName: String = ""
     
     @FocusState private var isTextFieldNameFocused: Bool
    
-    var actionType: ActionType
     var geometry: GeometryProxy
     
     var body: some View {
@@ -31,7 +24,7 @@ struct SetFaceInfoView: View {
                 .opacity(0.1)
                 .padding([.horizontal], -20)
                 .overlay {
-                    Image(uiImage: backgroundImage)
+                    Image(uiImage: setFaceInfoVM.backgroundImage)
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: geometry.size.width)
@@ -41,7 +34,7 @@ struct SetFaceInfoView: View {
                         .opacity(isShowed ? 0.7 : 0)
                     
                     VStack(spacing: 0) {
-                        Image(uiImage: mainImage)
+                        Image(uiImage: setFaceInfoVM.mainImage)
                             .resizable()
                             .scaledToFill()
                             .padding(1)
@@ -50,7 +43,7 @@ struct SetFaceInfoView: View {
                             .clipShape(Circle())
                             .shadow(color: .gray, radius: 10, x: 1, y: 1)
                         
-                        TextField(text: $faceName, prompt: Text("Enter name here")) {
+                        TextField(text: $setFaceInfoVM.faceName, prompt: Text("Enter name here")) {
                             Text("Name")
                         }
                         .focused($isTextFieldNameFocused)
@@ -64,7 +57,7 @@ struct SetFaceInfoView: View {
                             isTextFieldNameFocused.toggle()
                         }
                         
-                        if !faceList.isFaceNameValid(name: faceName) {
+                        if !setFaceInfoVM.isFaceNameValid() {
                             Text("Name must have at least 1 character")
                                 .font(.subheadline)
                                 .foregroundColor(.red)
@@ -81,41 +74,25 @@ struct SetFaceInfoView: View {
                             .background(.white)
 
                             Button("Save", role: .cancel) {
-                                faceList.save(actionType: actionType, faceName: faceName)
+                                setFaceInfoVM.save(actionDone: faceList.updateFaceDone)
                             }
                             .frame(minWidth: geometry.size.width * 0.2, minHeight: 40)
                             .foregroundColor(.white)
                             .background(.blue)
-                            .disabled(!faceList.isFaceNameValid(name: faceName))
+                            .disabled(!setFaceInfoVM.isFaceNameValid())
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                         .buttonStyle(PlainButtonStyle())
                         .padding([.top], 20)
                         .shadow(color: .white, radius: 10, x: 1, y: 1)
-                        
-                        
                     }
                 }
-
         }
         .onAppear {
-            switch actionType {
-            case .create:
-                self.mainImage = faceList.mainUIImage(geometry: geometry, uiImage: faceList.newFaceImage)
-                self.backgroundImage = faceList.backgroundUIImage(uiImage: faceList.newFaceImage)
-            case .rename:
-                faceName = faceList.tappedFace?.name ?? "Unknown"
-                self.backgroundImage = faceList.backgroundUIImage(face: faceList.tappedFace)
-                self.mainImage = faceList.mainUIImage(geometry: geometry, face: faceList.tappedFace)
-            case .changeFace:
-                faceName = faceList.tappedFace?.name ?? "Unknown"
-                self.backgroundImage = faceList.backgroundUIImage(uiImage: faceList.changeNewFaceImage)
-                self.mainImage = faceList.mainUIImage(geometry: geometry, uiImage: faceList.changeNewFaceImage)
-            }
-            
             withAnimation(.easeOut(duration: 0.5)) {
                 isShowed.toggle()
             }
         }
     }
 }
+
