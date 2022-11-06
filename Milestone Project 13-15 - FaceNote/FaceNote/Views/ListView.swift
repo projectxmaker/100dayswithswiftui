@@ -116,12 +116,7 @@ struct ListView: View {
                     }
                 }
             case .viewFaceDetail:
-                if let newTappedFace = faceList.tappedFace {
-                    FaceDetailView(
-                        face: newTappedFace,
-                        geometry: geometry,
-                        tapOnAFaceDetailAction: faceList.closeFaceDetailAction)
-                }
+                FaceDetailView(geometry: geometry)
             }
         }
         .sheet(isPresented: $faceList.showingImagePicker) {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 enum ScreenFlow {
     case viewNothing, setFaceName, editFaceName, viewFaceDetail
@@ -131,5 +132,28 @@ enum ScreenFlow {
     func openFilterPanel() {
         isFilterPanelShowed.toggle()
         resizeFaceList()
+    }
+    
+    func backgroundUIImage() -> UIImage {
+        if let face = self.tappedFace {
+            let backgroundImageURL = FileManager.default.getFileURL(fileName: face.thumbnail)
+            return UIImage.getUIImage(url: backgroundImageURL) ?? UIImage()
+        } else {
+            return UIImage()
+        }
+    }
+    
+    func mainUIImage(geometry: GeometryProxy) -> UIImage {
+        guard
+            let face = self.tappedFace
+        else {
+            return UIImage()
+        }
+        
+        let newSize = CGSize(width: geometry.size.width * 0.9
+        , height: geometry.size.width * 0.9)
+
+        let mainImageURL = FileManager.default.getFileURL(fileName: face.picture)
+        return UIImage.getUIImage(url: mainImageURL, size: newSize) ?? UIImage()
     }
 }
