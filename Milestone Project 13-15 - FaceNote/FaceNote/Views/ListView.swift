@@ -30,7 +30,7 @@ struct ListView: View {
                 Spacer(minLength: faceList.isFaceListResized ? geometry.size.height * faceList.filterPanelHeightRatio : 0)
                 
                 ScrollView {
-                    LazyVGrid(columns: listVGridColumns) {
+                    LazyVGrid(columns: listVGridColumns, spacing: 30) {
                         ForEach($faceList.faces) { face in
                             FaceView(
                                 face: face

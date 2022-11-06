@@ -77,10 +77,10 @@ struct FaceView: View {
                         })
                 }
                 Text(face.name)
-                    .lineLimit(2)
+                    .lineLimit(1)
                     .font(.caption.weight(.bold))
                     .foregroundColor(.white)
-                    .shadow(color: .black, radius: 5, x: 1, y: 1)
+                    .shadow(color: .white, radius: 5, x: 1, y: 1)
             }
             .onTapGesture(count: 1, perform: {})
         }
