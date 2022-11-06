@@ -62,7 +62,7 @@ class DataController {
         let thumbnailName = "\(pictureName)_thumbnail"
         let thumbnailSize = CGSize(width: 200, height: 200)
         
-        var newFace = Face(id: faceId, name: name, picture: pictureName, thumbnail: thumbnailName)
+        let newFace = Face(id: faceId, name: name, picture: pictureName, thumbnail: thumbnailName)
 
         guard
             let _ = FileManager.default.saveUIImage(uiImage, name: pictureName),
@@ -76,38 +76,21 @@ class DataController {
     }
     
     func createNewFace(uiImage: UIImage, name: String, action: @escaping (Bool, Face?) -> Void) {
-        let faceId = UUID()
-        
-        var newFace = Face(id: faceId, name: name, picture: "", thumbnail: "")
-
-        // save large image into app document directory
-        let pictureName = faceId.uuidString
-        if let _ = FileManager.default.saveUIImage(uiImage, name: pictureName) {
-
-            newFace.picture = pictureName
-            
-            let thumbnailSize = CGSize(width: 200, height: 200)
-            if let thumbnailUIImage = uiImage.preparingThumbnail(of: thumbnailSize) {
-                let thumbnailName = "\(pictureName)_thumbnail"
-                
-                // save thumbnail image into app document directory
-                if let _ = FileManager.default.saveUIImage(thumbnailUIImage, name: thumbnailName) {
-                    newFace.thumbnail = thumbnailName
-                }
-            }
-            
-            self.faces.insert(newFace, at: 0)
-
-            // save JSON file into app document directory
-            saveFaces { result in
-                if result {
-                    action(true, newFace)
-                } else {
-                    action(false, nil)
-                }
-            }
-        } else {
+        guard let newFace = generateNewFace(uiImage: uiImage, name: name)
+        else {
             action(false, nil)
+            return
+        }
+            
+        self.faces.insert(newFace, at: 0)
+
+        // save JSON file into app document directory
+        saveFaces { result in
+            if result {
+                action(true, newFace)
+            } else {
+                action(false, nil)
+            }
         }
     }
     
