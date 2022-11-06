@@ -20,7 +20,7 @@ struct FaceDetailView: View {
                 .opacity(0.1)
                 .padding([.horizontal], -20)
                 .overlay {
-                    Image(uiImage: faceList.backgroundUIImage())
+                    Image(uiImage: faceList.backgroundUIImage(face: faceList.tappedFace))
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: geometry.size.width)
@@ -30,7 +30,7 @@ struct FaceDetailView: View {
                         .opacity(showFaceDetailView ? 0.7 : 0)
                     
                     VStack {
-                        Image(uiImage: faceList.mainUIImage(geometry: geometry))
+                        Image(uiImage: faceList.mainUIImage(geometry: geometry, face: faceList.tappedFace))
                             .resizable()
                             .scaledToFill()
                             .frame(height: geometry.size.width * 0.9)

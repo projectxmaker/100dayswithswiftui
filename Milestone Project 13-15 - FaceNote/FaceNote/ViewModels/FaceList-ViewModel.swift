@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 
 enum ScreenFlow {
-    case viewNothing, setFaceName, editFaceName, viewFaceDetail
+    case viewNothing, createFaceName, editFaceName, viewFaceDetail
 }
 
 @MainActor class FaceList: ObservableObject {
@@ -45,10 +45,6 @@ enum ScreenFlow {
     @Published var modifiedFace: Face?
     
     private var dataController = DataController.shared
-    
-    var wrappedNewFaceImage: UIImage {
-        newFaceImage ?? UIImage()
-    }
     
     var deleteMessage: String {
         guard let tappedFace = tappedFace else { return "Unknown Face"}
@@ -134,8 +130,8 @@ enum ScreenFlow {
         resizeFaceList()
     }
     
-    func backgroundUIImage() -> UIImage {
-        if let face = self.tappedFace {
+    func backgroundUIImage(face: Face?) -> UIImage {
+        if let face = face {
             let backgroundImageURL = FileManager.default.getFileURL(fileName: face.thumbnail)
             return UIImage.getUIImage(url: backgroundImageURL) ?? UIImage()
         } else {
@@ -143,9 +139,18 @@ enum ScreenFlow {
         }
     }
     
-    func mainUIImage(geometry: GeometryProxy) -> UIImage {
+    func backgroundUIImage(uiImage: UIImage?) -> UIImage {
+        if let newImage = uiImage {
+            let thumbnailSize = CGSize(width: 200, height: 200)
+            return newImage.preparingThumbnail(of: thumbnailSize) ?? UIImage()
+        } else {
+            return UIImage()
+        }
+    }
+    
+    func mainUIImage(geometry: GeometryProxy, face: Face?) -> UIImage {
         guard
-            let face = self.tappedFace
+            let face = face
         else {
             return UIImage()
         }
@@ -156,4 +161,49 @@ enum ScreenFlow {
         let mainImageURL = FileManager.default.getFileURL(fileName: face.picture)
         return UIImage.getUIImage(url: mainImageURL, size: newSize) ?? UIImage()
     }
+    
+    func mainUIImage(geometry: GeometryProxy, uiImage: UIImage?) -> UIImage {
+        guard
+            let newImage = uiImage
+        else {
+            return UIImage()
+        }
+        
+        let newSize = CGSize(width: geometry.size.width * 0.9
+        , height: geometry.size.width * 0.9)
+
+        return newImage.preparingThumbnail(of: newSize) ?? UIImage()
+    }
+    
+    func isFaceNameValid(name: String) -> Bool {
+        !name.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+    
+    func cancelAction() {
+        screenFlow = .viewNothing
+    }
+    
+    func updateFaceDone(isSucceeded: Bool) {
+        if isSucceeded {
+            refreshFaceList()
+        }
+        
+        screenFlow = .viewNothing
+    }
+    
+    func save(actionType: ActionType, faceName: String) {
+        switch actionType {
+        case .create:
+            guard let newFaceImage = newFaceImage else { return }
+            dataController.createNewFace(uiImage: newFaceImage, name: faceName) { isSucceeded, newFace in
+                self.updateFaceDone(isSucceeded: isSucceeded)
+            }
+        case .update:
+            guard let existingFace = tappedFace else { return }
+            dataController.renameFace(existingFace, newName: faceName) { isSucceeded, updatedFace in
+                self.updateFaceDone(isSucceeded: isSucceeded)
+            }
+        }
+    }
+
 }

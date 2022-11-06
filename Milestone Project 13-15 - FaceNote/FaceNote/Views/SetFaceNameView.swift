@@ -7,24 +7,22 @@
 
 import SwiftUI
 
-struct EditFaceNameView: View {
-    @StateObject private var viewModel: ViewModel
-    var geometry: GeometryProxy
+enum ActionType {
+    case create, update
+}
+
+struct SetFaceNameView: View {
+    @EnvironmentObject var faceList: FaceList
+
     @State private var isShowed = false
+    @State private var backgroundImage = UIImage()
+    @State private var mainImage = UIImage()
+    @State private var faceName: String = ""
     
     @FocusState private var isTextFieldNameFocused: Bool
-
-    init(geometry: GeometryProxy, newFaceImage: UIImage, actionCancel: @escaping () -> Void, actionSave: @escaping (EditFaceNameView.ViewModel.ActionType, Bool, Face?) -> Void) {
-        self.geometry = geometry
-        
-        self._viewModel = StateObject(wrappedValue: ViewModel(newFaceImage: newFaceImage, actionCancel: actionCancel, actionSave: actionSave))
-    }
-    
-    init(geometry: GeometryProxy, face: Face, actionCancel: @escaping () -> Void, actionSave: @escaping (EditFaceNameView.ViewModel.ActionType, Bool, Face?) -> Void) {
-        self.geometry = geometry
-        
-        self._viewModel = StateObject(wrappedValue: ViewModel(face: face, actionCancel: actionCancel, actionSave: actionSave))
-    }
+   
+    var actionType: ActionType
+    var geometry: GeometryProxy
     
     var body: some View {
         ZStack {
@@ -33,7 +31,7 @@ struct EditFaceNameView: View {
                 .opacity(0.1)
                 .padding([.horizontal], -20)
                 .overlay {
-                    Image(uiImage: viewModel.backgroundUIImage)
+                    Image(uiImage: backgroundImage)
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: geometry.size.width)
@@ -43,7 +41,7 @@ struct EditFaceNameView: View {
                         .opacity(isShowed ? 0.7 : 0)
                     
                     VStack(spacing: 0) {
-                        Image(uiImage: viewModel.faceImage)
+                        Image(uiImage: mainImage)
                             .resizable()
                             .scaledToFill()
                             .padding(1)
@@ -52,7 +50,7 @@ struct EditFaceNameView: View {
                             .clipShape(Circle())
                             .shadow(color: .gray, radius: 10, x: 1, y: 1)
                         
-                        TextField(text: $viewModel.faceName, prompt: Text("Enter name here")) {
+                        TextField(text: $faceName, prompt: Text("Enter name here")) {
                             Text("Name")
                         }
                         .focused($isTextFieldNameFocused)
@@ -66,7 +64,7 @@ struct EditFaceNameView: View {
                             isTextFieldNameFocused.toggle()
                         }
                         
-                        if !viewModel.isFaceNameValid() {
+                        if !faceList.isFaceNameValid(name: faceName) {
                             Text("Name must have at least 1 character")
                                 .font(.subheadline)
                                 .foregroundColor(.red)
@@ -76,19 +74,19 @@ struct EditFaceNameView: View {
                         
                         HStack {
                             Button("Cancel", role: .cancel) {
-                                viewModel.actionCancel()
+                                faceList.cancelAction()
                             }
                             .frame(minWidth: geometry.size.width * 0.2, minHeight: 40)
                             .foregroundColor(.blue)
                             .background(.white)
 
                             Button("Save", role: .cancel) {
-                                viewModel.save()
+                                faceList.save(actionType: actionType, faceName: faceName)
                             }
                             .frame(minWidth: geometry.size.width * 0.2, minHeight: 40)
                             .foregroundColor(.white)
                             .background(.blue)
-                            .disabled(!viewModel.isFaceNameValid())
+                            .disabled(!faceList.isFaceNameValid(name: faceName))
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                         .buttonStyle(PlainButtonStyle())
@@ -98,11 +96,22 @@ struct EditFaceNameView: View {
                         
                     }
                 }
-                .onAppear {
-                    withAnimation(.easeOut(duration: 0.5)) {
-                        isShowed.toggle()
-                    }
-                }
+
+        }
+        .onAppear {
+            switch actionType {
+            case .create:
+                self.mainImage = faceList.mainUIImage(geometry: geometry, uiImage: faceList.newFaceImage)
+                self.backgroundImage = faceList.backgroundUIImage(uiImage: faceList.newFaceImage)
+            case .update:
+                faceName = faceList.tappedFace?.name ?? "Unknown"
+                self.backgroundImage = faceList.backgroundUIImage(face: faceList.tappedFace)
+                self.mainImage = faceList.mainUIImage(geometry: geometry, face: faceList.tappedFace)
+            }
+            
+            withAnimation(.easeOut(duration: 0.5)) {
+                isShowed.toggle()
+            }
         }
     }
 }

@@ -89,32 +89,10 @@ struct ListView: View {
             case .viewNothing:
                 Text("")
                     .hidden()
-            case .setFaceName:
-                EditFaceNameView(geometry: geometry, newFaceImage: faceList.wrappedNewFaceImage) {
-                    // save name
-                    // close this form
-                    faceList.screenFlow = .viewNothing
-                } actionSave: { actionType, isSucceeded, newFace in
-                    if isSucceeded {
-                        faceList.refreshFaceList()
-                    }
-                    
-                    faceList.screenFlow = .viewNothing
-                }
+            case .createFaceName:
+                SetFaceNameView(actionType: .create, geometry: geometry)
             case .editFaceName:
-                if let tappedFace = faceList.tappedFace {
-                    EditFaceNameView(geometry: geometry, face: tappedFace) {
-                        // save name
-                        // close this form
-                        faceList.screenFlow = .viewNothing
-                    } actionSave: { actionType, isSucceeded, updatedFace in
-                        if isSucceeded {
-                            faceList.refreshFaceList()
-                        }
-                        
-                        faceList.screenFlow = .viewNothing
-                    }
-                }
+                SetFaceNameView(actionType: .update, geometry: geometry)
             case .viewFaceDetail:
                 FaceDetailView(geometry: geometry)
             }
@@ -124,7 +102,7 @@ struct ListView: View {
         }
         .onChange(of: faceList.newFaceImage) { _ in
             withAnimation(.easeIn(duration: 0.5)) {
-                faceList.screenFlow = .setFaceName
+                faceList.screenFlow = .createFaceName
             }
         }
         .environmentObject(faceList)
