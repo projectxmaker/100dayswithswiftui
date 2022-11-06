@@ -71,7 +71,7 @@ struct FaceView: View {
                             Button() {
                                 faceList.showEditNameView(face: face)
                             } label: {
-                                Label("Change Name", systemImage: "pencil")
+                                Label("Rename", systemImage: "pencil")
                                     .font(.title)
                             }
 
