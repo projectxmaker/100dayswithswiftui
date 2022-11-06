@@ -18,6 +18,7 @@ struct CreateFaceView: View {
         )
         .onAppear {
             setFaceInfoVM.actionType = .create
+            setFaceInfoVM.faceName = ""
             setFaceInfoVM.mainUIImage(geometry: geometry, uiImage: setFaceInfoVM.newFaceImage)
             setFaceInfoVM.backgroundUIImage(uiImage: setFaceInfoVM.newFaceImage)
         }
