@@ -89,7 +89,6 @@ struct FaceView: View {
                     .foregroundColor(.white)
                     .shadow(color: .white, radius: 5, x: 1, y: 1)
             }
-            .onTapGesture(count: 1, perform: {})
         }
         .simultaneousGesture(
             TapGesture()
