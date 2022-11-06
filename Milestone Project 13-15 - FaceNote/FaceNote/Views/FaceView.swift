@@ -15,7 +15,7 @@ struct FaceView: View {
     @State private var tappedOnDeletionIcon = false
     @State private var showDeleteAlert = false
     
-    var face: Face
+    @Binding var face: Face
     @Binding var needToRefreshFaceList: Bool
     @Binding var showDeleteOption: Bool
     var showDetailAction: @MainActor (Face) -> Void

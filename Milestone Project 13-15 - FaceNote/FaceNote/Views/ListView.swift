@@ -12,6 +12,10 @@ struct ListView: View {
 
     var geometry: GeometryProxy
     
+    let listVGridColumns: [GridItem] = [
+        GridItem(.adaptive(minimum: 100))
+    ]
+    
     var body: some View {
         ZStack {
             Image("universal")
@@ -25,14 +29,22 @@ struct ListView: View {
             VStack {
                 Spacer(minLength: viewModel.isFaceListResized ? geometry.size.height * viewModel.filterPanelHeightRatio : 0)
                 
-                FaceList(
-                    faces: $viewModel.faces,
-                    showDeleteOption: $viewModel.showDeleteOption,
-                    geometry: geometry,
-                    needToRefreshFaceList: $viewModel.needToRefreshFaceList,
-                    showDetailAction: viewModel.showFaceDetail,
-                    showEditNameAction: viewModel.showEditNameView
-                )
+                ScrollView {
+                    LazyVGrid(columns: listVGridColumns) {
+                        ForEach($viewModel.faces) { face in
+                            FaceView(
+                                face: face,
+                                needToRefreshFaceList: $viewModel.needToRefreshFaceList,
+                                showDeleteOption: $viewModel.showDeleteOption,
+                                showDetailAction: viewModel.showFaceDetail,
+                                showEditNameAction: viewModel.showEditNameView
+                            )
+                        }
+                    }
+                    .padding(.top, 12)
+                    .padding(.horizontal, 10)
+                }
+                .animation(.linear, value: viewModel.faces)
                 .onTapGesture {
                     viewModel.switchDeleteOptionOnEveryFace(newState: false)
                 }
@@ -124,5 +136,6 @@ struct ListView: View {
                 viewModel.screenFlow = .setFaceName
             }
         }
+        .environmentObject(viewModel)
     }
 }
