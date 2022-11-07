@@ -15,7 +15,7 @@ struct FilterPanelView: View {
     var filterPanelHeightRatio = 0.05
     var filterPanelAnimationDuration = 0.5
     var filterSystemImage = "arrow.up.arrow.down.square"
-    var transition: AnyTransition = .asymmetric(insertion: .move(edge: .top).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity))
+    var transition: AnyTransition = .move(edge: .top).combined(with: .opacity)
     
     @State private var switcher = false
     @FocusState private var isKeywordFocused: Bool
