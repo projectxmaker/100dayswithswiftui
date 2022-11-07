@@ -14,7 +14,6 @@ enum ScreenFlow {
 
 @MainActor class FaceList: ObservableObject {
     @Published var showDeleteOption = false
-    //@Published var showingImagePicker = false
     @Published var isChangeImageShowed = false
     @Published var screenFlow = ScreenFlow.viewNothing {
         didSet {
@@ -67,23 +66,28 @@ enum ScreenFlow {
         filteredFaces()
     }
     
-    func deleteFace(action: @escaping (Bool, [Face]) -> Void) {
+    func deleteFace(action: ((Bool, [Face]) -> Void)? = nil) {
         guard let tappedFace = tappedFace else {
-            action(false, faces)
+            if let action = action {
+                action(false, faces)
+            }
             return
         }
         
         dataController.deleteFace(tappedFace) { succeeded, faces in
-            action(succeeded, faces)
+            // if there's no items and feature attaching deletion option on each Face is being used, turn this feature off.
+            if faces.isEmpty && self.showDeleteOption {
+                self.showDeleteOption.toggle()
+            }
+            
+            self.refreshFaceList()
+                
+            if let action = action {
+                action(succeeded, faces)
+            }
         }
     }
-    
-    func deleteFace(face: Face, action: @escaping (Bool, [Face]) -> Void) {
-        dataController.deleteFace(face) { succeeded, faces in
-            action(succeeded, faces)
-        }
-    }
-    
+
     func switchDeleteOptionOnEveryFace(newState: Bool) {
         if newState {
             if !showDeleteOption {

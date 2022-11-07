@@ -108,9 +108,7 @@ struct FaceView: View {
                 showFace = false
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    faceList.deleteFace { succeeded, faces in
-                        faceList.refreshFaceList()
-                    }
+                    faceList.deleteFace()
                 }
             }) {
                 Text("Delete")
