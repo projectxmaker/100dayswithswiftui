@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A2EB25A2918E610009BADB9 /* FaceLocationMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2EB2592918E610009BADB9 /* FaceLocationMapView.swift */; };
 		8A8AF5412913AEFD0082F08B /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8AF5402913AEFD0082F08B /* CircleButton.swift */; };
 		8A8AF54929180E320082F08B /* CreateFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8AF54829180E320082F08B /* CreateFaceView.swift */; };
 		8A8AF54B29180ED80082F08B /* SetFaceInfo-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8AF54A29180ED80082F08B /* SetFaceInfo-ViewModel.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A2EB2592918E610009BADB9 /* FaceLocationMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceLocationMapView.swift; sourceTree = "<group>"; };
 		8A8AF5402913AEFD0082F08B /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 		8A8AF54829180E320082F08B /* CreateFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFaceView.swift; sourceTree = "<group>"; };
 		8A8AF54A29180ED80082F08B /* SetFaceInfo-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SetFaceInfo-ViewModel.swift"; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				8ACAD7D8290D75C200E9699D /* ListView.swift */,
+				8A2EB2592918E610009BADB9 /* FaceLocationMapView.swift */,
 				8A92CF43290F615500279FBA /* FaceDetailView.swift */,
 				8A8AF54829180E320082F08B /* CreateFaceView.swift */,
 				8A8AF54E29181B9B0082F08B /* RenameFaceView.swift */,
@@ -221,6 +224,7 @@
 				8A8AF54B29180ED80082F08B /* SetFaceInfo-ViewModel.swift in Sources */,
 				8ACAD7E1290D7C7700E9699D /* DataController.swift in Sources */,
 				8ACAD7CD290D737100E9699D /* ContentView.swift in Sources */,
+				8A2EB25A2918E610009BADB9 /* FaceLocationMapView.swift in Sources */,
 				8A92CF46290FE3A200279FBA /* FilterPanelView.swift in Sources */,
 				8ACAD7CB290D737100E9699D /* FaceNoteApp.swift in Sources */,
 				8A8AF54D291817430082F08B /* FaceFormView.swift in Sources */,

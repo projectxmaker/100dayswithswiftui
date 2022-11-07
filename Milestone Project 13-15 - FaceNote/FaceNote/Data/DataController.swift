@@ -56,13 +56,13 @@ class DataController {
         return newFaces
     }
     
-    private func generateNewFace(uiImage: UIImage, name: String) -> Face? {
+    private func generateNewFace(uiImage: UIImage, name: String, latitude: Double, longitude: Double) -> Face? {
         let faceId = UUID()
         let pictureName = faceId.uuidString
         let thumbnailName = "\(pictureName)_thumbnail"
         let thumbnailSize = CGSize(width: 200, height: 200)
         
-        let newFace = Face(id: faceId, name: name, picture: pictureName, thumbnail: thumbnailName)
+        let newFace = Face(id: faceId, name: name, picture: pictureName, thumbnail: thumbnailName, latitude: latitude, longitude: longitude)
 
         guard
             let _ = FileManager.default.saveUIImage(uiImage, name: pictureName),
@@ -75,8 +75,8 @@ class DataController {
         return newFace
     }
     
-    func createNewFace(uiImage: UIImage, name: String, action: @escaping (Bool, Face?) -> Void) {
-        guard let newFace = generateNewFace(uiImage: uiImage, name: name)
+    func createNewFace(uiImage: UIImage, name: String, latitude: Double, longitude: Double, action: @escaping (Bool, Face?) -> Void) {
+        guard let newFace = generateNewFace(uiImage: uiImage, name: name, latitude: latitude, longitude: longitude)
         else {
             action(false, nil)
             return
@@ -114,7 +114,7 @@ class DataController {
     func changeFace(_ face: Face, uiImage: UIImage, newName: String, action: (Bool, Face?) -> Void) {
         guard
             let index = faces.firstIndex(of: face),
-            let newFace = generateNewFace(uiImage: uiImage, name: newName)
+            let newFace = generateNewFace(uiImage: uiImage, name: newName, latitude: face.latitude, longitude: face.longitude)
         else {
             action(false, nil)
             return

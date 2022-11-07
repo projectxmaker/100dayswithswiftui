@@ -26,6 +26,8 @@ enum ActionType {
     @Published var backgroundImage = UIImage()
     
     @Published var faceName = ""
+    @Published var faceLatitude: Double = 0
+    @Published var faceLongitude: Double = 0
     
     func backgroundUIImage(face: Face?) {
         if let face = face {
@@ -86,7 +88,7 @@ enum ActionType {
                 return
             }
             
-            dataController.createNewFace(uiImage: newFaceImage, name: faceName) { isSucceeded, newFace in
+            dataController.createNewFace(uiImage: newFaceImage, name: faceName, latitude: faceLatitude, longitude: faceLongitude) { isSucceeded, newFace in
                 actionDone(isSucceeded)
             }
         case .rename:

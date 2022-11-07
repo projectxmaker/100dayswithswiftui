@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 
 enum ScreenFlow {
-    case viewNothing, createFaceName, editFaceName, viewFaceDetail, changeFace
+    case viewNothing, createFaceName, editFaceName, viewFaceDetail, changeFace, showMap
 }
 
 @MainActor class FaceList: ObservableObject {
@@ -176,4 +176,7 @@ enum ScreenFlow {
         screenFlow = .viewNothing
     }
 
+    func openFaceLocationMap() {
+        screenFlow = .showMap
+    }
 }

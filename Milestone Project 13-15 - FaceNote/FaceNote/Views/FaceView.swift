@@ -33,9 +33,16 @@ struct FaceView: View {
     }
     
     private func runDeleteFaceAction() {
-        faceList.tappedFace = face
-        showDeleteAlert.toggle()
-        tappedOnDeletionIcon = false
+        Task {
+            await MainActor.run {
+                faceList.tappedFace = face
+                showDeleteAlert.toggle()
+                tappedOnDeletionIcon = false
+            }
+        }
+//        faceList.tappedFace = face
+//        showDeleteAlert.toggle()
+//        tappedOnDeletionIcon = false
     }
     
     var body: some View {

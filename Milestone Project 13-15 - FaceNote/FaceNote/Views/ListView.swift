@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ListView: View {
     @StateObject var faceList = FaceList()
@@ -102,6 +103,22 @@ struct ListView: View {
                 }
             case .viewFaceDetail:
                 FaceDetailView(geometry: geometry)
+            case .showMap:
+                FaceLocationMapView(
+                    isSmallSizeShowed: false,
+                    actionToExitFullscreen: {
+                        faceList.screenFlow = .viewFaceDetail
+                    },
+                    actionToExit: {
+                        faceList.screenFlow = .viewNothing
+                    }
+                )
+                .ignoresSafeArea()
+                if let tappedFace = faceList.tappedFace {
+//                    FaceLocationMapView(faces: [tappedFace], mapRegion: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.12), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)))
+//                        .ignoresSafeArea()
+                    //FaceLocationMapView()
+                }
             }
         }
         .sheet(isPresented: $setFaceInfoVM.isImagePickerForNewFaceShowed) {

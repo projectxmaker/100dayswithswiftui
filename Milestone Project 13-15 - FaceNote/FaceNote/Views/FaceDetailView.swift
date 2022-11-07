@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct FaceDetailView: View {
     @EnvironmentObject var faceList: FaceList
@@ -14,12 +15,13 @@ struct FaceDetailView: View {
     var geometry: GeometryProxy
     
     var body: some View {
-        ZStack {
-            Color.gray
-                .ignoresSafeArea()
-                .opacity(0.1)
-                .padding([.horizontal], -20)
-                .overlay {
+        
+        Color.gray
+            .ignoresSafeArea()
+            .opacity(0.1)
+            .padding([.horizontal], -20)
+            .overlay {
+                ZStack {
                     Image(uiImage: faceList.backgroundUIImage(face: faceList.tappedFace))
                         .resizable()
                         .scaledToFill()
@@ -37,15 +39,27 @@ struct FaceDetailView: View {
                             .clipShape(Circle())
                             .shadow(color: .white, radius: 10, x: 1, y: 1)
                             .padding()
-    
+                        
                         Text(faceList.tappedFace?.name ?? "Unknown")
                             .font(.title)
                             .foregroundColor(.white)
                             .shadow(color: .white, radius: 10, x: 1, y: 1)
+                        
+                        Spacer()
                     }
                     .scaleEffect(showFaceDetailView ? 1 : 0)
+                    
+                    VStack {
+                        Spacer()
+                        FaceLocationMapView(actionToFullscreen: {
+                            faceList.openFaceLocationMap()
+                        })
+                            .ignoresSafeArea()
+                            .frame(maxHeight: 300)
+                    }
                 }
-        }
+            }
+
         .onAppear {
             withAnimation(.easeOut(duration: 0.5)) {
                 showFaceDetailView.toggle()
