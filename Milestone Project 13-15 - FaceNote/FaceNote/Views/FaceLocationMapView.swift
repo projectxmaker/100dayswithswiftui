@@ -31,7 +31,7 @@ struct FaceLocationMapView: View {
                     Image(uiImage: faceList.backgroundUIImage(face: face))
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 80, height: 80)
+                        .frame(width: 30, height: 30)
                         .clipShape(Circle())
                         .shadow(color: .white, radius: 10, x: 1, y: 1)
                 }
