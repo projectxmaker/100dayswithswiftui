@@ -109,6 +109,7 @@ struct ListView: View {
                 .ignoresSafeArea()
             }
         }
+        .padding(Edge.Set.horizontal, 17)
         .sheet(isPresented: $setFaceInfoVM.isImagePickerForNewFaceShowed) {
             ImagePicker(image: $setFaceInfoVM.newFaceImage)
         }
