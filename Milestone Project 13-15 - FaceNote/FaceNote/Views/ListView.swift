@@ -44,40 +44,40 @@ struct ListView: View {
                 })
                 .animation(.easeIn(duration: faceList.filterPanelAnimationDuration - 0.1), value: faceList.isFaceListResized)
             }
-//
-//            // MARK: - Buttons
-//            VStack {
-//                Spacer()
-//                HStack {
-//                    Spacer()
-//                    VStack {
-//                        CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
-//                            faceList.openFilterPanel()
-//                        }
-//
-//                        CircleButton(imageSystemName: "plus") {
-//                            faceList.closeFilterPanel()
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                                setFaceInfoVM.isImagePickerForNewFaceShowed.toggle()
-//                            }
-//                        }
-//                    }
-//
-//                }
-//            }
-//
-//            // MARK: - Filter
-//            VStack {
-//                FilterPanelView(
-//                    filterKeyword: $faceList.keyword,
-//                    sortOrder: $faceList.sortOrder,
-//                    isFilterPanelShowed: faceList.isFilterPanelShowed,
-//                    geometry: geometry,
-//                    filterPanelHeightRatio: faceList.filterPanelHeightRatio,
-//                    filterPanelAnimationDuration: faceList.filterPanelAnimationDuration
-//                )
-//                Spacer()
-//            }
+
+            // MARK: - Buttons
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    VStack {
+                        CircleButton(imageSystemName: "magnifyingglass", font: Font.caption2) {
+                            faceList.openFilterPanel()
+                        }
+
+                        CircleButton(imageSystemName: "plus") {
+                            faceList.closeFilterPanel()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                setFaceInfoVM.isImagePickerForNewFaceShowed.toggle()
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            // MARK: - Filter
+            VStack {
+                FilterPanelView(
+                    filterKeyword: $faceList.keyword,
+                    sortOrder: $faceList.sortOrder,
+                    isFilterPanelShowed: faceList.isFilterPanelShowed,
+                    geometry: geometry,
+                    filterPanelHeightRatio: faceList.filterPanelHeightRatio,
+                    filterPanelAnimationDuration: faceList.filterPanelAnimationDuration
+                )
+                Spacer()
+            }
             
             // MARK: - Set/Edit Face Name
             switch faceList.screenFlow {
