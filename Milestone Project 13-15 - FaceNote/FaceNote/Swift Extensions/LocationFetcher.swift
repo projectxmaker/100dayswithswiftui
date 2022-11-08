@@ -32,24 +32,19 @@ class LocationFetcher: NSObject, CLLocationManagerDelegate, ObservableObject {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         authorizationStatus = manager.authorizationStatus
         
-        if CLLocationManager.locationServicesEnabled() {
-            switch manager.authorizationStatus {
-            case .notDetermined, .restricted, .denied:
-                isAuthorized = false
-                authorizationMessage = "No access"
-            case .authorizedAlways, .authorizedWhenInUse:
-                manager.startUpdatingLocation()
-
-                isAuthorized = true
-                authorizationMessage = "Access"
-            @unknown default:
-                isAuthorized = false
-                authorizationMessage = "Unknown status"
-                break
-            }
-        } else {
+        switch manager.authorizationStatus {
+        case .notDetermined, .restricted, .denied:
             isAuthorized = false
-            authorizationMessage = "Location services are not enabled"
+            authorizationMessage = "No access"
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+
+            isAuthorized = true
+            authorizationMessage = "Access"
+        @unknown default:
+            isAuthorized = false
+            authorizationMessage = "Unknown status"
+            break
         }
     }
 }
