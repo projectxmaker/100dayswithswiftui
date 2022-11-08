@@ -43,4 +43,41 @@ extension UIImage {
         
         return image
     }
+    
+    func getSquareShape() -> UIImage {
+        // The shortest side
+        let sideLength = min(
+            self.size.width,
+            self.size.height
+        )
+
+        // Determines the x,y coordinate of a centered
+        // sideLength by sideLength square
+        let sourceSize = self.size
+        let xOffset = (sourceSize.width - sideLength) / 2.0
+        let yOffset = (sourceSize.height - sideLength) / 2.0
+
+        // The cropRect is the rect of the image to keep,
+        // in this case centered
+        let cropRect = CGRect(
+            x: xOffset,
+            y: yOffset,
+            width: sideLength,
+            height: sideLength
+        ).integral
+
+        // Center crop the image
+        let sourceCGImage = self.cgImage!
+        let croppedCGImage = sourceCGImage.cropping(
+            to: cropRect
+        )!
+        
+        // Use the cropped cgImage to initialize a cropped
+        // UIImage with the same image scale and orientation
+        return UIImage(
+            cgImage: croppedCGImage,
+            scale: self.imageRendererFormat.scale,
+            orientation: self.imageOrientation
+        )
+    }
 }

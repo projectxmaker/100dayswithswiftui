@@ -64,9 +64,11 @@ class DataController {
         
         let newFace = Face(id: faceId, name: name, picture: pictureName, thumbnail: thumbnailName, latitude: latitude, longitude: longitude)
 
+        let croppedImage = uiImage.getSquareShape()
+        
         guard
-            let _ = FileManager.default.saveUIImage(uiImage, name: pictureName),
-            let thumbnailUIImage = uiImage.preparingThumbnail(of: thumbnailSize),
+            let _ = FileManager.default.saveUIImage(croppedImage, name: pictureName),
+            let thumbnailUIImage = croppedImage.preparingThumbnail(of: thumbnailSize),
             let _ = FileManager.default.saveUIImage(thumbnailUIImage, name: thumbnailName)
         else {
             return nil
