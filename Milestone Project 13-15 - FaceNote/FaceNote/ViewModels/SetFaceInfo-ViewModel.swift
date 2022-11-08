@@ -109,7 +109,7 @@ enum ActionType {
                 return
             }
             
-            dataController.changeFace(existingFace, uiImage: newFaceImage, newName: faceName) { isSucceeded, updatedFace in
+            dataController.changeFace(existingFace, uiImage: newFaceImage, newName: faceName, latitude: faceLatitude, longitude: faceLongitude) { isSucceeded, updatedFace in
                 actionDone(isSucceeded)
             }
         }

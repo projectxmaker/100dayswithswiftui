@@ -54,8 +54,8 @@ struct FaceDetailView: View {
                         FaceLocationMapView(actionToFullscreen: {
                             faceList.openFaceLocationMap()
                         })
-                            .ignoresSafeArea()
-                            .frame(maxHeight: 300)
+                        .ignoresSafeArea()
+                        .frame(maxHeight: 300)
                     }
                 }
             }

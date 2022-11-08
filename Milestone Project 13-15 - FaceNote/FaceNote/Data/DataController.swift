@@ -111,10 +111,10 @@ class DataController {
         }
     }
     
-    func changeFace(_ face: Face, uiImage: UIImage, newName: String, action: (Bool, Face?) -> Void) {
+    func changeFace(_ face: Face, uiImage: UIImage, newName: String, latitude: Double, longitude: Double, action: (Bool, Face?) -> Void) {
         guard
             let index = faces.firstIndex(of: face),
-            let newFace = generateNewFace(uiImage: uiImage, name: newName, latitude: face.latitude, longitude: face.longitude)
+            let newFace = generateNewFace(uiImage: uiImage, name: newName, latitude: latitude, longitude: longitude)
         else {
             action(false, nil)
             return

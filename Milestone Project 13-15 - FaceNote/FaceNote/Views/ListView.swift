@@ -114,11 +114,6 @@ struct ListView: View {
                     }
                 )
                 .ignoresSafeArea()
-                if let tappedFace = faceList.tappedFace {
-//                    FaceLocationMapView(faces: [tappedFace], mapRegion: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.12), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)))
-//                        .ignoresSafeArea()
-                    //FaceLocationMapView()
-                }
             }
         }
         .sheet(isPresented: $setFaceInfoVM.isImagePickerForNewFaceShowed) {
