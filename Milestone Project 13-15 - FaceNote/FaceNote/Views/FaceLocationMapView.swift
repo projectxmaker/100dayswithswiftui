@@ -43,7 +43,7 @@ struct FaceLocationMapView: View {
         getMap()
             .overlay(alignment: .centerLastTextBaseline) {
             if isSmallSizeShowed {
-                Image(systemName: "arrow.down.forward.and.arrow.up.backward.circle")
+                Image(systemName: "arrow.up.backward.and.arrow.down.forward.circle")
                     .frame(height: 40)
                     .font(.largeTitle)
                     .offset(x: 0, y: -20)

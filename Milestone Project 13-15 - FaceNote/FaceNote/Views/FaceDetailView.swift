@@ -11,28 +11,19 @@ import MapKit
 struct FaceDetailView: View {
     @EnvironmentObject var faceList: FaceList
     @State private var showFaceDetailView = false
+    @State private var showMap = false
     
     var geometry: GeometryProxy
     
     var body: some View {
         ZStack {
-            Image(uiImage: faceList.backgroundUIImage(face: faceList.tappedFace))
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: geometry.size.width)
-                .ignoresSafeArea()
-                .blur(radius: 10, opaque: true)
-                .saturation(0.2)
-                .opacity(showFaceDetailView ? 0.7 : 0)
-            
             VStack {
                 Image(uiImage: faceList.mainUIImage(geometry: geometry, face: faceList.tappedFace))
                     .resizable()
                     .scaledToFill()
-                    .frame(height: geometry.size.width * 0.9)
+                    .frame(height: geometry.size.width * 0.8)
                     .clipShape(Circle())
-                    .shadow(color: .white, radius: 10, x: 1, y: 1)
-                    .padding()
+                    .shadow(color: .white, radius: 20, x: 1, y: 1)
                 
                 Text(faceList.tappedFace?.name ?? "Unknown")
                     .font(.title)
@@ -42,16 +33,34 @@ struct FaceDetailView: View {
                 Spacer()
             }
             .scaleEffect(showFaceDetailView ? 1 : 0)
+            .onChange(of: showFaceDetailView) { _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    withAnimation {
+                        showMap.toggle()
+                    }
+                    
+                }
+            }
             
-            VStack {
-                Spacer()
-                FaceLocationMapView(actionToFullscreen: {
-                    faceList.openFaceLocationMap()
-                })
-                .ignoresSafeArea()
-                .frame(maxHeight: 300)
+            if showMap {
+                VStack {
+                    Spacer()
+                    FaceLocationMapView(actionToFullscreen: {
+                        faceList.openFaceLocationMap()
+                    })
+                    .ignoresSafeArea()
+                    .frame(maxHeight: showMap ? 300 : 0)
+                    .transition(.move(edge: .bottom))
+                }
             }
         }
+        .background(
+            Color.black
+                .edgesIgnoringSafeArea(.all)
+                .blur(radius: 10, opaque: true)
+                .saturation(0.2)
+                .opacity(showFaceDetailView ? 0.7 : 0)
+        )
         .onAppear {
             withAnimation(.easeOut(duration: 0.5)) {
                 showFaceDetailView.toggle()
@@ -66,6 +75,5 @@ struct FaceDetailView: View {
                 faceList.closeFaceDetailAction()
             }
         }
-
     }
 }
