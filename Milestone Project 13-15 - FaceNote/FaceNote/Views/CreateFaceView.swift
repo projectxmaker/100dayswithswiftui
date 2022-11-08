@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateFaceView: View {
     @EnvironmentObject var setFaceInfoVM: SetFaceInfoViewModel
+    @EnvironmentObject var locationFetcher: LocationFetcher
    
     var geometry: GeometryProxy
     
@@ -21,6 +22,14 @@ struct CreateFaceView: View {
             setFaceInfoVM.faceName = ""
             setFaceInfoVM.mainUIImage(geometry: geometry, uiImage: setFaceInfoVM.newFaceImage)
             setFaceInfoVM.backgroundUIImage(uiImage: setFaceInfoVM.newFaceImage)
+            
+            if let location = self.locationFetcher.lastKnownLocation {
+                print("location: \(location)")
+                setFaceInfoVM.faceLatitude = location.latitude
+                setFaceInfoVM.faceLongitude = location.longitude
+            } else {
+                print("Your location is unknown")
+            }
         }
     }
 }

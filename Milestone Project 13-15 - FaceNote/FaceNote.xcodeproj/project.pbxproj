@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8A2EB25A2918E610009BADB9 /* FaceLocationMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2EB2592918E610009BADB9 /* FaceLocationMapView.swift */; };
+		8A32CF702919CB13005A9C6A /* LocationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A32CF6F2919CB13005A9C6A /* LocationFetcher.swift */; };
 		8A8AF5412913AEFD0082F08B /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8AF5402913AEFD0082F08B /* CircleButton.swift */; };
 		8A8AF54929180E320082F08B /* CreateFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8AF54829180E320082F08B /* CreateFaceView.swift */; };
 		8A8AF54B29180ED80082F08B /* SetFaceInfo-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8AF54A29180ED80082F08B /* SetFaceInfo-ViewModel.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		8A2EB2592918E610009BADB9 /* FaceLocationMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceLocationMapView.swift; sourceTree = "<group>"; };
+		8A32CF6F2919CB13005A9C6A /* LocationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFetcher.swift; sourceTree = "<group>"; };
 		8A8AF5402913AEFD0082F08B /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 		8A8AF54829180E320082F08B /* CreateFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFaceView.swift; sourceTree = "<group>"; };
 		8A8AF54A29180ED80082F08B /* SetFaceInfo-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SetFaceInfo-ViewModel.swift"; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				8ACAD7DE290D7B4600E9699D /* FileManager+JSONEncodeDecode.swift */,
 				8A92CF472910167C00279FBA /* UIImage+GetUIImageByURL.swift */,
+				8A32CF6F2919CB13005A9C6A /* LocationFetcher.swift */,
 			);
 			path = "Swift Extensions";
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			files = (
 				8A92CF482910167C00279FBA /* UIImage+GetUIImageByURL.swift in Sources */,
 				8A8AF54B29180ED80082F08B /* SetFaceInfo-ViewModel.swift in Sources */,
+				8A32CF702919CB13005A9C6A /* LocationFetcher.swift in Sources */,
 				8ACAD7E1290D7C7700E9699D /* DataController.swift in Sources */,
 				8ACAD7CD290D737100E9699D /* ContentView.swift in Sources */,
 				8A2EB25A2918E610009BADB9 /* FaceLocationMapView.swift in Sources */,
@@ -370,6 +374,7 @@
 				DEVELOPMENT_TEAM = TT8TA55RWH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Turn on Location which is used to record the location where the picture is taken";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -403,6 +408,7 @@
 				DEVELOPMENT_TEAM = TT8TA55RWH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Turn on Location which is used to record the location where the picture is taken";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

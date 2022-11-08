@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    let locationFetcher = LocationFetcher()
+
     var body: some View {
         GeometryReader { geometry in
             ListView(geometry: geometry)
         }
+        .task {
+            self.locationFetcher.start()
+        }
+        .environmentObject(locationFetcher)
     }
 }
 
