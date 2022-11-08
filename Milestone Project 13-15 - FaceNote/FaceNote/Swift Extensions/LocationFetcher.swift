@@ -11,6 +11,10 @@ class LocationFetcher: NSObject, CLLocationManagerDelegate, ObservableObject {
     let manager = CLLocationManager()
     var lastKnownLocation: CLLocationCoordinate2D?
 
+    @Published var authorizationStatus = CLAuthorizationStatus.notDetermined
+    @Published var isAuthorized = false
+    @Published var authorizationMessage = ""
+    
     override init() {
         super.init()
         manager.delegate = self
@@ -23,5 +27,29 @@ class LocationFetcher: NSObject, CLLocationManagerDelegate, ObservableObject {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         lastKnownLocation = locations.first?.coordinate
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        authorizationStatus = manager.authorizationStatus
+        
+        if CLLocationManager.locationServicesEnabled() {
+            switch manager.authorizationStatus {
+            case .notDetermined, .restricted, .denied:
+                isAuthorized = false
+                authorizationMessage = "No access"
+            case .authorizedAlways, .authorizedWhenInUse:
+                manager.startUpdatingLocation()
+
+                isAuthorized = true
+                authorizationMessage = "Access"
+            @unknown default:
+                isAuthorized = false
+                authorizationMessage = "Unknown status"
+                break
+            }
+        } else {
+            isAuthorized = false
+            authorizationMessage = "Location services are not enabled"
+        }
     }
 }

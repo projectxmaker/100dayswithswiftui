@@ -20,13 +20,6 @@ struct ListView: View {
     
     var body: some View {
         ZStack {
-            Image("universal")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                .blendMode(.luminosity)
-            
             // MARK: - Face List
             VStack {
                 Spacer(minLength: faceList.isFaceListResized ? geometry.size.height * faceList.filterPanelHeightRatio : 0)
