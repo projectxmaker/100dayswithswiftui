@@ -28,7 +28,6 @@ enum SortType: String, CaseIterable {
 
 @MainActor class Prospects: ObservableObject {
     @Published private(set) var people: [Prospect]
-    let saveKey = "SavedData"
     let fileName = "prospects"
 
     init() {
@@ -58,20 +57,23 @@ enum SortType: String, CaseIterable {
     func sort(_ sortType: SortType) {
         switch sortType {
         case .byNameAscending:
-            people = people.filter({ people in
-                people.name < people.name
+            people = people.sorted(by: { lhs, rhs in
+                lhs.name < rhs.name
             })
+            
         case .byNameDescending:
-            people = people.filter({ people in
-                people.name > people.name
+            people = people.sorted(by: { lhs, rhs in
+                lhs.name > rhs.name
             })
+
         case .byMostRecentAscending:
-            people = people.filter({ people in
-                people.created < people.created
+            people = people.sorted(by: { lhs, rhs in
+                lhs.created < rhs.created
             })
+            
         case .byMostRecentDescending:
-            people = people.filter({ people in
-                people.created > people.created
+            people = people.sorted(by: { lhs, rhs in
+                lhs.created > rhs.created
             })
         }
     }

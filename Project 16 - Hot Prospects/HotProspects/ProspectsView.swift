@@ -15,6 +15,8 @@ enum FilterType {
 
 struct ProspectsView: View {
     @EnvironmentObject var prospects: Prospects
+    @EnvironmentObject var fakeContacts: FakeContacts
+    
     @State private var isShowingScanner = false
     @State private var isShowingSortDialog = false
 
@@ -162,7 +164,7 @@ struct ProspectsView: View {
                 }
             }
             .sheet(isPresented: $isShowingScanner) {
-                CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
+                CodeScannerView(codeTypes: [.qr], simulatedData: fakeContacts.getRandomFakeContactString(), completion: handleScan)
             }
             .confirmationDialog("Sort Contacts", isPresented: $isShowingSortDialog) {
                 
