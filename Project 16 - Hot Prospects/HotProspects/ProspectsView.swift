@@ -93,15 +93,30 @@ struct ProspectsView: View {
         }
     }
     
+    func contactIcon(isContacted: Bool) -> some View {
+        var systemName = "person.crop.circle.badge.xmark"
+        var color = Color.blue
+        if isContacted {
+            systemName = "person.crop.circle.fill.badge.checkmark"
+            color = Color.green
+        }
+        
+        return Image(systemName: systemName).foregroundColor(color)
+    }
+    
     var body: some View {
         NavigationView {
             List {
                 ForEach(filteredProspects) { prospect in
-                    VStack(alignment: .leading) {
-                        Text(prospect.name)
-                            .font(.headline)
-                        Text(prospect.emailAddress)
-                            .foregroundColor(.secondary)
+                    HStack {
+                        contactIcon(isContacted: prospect.isContacted)
+                            .font(.title)
+                        VStack(alignment: .leading) {
+                            Text(prospect.name)
+                                .font(.headline)
+                            Text(prospect.emailAddress)
+                                .foregroundColor(.secondary)
+                        }
                     }
                     .swipeActions {
                         if prospect.isContacted {
