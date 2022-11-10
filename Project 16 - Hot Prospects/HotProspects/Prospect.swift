@@ -12,6 +12,18 @@ class Prospect: Identifiable, Codable {
     var name = "Anonymous"
     var emailAddress = ""
     fileprivate(set) var isContacted = false
+    var created = Date.now
+    
+    var createdDescription: String {
+        return created.formatted(date: .abbreviated, time: .shortened)
+    }
+}
+
+enum SortType: String, CaseIterable {
+    case byNameAscending = "Sort by Name in ascending order"
+    case byNameDescending = "Sort by Name in descending order"
+    case byMostRecentAscending = "Sort by Most Recent in ascending order"
+    case byMostRecentDescending = "Sort by Most Recent in descending order"
 }
 
 @MainActor class Prospects: ObservableObject {
@@ -41,5 +53,26 @@ class Prospect: Identifiable, Codable {
     func add(_ prospect: Prospect) {
         people.append(prospect)
         save()
+    }
+    
+    func sort(_ sortType: SortType) {
+        switch sortType {
+        case .byNameAscending:
+            people = people.filter({ people in
+                people.name < people.name
+            })
+        case .byNameDescending:
+            people = people.filter({ people in
+                people.name > people.name
+            })
+        case .byMostRecentAscending:
+            people = people.filter({ people in
+                people.created < people.created
+            })
+        case .byMostRecentDescending:
+            people = people.filter({ people in
+                people.created > people.created
+            })
+        }
     }
 }

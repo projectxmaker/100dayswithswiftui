@@ -16,6 +16,7 @@ enum FilterType {
 struct ProspectsView: View {
     @EnvironmentObject var prospects: Prospects
     @State private var isShowingScanner = false
+    @State private var isShowingSortDialog = false
 
     let filter: FilterType
     
@@ -110,12 +111,14 @@ struct ProspectsView: View {
                 ForEach(filteredProspects) { prospect in
                     HStack {
                         contactIcon(isContacted: prospect.isContacted)
-                            .font(.title)
+                            .font(.largeTitle)
                         VStack(alignment: .leading) {
                             Text(prospect.name)
                                 .font(.headline)
                             Text(prospect.emailAddress)
                                 .foregroundColor(.secondary)
+                            Text(prospect.createdDescription)
+                                .foregroundColor(Color(UIColor.tertiaryLabel))
                         }
                     }
                     .swipeActions {
@@ -147,6 +150,12 @@ struct ProspectsView: View {
             .navigationTitle(title)
             .toolbar {
                 Button {
+                    isShowingSortDialog = true
+                } label: {
+                    Label("Filter", systemImage: "arrow.up.arrow.down.square")
+                }
+                
+                Button {
                     isShowingScanner = true
                 } label: {
                     Label("Scan", systemImage: "qrcode.viewfinder")
@@ -154,6 +163,16 @@ struct ProspectsView: View {
             }
             .sheet(isPresented: $isShowingScanner) {
                 CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
+            }
+            .confirmationDialog("Sort Contacts", isPresented: $isShowingSortDialog) {
+                
+                ForEach(SortType.allCases, id: \.self) { sortType in
+                    Button {
+                        prospects.sort(sortType)
+                    } label: {
+                        Text(sortType.rawValue)
+                    }
+                }
             }
         }
     }

@@ -66,10 +66,10 @@
 				8AE3001F291B3964004F351F /* HotProspectsApp.swift */,
 				8AE30021291B3964004F351F /* ContentView.swift */,
 				8AFE8C1F291C8DCA005E82A1 /* ProspectsView.swift */,
-				8A72C8B9291CBDA2000E1739 /* ImageSaver.swift */,
+				8AFE8C21291C8DD2005E82A1 /* MeView.swift */,
 				8AFE8C23291C978B005E82A1 /* Prospect.swift */,
 				8A72C8BB291CF2BB000E1739 /* FileManager+JSONEncodeDecode.swift */,
-				8AFE8C21291C8DD2005E82A1 /* MeView.swift */,
+				8A72C8B9291CBDA2000E1739 /* ImageSaver.swift */,
 				8AE30023291B3966004F351F /* Assets.xcassets */,
 				8AE30025291B3966004F351F /* Preview Content */,
 			);
