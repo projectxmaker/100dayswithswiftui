@@ -54,6 +54,16 @@ enum SortType: String, CaseIterable {
         save()
     }
     
+    func delete(_ prospect: Prospect) {
+        
+        if let index = people.firstIndex(where: { currentProspect in
+            currentProspect.id == prospect.id
+        }) {
+            people.remove(at: index)
+            save()
+        }
+    }
+    
     func sort(_ sortType: SortType) {
         switch sortType {
         case .byNameAscending:

@@ -147,6 +147,14 @@ struct ProspectsView: View {
                             .tint(.orange)
                         }
                     }
+                    .swipeActions(edge: HorizontalEdge.leading, allowsFullSwipe: true) {
+                        Button {
+                            prospects.delete(prospect)
+                        } label: {
+                            Label("Delete", systemImage: "trash.slash")
+                        }
+                        .tint(.red)
+                    }
                 }
             }
             .navigationTitle(title)
