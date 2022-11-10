@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A72C8BA291CBDA2000E1739 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A72C8B9291CBDA2000E1739 /* ImageSaver.swift */; };
 		8AE30020291B3964004F351F /* HotProspectsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3001F291B3964004F351F /* HotProspectsApp.swift */; };
 		8AE30022291B3964004F351F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE30021291B3964004F351F /* ContentView.swift */; };
 		8AE30024291B3966004F351F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE30023291B3966004F351F /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A72C8B9291CBDA2000E1739 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		8AE3001C291B3963004F351F /* HotProspects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotProspects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE3001F291B3964004F351F /* HotProspectsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotProspectsApp.swift; sourceTree = "<group>"; };
 		8AE30021291B3964004F351F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				8AE3001F291B3964004F351F /* HotProspectsApp.swift */,
 				8AE30021291B3964004F351F /* ContentView.swift */,
 				8AFE8C1F291C8DCA005E82A1 /* ProspectsView.swift */,
+				8A72C8B9291CBDA2000E1739 /* ImageSaver.swift */,
 				8AFE8C23291C978B005E82A1 /* Prospect.swift */,
 				8AFE8C21291C8DD2005E82A1 /* MeView.swift */,
 				8AE30023291B3966004F351F /* Assets.xcassets */,
@@ -155,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AFE8C22291C8DD2005E82A1 /* MeView.swift in Sources */,
+				8A72C8BA291CBDA2000E1739 /* ImageSaver.swift in Sources */,
 				8AFE8C24291C978B005E82A1 /* Prospect.swift in Sources */,
 				8AFE8C20291C8DCA005E82A1 /* ProspectsView.swift in Sources */,
 				8AE30022291B3964004F351F /* ContentView.swift in Sources */,
@@ -291,12 +295,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We want to save your QR code.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -325,12 +330,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We want to save your QR code.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
