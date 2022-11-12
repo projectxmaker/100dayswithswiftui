@@ -23,6 +23,8 @@ struct ContentView: View {
     @State private var cards = [Card](repeating: Card.example, count: 10)
 
     @State private var timeRemaining = 100
+    @State private var showingEditScreen = false
+
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func removeCard(at index: Int) {
@@ -79,6 +81,26 @@ struct ContentView: View {
                 }
             }
             
+            VStack {
+                HStack {
+                    Spacer()
+
+                    Button {
+                        showingEditScreen = true
+                    } label: {
+                        Image(systemName: "plus.circle")
+                            .padding()
+                            .background(.black.opacity(0.7))
+                            .clipShape(Circle())
+                    }
+                }
+
+                Spacer()
+            }
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .padding()
+            
             if differentiateWithoutColor || voiceOverEnabled {
                 VStack {
                     Spacer()
@@ -133,6 +155,9 @@ struct ContentView: View {
             } else {
                 isActive = false
             }
+        }
+        .sheet(isPresented: $showingEditScreen, onDismiss: resetCards) {
+            EditCards()
         }
     }
 }
