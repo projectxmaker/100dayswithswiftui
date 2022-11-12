@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
+    @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
 
     @State private var isShowingAnswer = false
     @State private var offset = CGSize.zero
@@ -35,14 +36,20 @@ struct CardView: View {
                 .shadow(radius: 10)
 
             VStack {
-                Text(card.prompt)
-                    .font(.largeTitle)
-                    .foregroundColor(.black)
+                if voiceOverEnabled {
+                    Text(isShowingAnswer ? card.answer : card.prompt)
+                        .font(.largeTitle)
+                        .foregroundColor(.black)
+                } else {
+                    Text(card.prompt)
+                        .font(.largeTitle)
+                        .foregroundColor(.black)
 
-                if isShowingAnswer {
-                    Text(card.answer)
-                        .font(.title)
-                        .foregroundColor(.gray)
+                    if isShowingAnswer {
+                        Text(card.answer)
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
                 }
             }
             .padding(20)
