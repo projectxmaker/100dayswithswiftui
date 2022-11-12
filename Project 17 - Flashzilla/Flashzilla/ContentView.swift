@@ -157,6 +157,7 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showingEditScreen, onDismiss: resetCards, content: EditCards.init)
+        .onAppear(perform: resetCards)
     }
 }
 
