@@ -56,6 +56,7 @@ struct CardView: View {
             .multilineTextAlignment(.center)
         }
         .frame(width: 450, height: 250)
+        .animation(.spring(), value: offset)
         .onTapGesture {
             isShowingAnswer.toggle()
         }
