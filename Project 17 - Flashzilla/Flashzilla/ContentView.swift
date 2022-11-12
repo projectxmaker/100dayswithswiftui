@@ -24,6 +24,7 @@ struct ContentView: View {
 
     @State private var timeRemaining = 100
     @State private var showingEditScreen = false
+    @State private var counter = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -35,10 +36,20 @@ struct ContentView: View {
         }
     }
     
-    func removeCard(at index: Int) {
-        guard index >= 0 else { return }
+    func removeCard(_ card: Card, answerType: AnswerType = .correct) {
+        guard
+            !cards.isEmpty,
+            let indexOfTobeRemoveCard = cards.firstIndex(of: card)
+        else { return }
         
-        cards.remove(at: index)
+        cards.remove(at: indexOfTobeRemoveCard)
+        
+        // in case answer is wrong, move this card to the bottom of the stack
+        if answerType == .wrong {
+            var newCard = card
+            newCard.id = UUID()
+            cards.insert(newCard, at: 0)
+        }
         
         if cards.isEmpty {
             isActive = false
@@ -67,15 +78,15 @@ struct ContentView: View {
                     .clipShape(Capsule())
                 
                 ZStack {
-                    ForEach(0..<cards.count, id: \.self) { index in
-                        CardView(card: cards[index]) {
+                    ForEach(cards) { card in
+                        CardView(card: card) { answerType in
                             withAnimation {
-                                removeCard(at: index)
+                                removeCard(card, answerType: answerType)
                             }
                         }
-                        .stacked(at: index, in: cards.count)
-                        .allowsHitTesting(index == cards.count - 1)
-                        .accessibilityHidden(index < cards.count - 1)
+                        .stacked(at: cards.firstIndex(of: card) ?? 0, in: cards.count)
+                        .allowsHitTesting((cards.firstIndex(of: card) ?? 0) == cards.count - 1)
+                        .accessibilityHidden((cards.firstIndex(of: card) ?? 0) < cards.count - 1)
                     }
                 }
                 .allowsHitTesting(timeRemaining > 0)
@@ -116,7 +127,7 @@ struct ContentView: View {
                     HStack {
                         Button {
                             withAnimation {
-                                removeCard(at: cards.count - 1)
+                                removeCard(cards[cards.count - 1])
                             }
                         } label: {
                             Image(systemName: "xmark.circle")
@@ -131,7 +142,8 @@ struct ContentView: View {
 
                         Button {
                             withAnimation {
-                                removeCard(at: cards.count - 1)
+                                //removeCard(at: cards.count - 1)
+                                removeCard(cards[cards.count - 1])
                             }
                         } label: {
                             Image(systemName: "checkmark.circle")

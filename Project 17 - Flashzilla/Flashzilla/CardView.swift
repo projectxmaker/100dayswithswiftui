@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum AnswerType {
+    case correct, wrong
+}
+
 struct CardView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
     @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
@@ -16,7 +20,7 @@ struct CardView: View {
     @State private var feedback = UINotificationFeedbackGenerator()
 
     let card: Card
-    var removal: (() -> Void)? = nil
+    var removal: ((AnswerType) -> Void)? = nil
 
     var body: some View {
         ZStack {
@@ -72,13 +76,17 @@ struct CardView: View {
                 }
                 .onEnded { _ in
                     if abs(offset.width) > 100 {
+                        var answerType = AnswerType.correct
+                        
                         if offset.width > 0 {
                             feedback.notificationOccurred(.success)
                         } else {
+                            print("wrong")
+                            answerType = .wrong
                             feedback.notificationOccurred(.error)
                         }
 
-                        removal?()
+                        removal?(answerType)
                     } else {
                         offset = .zero
                     }
