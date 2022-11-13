@@ -18,9 +18,10 @@ struct ContentView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
     @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
     @Environment(\.scenePhase) var scenePhase
-
+    @EnvironmentObject var cards: Cards
+    
     @State private var isActive = true
-    @State private var cards = [Card]()
+    @State private var cardList = [Card]()
 
     @State private var timeRemaining = 100
     @State private var showingEditScreen = false
@@ -29,34 +30,30 @@ struct ContentView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func loadData() {
-        if let data = UserDefaults.standard.data(forKey: "Cards") {
-            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-                cards = decoded
-            }
-        }
+        cardList = cards.list
     }
     
     func removeCard(_ card: Card, answerType: AnswerType = .correct) {
         guard
-            !cards.isEmpty,
-            let indexOfTobeRemoveCard = cards.firstIndex(of: card)
+            !cardList.isEmpty,
+            let indexOfTobeRemoveCard = cardList.firstIndex(of: card)
         else { return }
         
-        cards.remove(at: indexOfTobeRemoveCard)
+        cardList.remove(at: indexOfTobeRemoveCard)
         
         // in case answer is wrong, move this card to the bottom of the stack
         if answerType == .wrong {
             var newCard = card
             newCard.id = UUID()
-            cards.insert(newCard, at: 0)
+            cardList.insert(newCard, at: 0)
         }
         
-        if cards.isEmpty {
+        if cardList.isEmpty {
             isActive = false
         }
     }
     
-    func resetCards() {
+    func resetcardList() {
         timeRemaining = 100
         isActive = true
         loadData()
@@ -78,21 +75,21 @@ struct ContentView: View {
                     .clipShape(Capsule())
                 
                 ZStack {
-                    ForEach(cards) { card in
+                    ForEach(cardList) { card in
                         CardView(card: card) { answerType in
                             withAnimation {
                                 removeCard(card, answerType: answerType)
                             }
                         }
-                        .stacked(at: cards.firstIndex(of: card) ?? 0, in: cards.count)
-                        .allowsHitTesting((cards.firstIndex(of: card) ?? 0) == cards.count - 1)
-                        .accessibilityHidden((cards.firstIndex(of: card) ?? 0) < cards.count - 1)
+                        .stacked(at: cardList.firstIndex(of: card) ?? 0, in: cardList.count)
+                        .allowsHitTesting((cardList.firstIndex(of: card) ?? 0) == cardList.count - 1)
+                        .accessibilityHidden((cardList.firstIndex(of: card) ?? 0) < cardList.count - 1)
                     }
                 }
                 .allowsHitTesting(timeRemaining > 0)
                 
-                if cards.isEmpty {
-                    Button("Start Again", action: resetCards)
+                if cardList.isEmpty {
+                    Button("Start Again", action: resetcardList)
                         .padding()
                         .background(.white)
                         .foregroundColor(.black)
@@ -127,7 +124,7 @@ struct ContentView: View {
                     HStack {
                         Button {
                             withAnimation {
-                                removeCard(cards[cards.count - 1])
+                                removeCard(cardList[cardList.count - 1])
                             }
                         } label: {
                             Image(systemName: "xmark.circle")
@@ -142,8 +139,8 @@ struct ContentView: View {
 
                         Button {
                             withAnimation {
-                                //removeCard(at: cards.count - 1)
-                                removeCard(cards[cards.count - 1])
+                                //removeCard(at: cardList.count - 1)
+                                removeCard(cardList[cardList.count - 1])
                             }
                         } label: {
                             Image(systemName: "checkmark.circle")
@@ -169,15 +166,15 @@ struct ContentView: View {
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                if cards.isEmpty == false {
+                if cardList.isEmpty == false {
                     isActive = true
                 }
             } else {
                 isActive = false
             }
         }
-        .sheet(isPresented: $showingEditScreen, onDismiss: resetCards, content: EditCards.init)
-        .onAppear(perform: resetCards)
+        .sheet(isPresented: $showingEditScreen, onDismiss: resetcardList, content: EditCards.init)
+        .onAppear(perform: resetcardList)
     }
 }
 

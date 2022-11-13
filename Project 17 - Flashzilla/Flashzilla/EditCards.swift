@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditCards: View {
     @Environment(\.dismiss) var dismiss
-    @State private var cards = [Card]()
+    @EnvironmentObject var cards: Cards
     @State private var newPrompt = ""
     @State private var newAnswer = ""
 
@@ -23,11 +23,11 @@ struct EditCards: View {
                 }
 
                 Section {
-                    ForEach(0..<cards.count, id: \.self) { index in
+                    ForEach(0..<cards.list.count, id: \.self) { index in
                         VStack(alignment: .leading) {
-                            Text(cards[index].prompt)
+                            Text(cards.list[index].prompt)
                                 .font(.headline)
-                            Text(cards[index].answer)
+                            Text(cards.list[index].answer)
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -39,26 +39,11 @@ struct EditCards: View {
                 Button("Done", action: done)
             }
             .listStyle(.grouped)
-            .onAppear(perform: loadData)
         }
     }
 
     func done() {
         dismiss()
-    }
-
-    func loadData() {
-        if let data = UserDefaults.standard.data(forKey: "Cards") {
-            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-                cards = decoded
-            }
-        }
-    }
-
-    func saveData() {
-        if let data = try? JSONEncoder().encode(cards) {
-            UserDefaults.standard.set(data, forKey: "Cards")
-        }
     }
 
     func addCard() {
@@ -67,16 +52,14 @@ struct EditCards: View {
         guard trimmedPrompt.isEmpty == false && trimmedAnswer.isEmpty == false else { return }
 
         let card = Card(prompt: trimmedPrompt, answer: trimmedAnswer)
-        cards.insert(card, at: 0)
-        saveData()
+        cards.add(card)
         
         newPrompt = ""
         newAnswer = ""
     }
 
     func removeCards(at offsets: IndexSet) {
-        cards.remove(atOffsets: offsets)
-        saveData()
+        cards.delete(atOffsets: offsets)
     }
 }
 

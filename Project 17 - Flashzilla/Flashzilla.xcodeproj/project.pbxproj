@@ -14,6 +14,8 @@
 		8A4C3326291F46A000BE0215 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4C3325291F46A000BE0215 /* Card.swift */; };
 		8A4C3328291F47CC00BE0215 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4C3327291F47CC00BE0215 /* CardView.swift */; };
 		8A4C332A291FE80B00BE0215 /* EditCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4C3329291FE80B00BE0215 /* EditCards.swift */; };
+		8A4C332C2920818300BE0215 /* FileManager+JSONEncodeDecode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4C332B2920818300BE0215 /* FileManager+JSONEncodeDecode.swift */; };
+		8A4C332E292081EC00BE0215 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4C332D292081EC00BE0215 /* Cards.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		8A4C3325291F46A000BE0215 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		8A4C3327291F47CC00BE0215 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		8A4C3329291FE80B00BE0215 /* EditCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCards.swift; sourceTree = "<group>"; };
+		8A4C332B2920818300BE0215 /* FileManager+JSONEncodeDecode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FileManager+JSONEncodeDecode.swift"; path = "../../Project 16 - Hot Prospects/HotProspects/Swift Extensions/FileManager+JSONEncodeDecode.swift"; sourceTree = "<group>"; };
+		8A4C332D292081EC00BE0215 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +64,10 @@
 				8A4C3317291E960000BE0215 /* FlashzillaApp.swift */,
 				8A4C3319291E960000BE0215 /* ContentView.swift */,
 				8A4C3327291F47CC00BE0215 /* CardView.swift */,
+				8A4C332D292081EC00BE0215 /* Cards.swift */,
 				8A4C3325291F46A000BE0215 /* Card.swift */,
 				8A4C3329291FE80B00BE0215 /* EditCards.swift */,
+				8A4C332B2920818300BE0215 /* FileManager+JSONEncodeDecode.swift */,
 				8A4C331B291E960100BE0215 /* Assets.xcassets */,
 				8A4C331D291E960100BE0215 /* Preview Content */,
 			);
@@ -149,8 +155,10 @@
 				8A4C331A291E960000BE0215 /* ContentView.swift in Sources */,
 				8A4C3326291F46A000BE0215 /* Card.swift in Sources */,
 				8A4C3328291F47CC00BE0215 /* CardView.swift in Sources */,
+				8A4C332E292081EC00BE0215 /* Cards.swift in Sources */,
 				8A4C332A291FE80B00BE0215 /* EditCards.swift in Sources */,
 				8A4C3318291E960000BE0215 /* FlashzillaApp.swift in Sources */,
+				8A4C332C2920818300BE0215 /* FileManager+JSONEncodeDecode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

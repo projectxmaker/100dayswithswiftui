@@ -81,7 +81,6 @@ struct CardView: View {
                         if offset.width > 0 {
                             feedback.notificationOccurred(.success)
                         } else {
-                            print("wrong")
                             answerType = .wrong
                             feedback.notificationOccurred(.error)
                         }
