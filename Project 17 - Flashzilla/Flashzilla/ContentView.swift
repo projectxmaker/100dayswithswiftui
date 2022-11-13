@@ -124,7 +124,7 @@ struct ContentView: View {
                     HStack {
                         Button {
                             withAnimation {
-                                removeCard(cardList[cardList.count - 1])
+                                removeCard(cardList[cardList.count - 1], answerType: .wrong)
                             }
                         } label: {
                             Image(systemName: "xmark.circle")
@@ -139,7 +139,6 @@ struct ContentView: View {
 
                         Button {
                             withAnimation {
-                                //removeCard(at: cardList.count - 1)
                                 removeCard(cardList[cardList.count - 1])
                             }
                         } label: {
