@@ -9,7 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     let colors: [Color] = [.red, .green, .blue, .orange, .pink, .purple, .yellow]
-
+    let fadeOutFromTopThreshold: CGFloat = 200
+    
+    func getOpacityOfView(yAxis: CGFloat) -> Double {
+        return yAxis < fadeOutFromTopThreshold ? yAxis / fadeOutFromTopThreshold : 1
+    }
+    
     var body: some View {
         GeometryReader { fullView in
             ScrollView(.vertical) {
@@ -19,6 +24,7 @@ struct ContentView: View {
                             .font(.title)
                             .frame(maxWidth: .infinity)
                             .background(colors[index % 7])
+                            .opacity(getOpacityOfView(yAxis: geo.frame(in: .global).minY))
                             .rotation3DEffect(.degrees(geo.frame(in: .global).minY - fullView.size.height / 2) / 5, axis: (x: 0, y: 1, z: 0))
                     }
                     .frame(height: 40)
