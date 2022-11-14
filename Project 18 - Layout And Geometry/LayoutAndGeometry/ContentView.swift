@@ -31,6 +31,17 @@ struct ContentView: View {
         return newScale
     }
     
+    func rad2deg(_ number: Double) -> Double {
+        return number * 180 / .pi
+    }
+    
+    func getHueOfView(minYAxis: CGFloat, globalHeight: CGFloat) -> Double {
+        let rate = minYAxis / globalHeight
+        return rate > 1 ? 1 : rate
+    }
+    
+    let caount: Double = 180 / .pi
+    
     var body: some View {
         GeometryReader { fullView in
             ScrollView(.vertical) {
@@ -39,10 +50,13 @@ struct ContentView: View {
                         Text("Row #\(index)")
                             .font(.title)
                             .frame(maxWidth: .infinity)
-                            .background(colors[index % 7])
-                            .rotation3DEffect(.degrees(geo.frame(in: .global).minY - fullView.size .height / 2) / 5, axis: (x: 0, y: 1, z: 0))
+                            .background(Color(hue: getHueOfView(minYAxis: geo.frame(in: .global).minY, globalHeight: fullView.size.height), saturation: 1, brightness: 1))
+                            .rotation3DEffect(.degrees(geo.frame(in: .global).minY - fullView.size.height / 2) / 5, axis: (x: 0, y: 1, z: 0))
                             .opacity(getOpacityOfView(yAxis: geo.frame(in: .global).minY))
                             .scaleEffect(getScaleOfView(midYAxis: geo.frame(in: .global).midY, globalMidY: fullView.frame(in: .global).midY))
+                            .onTapGesture {
+                                print(getHueOfView(minYAxis: geo.frame(in: .global).minY, globalHeight: fullView.size.height))
+                            }
                     }
                     .frame(height: 40)
                 }
