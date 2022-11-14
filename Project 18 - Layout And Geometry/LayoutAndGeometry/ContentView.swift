@@ -18,9 +18,7 @@ struct ContentView: View {
     }
     
     func getScaleOfView(midYAxis: CGFloat, globalMidY: CGFloat) -> CGFloat {
-        let newScaleRate = midYAxis / globalMidY
-
-        var newScale = 1 * newScaleRate
+        var newScale = midYAxis / globalMidY
         
         if newScale > scaleUpToBottomThreshold {
             newScale = scaleUpToBottomThreshold
