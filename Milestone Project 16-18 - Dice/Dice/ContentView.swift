@@ -13,13 +13,9 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            DiceView(switcher: $switcher, visibleValue: $visibleValue)
+            DiceView(visibleValue: $visibleValue)
             
-            Button {
-                switcher.toggle()
-            } label: {
-                Text("Switcher")
-            }
+
 
         }
         .padding()

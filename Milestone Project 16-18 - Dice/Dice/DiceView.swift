@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DiceView: View {
-    @Binding var switcher: Bool
+    
     @Binding var visibleValue: Int
     
     @State private var sideValues = [Int]()
@@ -21,7 +21,9 @@ struct DiceView: View {
     var height: CGFloat = 130
     var arrowLeftColor = Color.gray
     var arrowRightColor = Color.gray
+    var switcherForgroundColor = Color.gray
     
+    @State private var switcher: Bool = false
     @State private var isShowingSideValue = true
     @State private var timer: Timer?
     
@@ -44,7 +46,7 @@ struct DiceView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 15) {
             HStack {
                 Image(systemName: "arrowtriangle.right.fill")
                     .foregroundColor(arrowLeftColor)
@@ -59,27 +61,34 @@ struct DiceView: View {
                 Image(systemName: "arrowtriangle.left.fill")
                     .foregroundColor(arrowRightColor)
             }
-        }
-        .frame(width: width, height: height)
-        .background(backgroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .shadow(color: shadowColor, radius: 10, x: 1, y: 1)
-        .onChange(of: switcher, perform: { newValue in
-            if switcher {
-                timer = Timer.scheduledTimer(withTimeInterval: 0.34, repeats: true) { timer in
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        moveToNextSideValue()
-                    }
-
-                }
-            } else {
-                timer?.invalidate()
-                if !isShowingSideValue {
-                    increaseSideValue()
-                    isShowingSideValue.toggle()
-                }
+            .frame(width: width, height: height)
+            .background(backgroundColor)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .shadow(color: shadowColor, radius: 10, x: 1, y: 1)
+            
+            Button {
+                switcher.toggle()
+            } label: {
+                Image(systemName: "square.dashed.inset.filled")
+                    .font(.largeTitle)
+                    .foregroundColor(switcherForgroundColor)
             }
-        })
+            .onChange(of: switcher, perform: { newValue in
+                if switcher {
+                    timer = Timer.scheduledTimer(withTimeInterval: 0.34, repeats: true) { timer in
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            moveToNextSideValue()
+                        }
+                    }
+                } else {
+                    timer?.invalidate()
+                    if !isShowingSideValue {
+                        increaseSideValue()
+                        isShowingSideValue.toggle()
+                    }
+                }
+            })
+        }
         .task {
             sideValues = Array(1...numberOfSides)
         }
@@ -88,6 +97,6 @@ struct DiceView: View {
 
 struct DiceView_Previews: PreviewProvider {
     static var previews: some View {
-        DiceView(switcher: .constant(false), visibleValue: .constant(1))
+        DiceView(visibleValue: .constant(1))
     }
 }
