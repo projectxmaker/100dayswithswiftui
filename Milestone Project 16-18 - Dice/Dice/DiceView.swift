@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct DiceView: View {
+    @Binding var switcher: Bool
+    @Binding var visibleValue: Int
     
-    
-    @State private var visibleSideValue = 1
     @State private var sideValues = [Int]()
     
     var numberOfSides: Int = 4
@@ -21,10 +21,27 @@ struct DiceView: View {
     var height: CGFloat = 130
     var arrowLeftColor = Color.gray
     var arrowRightColor = Color.gray
-
     
     @State private var isShowingSideValue = true
-    @State private var timer = Timer()
+    @State private var timer: Timer?
+    
+    private func moveToNextSideValue() {
+        if isShowingSideValue {
+            isShowingSideValue.toggle()
+        } else {
+            increaseSideValue()
+
+            isShowingSideValue.toggle()
+        }
+    }
+    
+    private func increaseSideValue() {
+        if visibleValue < numberOfSides {
+            visibleValue += 1
+        } else {
+            visibleValue = 1
+        }
+    }
     
     var body: some View {
         VStack {
@@ -33,7 +50,7 @@ struct DiceView: View {
                     .foregroundColor(arrowLeftColor)
                 
                 if isShowingSideValue {
-                    Text("\(visibleSideValue)")
+                    Text("\(visibleValue)")
                         .font(.largeTitle.bold())
                         .foregroundColor(sideValueColor)
                         .transition(.asymmetric(insertion: .move(edge: .top).combined(with: .opacity), removal: .move(edge: .bottom).combined(with: .opacity)))
@@ -47,31 +64,30 @@ struct DiceView: View {
         .background(backgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .shadow(color: shadowColor, radius: 10, x: 1, y: 1)
+        .onChange(of: switcher, perform: { newValue in
+            if switcher {
+                timer = Timer.scheduledTimer(withTimeInterval: 0.34, repeats: true) { timer in
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        moveToNextSideValue()
+                    }
+
+                }
+            } else {
+                timer?.invalidate()
+                if !isShowingSideValue {
+                    increaseSideValue()
+                    isShowingSideValue.toggle()
+                }
+            }
+        })
         .task {
             sideValues = Array(1...numberOfSides)
-            
-            Timer.scheduledTimer(withTimeInterval: 0.34, repeats: true) { timer in
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    if isShowingSideValue {
-                        isShowingSideValue.toggle()
-                    } else {
-                        if visibleSideValue < numberOfSides {
-                            visibleSideValue += 1
-                        } else {
-                            visibleSideValue = 1
-                        }
-
-                        isShowingSideValue.toggle()
-                    }
-                }
-
-            }
         }
     }
 }
 
 struct DiceView_Previews: PreviewProvider {
     static var previews: some View {
-        DiceView()
+        DiceView(switcher: .constant(false), visibleValue: .constant(1))
     }
 }

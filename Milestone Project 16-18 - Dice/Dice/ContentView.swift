@@ -8,9 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var switcher = false
+    @State private var visibleValue = 1
+    
     var body: some View {
         VStack {
-            DiceView()
+            DiceView(switcher: $switcher, visibleValue: $visibleValue)
+            
+            Button {
+                switcher.toggle()
+            } label: {
+                Text("Switcher")
+            }
+
         }
         .padding()
     }
