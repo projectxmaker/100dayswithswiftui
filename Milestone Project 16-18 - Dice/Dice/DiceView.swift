@@ -32,9 +32,10 @@ struct DiceView: View {
     let longPressTimerTimeInterval: Double = 0.5
     
     let rollingFastest = 0.08
-    let rollingSlowest = 1.84
-    let rollingTimerDelay = 0.04
+    let rollingSlowest = 1.34
+    let rollingTimerDelay = 0.045
     let rollingStepChangeRate = 0.15
+    @State private var runLoops = [RollingTime]()
     
     struct RollingTime {
         let timerInterval: Double
@@ -61,31 +62,35 @@ struct DiceView: View {
     
     private func generateLoops(_ numOfLoops: Int) -> [RollingTime] {
         var rollingLoops = [RollingTime]()
-        
-        //var initValue = rollingSlowest
+
         var loopCounter: Int = 0
         
         var timerInterval: Double = 0
         var animationDuration: Double = rollingSlowest
         
         while animationDuration >= rollingFastest {
-
-            animationDuration -= loopCounter == 0 ? 0 : animationDuration * rollingStepChangeRate
+            animationDuration -= loopCounter == 0 ? 0 :  animationDuration * rollingStepChangeRate
+            animationDuration = round(animationDuration * 100)/100.0
             
             let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: animationDuration)
             rollingLoops.append(rollingLoop)
             
             timerInterval += animationDuration + rollingTimerDelay
-
+            timerInterval = round(timerInterval * 100)/100.0
+            
             loopCounter += 1
         }
         
+        let reversedLoops = rollingLoops.reversed()
         
-        if !loopCounter.isMultiple(of: 2) {
-            let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: animationDuration)
+        for eachRolling in reversedLoops {
+            let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: eachRolling.animationDuration)
             rollingLoops.append(rollingLoop)
+            
+            timerInterval += eachRolling.animationDuration + rollingTimerDelay
+            timerInterval = round(timerInterval * 100)/100.0
         }
-        
+
         return rollingLoops
     }
     
@@ -141,36 +146,19 @@ struct DiceView: View {
 
                 .onChange(of: switcher, perform: { newValue in
                     if switcher {
-                        let runLoops = generateLoops(10)
-                        
                         for eachLoop in runLoops {
-//                            print("eachLoop \(eachLoop)")
                             Timer.scheduledTimer(withTimeInterval: eachLoop.timerInterval, repeats: false) { timer in
-                                print("eachLoop \(eachLoop)")
                                 withAnimation(.easeInOut(duration: eachLoop.animationDuration)) {
                                     moveToNextSideValue()
                                 }
                             }
-                        }
-//                        print("here")
-//                        diceRollTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-//
-//                            print("gooo")
-//                            withAnimation(.easeInOut(duration: 0.039)) {
-//                                moveToNextSideValue()
-//                            }
-//                        }
-                    } else {
-                        diceRollTimer?.invalidate()
-                        if !isShowingSideValue {
-                            increaseSideValue()
-                            isShowingSideValue.toggle()
                         }
                     }
                 })
         }
         .task {
             sideValues = Array(1...numberOfSides)
+            runLoops = generateLoops(10)
         }
     }
 }
