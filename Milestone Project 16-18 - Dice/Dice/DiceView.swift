@@ -96,26 +96,22 @@ struct DiceView: View {
     
     private func rollDice() {
         if !isSwitcherDisabled {
-            withAnimation {
-                isSwitcherDisabled = true
-            }
-            
+            isSwitcherDisabled = true
+
             var lastInterval: Double = 0
             for eachLoop in runLoops {
                 lastInterval = eachLoop.timerInterval + eachLoop.animationDuration
-                
+
                 Timer.scheduledTimer(withTimeInterval: eachLoop.timerInterval, repeats: false) { timer in
                     withAnimation(.easeInOut(duration: eachLoop.animationDuration)) {
                         moveToNextSideValue()
                     }
                 }
             }
-            
+
             // re-enable Switcher
             Timer.scheduledTimer(withTimeInterval: lastInterval, repeats: false) { timer in
-                withAnimation {
-                    isSwitcherDisabled = false
-                }
+                isSwitcherDisabled = false
             }
         }
     }
@@ -144,6 +140,7 @@ struct DiceView: View {
             Image(systemName: "square.dashed.inset.filled")
                 .font(.largeTitle)
                 .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
+                .animation(.default, value: isSwitcherDisabled)
                 .onTapGesture {
                     rollDice()
                 }

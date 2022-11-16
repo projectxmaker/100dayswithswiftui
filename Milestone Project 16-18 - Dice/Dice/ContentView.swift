@@ -13,17 +13,18 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            Color.black
+            Color.white
                 .ignoresSafeArea()
             
             VStack {
-                DiceView(
-                    visibleValue: $visibleValue,
-                    numberOfSides: 8,
-                    shadowColor: .white,
-                    switcherForgroundColorEnabled: .white,
-                    switcherForgroundColorDisabled: .gray
-                )
+                DiceView(visibleValue: $visibleValue)
+//                DiceView(
+//                    visibleValue: $visibleValue,
+//                    numberOfSides: 8,
+//                    shadowColor: .white,
+//                    switcherForgroundColorEnabled: .white,
+//                    switcherForgroundColorDisabled: .gray
+//                )
             }
             .padding()
         }
