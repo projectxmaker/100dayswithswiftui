@@ -17,7 +17,7 @@ struct DiceView: View {
     var backgroundColor = Color.white
     var shadowColor = Color.gray
     var width: CGFloat = 80
-    var height: CGFloat = 130
+    var height: CGFloat = 80
     var arrowLeftColor = Color.gray
     var arrowRightColor = Color.gray
     var switcherForgroundColorEnabled = Color.black
