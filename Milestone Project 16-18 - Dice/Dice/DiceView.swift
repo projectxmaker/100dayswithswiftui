@@ -81,8 +81,18 @@ struct DiceView: View {
             loopCounter += 1
         }
         
+        // random loop before being reversed
+        for _ in 0..<Int.random(in: 0...10) {
+            let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: animationDuration)
+            rollingLoops.append(rollingLoop)
+            
+            timerInterval += animationDuration + rollingTimerDelay
+            timerInterval = round(timerInterval * 100)/100.0
+        }
+        
         let reversedLoops = rollingLoops.reversed()
         
+        // reverse
         for eachRolling in reversedLoops {
             let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: eachRolling.animationDuration)
             rollingLoops.append(rollingLoop)
