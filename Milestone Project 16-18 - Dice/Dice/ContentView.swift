@@ -12,13 +12,23 @@ struct ContentView: View {
     @State private var visibleValue = 1
     
     var body: some View {
-        VStack {
-            DiceView(visibleValue: $visibleValue)
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
             
-
-
+            VStack {
+                DiceView(
+                    visibleValue: $visibleValue,
+                    numberOfSides: 8,
+                    shadowColor: .white,
+                    switcherForgroundColorEnabled: .white,
+                    switcherForgroundColorDisabled: .gray
+                )
+            }
+            .padding()
         }
-        .padding()
+        
+
     }
 }
 

@@ -20,11 +20,12 @@ struct DiceView: View {
     var height: CGFloat = 130
     var arrowLeftColor = Color.gray
     var arrowRightColor = Color.gray
-    var switcherForgroundColor = Color.gray
+    var switcherForgroundColorEnabled = Color.black
+    var switcherForgroundColorDisabled = Color.gray
     
-    @State private var switcher: Bool = false
     @State private var isShowingSideValue = true
     @State private var diceRollTimer: Timer?
+    @State private var isSwitcherDisabled = false
     
     @State private var longPressTimer: Timer?
     @State private var longPressCounter: Double = DiceView.longPressMinimumDuration
@@ -47,7 +48,6 @@ struct DiceView: View {
             isShowingSideValue.toggle()
         } else {
             increaseSideValue()
-            
             isShowingSideValue.toggle()
         }
     }
@@ -94,6 +94,32 @@ struct DiceView: View {
         return rollingLoops
     }
     
+    private func rollDice() {
+        if !isSwitcherDisabled {
+            withAnimation {
+                isSwitcherDisabled = true
+            }
+            
+            var lastInterval: Double = 0
+            for eachLoop in runLoops {
+                lastInterval = eachLoop.timerInterval + eachLoop.animationDuration
+                
+                Timer.scheduledTimer(withTimeInterval: eachLoop.timerInterval, repeats: false) { timer in
+                    withAnimation(.easeInOut(duration: eachLoop.animationDuration)) {
+                        moveToNextSideValue()
+                    }
+                }
+            }
+            
+            // re-enable Switcher
+            Timer.scheduledTimer(withTimeInterval: lastInterval, repeats: false) { timer in
+                withAnimation {
+                    isSwitcherDisabled = false
+                }
+            }
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 15) {
             HStack {
@@ -117,9 +143,9 @@ struct DiceView: View {
             
             Image(systemName: "square.dashed.inset.filled")
                 .font(.largeTitle)
-                .foregroundColor(switcherForgroundColor)
+                .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
                 .onTapGesture {
-                    switcher.toggle()
+                    rollDice()
                 }
                 .gesture(
                     LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
@@ -140,21 +166,9 @@ struct DiceView: View {
                             // end timer to get how long the user presses on this button
                             longPressTimer?.invalidate()
                             
-                            switcher.toggle()
+                            rollDice()
                         })
                 )
-
-                .onChange(of: switcher, perform: { newValue in
-                    if switcher {
-                        for eachLoop in runLoops {
-                            Timer.scheduledTimer(withTimeInterval: eachLoop.timerInterval, repeats: false) { timer in
-                                withAnimation(.easeInOut(duration: eachLoop.animationDuration)) {
-                                    moveToNextSideValue()
-                                }
-                            }
-                        }
-                    }
-                })
         }
         .task {
             sideValues = Array(1...numberOfSides)
