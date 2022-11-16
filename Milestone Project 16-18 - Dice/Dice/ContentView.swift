@@ -10,26 +10,62 @@ import SwiftUI
 struct ContentView: View {
     @State private var switcher = false
     @State private var visibleValue = 1
+    @State private var numberOfDices = 0
+    @State private var dices = [DiceView]()
+    
+    let layouts: [GridItem] = [
+        GridItem(.adaptive(minimum: 100))
+    ]
+    
+    func generateDices(_ newNumberOfDices: Int) {
+        dices = Array.init(repeating: DiceView(
+            numberOfSides: 8,
+            shadowColor: .white,
+            switcherForgroundColorEnabled: .white,
+            switcherForgroundColorDisabled: .gray
+        ), count: newNumberOfDices)
+        
+        numberOfDices = newNumberOfDices
+    }
     
     var body: some View {
         ZStack {
-            Color.white
+            Color.black
                 .ignoresSafeArea()
             
-            VStack {
-                DiceView(visibleValue: $visibleValue)
-//                DiceView(
-//                    visibleValue: $visibleValue,
-//                    numberOfSides: 8,
-//                    shadowColor: .white,
-//                    switcherForgroundColorEnabled: .white,
-//                    switcherForgroundColorDisabled: .gray
-//                )
+            ScrollView(.vertical) {
+                LazyVGrid(columns: layouts, spacing: 30) {
+                    ForEach(0..<numberOfDices, id: \.self) { index in
+                        dices[index]
+                    }
+                }
+                .padding(.horizontal, 5)
             }
-            .padding()
         }
-        
-
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                Text("Number of Dices: \(numberOfDices)")
+                Spacer()
+                Button {
+                    let newNumberOfDices = numberOfDices > 0 ? numberOfDices - 1 : 0
+                    generateDices(newNumberOfDices)
+                } label: {
+                    Image(systemName: "minus.square.fill")
+                        .font(.title)
+                }
+                Button {
+                    let newNumberOfDices = numberOfDices + 1
+                    generateDices(newNumberOfDices)
+                } label: {
+                    Image(systemName: "plus.square.fill")
+                        .font(.title)
+                }
+            }
+            .shadow(color: .black, radius: 10, x: 1, y: 1)
+            .padding()
+            .foregroundColor(.white)
+            .background(.ultraThinMaterial)
+        }
     }
 }
 

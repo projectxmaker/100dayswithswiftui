@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DiceView: View {
-    @Binding var visibleValue: Int
+    @State private var visibleValue: Int = 1
     
     @State private var sideValues = [Int]()
     
@@ -176,6 +176,6 @@ struct DiceView: View {
 
 struct DiceView_Previews: PreviewProvider {
     static var previews: some View {
-        DiceView(visibleValue: .constant(1))
+        DiceView()
     }
 }
