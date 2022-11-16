@@ -33,7 +33,8 @@ struct DiceView: View {
     
     let rollingFastest = 0.08
     let rollingSlowest = 1.84
-    let rollingStep = 0.04
+    let rollingTimerDelay = 0.04
+    let rollingStepChangeRate = 0.15
     
     struct RollingTime {
         let timerInterval: Double
@@ -62,23 +63,29 @@ struct DiceView: View {
         var rollingLoops = [RollingTime]()
         
         //var initValue = rollingSlowest
-        var loopCounter: Double = 0
+        var loopCounter: Int = 0
         
         var timerInterval: Double = 0
         var animationDuration: Double = rollingSlowest
         
         while animationDuration >= rollingFastest {
 
-            animationDuration -= loopCounter == 0 ? 0 : rollingStep
+            animationDuration -= loopCounter == 0 ? 0 : animationDuration * rollingStepChangeRate
             
             let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: animationDuration)
             rollingLoops.append(rollingLoop)
             
-            timerInterval += animationDuration + rollingStep
+            timerInterval += animationDuration + rollingTimerDelay
 
             loopCounter += 1
-
         }
+        
+        
+        if !loopCounter.isMultiple(of: 2) {
+            let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: animationDuration)
+            rollingLoops.append(rollingLoop)
+        }
+        
         return rollingLoops
     }
     
