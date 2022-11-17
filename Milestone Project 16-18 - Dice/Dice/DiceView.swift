@@ -156,19 +156,21 @@ struct DiceView: View {
             HStack {
                 if isSwitcherDisabled {
                     Image(systemName: "arrowtriangle.right.fill")
+                        .font(isSwitcherDisabled ? .subheadline : .largeTitle)
                         .foregroundColor(isSwitcherDisabled ? arrowLeftColorWhenDiceIsRolling : arrowLeftColor)
                         .transition(.move(edge: .leading))
                 }
 
                 if isShowingSideValue {
                     Text("\(visibleValue)")
-                        .font(.largeTitle.bold())
+                        .font(isSwitcherDisabled ? .title2.bold() : .largeTitle.bold())
                         .foregroundColor(isSwitcherDisabled ? valueColorWhenDiceIsRolling : valueColor)
                         .transition(.asymmetric(insertion: .move(edge: .top).combined(with: .opacity), removal: .move(edge: .bottom).combined(with: .opacity)))
                 }
 
                 if isSwitcherDisabled {
                     Image(systemName: "arrowtriangle.left.fill")
+                        .font(isSwitcherDisabled ? .subheadline : .largeTitle)
                         .foregroundColor(isSwitcherDisabled ? arrowRightColorWhenDiceIsRolling : arrowRightColor)
                         .transition(.move(edge: .trailing))
                 }
