@@ -13,13 +13,18 @@ struct DiceView: View {
     @State private var sideValues = [Int]()
     
     var numberOfSides: Int = 4
-    var sideValueColor = Color.black
+    var valueColor = Color.black
+    var valueColorWhenDiceIsRolling = Color.blue
     var backgroundColor = Color.white
-    var shadowColor = Color.gray
+    var shadowColor = Color.white
+    var shadowColorIfPressingSwitcher = Color.white
+    var shadowColorWhenDiceIsRolling = Color.blue
     var width: CGFloat = 80
     var height: CGFloat = 80
     var arrowLeftColor = Color.gray
+    var arrowLeftColorWhenDiceIsRolling = Color.blue.opacity(0.5)
     var arrowRightColor = Color.gray
+    var arrowRightColorWhenDiceIsRolling = Color.blue.opacity(0.5)
     var switcherForgroundColorEnabled = Color.black
     var switcherForgroundColorDisabled = Color.gray
     
@@ -38,6 +43,7 @@ struct DiceView: View {
     let rollingStepChangeRate = 0.15
     let fastRollingStep = 0.5
     @State private var runLoops = [RollingTime]()
+    @State private var isPressingSwitcher = false
     
     struct RollingTime {
         let timerInterval: Double
@@ -119,7 +125,7 @@ struct DiceView: View {
     private func rollDice(fastRollingInSeconds: Double? = nil) {
         if !isSwitcherDisabled {
             isSwitcherDisabled = true
-            
+
             // create loops
             runLoops = generateLoops(fastRollingInSeconds: fastRollingInSeconds)
             
@@ -145,50 +151,74 @@ struct DiceView: View {
         VStack(spacing: 15) {
             HStack {
                 Image(systemName: "arrowtriangle.right.fill")
-                    .foregroundColor(arrowLeftColor)
-                
+                    .foregroundColor(isSwitcherDisabled ? arrowLeftColorWhenDiceIsRolling : arrowLeftColor)
+
                 if isShowingSideValue {
                     Text("\(visibleValue)")
                         .font(.largeTitle.bold())
-                        .foregroundColor(sideValueColor)
+                        .foregroundColor(isSwitcherDisabled ? valueColorWhenDiceIsRolling : valueColor)
                         .transition(.asymmetric(insertion: .move(edge: .top).combined(with: .opacity), removal: .move(edge: .bottom).combined(with: .opacity)))
                 }
-                
+
                 Image(systemName: "arrowtriangle.left.fill")
-                    .foregroundColor(arrowRightColor)
+                    .foregroundColor(isSwitcherDisabled ? arrowRightColorWhenDiceIsRolling : arrowRightColor)
             }
             .frame(width: width, height: height)
             .background(backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .shadow(color: shadowColor, radius: 10, x: 1, y: 1)
+            .shadow(color: isPressingSwitcher ? shadowColorIfPressingSwitcher : (isSwitcherDisabled ? shadowColorWhenDiceIsRolling : shadowColor), radius: isPressingSwitcher ? 25 : 10, x: 1, y: 1)
             
             Image(systemName: "square.dashed.inset.filled")
                 .font(.largeTitle)
                 .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
                 .animation(.default, value: isSwitcherDisabled)
                 .onTapGesture {
-                    rollDice()
+                    if !isSwitcherDisabled {
+                        isPressingSwitcher.toggle()
+                        
+                        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
+                            withAnimation(.easeOut(duration: 2)) {
+                                isPressingSwitcher.toggle()
+                            }
+                        }
+                        
+                        rollDice()
+                    }
                 }
                 .gesture(
                     LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
                         .sequenced(before: DragGesture(minimumDistance: 0))
                         .onChanged({ value in
-                            if value == .first(true) {
-                                // start long press timer
-                                // reset counter
-                                longPressCounter = DiceView.longPressMinimumDuration
-                                
-                                // start timer to track how long the user presses on this button
-                                longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressTimerTimeInterval, repeats: true, block: { timer in
-                                    longPressCounter += longPressTimerTimeInterval
-                                })
+                            if !isSwitcherDisabled {
+                                if value == .first(true) {
+                                    // effect of pressing on switcher
+                                    withAnimation {
+                                        isPressingSwitcher.toggle()
+                                    }
+                                    
+                                    // start long press timer
+                                    // reset counter
+                                    longPressCounter = DiceView.longPressMinimumDuration
+                                    
+                                    // start timer to track how long the user presses on this button
+                                    longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressTimerTimeInterval, repeats: true, block: { timer in
+                                        longPressCounter += longPressTimerTimeInterval
+                                    })
+                                }
                             }
                         })
                         .onEnded({ value in
-                            // end timer to get how long the user presses on this button
-                            longPressTimer?.invalidate()
-                            
-                            rollDice(fastRollingInSeconds: longPressCounter)
+                            if !isSwitcherDisabled {
+                                // effect of pressing on switcher
+                                withAnimation(.easeOut(duration: 2)) {
+                                    isPressingSwitcher.toggle()
+                                }
+                                
+                                // end timer to get how long the user presses on this button
+                                longPressTimer?.invalidate()
+                                
+                                rollDice(fastRollingInSeconds: longPressCounter)
+                            }
                         })
                 )
         }
