@@ -19,8 +19,10 @@ struct ContentView: View {
     
     func generateDices(_ newNumberOfDices: Int) {
         dices = Array.init(repeating: DiceView(
-            numberOfSides: 8,
+            numberOfSides: 100,
             shadowColor: .white,
+            width: 90,
+            height: 80,
             switcherForgroundColorEnabled: .white,
             switcherForgroundColorDisabled: .gray
         ), count: newNumberOfDices)
