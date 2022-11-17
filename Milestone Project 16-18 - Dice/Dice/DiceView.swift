@@ -44,6 +44,11 @@ struct DiceView: View {
     let fastRollingStep = 0.5
     @State private var runLoops = [RollingTime]()
     @State private var isPressingSwitcher = false
+    @State private var makeVisibleValueSmaller = false
+    
+    var isShowingArrowIndicator: Bool {
+        return makeVisibleValueSmaller
+    }
     
     struct RollingTime {
         let timerInterval: Double
@@ -122,7 +127,7 @@ struct DiceView: View {
         return rollingLoops
     }
     
-    private func rollDice(fastRollingInSeconds: Double? = nil) {
+    private func rollDice(fastRollingInSeconds: Double? = nil, postAction: @escaping () -> Void) {
         if !isSwitcherDisabled {
             withAnimation {
                 isSwitcherDisabled = true
@@ -146,32 +151,35 @@ struct DiceView: View {
             Timer.scheduledTimer(withTimeInterval: lastInterval, repeats: false) { timer in
                 withAnimation {
                     isSwitcherDisabled = false
+                    
+                    // do postAction
+                    postAction()
                 }
             }
         }
     }
-    
+
     var body: some View {
         VStack(spacing: 15) {
             HStack {
-                if isSwitcherDisabled {
+                if isShowingArrowIndicator {
                     Image(systemName: "arrowtriangle.right.fill")
-                        .font(isSwitcherDisabled ? .subheadline : .largeTitle)
-                        .foregroundColor(isSwitcherDisabled ? arrowLeftColorWhenDiceIsRolling : arrowLeftColor)
+                        .font(isShowingArrowIndicator ? .subheadline : .largeTitle)
+                        .foregroundColor(isShowingArrowIndicator ? arrowLeftColorWhenDiceIsRolling : arrowLeftColor)
                         .transition(.move(edge: .leading))
                 }
 
                 if isShowingSideValue {
                     Text("\(visibleValue)")
-                        .font(isSwitcherDisabled ? .title2.bold() : .largeTitle.bold())
-                        .foregroundColor(isSwitcherDisabled ? valueColorWhenDiceIsRolling : valueColor)
+                        .font(makeVisibleValueSmaller ? .title2.bold() :  .largeTitle.bold() )
+                        .foregroundColor(makeVisibleValueSmaller ? valueColorWhenDiceIsRolling : valueColor)
                         .transition(.asymmetric(insertion: .move(edge: .top).combined(with: .opacity), removal: .move(edge: .bottom).combined(with: .opacity)))
                 }
 
-                if isSwitcherDisabled {
+                if isShowingArrowIndicator {
                     Image(systemName: "arrowtriangle.left.fill")
-                        .font(isSwitcherDisabled ? .subheadline : .largeTitle)
-                        .foregroundColor(isSwitcherDisabled ? arrowRightColorWhenDiceIsRolling : arrowRightColor)
+                        .font(isShowingArrowIndicator ? .subheadline : .largeTitle)
+                        .foregroundColor(isShowingArrowIndicator ? arrowRightColorWhenDiceIsRolling : arrowRightColor)
                         .transition(.move(edge: .trailing))
                 }
             }
@@ -185,15 +193,20 @@ struct DiceView: View {
                 .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
                 .onTapGesture {
                     if !isSwitcherDisabled {
-                        withAnimation(.easeOut(duration: 2)) {
+                        withAnimation {
                             isPressingSwitcher.toggle()
-                            
-                            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
-                                isPressingSwitcher.toggle()
-                            }
+                            makeVisibleValueSmaller.toggle()
                         }
                         
-                        rollDice()
+                        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+                            withAnimation(.easeOut(duration: 2)) {
+                                isPressingSwitcher.toggle()
+                            }
+                            
+                            rollDice() {
+                                makeVisibleValueSmaller.toggle()
+                            }
+                        }
                     }
                 }
                 .gesture(
@@ -205,6 +218,7 @@ struct DiceView: View {
                                     // effect of pressing on switcher
                                     withAnimation {
                                         isPressingSwitcher.toggle()
+                                        makeVisibleValueSmaller.toggle()
                                     }
                                     
                                     // start long press timer
@@ -228,7 +242,9 @@ struct DiceView: View {
                                 // end timer to get how long the user presses on this button
                                 longPressTimer?.invalidate()
                                 
-                                rollDice(fastRollingInSeconds: longPressCounter)
+                                rollDice(fastRollingInSeconds: longPressCounter) {
+                                    makeVisibleValueSmaller.toggle()
+                                }
                             }
                         })
                 )
