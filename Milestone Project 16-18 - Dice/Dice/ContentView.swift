@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var visibleValue = 1
     @State private var numberOfDices = 0
     @State private var dices = [DiceView]()
+    @State private var isShowingSettings = false
     
     let layouts: [GridItem] = [
         GridItem(.adaptive(minimum: 100))
@@ -44,25 +45,63 @@ struct ContentView: View {
                     }
                 }
                 .padding(.horizontal, 5)
+                .padding(.vertical, 20)
+            }
+        }
+        .safeAreaInset(edge: .top) {
+            if isShowingSettings {
+                HStack {
+                    Text("Dices: \(numberOfDices)")
+                    Spacer()
+                    Button {
+                        let newNumberOfDices = numberOfDices > 0 ? numberOfDices - 1 : 0
+                        generateDices(newNumberOfDices)
+                    } label: {
+                        Image(systemName: "minus.square.fill")
+                            .font(.title)
+                    }
+                    Button {
+                        let newNumberOfDices = numberOfDices + 1
+                        generateDices(newNumberOfDices)
+                    } label: {
+                        Image(systemName: "plus.square.fill")
+                            .font(.title)
+                    }
+                }
+                .shadow(color: .black, radius: 10, x: 1, y: 1)
+                .padding()
+                .foregroundColor(.white)
+                .background(.ultraThinMaterial)
+                .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
         .safeAreaInset(edge: .bottom) {
             HStack {
-                Text("Number of Dices: \(numberOfDices)")
+                Button {
+                    withAnimation(.easeIn(duration: 0.5)) {
+                        isShowingSettings.toggle()
+                    }
+                } label: {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.title3)
+                }
                 Spacer()
                 Button {
-                    let newNumberOfDices = numberOfDices > 0 ? numberOfDices - 1 : 0
-                    generateDices(newNumberOfDices)
+                    withAnimation {
+                        isShowingSettings.toggle()
+                    }
                 } label: {
-                    Image(systemName: "minus.square.fill")
-                        .font(.title)
+                    Image(systemName: "square.dashed.inset.filled")
+                        .font(.largeTitle.bold())
                 }
+                Spacer()
                 Button {
-                    let newNumberOfDices = numberOfDices + 1
-                    generateDices(newNumberOfDices)
+                    withAnimation {
+                        isShowingSettings.toggle()
+                    }
                 } label: {
-                    Image(systemName: "plus.square.fill")
-                        .font(.title)
+                    Image(systemName: "gearshape")
+                        .font(.title3)
                 }
             }
             .shadow(color: .black, radius: 10, x: 1, y: 1)
