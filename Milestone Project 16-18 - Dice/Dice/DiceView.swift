@@ -12,6 +12,8 @@ struct DiceView: View {
     
     @State private var sideValues = [Int]()
     
+    var id = UUID()
+    
     var numberOfSides: Int = 4
     var valueColor = Color.black
     var valueColorWhenDiceIsRolling = Color.black

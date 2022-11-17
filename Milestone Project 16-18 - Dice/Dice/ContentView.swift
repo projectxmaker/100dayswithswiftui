@@ -10,27 +10,33 @@ import SwiftUI
 struct ContentView: View {
     @State private var switcher = false
     @State private var visibleValue = 1
-    @State private var numberOfDices = 0
+    @State private var numberOfDices: Double = 1
+    @State private var numberOfPosibilities: Double = 4
     @State private var dices = [DiceView]()
     @State private var isShowingSettings = false
+    
+    let maximumDices: Double = 50
+    let maximumPosibilities: Double = 100
     
     let layouts: [GridItem] = [
         GridItem(.adaptive(minimum: 100))
     ]
     
-    func generateDices(_ newNumberOfDices: Int) {
-        dices = Array.init(repeating: DiceView(
-            numberOfSides: 100,
-            shadowColor: .cyan,
-            shadowColorIfPressingSwitcher: .cyan,
-            shadowColorWhenDiceIsRolling: .white,
-            width: 90,
-            height: 80,
-            switcherForgroundColorEnabled: .cyan.opacity(0.9),
-            switcherForgroundColorDisabled: .gray
-        ), count: newNumberOfDices)
-        
-        numberOfDices = newNumberOfDices
+    func generateDices() {
+        dices.removeAll()
+        for _ in 0..<Int(numberOfDices) {
+            let newDice = DiceView(
+                numberOfSides: Int(numberOfPosibilities),
+                shadowColor: .cyan,
+                shadowColorIfPressingSwitcher: .cyan,
+                shadowColorWhenDiceIsRolling: .white,
+                width: 90,
+                height: 80,
+                switcherForgroundColorEnabled: .cyan.opacity(0.9),
+                switcherForgroundColorDisabled: .gray)
+                
+            dices.append(newDice)
+        }
     }
     
     var body: some View {
@@ -38,34 +44,34 @@ struct ContentView: View {
             Color.black
                 .ignoresSafeArea()
             
-            ScrollView(.vertical) {
-                LazyVGrid(columns: layouts, spacing: 30) {
-                    ForEach(0..<numberOfDices, id: \.self) { index in
-                        dices[index]
+            if dices.count == Int(numberOfDices) {
+                ScrollView(.vertical) {
+                    LazyVGrid(columns: layouts, spacing: 30) {
+                        ForEach(dices, id: \.id) { dice in
+                            dice
+                        }
                     }
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 20)
                 }
-                .padding(.horizontal, 5)
-                .padding(.vertical, 20)
             }
         }
         .safeAreaInset(edge: .top) {
             if isShowingSettings {
-                HStack {
-                    Text("Dices: \(numberOfDices)")
-                    Spacer()
-                    Button {
-                        let newNumberOfDices = numberOfDices > 0 ? numberOfDices - 1 : 0
-                        generateDices(newNumberOfDices)
-                    } label: {
-                        Image(systemName: "minus.square.fill")
-                            .font(.title)
+                VStack {
+                    VStack (alignment: .leading) {
+                        Text("Dices: \(Int(numberOfDices))")
+                        Slider(value: $numberOfDices, in: 0...maximumDices, step: 1)
+                            .onChange(of: numberOfDices) { newValue in
+                                generateDices()
+                            }
                     }
-                    Button {
-                        let newNumberOfDices = numberOfDices + 1
-                        generateDices(newNumberOfDices)
-                    } label: {
-                        Image(systemName: "plus.square.fill")
-                            .font(.title)
+                    VStack (alignment: .leading) {
+                        Text("Posibilities: \(Int(numberOfPosibilities))")
+                        Slider(value: $numberOfPosibilities, in: 0...maximumPosibilities, step: 1)
+                            .onChange(of: numberOfPosibilities) { newValue in
+                                generateDices()
+                            }
                     }
                 }
                 .shadow(color: .black, radius: 10, x: 1, y: 1)
@@ -108,6 +114,9 @@ struct ContentView: View {
             .padding()
             .foregroundColor(.white)
             .background(.ultraThinMaterial)
+        }
+        .task {
+            generateDices()
         }
     }
 }
