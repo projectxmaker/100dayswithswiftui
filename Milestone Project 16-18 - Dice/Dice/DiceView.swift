@@ -36,6 +36,7 @@ struct DiceView: View {
     let rollingSlowest = 1.34
     let rollingTimerDelay = 0.045
     let rollingStepChangeRate = 0.15
+    let fastRollingStep = 0.5
     @State private var runLoops = [RollingTime]()
     
     struct RollingTime {
@@ -60,7 +61,7 @@ struct DiceView: View {
         }
     }
     
-    private func generateLoops(_ numOfLoops: Int) -> [RollingTime] {
+    private func generateLoops(fastRollingInSeconds: Double? = nil) -> [RollingTime] {
         var rollingLoops = [RollingTime]()
 
         var loopCounter: Int = 0
@@ -81,13 +82,24 @@ struct DiceView: View {
             loopCounter += 1
         }
         
-        // random loop before being reversed
-        for _ in 0..<Int.random(in: 0...10) {
-            let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: animationDuration)
-            rollingLoops.append(rollingLoop)
+        var fastRollingCount: Double = 0
+        var fastRollingLimit = fastRollingStep
+        
+        if let fastRollingInSeconds = fastRollingInSeconds {
+            fastRollingLimit = fastRollingInSeconds
+        }
+        
+        while fastRollingCount <= fastRollingLimit {
+            // random loop before being reversed
+            for _ in 0..<Int.random(in: 0...10) {
+                let rollingLoop = RollingTime(timerInterval: timerInterval, animationDuration: animationDuration)
+                rollingLoops.append(rollingLoop)
+                
+                timerInterval += animationDuration + rollingTimerDelay
+                timerInterval = round(timerInterval * 100)/100.0
+            }
             
-            timerInterval += animationDuration + rollingTimerDelay
-            timerInterval = round(timerInterval * 100)/100.0
+            fastRollingCount += fastRollingStep
         }
         
         let reversedLoops = rollingLoops.reversed()
@@ -104,10 +116,13 @@ struct DiceView: View {
         return rollingLoops
     }
     
-    private func rollDice() {
+    private func rollDice(fastRollingInSeconds: Double? = nil) {
         if !isSwitcherDisabled {
             isSwitcherDisabled = true
-
+            
+            // create loops
+            runLoops = generateLoops(fastRollingInSeconds: fastRollingInSeconds)
+            
             var lastInterval: Double = 0
             for eachLoop in runLoops {
                 lastInterval = eachLoop.timerInterval + eachLoop.animationDuration
@@ -173,13 +188,12 @@ struct DiceView: View {
                             // end timer to get how long the user presses on this button
                             longPressTimer?.invalidate()
                             
-                            rollDice()
+                            rollDice(fastRollingInSeconds: longPressCounter)
                         })
                 )
         }
         .task {
             sideValues = Array(1...numberOfSides)
-            runLoops = generateLoops(10)
         }
     }
 }
