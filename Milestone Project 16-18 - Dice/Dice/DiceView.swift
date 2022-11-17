@@ -14,17 +14,17 @@ struct DiceView: View {
     
     var numberOfSides: Int = 4
     var valueColor = Color.black
-    var valueColorWhenDiceIsRolling = Color.blue
+    var valueColorWhenDiceIsRolling = Color.black
     var backgroundColor = Color.white
     var shadowColor = Color.white
     var shadowColorIfPressingSwitcher = Color.white
-    var shadowColorWhenDiceIsRolling = Color.blue
+    var shadowColorWhenDiceIsRolling = Color.black
     var width: CGFloat = 80
     var height: CGFloat = 80
     var arrowLeftColor = Color.gray
-    var arrowLeftColorWhenDiceIsRolling = Color.blue.opacity(0.5)
+    var arrowLeftColorWhenDiceIsRolling = Color.black.opacity(0.5)
     var arrowRightColor = Color.gray
-    var arrowRightColorWhenDiceIsRolling = Color.blue.opacity(0.5)
+    var arrowRightColorWhenDiceIsRolling = Color.black.opacity(0.5)
     var switcherForgroundColorEnabled = Color.black
     var switcherForgroundColorDisabled = Color.gray
     
@@ -124,7 +124,9 @@ struct DiceView: View {
     
     private func rollDice(fastRollingInSeconds: Double? = nil) {
         if !isSwitcherDisabled {
-            isSwitcherDisabled = true
+            withAnimation {
+                isSwitcherDisabled = true
+            }
 
             // create loops
             runLoops = generateLoops(fastRollingInSeconds: fastRollingInSeconds)
@@ -142,7 +144,9 @@ struct DiceView: View {
 
             // re-enable Switcher
             Timer.scheduledTimer(withTimeInterval: lastInterval, repeats: false) { timer in
-                isSwitcherDisabled = false
+                withAnimation {
+                    isSwitcherDisabled = false
+                }
             }
         }
     }
@@ -150,8 +154,11 @@ struct DiceView: View {
     var body: some View {
         VStack(spacing: 15) {
             HStack {
-                Image(systemName: "arrowtriangle.right.fill")
-                    .foregroundColor(isSwitcherDisabled ? arrowLeftColorWhenDiceIsRolling : arrowLeftColor)
+                if isSwitcherDisabled {
+                    Image(systemName: "arrowtriangle.right.fill")
+                        .foregroundColor(isSwitcherDisabled ? arrowLeftColorWhenDiceIsRolling : arrowLeftColor)
+                        .transition(.move(edge: .leading))
+                }
 
                 if isShowingSideValue {
                     Text("\(visibleValue)")
@@ -160,8 +167,11 @@ struct DiceView: View {
                         .transition(.asymmetric(insertion: .move(edge: .top).combined(with: .opacity), removal: .move(edge: .bottom).combined(with: .opacity)))
                 }
 
-                Image(systemName: "arrowtriangle.left.fill")
-                    .foregroundColor(isSwitcherDisabled ? arrowRightColorWhenDiceIsRolling : arrowRightColor)
+                if isSwitcherDisabled {
+                    Image(systemName: "arrowtriangle.left.fill")
+                        .foregroundColor(isSwitcherDisabled ? arrowRightColorWhenDiceIsRolling : arrowRightColor)
+                        .transition(.move(edge: .trailing))
+                }
             }
             .frame(width: width, height: height)
             .background(backgroundColor)
@@ -171,13 +181,12 @@ struct DiceView: View {
             Image(systemName: "square.dashed.inset.filled")
                 .font(.largeTitle)
                 .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
-                .animation(.default, value: isSwitcherDisabled)
                 .onTapGesture {
                     if !isSwitcherDisabled {
-                        isPressingSwitcher.toggle()
-                        
-                        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
-                            withAnimation(.easeOut(duration: 2)) {
+                        withAnimation(.easeOut(duration: 2)) {
+                            isPressingSwitcher.toggle()
+                            
+                            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
                                 isPressingSwitcher.toggle()
                             }
                         }
