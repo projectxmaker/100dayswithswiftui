@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DiceView: View {
+    @Binding var triggerSingleTapOnSwitcher: Bool
+    @Binding var triggerLongPressOnSwitcher: Bool
+    
     @State private var visibleValue: Int = 1
     
     @State private var sideValues = [Int]()
@@ -160,6 +163,80 @@ struct DiceView: View {
             }
         }
     }
+    
+    private func invokeSingleTapOnSwitchForOnEnded() {
+        if !isSwitcherDisabled {
+            withAnimation {
+                isPressingSwitcher.toggle()
+                makeVisibleValueSmaller.toggle()
+            }
+            
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+                withAnimation(.easeOut(duration: 2)) {
+                    isPressingSwitcher.toggle()
+                }
+                
+                rollDice() {
+                    makeVisibleValueSmaller.toggle()
+                }
+            }
+        }
+    }
+    
+    var singleTapOnSwitcher: some Gesture {
+        TapGesture()
+            .onEnded { _ in
+                invokeSingleTapOnSwitchForOnEnded()
+            }
+    }
+    
+    private func invokeLongPressOnSwitcherForOnChangeEvent() {
+        if !isSwitcherDisabled {
+            // effect of pressing on switcher
+            withAnimation {
+                isPressingSwitcher.toggle()
+                makeVisibleValueSmaller.toggle()
+            }
+            
+            // start long press timer
+            // reset counter
+            longPressCounter = DiceView.longPressMinimumDuration
+            
+            // start timer to track how long the user presses on this button
+            longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressTimerTimeInterval, repeats: true, block: { timer in
+                longPressCounter += longPressTimerTimeInterval
+            })
+        }
+    }
+    
+    private func invokeLongPressOnSwitcherForOnEndedEvent() {
+        if !isSwitcherDisabled {
+            // effect of pressing on switcher
+            withAnimation(.easeOut(duration: 2)) {
+                isPressingSwitcher.toggle()
+            }
+            
+            // end timer to get how long the user presses on this button
+            longPressTimer?.invalidate()
+            
+            rollDice(fastRollingInSeconds: longPressCounter) {
+                makeVisibleValueSmaller.toggle()
+            }
+        }
+    }
+    
+    var longPressOnSwitcher: some Gesture {
+        LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
+            .sequenced(before: DragGesture(minimumDistance: 0))
+            .onChanged({ value in
+                if value == .first(true) {
+                    invokeLongPressOnSwitcherForOnChangeEvent()
+                }
+            })
+            .onEnded({ value in
+                invokeLongPressOnSwitcherForOnEndedEvent()
+            })
+    }
 
     var body: some View {
         VStack(spacing: 15) {
@@ -193,72 +270,28 @@ struct DiceView: View {
             Image(systemName: "square.dashed.inset.filled")
                 .font(.largeTitle)
                 .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
-                .onTapGesture {
-                    if !isSwitcherDisabled {
-                        withAnimation {
-                            isPressingSwitcher.toggle()
-                            makeVisibleValueSmaller.toggle()
-                        }
-                        
-                        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
-                            withAnimation(.easeOut(duration: 2)) {
-                                isPressingSwitcher.toggle()
-                            }
-                            
-                            rollDice() {
-                                makeVisibleValueSmaller.toggle()
-                            }
-                        }
-                    }
-                }
-                .gesture(
-                    LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
-                        .sequenced(before: DragGesture(minimumDistance: 0))
-                        .onChanged({ value in
-                            if !isSwitcherDisabled {
-                                if value == .first(true) {
-                                    // effect of pressing on switcher
-                                    withAnimation {
-                                        isPressingSwitcher.toggle()
-                                        makeVisibleValueSmaller.toggle()
-                                    }
-                                    
-                                    // start long press timer
-                                    // reset counter
-                                    longPressCounter = DiceView.longPressMinimumDuration
-                                    
-                                    // start timer to track how long the user presses on this button
-                                    longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressTimerTimeInterval, repeats: true, block: { timer in
-                                        longPressCounter += longPressTimerTimeInterval
-                                    })
-                                }
-                            }
-                        })
-                        .onEnded({ value in
-                            if !isSwitcherDisabled {
-                                // effect of pressing on switcher
-                                withAnimation(.easeOut(duration: 2)) {
-                                    isPressingSwitcher.toggle()
-                                }
-                                
-                                // end timer to get how long the user presses on this button
-                                longPressTimer?.invalidate()
-                                
-                                rollDice(fastRollingInSeconds: longPressCounter) {
-                                    makeVisibleValueSmaller.toggle()
-                                }
-                            }
-                        })
-                )
+                .gesture(singleTapOnSwitcher)
+                .gesture(longPressOnSwitcher)
         }
         .task {
             sideValues = Array(1...numberOfSides)
+        }
+        .onChange(of: triggerSingleTapOnSwitcher) { newValue in
+            print("trigger single tap")
+            invokeSingleTapOnSwitchForOnEnded()
+        }
+        .onChange(of: triggerLongPressOnSwitcher) { newValue in
+            if triggerLongPressOnSwitcher == true {
+                invokeLongPressOnSwitcherForOnChangeEvent()
+            } else {
+                invokeLongPressOnSwitcherForOnEndedEvent()
+            }
         }
     }
 }
 
 struct DiceView_Previews: PreviewProvider {
     static var previews: some View {
-        DiceView()
+        DiceView(triggerSingleTapOnSwitcher: .constant(true), triggerLongPressOnSwitcher: .constant(true))
     }
 }

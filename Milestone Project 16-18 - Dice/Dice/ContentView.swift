@@ -15,6 +15,9 @@ struct ContentView: View {
     @State private var dices = [DiceView]()
     @State private var isShowingSettings = false
     
+    @State private var triggerSingleTapOnSwitcher = false
+    @State private var triggerLongPressOnSwitcher = false
+    
     let maximumDices: Double = 50
     let maximumPosibilities: Double = 100
     
@@ -26,6 +29,8 @@ struct ContentView: View {
         dices.removeAll()
         for _ in 0..<Int(numberOfDices) {
             let newDice = DiceView(
+                triggerSingleTapOnSwitcher: $triggerSingleTapOnSwitcher,
+                triggerLongPressOnSwitcher: $triggerLongPressOnSwitcher,
                 numberOfSides: Int(numberOfPosibilities),
                 shadowColor: .cyan,
                 shadowColorIfPressingSwitcher: .cyan,
@@ -37,6 +42,26 @@ struct ContentView: View {
                 
             dices.append(newDice)
         }
+    }
+    
+    var singleTapOnSwitcher: some Gesture {
+        TapGesture()
+            .onEnded { _ in
+                triggerSingleTapOnSwitcher.toggle()
+            }
+    }
+    
+    var longPressOnSwitcher: some Gesture {
+        LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
+            .sequenced(before: DragGesture(minimumDistance: 0))
+            .onChanged({ value in
+                if value == .first(true) {
+                    triggerLongPressOnSwitcher = true
+                }
+            })
+            .onEnded({ value in
+                triggerLongPressOnSwitcher = false
+            })
     }
     
     var body: some View {
@@ -91,16 +116,25 @@ struct ContentView: View {
                     Image(systemName: "clock.arrow.circlepath")
                         .font(.title3)
                 }
+                
                 Spacer()
-                Button {
-                    withAnimation {
-                        isShowingSettings.toggle()
-                    }
-                } label: {
-                    Image(systemName: "square.dashed.inset.filled")
-                        .font(.largeTitle.bold())
-                }
+                
+                Image(systemName: "square.dashed.inset.filled")
+                    .font(.largeTitle.bold())
+                    .buttonStyle(.plain)
+                    .gesture(singleTapOnSwitcher)
+                    .gesture(longPressOnSwitcher)
+//                Button {
+//                    triggerSingleTapOnSwitcher.toggle()
+//                } label: {
+//                    Image(systemName: "square.dashed.inset.filled")
+//                        .font(.largeTitle.bold())
+//                }
+//                .gesture(singleTapOnSwitcher)
+//                .gesture(longPressOnSwitcher)
+                
                 Spacer()
+                
                 Button {
                     withAnimation {
                         isShowingSettings.toggle()
