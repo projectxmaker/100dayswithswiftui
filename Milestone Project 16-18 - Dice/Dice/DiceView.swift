@@ -172,7 +172,7 @@ struct DiceView: View {
             }
             
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
-                withAnimation(.easeOut(duration: 2)) {
+                withAnimation {
                     isPressingSwitcher.toggle()
                 }
                 
@@ -212,7 +212,7 @@ struct DiceView: View {
     private func invokeLongPressOnSwitcherForOnEndedEvent() {
         if !isSwitcherDisabled {
             // effect of pressing on switcher
-            withAnimation(.easeOut(duration: 2)) {
+            withAnimation {
                 isPressingSwitcher.toggle()
             }
             
@@ -270,6 +270,7 @@ struct DiceView: View {
             Image(systemName: "square.dashed.inset.filled")
                 .font(.largeTitle)
                 .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
+                .scaleEffect(isPressingSwitcher ? 0.8 : 1)
                 .gesture(singleTapOnSwitcher)
                 .gesture(longPressOnSwitcher)
         }
@@ -277,7 +278,6 @@ struct DiceView: View {
             sideValues = Array(1...numberOfSides)
         }
         .onChange(of: triggerSingleTapOnSwitcher) { newValue in
-            print("trigger single tap")
             invokeSingleTapOnSwitchForOnEnded()
         }
         .onChange(of: triggerLongPressOnSwitcher) { newValue in
