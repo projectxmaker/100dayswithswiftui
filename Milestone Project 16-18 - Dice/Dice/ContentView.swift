@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var diceListVM = DiceListViewModel()
+    
     @State private var switcher = false
     @State private var visibleValue = 1
     @State private var numberOfDices: Double = 1
@@ -25,12 +27,15 @@ struct ContentView: View {
         GridItem(.adaptive(minimum: 100))
     ]
     
+    @State private var results = [Int]()
+    
     func generateDices() {
         dices.removeAll()
         for _ in 0..<Int(numberOfDices) {
             let newDice = DiceView(
                 triggerSingleTapOnSwitcher: $triggerSingleTapOnSwitcher,
                 triggerLongPressOnSwitcher: $triggerLongPressOnSwitcher,
+                notifyOfGettingFinalResult: saveLog,
                 numberOfSides: Int(numberOfPosibilities),
                 shadowColor: .cyan,
                 shadowColorIfPressingSwitcher: .cyan,
@@ -47,6 +52,8 @@ struct ContentView: View {
     var singleTapOnSwitcher: some Gesture {
         TapGesture()
             .onEnded { _ in
+                results.removeAll(keepingCapacity: true)
+                
                 triggerSingleTapOnSwitcher.toggle()
             }
     }
@@ -56,12 +63,35 @@ struct ContentView: View {
             .sequenced(before: DragGesture(minimumDistance: 0))
             .onChanged({ value in
                 if value == .first(true) {
+                    results.removeAll(keepingCapacity: true)
+                    
                     triggerLongPressOnSwitcher = true
                 }
             })
             .onEnded({ value in
                 triggerLongPressOnSwitcher = false
             })
+    }
+    
+    func saveLog(diceId: UUID, finalResult: Int) {
+        guard !dices.filter({ diceView in
+            diceView.id == diceId
+        }).isEmpty else {
+            return
+        }
+        
+        results.append(finalResult)
+        let totalDices = Int(numberOfDices)
+        let totalPossibilities = Int(numberOfPosibilities)
+        
+        if results.count == totalDices {
+            diceListVM.saveLog(
+                dices: totalDices,
+                posibilities: totalPossibilities,
+                result: results.map(String.init).joined(separator: ","),
+                sumOfResult: results.reduce(0, +)
+            )
+        }
     }
     
     var body: some View {

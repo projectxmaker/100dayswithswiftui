@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct DiceView: View {
+    var rollingLogManager = RollingLogManager.shared
+    
     @Binding var triggerSingleTapOnSwitcher: Bool
     @Binding var triggerLongPressOnSwitcher: Bool
+    var notifyOfGettingFinalResult: (UUID, Int) -> Void
     
     @State private var visibleValue: Int = 1
     
@@ -164,7 +167,19 @@ struct DiceView: View {
         }
     }
     
-    private func invokeSingleTapOnSwitchForOnEnded() {
+    private func saveLog() {
+        let rollingLog = RollingLog(
+            dices: 1,
+            posibilities: sideValues.count,
+            result: String(visibleValue),
+            sumOfResult: Int(visibleValue)
+        )
+        
+        rollingLogManager.insertLog(rollingLog)
+    }
+    
+    // postAction: input Int is the final result value visible on Dice after it finished rolling
+    private func invokeSingleTapOnSwitchForOnEnded(postAction: ((UUID, Int) -> Void)? = nil) {
         if !isSwitcherDisabled {
             withAnimation {
                 isPressingSwitcher.toggle()
@@ -178,6 +193,10 @@ struct DiceView: View {
                 
                 rollDice() {
                     makeVisibleValueSmaller.toggle()
+                    
+                    if let postAction = postAction {
+                        postAction(id, visibleValue)
+                    }
                 }
             }
         }
@@ -186,7 +205,9 @@ struct DiceView: View {
     var singleTapOnSwitcher: some Gesture {
         TapGesture()
             .onEnded { _ in
-                invokeSingleTapOnSwitchForOnEnded()
+                invokeSingleTapOnSwitchForOnEnded { _, _ in
+                    saveLog()
+                }
             }
     }
     
@@ -209,7 +230,8 @@ struct DiceView: View {
         }
     }
     
-    private func invokeLongPressOnSwitcherForOnEndedEvent() {
+    // postAction: input Int is the final result value visible on Dice after it finished rolling
+    private func invokeLongPressOnSwitcherForOnEndedEvent(postAction: ((UUID, Int) -> Void)? = nil) {
         if !isSwitcherDisabled {
             // effect of pressing on switcher
             withAnimation {
@@ -221,6 +243,10 @@ struct DiceView: View {
             
             rollDice(fastRollingInSeconds: longPressCounter) {
                 makeVisibleValueSmaller.toggle()
+                
+                if let postAction = postAction {
+                    postAction(id, visibleValue)
+                }
             }
         }
     }
@@ -234,7 +260,9 @@ struct DiceView: View {
                 }
             })
             .onEnded({ value in
-                invokeLongPressOnSwitcherForOnEndedEvent()
+                invokeLongPressOnSwitcherForOnEndedEvent { _, _ in
+                    saveLog()
+                }
             })
     }
 
@@ -278,13 +306,17 @@ struct DiceView: View {
             sideValues = Array(1...numberOfSides)
         }
         .onChange(of: triggerSingleTapOnSwitcher) { newValue in
-            invokeSingleTapOnSwitchForOnEnded()
+            invokeSingleTapOnSwitchForOnEnded{id, finalResult in
+                notifyOfGettingFinalResult(id, finalResult)
+            }
         }
         .onChange(of: triggerLongPressOnSwitcher) { newValue in
             if triggerLongPressOnSwitcher == true {
                 invokeLongPressOnSwitcherForOnChangeEvent()
             } else {
-                invokeLongPressOnSwitcherForOnEndedEvent()
+                invokeLongPressOnSwitcherForOnEndedEvent{id, finalResult in
+                    notifyOfGettingFinalResult(id, finalResult)
+                }
             }
         }
     }
@@ -292,6 +324,11 @@ struct DiceView: View {
 
 struct DiceView_Previews: PreviewProvider {
     static var previews: some View {
-        DiceView(triggerSingleTapOnSwitcher: .constant(true), triggerLongPressOnSwitcher: .constant(true))
+        DiceView(
+            triggerSingleTapOnSwitcher: .constant(true),
+            triggerLongPressOnSwitcher: .constant(true),
+            notifyOfGettingFinalResult: { id, result in
+                //
+            })
     }
 }

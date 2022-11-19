@@ -12,6 +12,11 @@
 		8A5803EA2923561F004DD3CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A5803E92923561F004DD3CC /* Assets.xcassets */; };
 		8A5803ED2923561F004DD3CC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A5803EC2923561F004DD3CC /* Preview Assets.xcassets */; };
 		8A5803F4292377AC004DD3CC /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5803F3292377AC004DD3CC /* DiceView.swift */; };
+		8AAB5CAB2927D498004C2482 /* RollingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CAA2927D498004C2482 /* RollingLog.swift */; };
+		8AAB5CAD2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CAC2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift */; };
+		8AAB5CAF2927D8B2004C2482 /* DiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CAE2927D8B2004C2482 /* DiceManager.swift */; };
+		8AAB5CB12927D8E2004C2482 /* RollingLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CB02927D8E2004C2482 /* RollingLogManager.swift */; };
+		8AAB5CB32927D970004C2482 /* DiceListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CB22927D970004C2482 /* DiceListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +26,11 @@
 		8A5803E92923561F004DD3CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A5803EC2923561F004DD3CC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8A5803F3292377AC004DD3CC /* DiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
+		8AAB5CAA2927D498004C2482 /* RollingLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingLog.swift; sourceTree = "<group>"; };
+		8AAB5CAC2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerJSONEncodeDecode.swift; sourceTree = "<group>"; };
+		8AAB5CAE2927D8B2004C2482 /* DiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceManager.swift; sourceTree = "<group>"; };
+		8AAB5CB02927D8E2004C2482 /* RollingLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingLogManager.swift; sourceTree = "<group>"; };
+		8AAB5CB22927D970004C2482 /* DiceListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +65,12 @@
 			children = (
 				8A5803E52923561E004DD3CC /* DiceApp.swift */,
 				8A5803E72923561E004DD3CC /* ContentView.swift */,
+				8AAB5CAA2927D498004C2482 /* RollingLog.swift */,
 				8A5803F3292377AC004DD3CC /* DiceView.swift */,
+				8AAB5CAC2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift */,
+				8AAB5CAE2927D8B2004C2482 /* DiceManager.swift */,
+				8AAB5CB22927D970004C2482 /* DiceListViewModel.swift */,
+				8AAB5CB02927D8E2004C2482 /* RollingLogManager.swift */,
 				8A5803E92923561F004DD3CC /* Assets.xcassets */,
 				8A5803EB2923561F004DD3CC /* Preview Content */,
 			);
@@ -140,9 +155,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AAB5CAB2927D498004C2482 /* RollingLog.swift in Sources */,
 				8A5803E82923561E004DD3CC /* ContentView.swift in Sources */,
+				8AAB5CAF2927D8B2004C2482 /* DiceManager.swift in Sources */,
+				8AAB5CB12927D8E2004C2482 /* RollingLogManager.swift in Sources */,
 				8A5803F4292377AC004DD3CC /* DiceView.swift in Sources */,
 				8A5803E62923561E004DD3CC /* DiceApp.swift in Sources */,
+				8AAB5CAD2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift in Sources */,
+				8AAB5CB32927D970004C2482 /* DiceListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
