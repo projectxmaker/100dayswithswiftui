@@ -29,38 +29,34 @@ struct LogView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(log.createdAt.formatted(date: .abbreviated, time: .shortened))
+                .font(.headline.bold())
+                .opacity(0.8)
             
-            HStack(alignment: .center) {
-                Text("\(log.sumOfResult)")
-                    .font(.largeTitle.bold())
-                    .frame(maxWidth: 60)
-                
-                Text("=")
-                    .frame(maxWidth: 10)
-                
-                ScrollView(.vertical) {
-                    LazyVGrid(columns: vGridLayout, spacing: 15) {
-                        ForEach(0..<log.dices, id: \.self) { index in
-                            Text("\(getValueOfDiceByIndex(index))")
-                                .foregroundColor(.black)
-                                .frame(width: 50, height: 50)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .shadow(color: .white, radius: 5, x: 1, y: 1)
-                        }
+            Text("\(log.posibilities)-sided \(log.dices) dices |  Sum: \(log.sumOfResult) | Highest: \(log.highestResult) | Lowest: \(log.lowestResult)")
+                .font(.subheadline)
+                .opacity(0.5)
+                    
+            ScrollView(.vertical) {
+                LazyVGrid(columns: vGridLayout, spacing: 15) {
+                    ForEach(0..<log.dices, id: \.self) { index in
+                        Text("\(getValueOfDiceByIndex(index))")
+                            .foregroundColor(.black).bold()
+                            .frame(width: 50, height: 50)
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .shadow(color: .white, radius: 2, x: 0, y: 0)
+                            
                     }
-                    .padding(.horizontal, 15)
                 }
-                .frame(maxWidth: .infinity, maxHeight: 120)
             }
-
-            Text("\(log.dices) dices | \(log.posibilities) posibilities per dice")
+            .frame(maxWidth: .infinity, maxHeight: 120)
         }
+        .foregroundColor(.white)
     }
 }
 
 struct LogView_Previews: PreviewProvider {
     static var previews: some View {
-        LogView(of: RollingLog(dices: 1, posibilities: 1, result: "1", sumOfResult: 1))
+        LogView(of: RollingLog(dices: 1, posibilities: 1, result: "1", sumOfResult: 1, highestResult: 1, lowestResult: 1))
     }
 }

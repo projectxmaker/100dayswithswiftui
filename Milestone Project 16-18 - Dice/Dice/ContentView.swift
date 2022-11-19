@@ -86,11 +86,17 @@ struct ContentView: View {
         let totalPossibilities = Int(numberOfPosibilities)
         
         if results.count == totalDices {
+            let sortedResults = results.sorted()
+            let highestResult = sortedResults.first ?? 0
+            let lowestResult = sortedResults.last ?? 0
+            
             diceListVM.saveLog(
                 dices: totalDices,
                 posibilities: totalPossibilities,
                 result: results.map(String.init).joined(separator: ","),
-                sumOfResult: results.reduce(0, +)
+                sumOfResult: results.reduce(0, +),
+                highestResult: highestResult,
+                lowestResult: lowestResult
             )
         }
     }

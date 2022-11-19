@@ -168,11 +168,15 @@ struct DiceView: View {
     }
     
     private func saveLog() {
+        let parsedVisibleValue = Int(visibleValue)
+        
         let rollingLog = RollingLog(
             dices: 1,
             posibilities: sideValues.count,
             result: String(visibleValue),
-            sumOfResult: Int(visibleValue)
+            sumOfResult: parsedVisibleValue,
+            highestResult: parsedVisibleValue,
+            lowestResult: parsedVisibleValue
         )
         
         rollingLogManager.insertLog(rollingLog)
