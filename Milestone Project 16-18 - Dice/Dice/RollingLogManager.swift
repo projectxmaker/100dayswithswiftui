@@ -35,4 +35,8 @@ class RollingLogManager {
     func save() {
         _ = FileManager.default.encodeJSON(logFile, fileData: logs)
     }
+    
+    func getLogs() -> [RollingLog] {
+        logs
+    }
 }

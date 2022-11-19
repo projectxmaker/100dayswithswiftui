@@ -17,6 +17,8 @@
 		8AAB5CAF2927D8B2004C2482 /* DiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CAE2927D8B2004C2482 /* DiceManager.swift */; };
 		8AAB5CB12927D8E2004C2482 /* RollingLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CB02927D8E2004C2482 /* RollingLogManager.swift */; };
 		8AAB5CB32927D970004C2482 /* DiceListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CB22927D970004C2482 /* DiceListViewModel.swift */; };
+		8AAB5CB52928BC2A004C2482 /* RollingLogListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CB42928BC2A004C2482 /* RollingLogListView.swift */; };
+		8AAB5CB72928BEAC004C2482 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CB62928BEAC004C2482 /* LogView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		8AAB5CAE2927D8B2004C2482 /* DiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceManager.swift; sourceTree = "<group>"; };
 		8AAB5CB02927D8E2004C2482 /* RollingLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingLogManager.swift; sourceTree = "<group>"; };
 		8AAB5CB22927D970004C2482 /* DiceListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceListViewModel.swift; sourceTree = "<group>"; };
+		8AAB5CB42928BC2A004C2482 /* RollingLogListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingLogListView.swift; sourceTree = "<group>"; };
+		8AAB5CB62928BEAC004C2482 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,8 @@
 			children = (
 				8A5803E52923561E004DD3CC /* DiceApp.swift */,
 				8A5803E72923561E004DD3CC /* ContentView.swift */,
+				8AAB5CB42928BC2A004C2482 /* RollingLogListView.swift */,
+				8AAB5CB62928BEAC004C2482 /* LogView.swift */,
 				8AAB5CAA2927D498004C2482 /* RollingLog.swift */,
 				8A5803F3292377AC004DD3CC /* DiceView.swift */,
 				8AAB5CAC2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift */,
@@ -156,7 +162,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AAB5CAB2927D498004C2482 /* RollingLog.swift in Sources */,
+				8AAB5CB52928BC2A004C2482 /* RollingLogListView.swift in Sources */,
 				8A5803E82923561E004DD3CC /* ContentView.swift in Sources */,
+				8AAB5CB72928BEAC004C2482 /* LogView.swift in Sources */,
 				8AAB5CAF2927D8B2004C2482 /* DiceManager.swift in Sources */,
 				8AAB5CB12927D8E2004C2482 /* RollingLogManager.swift in Sources */,
 				8A5803F4292377AC004DD3CC /* DiceView.swift in Sources */,

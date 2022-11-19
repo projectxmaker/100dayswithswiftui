@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var numberOfPosibilities: Double = 4
     @State private var dices = [DiceView]()
     @State private var isShowingSettings = false
+    @State private var isShowingRollingLogView = false
     
     @State private var triggerSingleTapOnSwitcher = false
     @State private var triggerLongPressOnSwitcher = false
@@ -111,6 +112,9 @@ struct ContentView: View {
                 }
             }
         }
+        .sheet(isPresented: $isShowingRollingLogView, content: {
+            RollingLogListView()
+        })
         .safeAreaInset(edge: .top) {
             if isShowingSettings {
                 VStack {
@@ -140,7 +144,7 @@ struct ContentView: View {
             HStack {
                 Button {
                     withAnimation(.easeIn(duration: 0.5)) {
-                        isShowingSettings.toggle()
+                        isShowingRollingLogView.toggle()
                     }
                 } label: {
                     Image(systemName: "clock.arrow.circlepath")
