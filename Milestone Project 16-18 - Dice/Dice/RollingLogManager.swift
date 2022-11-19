@@ -23,12 +23,7 @@ class RollingLogManager {
     }
     
     func insertLog(_ rollingLog: RollingLog) {
-        logs.append(rollingLog)
-        save()
-    }
-    
-    func insertLog(_ rollingLogs: [RollingLog]) {
-        logs = logs + rollingLogs
+        logs.insert(rollingLog, at: 0)
         save()
     }
     
