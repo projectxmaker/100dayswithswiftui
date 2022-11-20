@@ -164,14 +164,6 @@ struct ContentView: View {
                     .buttonStyle(.plain)
                     .gesture(singleTapOnSwitcher)
                     .gesture(longPressOnSwitcher)
-//                Button {
-//                    triggerSingleTapOnSwitcher.toggle()
-//                } label: {
-//                    Image(systemName: "square.dashed.inset.filled")
-//                        .font(.largeTitle.bold())
-//                }
-//                .gesture(singleTapOnSwitcher)
-//                .gesture(longPressOnSwitcher)
                 
                 Spacer()
                 
