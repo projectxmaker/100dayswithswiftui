@@ -43,7 +43,7 @@ struct DiceView: View {
     var switcherForgroundColorEnabled = Color.black
     var switcherForgroundColorDisabled = Color.gray
     
-    @State private var isShowingValue = true
+    @State private var isShowingValue = true // just for animation
     @State private var diceRollTimer: Timer?
     @State private var isSwitcherDisabled = false
     
@@ -86,12 +86,16 @@ struct DiceView: View {
     private func moveToNextValue(isShowingValue: Bool, loopAnimationDuration: Double) {
 //        print("run moveToNextSideValue: \(isShowingSideValue) - \(dice.visibleValue)")
         withAnimation(.easeInOut(duration: loopAnimationDuration)) {
-            if isShowingValue {
-                self.isShowingValue.toggle()
-            } else {
-                dice.increaseValue()
-                self.isShowingValue.toggle()
-            }
+            print("before \(self.isShowingValue)")
+            // for animation and synchronize w/ similar value in each Dice
+            self.isShowingValue = isShowingValue
+            print("after \(self.isShowingValue)")
+//            if dice.isShowingValue {
+//                dice.isShowingValue.toggle()
+//            } else {
+////                dice.increaseValue()
+//                dice.isShowingValue.toggle()
+//            }
         }
 //        print("run moveToNextSideValue: \(isShowingSideValue) - \(dice.visibleValue)")
     }
@@ -230,7 +234,6 @@ struct DiceView: View {
 //    private func invokeSingleTapOnSwitchForOnEnded(postAction: ((UUID, Int) -> Void)? = nil) {
     func invokeSingleTapOnSwitchForOnEnded(postAction: ((UUID, Int) -> Void)? = nil) {
         if !isSwitcherDisabled {
-            
             withAnimation {
                 isPressingSwitcher.toggle()
                 makeVisibleValueSmaller.toggle()
@@ -366,6 +369,9 @@ struct DiceView: View {
                     notifyOfGettingFinalResult(id, finalResult)
                 }
             }
+        }
+        .onChange(of: dice.isShowingValue) { newValue in
+            moveToNextValue(isShowingValue: newValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
         }
 //        .onChange(of: changeDiceAppearance) { newValue in
 //            isShowingSideValue = dice.showingSideValue

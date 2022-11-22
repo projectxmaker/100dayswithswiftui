@@ -16,7 +16,8 @@ class Dice: Identifiable, ObservableObject {
     var id = UUID()
 
     @Published var visibleValue: Int = 1
-    private var isShowingValue: Bool = true
+    @Published var isShowingValue: Bool = true
+    var currentAnimationDurationOfShowingValue: Double = 0
     private var numberOfSides: Int = 4
     let rollingSlowest = 1.34
     let rollingFastest = 0.08
@@ -55,6 +56,7 @@ class Dice: Identifiable, ObservableObject {
 
             Timer.scheduledTimer(withTimeInterval: eachLoop.timerInterval, repeats: false) { timer in
                 print("go")
+                self.currentAnimationDurationOfShowingValue = eachLoop.animationDuration
                 self.moveToNextValue()
                 
                 if let actionInEveryLoop = actionInEveryLoop {
