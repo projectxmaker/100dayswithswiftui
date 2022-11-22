@@ -232,23 +232,54 @@ struct DiceView: View {
     
     // postAction: input Int is the final result value visible on Dice after it finished rolling
 //    private func invokeSingleTapOnSwitchForOnEnded(postAction: ((UUID, Int) -> Void)? = nil) {
-    func invokeSingleTapOnSwitchForOnEnded(postAction: ((UUID, Int) -> Void)? = nil) {
+//    func invokeSingleTapOnSwitchForOnEnded(postAction: ((UUID, Int) -> Void)? = nil) {
+//        if !isSwitcherDisabled {
+//            withAnimation {
+//                isPressingSwitcher.toggle()
+//                makeVisibleValueSmaller.toggle()
+//            }
+//
+//            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+//                withAnimation {
+//                    isPressingSwitcher.toggle()
+//                }
+//
+//                rollDice { id, visibleValue in
+//                    if let postAction = postAction {
+//                        postAction(id, visibleValue)
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
+    func preActionOfSingleTapOnSwitcher() {
         if !isSwitcherDisabled {
             withAnimation {
                 isPressingSwitcher.toggle()
                 makeVisibleValueSmaller.toggle()
             }
-            
+
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
                 withAnimation {
                     isPressingSwitcher.toggle()
+                    isSwitcherDisabled = true
                 }
-                
-                rollDice { id, visibleValue in
-                    if let postAction = postAction {
-                        postAction(id, visibleValue)
-                    }
-                }
+            }
+        }
+    }
+    
+    func postActionOfSingleTapOnSwitcher(postAction: ((UUID, Int) -> Void)? = nil) {
+//        print(isSwitcherDisabled)
+        if isSwitcherDisabled {
+            print(">>>>> HERE")
+            withAnimation {
+                isSwitcherDisabled = false
+                makeVisibleValueSmaller.toggle()
+            }
+            
+            if let postAction = postAction {
+                postAction(id, dice.visibleValue)
             }
         }
     }
@@ -256,9 +287,10 @@ struct DiceView: View {
     var singleTapOnSwitcher: some Gesture {
         TapGesture()
             .onEnded { _ in
-                invokeSingleTapOnSwitchForOnEnded { _, _ in
-                    saveLog()
-                }
+                dice.runSingleTapOnDice()
+//                invokeSingleTapOnSwitchForOnEnded { _, _ in
+//                    saveLog()
+//                }
             }
     }
     
@@ -356,22 +388,38 @@ struct DiceView: View {
             sideValues = Array(1...numberOfSides)
             
         }
-        .onChange(of: triggerSingleTapOnSwitcher) { newValue in
-            invokeSingleTapOnSwitchForOnEnded{id, finalResult in
-                notifyOfGettingFinalResult(id, finalResult)
-            }
+        .onAppear {
+            self.isSwitcherDisabled = dice.isSwitcherDisabled
+            self.isPressingSwitcher = dice.isPressingSwitcher
+            self.makeVisibleValueSmaller = dice.makeVisibleValueSmaller
         }
-        .onChange(of: triggerLongPressOnSwitcher) { newValue in
-            if triggerLongPressOnSwitcher == true {
-                invokeLongPressOnSwitcherForOnChangeEvent()
-            } else {
-                invokeLongPressOnSwitcherForOnEndedEvent{id, finalResult in
-                    notifyOfGettingFinalResult(id, finalResult)
-                }
-            }
-        }
+//        .onChange(of: triggerSingleTapOnSwitcher) { newValue in
+//            invokeSingleTapOnSwitchForOnEnded{id, finalResult in
+//                notifyOfGettingFinalResult(id, finalResult)
+//            }
+//        }
+//        .onChange(of: triggerLongPressOnSwitcher) { newValue in
+//            if triggerLongPressOnSwitcher == true {
+//                invokeLongPressOnSwitcherForOnChangeEvent()
+//            } else {
+//                invokeLongPressOnSwitcherForOnEndedEvent{id, finalResult in
+//                    notifyOfGettingFinalResult(id, finalResult)
+//                }
+//            }
+//        }
         .onChange(of: dice.isShowingValue) { newValue in
             moveToNextValue(isShowingValue: newValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
+        }
+        .onChange(of: dice.runPreActionForSingleTapOnSwitcher) { newValue in
+            preActionOfSingleTapOnSwitcher()
+        }
+        .onChange(of: dice.runWhileRollingForSingleTapSwitcher, perform: { newValue in
+            moveToNextValue(isShowingValue: dice.isShowingValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
+        })
+        .onChange(of: dice.runPostActionForSingleTapOnSwitcher) { newValue in
+            postActionOfSingleTapOnSwitcher{id, finalResult in
+                notifyOfGettingFinalResult(id, finalResult)
+            }
         }
 //        .onChange(of: changeDiceAppearance) { newValue in
 //            isShowingSideValue = dice.showingSideValue

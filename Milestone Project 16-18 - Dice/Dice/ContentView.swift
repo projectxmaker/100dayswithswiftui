@@ -46,7 +46,8 @@ struct ContentView: View {
                     count += 1
 //                    eachDice.runTimer()
 //                    eachDice.invokeSingleTapOnSwitchForOnEnded()
-                    eachDice.roll(postAction: saveLog)
+//                    eachDice.roll(postAction: saveLog)
+                    eachDice.runSingleTapOnDice()
                     print(count)
                 }
             }

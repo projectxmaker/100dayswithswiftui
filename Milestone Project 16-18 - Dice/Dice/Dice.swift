@@ -17,6 +17,14 @@ class Dice: Identifiable, ObservableObject {
 
     @Published var visibleValue: Int = 1
     @Published var isShowingValue: Bool = true
+    
+    @Published var runPreActionForSingleTapOnSwitcher = false
+    @Published var runWhileRollingForSingleTapSwitcher = false
+    @Published var runPostActionForSingleTapOnSwitcher = false
+    var isSwitcherDisabled = false
+    var isPressingSwitcher = false
+    var makeVisibleValueSmaller = false
+    
     var currentAnimationDurationOfShowingValue: Double = 0
     private var numberOfSides: Int = 4
     let rollingSlowest = 1.34
@@ -43,6 +51,33 @@ class Dice: Identifiable, ObservableObject {
             visibleValue += 1
         } else {
             visibleValue = 1
+        }
+    }
+    
+    func runSingleTapOnDice() {
+        if !isSwitcherDisabled {
+            isPressingSwitcher.toggle()
+            makeVisibleValueSmaller.toggle()
+            
+//            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+                self.isPressingSwitcher.toggle()
+                self.isSwitcherDisabled = true
+//            }
+            
+            runPreActionForSingleTapOnSwitcher.toggle()
+            
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+                self.roll { _, Double in
+                    self.runWhileRollingForSingleTapSwitcher.toggle()
+                } postAction: { _, _ in
+                    print(">>>>> DICE HERE")
+                    
+                    self.isSwitcherDisabled = false
+                    self.makeVisibleValueSmaller.toggle()
+                    
+                    self.runPostActionForSingleTapOnSwitcher.toggle()
+                }
+            }
         }
     }
     
