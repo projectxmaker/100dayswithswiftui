@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var diceListVM = DiceListViewModel()
+    @StateObject private var diceListVM = DiceListViewModel()
     
     @State private var switcher = false
     @State private var visibleValue = 1
     @State private var numberOfDices: Double = 1
     @State private var numberOfPosibilities: Double = 4
-    @State private var dices = [DiceView]()
+//    @State private var dices = [DiceView]()
+    @State private var dices = [Dice]()
     @State private var isShowingSettings = false
     @State private var isShowingRollingLogView = false
     
@@ -31,31 +32,23 @@ struct ContentView: View {
     @State private var results = [Int]()
     
     func generateDices() {
-        dices.removeAll()
-        for _ in 0..<Int(numberOfDices) {
-            let newDice = DiceView(
-                triggerSingleTapOnSwitcher: $triggerSingleTapOnSwitcher,
-                triggerLongPressOnSwitcher: $triggerLongPressOnSwitcher,
-                notifyOfGettingFinalResult: saveLog,
-                numberOfSides: Int(numberOfPosibilities),
-                shadowColor: .cyan,
-                shadowColorIfPressingSwitcher: .cyan,
-                shadowColorWhenDiceIsRolling: .white,
-                width: 90,
-                height: 80,
-                switcherForgroundColorEnabled: .cyan.opacity(0.9),
-                switcherForgroundColorDisabled: .gray)
-                
-            dices.append(newDice)
-        }
+        diceListVM.generateDices(numberOfDices: Int(numberOfDices))
     }
     
     var singleTapOnSwitcher: some Gesture {
         TapGesture()
             .onEnded { _ in
                 results.removeAll(keepingCapacity: true)
-                
-                triggerSingleTapOnSwitcher.toggle()
+                print("what")
+//                triggerSingleTapOnSwitcher.toggle()
+                var count = 0
+                for eachDice in diceListVM.dices {
+                    count += 1
+//                    eachDice.runTimer()
+//                    eachDice.invokeSingleTapOnSwitchForOnEnded()
+                    eachDice.roll(postAction: saveLog)
+                    print(count)
+                }
             }
     }
     
@@ -73,23 +66,23 @@ struct ContentView: View {
                 triggerLongPressOnSwitcher = false
             })
     }
-    
+
     func saveLog(diceId: UUID, finalResult: Int) {
         guard !dices.filter({ diceView in
             diceView.id == diceId
         }).isEmpty else {
             return
         }
-        
+
         results.append(finalResult)
         let totalDices = Int(numberOfDices)
         let totalPossibilities = Int(numberOfPosibilities)
-        
+
         if results.count == totalDices {
             let sortedResults = results.sorted()
             let highestResult = sortedResults.first ?? 0
             let lowestResult = sortedResults.last ?? 0
-            
+
             diceListVM.saveLog(
                 dices: totalDices,
                 posibilities: totalPossibilities,
@@ -100,23 +93,34 @@ struct ContentView: View {
             )
         }
     }
-    
+
     var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
             
-            if dices.count == Int(numberOfDices) {
+            if diceListVM.dices.count == Int(numberOfDices) {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: layouts, spacing: 30) {
-                        ForEach(dices, id: \.id) { dice in
-                            dice
+                        ForEach(diceListVM.dices) { dice in
+                            DiceView(
+                                dice: dice,
+                                triggerSingleTapOnSwitcher: $triggerSingleTapOnSwitcher,
+                                triggerLongPressOnSwitcher: $triggerLongPressOnSwitcher,
+                                notifyOfGettingFinalResult: saveLog
+                            )
                         }
                     }
                     .padding(.horizontal, 5)
                     .padding(.vertical, 20)
                 }
             }
+//
+//            Text("???? \(diceListVM.hello)")
+//                .foregroundColor(.white)
+//                .onChange(of: diceListVM.hello) { newValue in
+//                    print("change \(newValue)")
+//                }
         }
         .sheet(isPresented: $isShowingRollingLogView, content: {
             RollingLogListView()
@@ -184,6 +188,7 @@ struct ContentView: View {
         .task {
             generateDices()
         }
+        .environmentObject(diceListVM)
     }
 }
 
