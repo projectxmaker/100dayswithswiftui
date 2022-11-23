@@ -12,7 +12,7 @@ class Dice: Identifiable, ObservableObject {
         let timerInterval: Double
         let animationDuration: Double
     }
-    
+    var numberOfPossibilities: Double
     var id = UUID()
 
     @Published var visibleValue: Int = 1
@@ -26,7 +26,6 @@ class Dice: Identifiable, ObservableObject {
     var makeVisibleValueSmaller = false
     
     var currentAnimationDurationOfShowingValue: Double = 0
-    private var numberOfSides: Int = 4
     let rollingSlowest = 1.34
     let rollingFastest = 0.08
     let rollingStepChangeRate = 0.15
@@ -39,21 +38,27 @@ class Dice: Identifiable, ObservableObject {
     let longPressTimerTimeInterval: Double = 0.5
     @Published var doingLongPressingOnSwitcher = false
     
-    static let sample = Dice()
+    var groupId: UUID?
+    
+    private var rollingLogManager = RollingLogManager.shared
+    
+    static let sample = Dice(numberOfPossibilities: 4)
 
+    init(numberOfPossibilities: Double) {
+        self.numberOfPossibilities = numberOfPossibilities
+    }
+    
     private func moveToNextValue() {
-//        print("run moveToNextSideValue: \(isShowingSideValue) - \(visibleValue)")
         if isShowingValue {
             isShowingValue.toggle()
         } else {
             increaseValue()
             isShowingValue.toggle()
         }
-//        print("run moveToNextSideValue: \(isShowingSideValue) - \(visibleValue)")
     }
     
     func increaseValue() {
-        if visibleValue < numberOfSides {
+        if visibleValue < Int(numberOfPossibilities) {
             visibleValue += 1
         } else {
             visibleValue = 1
@@ -72,12 +77,14 @@ class Dice: Identifiable, ObservableObject {
         
         // start timer to track how long the user presses on this button
         longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressTimerTimeInterval, repeats: true, block: { timer in
-            print("\(timer.timeInterval) .... \(self.longPressTimerTimeInterval)")
             self.longPressCounter += self.longPressTimerTimeInterval
         })
     }
     
-    func stopLongPressOnSwitcher() {
+    func stopLongPressOnSwitcher(groupId: UUID) {
+        // set group id
+        self.groupId = groupId
+        
         // notify the view that user stops pressing on switcher
         doingLongPressingOnSwitcher.toggle()
         
@@ -87,30 +94,25 @@ class Dice: Identifiable, ObservableObject {
         runAfterLongPressOnSwitcher()
     }
     
-    // MARK: - Long Press On Switcher
     func runAfterLongPressOnSwitcher() {
-        runSingleTapOnDice(fastRollingInSeconds: longPressCounter, doRunPreActionForSingleTapOnSwitcher: false)
-
-//        } postAction: { _, _ in
-//            print(">>>>> DICE HERE")
-//
-//            self.isSwitcherDisabled = false
-//            self.makeVisibleValueSmaller.toggle()
-//
-//            self.runPostActionForSingleTapOnSwitcher.toggle()
-//        }
+        guard let groupId = self.groupId else {
+            fatalError("Dice's group id is missing")
+        }
+        
+        runSingleTapOnDice(groupId: groupId, fastRollingInSeconds: longPressCounter, doRunPreActionForSingleTapOnSwitcher: false)
     }
     
     // MARK: - Single Tap On Switcher
-    func runSingleTapOnDice(fastRollingInSeconds: Double? = nil, doRunPreActionForSingleTapOnSwitcher: Bool = true) {
+    func runSingleTapOnDice(groupId: UUID, fastRollingInSeconds: Double? = nil, doRunPreActionForSingleTapOnSwitcher: Bool = true) {
         if !isSwitcherDisabled {
+            // set group id
+            self.groupId = groupId
+            
             isPressingSwitcher.toggle()
             makeVisibleValueSmaller.toggle()
             
-//            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
-                self.isPressingSwitcher.toggle()
-                self.isSwitcherDisabled = true
-//            }
+            isPressingSwitcher.toggle()
+            isSwitcherDisabled = true
             
             if doRunPreActionForSingleTapOnSwitcher {
                 runPreActionForSingleTapOnSwitcher.toggle()
@@ -126,6 +128,8 @@ class Dice: Identifiable, ObservableObject {
                     self.makeVisibleValueSmaller.toggle()
                     
                     self.runPostActionForSingleTapOnSwitcher.toggle()
+                    
+                    self.rollingLogManager.logDice(of: self)
                 }
             }
         }
@@ -153,12 +157,6 @@ class Dice: Identifiable, ObservableObject {
         // re-enable Switcher
         Timer.scheduledTimer(withTimeInterval: lastInterval, repeats: false) { timer in
             postAction(self.id, self.visibleValue)
-//            withAnimation {
-//                isSwitcherDisabled = false
-//
-//                // do postAction
-//                postAction()
-//            }
         }
     }
     
@@ -216,21 +214,6 @@ class Dice: Identifiable, ObservableObject {
 
         return rollingLoops
     }
-    
-
-//
-//    @Published var counter = 0
-//
-//    func runTimer() {
-//        self.counter = 0
-//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-//            self.counter += 1
-//            print(">>> \(self.counter)")
-//            if self.counter == 50 {
-//                timer.invalidate()
-//            }
-//        }
-//    }
 }
 
 extension Dice: Equatable {

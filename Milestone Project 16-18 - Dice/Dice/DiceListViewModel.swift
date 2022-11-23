@@ -6,85 +6,60 @@
 //
 
 import Foundation
+import SwiftUI
 
 class DiceListViewModel: ObservableObject {
     @Published var dices = [Dice]()
-    @Published var hello = UUID()
+    @Published var numberOfDices: Double = 1
+    @Published var numberOfPossibilities: Double = 4
     
-    func generateDices(numberOfDices: Int) {
-        dices.removeAll()
-        for _ in 0..<Int(numberOfDices) {
-            let newDice = Dice()
-            dices.append(newDice)
-            hello = newDice.id
-        }
-        print(dices)
-    }
-    
-//    func runRandom() {
-//        var counter = 0
-//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-//            counter += 1
-//            self.hello = UUID()
-//            print(">>> \(self.hello)")
-//            if counter == 5 {
-//                timer.invalidate()
-//            }
-//        }
-//    }
+    let maximumDices: Double = 50
+    let maximumPossibilities: Double = 100
     
     private var rollingLogManager = RollingLogManager.shared
-//    
-//    private var isShowingSideValue = true
-//    private var visibleValue: Int = 1
-//    private var numberOfSides: Int = 4
-//    
-//    var showingSideValue: Bool {
-//        return isShowingSideValue
-//    }
-//    
-//    var currenVisibleValue: Int {
-//        return visibleValue
-//    }
-//    
     
-    func saveLog(dices: Int, posibilities: Int, result: String, sumOfResult: Int, highestResult: Int, lowestResult: Int) {
-        let rollingLog = RollingLog(
-            dices: dices,
-            posibilities: posibilities,
-            result: result,
-            sumOfResult: sumOfResult,
-            highestResult: highestResult,
-            lowestResult: lowestResult
-        )
-        
-        rollingLogManager.insertLog(rollingLog)
+    func generateDices() {
+        dices.removeAll()
+        for _ in 0..<Int(numberOfDices) {
+            let newDice = Dice(numberOfPossibilities: numberOfPossibilities)
+            dices.append(newDice)
+        }
     }
-//
-//    func moveToNextSideValue(postAction: ((Bool, Int) -> Void)? = nil) {
-//        print("run moveToNextSideValue: \(isShowingSideValue) - \(visibleValue)")
-//        if isShowingSideValue {
-//            isShowingSideValue.toggle()
-//        } else {
-//            isShowingSideValue.toggle()
-//            increaseSideValue()
-//        }
-//
-//        if let postAction = postAction {
-//            postAction(isShowingSideValue, visibleValue)
-//        }
-//    }
-//    
-//    private func increaseSideValue() {
-//        print("start increasement \(visibleValue) vs \(numberOfSides)")
-//        
-//        if visibleValue < numberOfSides {
-//            visibleValue += 1
-//        } else {
-//            visibleValue = 1
-//        }
-//        
-//        print("finished increased \(visibleValue)")
-//    }
     
+    // MARK: - UI
+    var singleTapOnSwitcher: some Gesture {
+        TapGesture()
+            .onEnded { _ in
+                let newId = self.rollingLogManager.generateNewGroup(
+                    numberOfDices: self.numberOfDices,
+                    numberOfPossibilities: self.numberOfPossibilities
+                )
+                
+                for eachDice in self.dices {
+                    eachDice.runSingleTapOnDice(groupId: newId)
+                }
+            }
+    }
+    
+    var longPressOnSwitcher: some Gesture {
+        LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
+            .sequenced(before: DragGesture(minimumDistance: 0))
+            .onChanged({ value in
+                if value == .first(true) {
+                    for eachDice in self.dices {
+                        eachDice.startLongPressOnSwitcher()
+                    }
+                }
+            })
+            .onEnded({ value in
+                let newId = self.rollingLogManager.generateNewGroup(
+                    numberOfDices: self.numberOfDices,
+                    numberOfPossibilities: self.numberOfPossibilities
+                )
+                
+                for eachDice in self.dices {
+                    eachDice.stopLongPressOnSwitcher(groupId: newId)
+                }
+            })
+    }
 }

@@ -32,13 +32,13 @@ struct LogView: View {
                 .font(.headline.bold())
                 .opacity(0.8)
             
-            Text("\(log.posibilities)-sided \(log.dices) dices |  Sum: \(log.sumOfResult) | Highest: \(log.highestResult) | Lowest: \(log.lowestResult)")
+            Text("\(Int(log.posibilities))-sided \(Int(log.dices)) dices |  Sum: \(log.sumOfResult) | Highest: \(log.highestResult) | Lowest: \(log.lowestResult)")
                 .font(.subheadline)
                 .opacity(0.5)
                     
             ScrollView(.vertical) {
                 LazyVGrid(columns: vGridLayout, spacing: 15) {
-                    ForEach(0..<log.dices, id: \.self) { index in
+                    ForEach(0..<Int(log.dices), id: \.self) { index in
                         Text("\(getValueOfDiceByIndex(index))")
                             .foregroundColor(.black).bold()
                             .frame(width: 50, height: 50)

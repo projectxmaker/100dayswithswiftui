@@ -8,8 +8,8 @@
 import Foundation
 
 struct RollingLog: Codable, Comparable {
-    let dices: Int
-    let posibilities: Int
+    let dices: Double
+    let posibilities: Double
     let result: String
     let sumOfResult: Int
     let highestResult: Int
