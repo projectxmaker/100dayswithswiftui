@@ -294,56 +294,86 @@ struct DiceView: View {
             }
     }
     
-    private func invokeLongPressOnSwitcherForOnChangeEvent() {
+    private func startLongPressingOnSwitcher() {
         if !isSwitcherDisabled {
             // effect of pressing on switcher
             withAnimation {
                 isPressingSwitcher.toggle()
                 makeVisibleValueSmaller.toggle()
             }
-            
-            // start long press timer
-            // reset counter
-            longPressCounter = DiceView.longPressMinimumDuration
-            
-            // start timer to track how long the user presses on this button
-            longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressTimerTimeInterval, repeats: true, block: { timer in
-                longPressCounter += longPressTimerTimeInterval
-            })
         }
     }
     
-    // postAction: input Int is the final result value visible on Dice after it finished rolling
-    private func invokeLongPressOnSwitcherForOnEndedEvent(postAction: ((UUID, Int) -> Void)? = nil) {
+    private func stopLongPressingOnSwitcher() {
         if !isSwitcherDisabled {
             // effect of pressing on switcher
             withAnimation {
                 isPressingSwitcher.toggle()
+                isSwitcherDisabled.toggle()
             }
             
-            // end timer to get how long the user presses on this button
-            longPressTimer?.invalidate()
-            
-            rollDice(fastRollingInSeconds: longPressCounter) { id, visibleValue in
-                if let postAction = postAction {
-                    postAction(id, visibleValue)
-                }
-            }
+//            // end timer to get how long the user presses on this button
+//            longPressTimer?.invalidate()
+//
+//            rollDice(fastRollingInSeconds: longPressCounter) { id, visibleValue in
+//                if let postAction = postAction {
+//                    postAction(id, visibleValue)
+//                }
+//            }
         }
     }
+    
+//    private func invokeLongPressOnSwitcherForOnChangeEvent() {
+//        if !isSwitcherDisabled {
+//            // effect of pressing on switcher
+//            withAnimation {
+//                isPressingSwitcher.toggle()
+//                makeVisibleValueSmaller.toggle()
+//            }
+//
+//            // start long press timer
+//            // reset counter
+//            longPressCounter = DiceView.longPressMinimumDuration
+//
+//            // start timer to track how long the user presses on this button
+//            longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressTimerTimeInterval, repeats: true, block: { timer in
+//                longPressCounter += longPressTimerTimeInterval
+//            })
+//        }
+//    }
+    
+    // postAction: input Int is the final result value visible on Dice after it finished rolling
+//    private func invokeLongPressOnSwitcherForOnEndedEvent(postAction: ((UUID, Int) -> Void)? = nil) {
+//        if !isSwitcherDisabled {
+//            // effect of pressing on switcher
+//            withAnimation {
+//                isPressingSwitcher.toggle()
+//            }
+//
+//            // end timer to get how long the user presses on this button
+//            longPressTimer?.invalidate()
+//
+//            rollDice(fastRollingInSeconds: longPressCounter) { id, visibleValue in
+//                if let postAction = postAction {
+//                    postAction(id, visibleValue)
+//                }
+//            }
+//        }
+//    }
     
     var longPressOnSwitcher: some Gesture {
         LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
             .sequenced(before: DragGesture(minimumDistance: 0))
             .onChanged({ value in
                 if value == .first(true) {
-                    invokeLongPressOnSwitcherForOnChangeEvent()
+                    dice.startLongPressOnSwitcher()
                 }
             })
             .onEnded({ value in
-                invokeLongPressOnSwitcherForOnEndedEvent { _, _ in
-                    saveLog()
-                }
+                dice.stopLongPressOnSwitcher()
+//                invokeLongPressOnSwitcherForOnEndedEvent { _, _ in
+//                    saveLog()
+//                }
             })
     }
 
@@ -419,6 +449,15 @@ struct DiceView: View {
         .onChange(of: dice.runPostActionForSingleTapOnSwitcher) { newValue in
             postActionOfSingleTapOnSwitcher{id, finalResult in
                 notifyOfGettingFinalResult(id, finalResult)
+            }
+        }
+        .onChange(of: dice.doingLongPressingOnSwitcher) { newValue in
+            if newValue {
+                // start pressing on switcher
+                startLongPressingOnSwitcher()
+            } else {
+                // stop pressing on switcher
+                stopLongPressingOnSwitcher()
             }
         }
 //        .onChange(of: changeDiceAppearance) { newValue in

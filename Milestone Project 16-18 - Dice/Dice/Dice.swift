@@ -33,6 +33,12 @@ class Dice: Identifiable, ObservableObject {
     let rollingTimerDelay = 0.045
     let fastRollingStep = 0.5
     
+    private var longPressCounter: Double = 0
+    private var longPressTimer: Timer?
+    let longPressMinimumDuration: Double = 1
+    let longPressTimerTimeInterval: Double = 0.5
+    @Published var doingLongPressingOnSwitcher = false
+    
     static let sample = Dice()
 
     private func moveToNextValue() {
@@ -54,7 +60,49 @@ class Dice: Identifiable, ObservableObject {
         }
     }
     
-    func runSingleTapOnDice() {
+    
+    // MARK: - Long Press On Switcher
+    func startLongPressOnSwitcher() {
+        // notify the view that user starts pressing on switcher
+        doingLongPressingOnSwitcher.toggle()
+        
+        // start long press timer
+        // reset counter
+        longPressCounter = longPressMinimumDuration
+        
+        // start timer to track how long the user presses on this button
+        longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressTimerTimeInterval, repeats: true, block: { timer in
+            print("\(timer.timeInterval) .... \(self.longPressTimerTimeInterval)")
+            self.longPressCounter += self.longPressTimerTimeInterval
+        })
+    }
+    
+    func stopLongPressOnSwitcher() {
+        // notify the view that user stops pressing on switcher
+        doingLongPressingOnSwitcher.toggle()
+        
+        // end timer to get how long the user presses on this button
+        longPressTimer?.invalidate()
+        
+        runAfterLongPressOnSwitcher()
+    }
+    
+    // MARK: - Long Press On Switcher
+    func runAfterLongPressOnSwitcher() {
+        runSingleTapOnDice(fastRollingInSeconds: longPressCounter, doRunPreActionForSingleTapOnSwitcher: false)
+
+//        } postAction: { _, _ in
+//            print(">>>>> DICE HERE")
+//
+//            self.isSwitcherDisabled = false
+//            self.makeVisibleValueSmaller.toggle()
+//
+//            self.runPostActionForSingleTapOnSwitcher.toggle()
+//        }
+    }
+    
+    // MARK: - Single Tap On Switcher
+    func runSingleTapOnDice(fastRollingInSeconds: Double? = nil, doRunPreActionForSingleTapOnSwitcher: Bool = true) {
         if !isSwitcherDisabled {
             isPressingSwitcher.toggle()
             makeVisibleValueSmaller.toggle()
@@ -64,10 +112,12 @@ class Dice: Identifiable, ObservableObject {
                 self.isSwitcherDisabled = true
 //            }
             
-            runPreActionForSingleTapOnSwitcher.toggle()
+            if doRunPreActionForSingleTapOnSwitcher {
+                runPreActionForSingleTapOnSwitcher.toggle()
+            }
             
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
-                self.roll { _, Double in
+                self.roll(fastRollingInSeconds: fastRollingInSeconds) { _, Double in
                     self.runWhileRollingForSingleTapSwitcher.toggle()
                 } postAction: { _, _ in
                     print(">>>>> DICE HERE")

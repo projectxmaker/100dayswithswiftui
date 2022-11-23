@@ -39,16 +39,16 @@ struct ContentView: View {
         TapGesture()
             .onEnded { _ in
                 results.removeAll(keepingCapacity: true)
-                print("what")
+//                print("what")
 //                triggerSingleTapOnSwitcher.toggle()
-                var count = 0
+//                var count = 0
                 for eachDice in diceListVM.dices {
-                    count += 1
+//                    count += 1
 //                    eachDice.runTimer()
 //                    eachDice.invokeSingleTapOnSwitchForOnEnded()
 //                    eachDice.roll(postAction: saveLog)
                     eachDice.runSingleTapOnDice()
-                    print(count)
+//                    print(count)
                 }
             }
     }
@@ -59,12 +59,17 @@ struct ContentView: View {
             .onChanged({ value in
                 if value == .first(true) {
                     results.removeAll(keepingCapacity: true)
-                    
-                    triggerLongPressOnSwitcher = true
+
+                    for eachDice in diceListVM.dices {
+                        eachDice.startLongPressOnSwitcher()
+                    }
                 }
             })
             .onEnded({ value in
-                triggerLongPressOnSwitcher = false
+//                triggerLongPressOnSwitcher = false
+                for eachDice in diceListVM.dices {
+                    eachDice.stopLongPressOnSwitcher()
+                }
             })
     }
 
