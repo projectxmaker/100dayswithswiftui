@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class Dice: Identifiable, ObservableObject {
     struct RollingTime {
@@ -43,6 +44,8 @@ class Dice: Identifiable, ObservableObject {
     private var rollingLogManager = RollingLogManager.shared
     
     static let sample = Dice(numberOfPossibilities: 4)
+    
+    private var feedback = UIImpactFeedbackGenerator(style: .rigid)
 
     init(numberOfPossibilities: Double) {
         self.numberOfPossibilities = numberOfPossibilities
@@ -142,7 +145,10 @@ class Dice: Identifiable, ObservableObject {
             lastInterval = eachLoop.timerInterval + eachLoop.animationDuration
 
             Timer.scheduledTimer(withTimeInterval: eachLoop.timerInterval, repeats: false) { timer in
-
+                
+                // trigger haptic
+                self.feedback.impactOccurred()
+                
                 self.currentAnimationDurationOfShowingValue = eachLoop.animationDuration
                 self.moveToNextValue()
                 
