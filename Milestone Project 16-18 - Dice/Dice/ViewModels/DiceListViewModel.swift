@@ -24,8 +24,6 @@ class DiceListViewModel: ObservableObject {
     init() {
         numberOfDices = settingsManager.settings.numberOfDices
         numberOfPossibilities = settingsManager.settings.numberOfPossibilities
-        
-        print("\(numberOfDices) vs \(numberOfPossibilities)")
     }
     
     func generateDices() {
