@@ -19,6 +19,9 @@
 		8AAB5CB52928BC2A004C2482 /* RollingLogListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CB42928BC2A004C2482 /* RollingLogListView.swift */; };
 		8AAB5CB72928BEAC004C2482 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB5CB62928BEAC004C2482 /* LogView.swift */; };
 		8AE1F419292B408A00E32FB5 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1F418292B408A00E32FB5 /* Dice.swift */; };
+		8AE1F41D292F099B00E32FB5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1F41C292F099B00E32FB5 /* SettingsView.swift */; };
+		8AE1F41F292F0A5600E32FB5 /* BottomPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1F41E292F0A5600E32FB5 /* BottomPanelView.swift */; };
+		8AE1F421292F0B1F00E32FB5 /* DiceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE1F420292F0B1F00E32FB5 /* DiceListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +38,9 @@
 		8AAB5CB42928BC2A004C2482 /* RollingLogListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingLogListView.swift; sourceTree = "<group>"; };
 		8AAB5CB62928BEAC004C2482 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		8AE1F418292B408A00E32FB5 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
+		8AE1F41C292F099B00E32FB5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		8AE1F41E292F0A5600E32FB5 /* BottomPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanelView.swift; sourceTree = "<group>"; };
+		8AE1F420292F0B1F00E32FB5 /* DiceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,16 +73,11 @@
 		8A5803E42923561E004DD3CC /* Dice */ = {
 			isa = PBXGroup;
 			children = (
+				8AE1F422292F0BDC00E32FB5 /* Views */,
+				8AE1F423292F0BF200E32FB5 /* ViewModels */,
+				8AE1F424292F0C0000E32FB5 /* Data */,
+				8AE1F426292F0C1A00E32FB5 /* Extensions */,
 				8A5803E52923561E004DD3CC /* DiceApp.swift */,
-				8A5803E72923561E004DD3CC /* ContentView.swift */,
-				8AAB5CB22927D970004C2482 /* DiceListViewModel.swift */,
-				8A5803F3292377AC004DD3CC /* DiceView.swift */,
-				8AAB5CB42928BC2A004C2482 /* RollingLogListView.swift */,
-				8AAB5CB62928BEAC004C2482 /* LogView.swift */,
-				8AE1F418292B408A00E32FB5 /* Dice.swift */,
-				8AAB5CAA2927D498004C2482 /* RollingLog.swift */,
-				8AAB5CB02927D8E2004C2482 /* RollingLogManager.swift */,
-				8AAB5CAC2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift */,
 				8A5803E92923561F004DD3CC /* Assets.xcassets */,
 				8A5803EB2923561F004DD3CC /* Preview Content */,
 			);
@@ -89,6 +90,54 @@
 				8A5803EC2923561F004DD3CC /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8AE1F422292F0BDC00E32FB5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8A5803E72923561E004DD3CC /* ContentView.swift */,
+				8AE1F420292F0B1F00E32FB5 /* DiceListView.swift */,
+				8AE1F41E292F0A5600E32FB5 /* BottomPanelView.swift */,
+				8AE1F41C292F099B00E32FB5 /* SettingsView.swift */,
+				8A5803F3292377AC004DD3CC /* DiceView.swift */,
+				8AAB5CB42928BC2A004C2482 /* RollingLogListView.swift */,
+				8AAB5CB62928BEAC004C2482 /* LogView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8AE1F423292F0BF200E32FB5 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8AAB5CB22927D970004C2482 /* DiceListViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8AE1F424292F0C0000E32FB5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8AE1F425292F0C0A00E32FB5 /* Model */,
+				8AAB5CB02927D8E2004C2482 /* RollingLogManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8AE1F425292F0C0A00E32FB5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8AE1F418292B408A00E32FB5 /* Dice.swift */,
+				8AAB5CAA2927D498004C2482 /* RollingLog.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8AE1F426292F0C1A00E32FB5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8AAB5CAC2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,14 +212,17 @@
 			files = (
 				8AAB5CAB2927D498004C2482 /* RollingLog.swift in Sources */,
 				8AAB5CB52928BC2A004C2482 /* RollingLogListView.swift in Sources */,
+				8AE1F421292F0B1F00E32FB5 /* DiceListView.swift in Sources */,
 				8A5803E82923561E004DD3CC /* ContentView.swift in Sources */,
 				8AAB5CB72928BEAC004C2482 /* LogView.swift in Sources */,
+				8AE1F41F292F0A5600E32FB5 /* BottomPanelView.swift in Sources */,
 				8AAB5CB12927D8E2004C2482 /* RollingLogManager.swift in Sources */,
 				8AE1F419292B408A00E32FB5 /* Dice.swift in Sources */,
 				8A5803F4292377AC004DD3CC /* DiceView.swift in Sources */,
 				8A5803E62923561E004DD3CC /* DiceApp.swift in Sources */,
 				8AAB5CAD2927D5E5004C2482 /* FileManagerJSONEncodeDecode.swift in Sources */,
 				8AAB5CB32927D970004C2482 /* DiceListViewModel.swift in Sources */,
+				8AE1F41D292F099B00E32FB5 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

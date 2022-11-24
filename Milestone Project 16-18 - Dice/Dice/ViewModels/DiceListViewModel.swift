@@ -12,6 +12,8 @@ class DiceListViewModel: ObservableObject {
     @Published var dices = [Dice]()
     @Published var numberOfDices: Double = 1
     @Published var numberOfPossibilities: Double = 4
+    @Published var isShowingSettings = false
+    @Published var isShowingRollingLogView = false
     
     let maximumDices: Double = 50
     let maximumPossibilities: Double = 100

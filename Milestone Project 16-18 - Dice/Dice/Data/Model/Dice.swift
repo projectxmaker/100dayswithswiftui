@@ -122,8 +122,6 @@ class Dice: Identifiable, ObservableObject {
                 self.roll(fastRollingInSeconds: fastRollingInSeconds) { _, Double in
                     self.runWhileRollingForSingleTapSwitcher.toggle()
                 } postAction: { _, _ in
-                    print(">>>>> DICE HERE")
-                    
                     self.isSwitcherDisabled = false
                     self.makeVisibleValueSmaller.toggle()
                     
@@ -144,7 +142,7 @@ class Dice: Identifiable, ObservableObject {
             lastInterval = eachLoop.timerInterval + eachLoop.animationDuration
 
             Timer.scheduledTimer(withTimeInterval: eachLoop.timerInterval, repeats: false) { timer in
-                print("go")
+
                 self.currentAnimationDurationOfShowingValue = eachLoop.animationDuration
                 self.moveToNextValue()
                 
