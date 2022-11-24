@@ -20,6 +20,9 @@ struct BottomPanelView: View {
                 Image(systemName: "clock.arrow.circlepath")
                     .font(.title3)
             }
+            .accessibilityRemoveTraits(.isImage)
+            .accessibilityLabel("History")
+            .accessibilityHint("Tap to show History panel moves from the bottom of screen")
             
             Spacer()
             
@@ -28,6 +31,10 @@ struct BottomPanelView: View {
                 .buttonStyle(.plain)
                 .gesture(diceListVM.singleTapOnSwitcher)
                 .gesture(diceListVM.longPressOnSwitcher)
+                .accessibilityRemoveTraits(.isImage)
+                .accessibilityAddTraits(.isButton)
+                .accessibilityLabel("Power Switcher")
+                .accessibilityHint("Tap to roll all Dices")
             
             Spacer()
             
@@ -39,6 +46,9 @@ struct BottomPanelView: View {
                 Image(systemName: "gearshape")
                     .font(.title3)
             }
+            .accessibilityRemoveTraits(.isImage)
+            .accessibilityLabel("Settings")
+            .accessibilityHint("Tap to show Settings panel moves from the top of screen")
         }
         .shadow(color: .black, radius: 10, x: 1, y: 1)
         .padding()

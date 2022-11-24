@@ -33,6 +33,10 @@ struct DiceListView: View {
                     .padding(.horizontal, 5)
                     .padding(.vertical, 20)
                 }
+            } else {
+                Text("\(diceListVM.dices.count) vs \(diceListVM.numberOfDices)")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
             }
         }
         .sheet(isPresented: $diceListVM.isShowingRollingLogView, content: {
