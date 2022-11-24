@@ -25,7 +25,5 @@ class SettingsManager {
     
     func save() {
         _ = FileManager.default.encodeJSON(settingsFile, fileData: settings)
-        
-        print("saved! \(settings)")
     }
 }
