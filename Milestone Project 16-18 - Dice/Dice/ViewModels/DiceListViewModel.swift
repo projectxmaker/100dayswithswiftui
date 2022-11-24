@@ -28,8 +28,11 @@ class DiceListViewModel: ObservableObject {
     
     func generateDices() {
         dices.removeAll()
-        for _ in 0..<Int(numberOfDices) {
-            let newDice = Dice(numberOfPossibilities: numberOfPossibilities)
+        for orderNumber in 0..<Int(numberOfDices) {
+            let newDice = Dice(
+                numberOfPossibilities: numberOfPossibilities,
+                orderNumber: orderNumber
+            )
             dices.append(newDice)
         }
         

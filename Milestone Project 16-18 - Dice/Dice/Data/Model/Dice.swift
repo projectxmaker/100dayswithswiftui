@@ -14,6 +14,7 @@ class Dice: Identifiable, ObservableObject {
         let animationDuration: Double
     }
     var numberOfPossibilities: Double
+    var orderNumber: Int = 0
     var id = UUID()
 
     @Published var visibleValue: Int = 1
@@ -47,8 +48,9 @@ class Dice: Identifiable, ObservableObject {
     
     private var feedback = UIImpactFeedbackGenerator(style: .rigid)
 
-    init(numberOfPossibilities: Double) {
+    init(numberOfPossibilities: Double, orderNumber: Int = 1) {
         self.numberOfPossibilities = numberOfPossibilities
+        self.orderNumber = orderNumber
     }
     
     private func moveToNextValue() {

@@ -10,6 +10,7 @@ import SwiftUI
 struct DiceView: View {
     @ObservedObject var dice: Dice
     @EnvironmentObject private var diceListVM: DiceListViewModel
+    @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
     
     var rollingLogManager = RollingLogManager.shared
     
@@ -178,13 +179,21 @@ struct DiceView: View {
             .background(backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .shadow(color: isPressingSwitcher ? shadowColorIfPressingSwitcher : (isSwitcherDisabled ? shadowColorWhenDiceIsRolling : shadowColor), radius: isPressingSwitcher ? 25 : 10, x: 1, y: 1)
+            .gesture(voiceOverEnabled ? singleTapOnSwitcher : nil)
+            .gesture(voiceOverEnabled ? longPressOnSwitcher : nil)
+            .accessibilityElement()
+            .accessibilityLabel("Dice at position \(dice.orderNumber) is  \(dice.isSwitcherDisabled ? "rolling" : "\(dice.visibleValue)")")
+            .accessibilityHint(dice.isSwitcherDisabled ? "" : "Tap to roll the Dice at position \(dice.orderNumber)")
             
-            Image(systemName: "square.dashed.inset.filled")
-                .font(.largeTitle)
-                .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
-                .scaleEffect(isPressingSwitcher ? 0.8 : 1)
-                .gesture(singleTapOnSwitcher)
-                .gesture(longPressOnSwitcher)
+            if !voiceOverEnabled {
+                Image(systemName: "square.dashed.inset.filled")
+                    .font(.largeTitle)
+                    .foregroundColor(isSwitcherDisabled ? switcherForgroundColorDisabled :  switcherForgroundColorEnabled)
+                    .scaleEffect(isPressingSwitcher ? 0.8 : 1)
+                    .gesture(singleTapOnSwitcher)
+                    .gesture(longPressOnSwitcher)
+            }
+
         }
         .onAppear {
             self.isSwitcherDisabled = dice.isSwitcherDisabled
