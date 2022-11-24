@@ -18,25 +18,23 @@ struct DiceListView: View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
-            
-            if diceListVM.dices.count == Int(diceListVM.numberOfDices) {
-                ScrollView(.vertical) {
-                    LazyVGrid(columns: layouts, spacing: 30) {
-                        ForEach(diceListVM.dices) { dice in
-                            DiceView(
-                                dice: dice,
-                                shadowColorIfPressingSwitcher: Color.white,
-                                shadowColorWhenDiceIsRolling: Color.black,
-                                width: 90,
-                                height: 70,
-                                switcherForgroundColorEnabled: Color.white,
-                                switcherForgroundColorDisabled: Color.gray
-                            )
-                        }
+
+            ScrollView(.vertical) {
+                LazyVGrid(columns: layouts, spacing: 30) {
+                    ForEach(diceListVM.dices) { dice in
+                        DiceView(
+                            dice: dice,
+                            shadowColorIfPressingSwitcher: Color.white,
+                            shadowColorWhenDiceIsRolling: Color.black,
+                            width: 90,
+                            height: 70,
+                            switcherForgroundColorEnabled: Color.white,
+                            switcherForgroundColorDisabled: Color.gray
+                        )
                     }
-                    .padding(.horizontal, 5)
-                    .padding(.vertical, 20)
                 }
+                .padding(.horizontal, 5)
+                .padding(.vertical, 20)
             }
         }
         .sheet(isPresented: $diceListVM.isShowingRollingLogView, content: {
@@ -48,7 +46,10 @@ struct DiceListView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            BottomPanelView()
+            BottomPanelView(
+                powerSwitcherForgroundColorDisabled: Color.gray,
+                powerSwitcherForgroundColorEnabled: Color.white
+            )
         }
         .task {
             diceListVM.generateDices()

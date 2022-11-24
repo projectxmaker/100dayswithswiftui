@@ -10,6 +10,9 @@ import SwiftUI
 struct BottomPanelView: View {
     @EnvironmentObject var diceListVM: DiceListViewModel
     
+    var powerSwitcherForgroundColorDisabled = Color.black
+    var powerSwitcherForgroundColorEnabled = Color.gray
+    
     var body: some View {
         HStack {
             Button {
@@ -28,6 +31,8 @@ struct BottomPanelView: View {
             
             Image(systemName: "square.dashed.inset.filled")
                 .font(.largeTitle.bold())
+                .foregroundColor(diceListVM.isRollingMultipleDicesByPowerSwitcher ? powerSwitcherForgroundColorDisabled : powerSwitcherForgroundColorEnabled)
+                .scaleEffect(diceListVM.isPressingOnPowerSwitcher ? 0.8 : 1)
                 .buttonStyle(.plain)
                 .gesture(diceListVM.singleTapOnSwitcher)
                 .gesture(diceListVM.longPressOnSwitcher)
@@ -36,7 +41,6 @@ struct BottomPanelView: View {
                 .accessibilityLabel("Power Switcher")
                 .accessibilityHint("Tap to roll all Dices")
                 .animation(.easeIn(duration: 0.1), value:  diceListVM.isPressingOnPowerSwitcher)
-                .scaleEffect(diceListVM.isPressingOnPowerSwitcher ? 0.8 : 1)
             
             Spacer()
             

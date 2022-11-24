@@ -16,6 +16,7 @@ class DiceListViewModel: ObservableObject {
     @Published var isShowingRollingLogView = false
     
     @Published var isPressingOnPowerSwitcher = false
+    @Published var isRollingMultipleDicesByPowerSwitcher = false
     
     let maximumDices: Double = 50
     let maximumPossibilities: Double = 100
@@ -44,23 +45,46 @@ class DiceListViewModel: ObservableObject {
         settingsManager.save()
     }
     
+    func checkIfAllDicesFinishedRolling(ofGroupId: UUID) {
+        // check if all dices finished rolling
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+            let rollingDices = self.dices.filter { dice in
+                dice.groupId == ofGroupId
+            }
+            
+            // when there's non dice w/ specified groupId, it measn all dices finished rolling
+            if rollingDices.isEmpty {
+                self.isRollingMultipleDicesByPowerSwitcher.toggle()
+                timer.invalidate()
+            }
+        }
+    }
+    
     // MARK: - UI
     var singleTapOnSwitcher: some Gesture {
         TapGesture()
             .onEnded { _ in
-                self.isPressingOnPowerSwitcher.toggle()
-                
-                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
+                if !self.isRollingMultipleDicesByPowerSwitcher {
                     self.isPressingOnPowerSwitcher.toggle()
-                }
-                
-                let newId = self.rollingLogManager.generateNewGroup(
-                    numberOfDices: self.numberOfDices,
-                    numberOfPossibilities: self.numberOfPossibilities
-                )
-                
-                for eachDice in self.dices {
-                    eachDice.runSingleTapOnDice(groupId: newId)
+                    
+                    Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
+                        self.isPressingOnPowerSwitcher.toggle()
+                    }
+                    
+                    // now all dices are rolling
+                    self.isRollingMultipleDicesByPowerSwitcher.toggle()
+                    
+                    let newId = self.rollingLogManager.generateNewGroup(
+                        numberOfDices: self.numberOfDices,
+                        numberOfPossibilities: self.numberOfPossibilities
+                    )
+                    
+                    for eachDice in self.dices {
+                        eachDice.runSingleTapOnDice(groupId: newId)
+                    }
+                    
+                    // check if all dices finished rolling
+                    self.checkIfAllDicesFinishedRolling(ofGroupId: newId)
                 }
             }
     }
@@ -69,16 +93,21 @@ class DiceListViewModel: ObservableObject {
         LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
             .sequenced(before: DragGesture(minimumDistance: 0))
             .onChanged({ value in
-                if value == .first(true) {
-                    self.isPressingOnPowerSwitcher.toggle()
-                    
-                    for eachDice in self.dices {
-                        eachDice.startLongPressOnSwitcher()
+                if !self.isRollingMultipleDicesByPowerSwitcher {
+                    if value == .first(true) {
+                        self.isPressingOnPowerSwitcher.toggle()
+                        
+                        for eachDice in self.dices {
+                            eachDice.startLongPressOnSwitcher()
+                        }
                     }
                 }
             })
             .onEnded({ value in
                 self.isPressingOnPowerSwitcher.toggle()
+                
+                // now all dices are rolling
+                self.isRollingMultipleDicesByPowerSwitcher.toggle()
                 
                 let newId = self.rollingLogManager.generateNewGroup(
                     numberOfDices: self.numberOfDices,
@@ -88,6 +117,9 @@ class DiceListViewModel: ObservableObject {
                 for eachDice in self.dices {
                     eachDice.stopLongPressOnSwitcher(groupId: newId)
                 }
+                
+                // check if all dices finished rolling
+                self.checkIfAllDicesFinishedRolling(ofGroupId: newId)
             })
     }
 }

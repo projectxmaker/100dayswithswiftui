@@ -101,6 +101,8 @@ class RollingLogManager {
         
         // add this dice to related group of dice
         groupOfDices[groupId]?.append(dice)
+        dice.groupId = nil
+        
         if Int(group.numberOfDices) == groupOfDices[groupId]?.count {
             // save log
             insertLogGroup(of: groupId)
