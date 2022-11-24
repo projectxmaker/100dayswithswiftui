@@ -16,6 +16,10 @@ struct RollingLog: Codable, Comparable {
     let lowestResult: Int
     var createdAt = Date.now
     
+    var createdAtDescription: String {
+        return createdAt.formatted(date: .abbreviated, time: .shortened)
+    }
+    
     static func < (lhs: RollingLog, rhs: RollingLog) -> Bool {
         lhs.result < rhs.result
     }

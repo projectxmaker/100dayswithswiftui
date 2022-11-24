@@ -28,7 +28,6 @@ class DiceListViewModel: ObservableObject {
     
     func generateDices() {
         dices.removeAll()
-        print("b \(numberOfDices)")
         for orderNumber in 0..<Int(numberOfDices) {
             let newDice = Dice(
                 numberOfPossibilities: numberOfPossibilities,
@@ -36,7 +35,7 @@ class DiceListViewModel: ObservableObject {
             )
             dices.append(newDice)
         }
-        print(dices.count)
+
         // save new changes of settings
         settingsManager.settings.numberOfPossibilities = numberOfPossibilities
         settingsManager.settings.numberOfDices = numberOfDices

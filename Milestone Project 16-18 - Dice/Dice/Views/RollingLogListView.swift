@@ -25,6 +25,10 @@ struct RollingLogListView: View {
                     .onTapGesture {
                         presentationMode.wrappedValue.dismiss()
                     }
+                    .accessibilityRemoveTraits(.isImage)
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityLabel("Close")
+                    .accessibilityHint("Tap to close History panel")
             }
             
             ScrollView(.vertical) {
@@ -34,6 +38,8 @@ struct RollingLogListView: View {
                             .padding(10)
                             .background(.gray.opacity(0.3))
                             .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .accessibilityElement()
+                            .accessibilityLabel("History of rolling action at \(eachLog.createdAtDescription). Result \(eachLog.result)")
                     }
                 }
             }
