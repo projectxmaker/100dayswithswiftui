@@ -20,9 +20,10 @@ class Dice: Identifiable, ObservableObject {
     @Published var visibleValue: Int = 1
     @Published var isShowingValue: Bool = true
     
-    @Published var runPreActionForSingleTapOnSwitcher = false
+    @Published var isPressingOnSwitcher = false
     @Published var runWhileRollingForSingleTapSwitcher = false
-    @Published var runPostActionForSingleTapOnSwitcher = false
+    @Published var finishedRolling = false
+    
     var isSwitcherDisabled = false
     var isPressingSwitcher = false
     var makeVisibleValueSmaller = false
@@ -74,7 +75,7 @@ class Dice: Identifiable, ObservableObject {
     // MARK: - Long Press On Switcher
     func startLongPressOnSwitcher() {
         // notify the view that user starts pressing on switcher
-        doingLongPressingOnSwitcher.toggle()
+        isPressingOnSwitcher.toggle()
         
         // start long press timer
         // reset counter
@@ -91,24 +92,20 @@ class Dice: Identifiable, ObservableObject {
         self.groupId = groupId
         
         // notify the view that user stops pressing on switcher
-        doingLongPressingOnSwitcher.toggle()
+        isPressingOnSwitcher.toggle()
         
         // end timer to get how long the user presses on this button
         longPressTimer?.invalidate()
         
-        runAfterLongPressOnSwitcher()
-    }
-    
-    func runAfterLongPressOnSwitcher() {
         guard let groupId = self.groupId else {
             fatalError("Dice's group id is missing")
         }
         
-        runSingleTapOnDice(groupId: groupId, fastRollingInSeconds: longPressCounter, doRunPreActionForSingleTapOnSwitcher: false)
+        runSingleTapOnDice(groupId: groupId, fastRollingInSeconds: longPressCounter, runAnimationForSingleTapOnSwitcher: false)
     }
-    
+
     // MARK: - Single Tap On Switcher
-    func runSingleTapOnDice(groupId: UUID, fastRollingInSeconds: Double? = nil, doRunPreActionForSingleTapOnSwitcher: Bool = true) {
+    func runSingleTapOnDice(groupId: UUID, fastRollingInSeconds: Double? = nil, runAnimationForSingleTapOnSwitcher: Bool = true) {
         if !isSwitcherDisabled {
             // set group id
             self.groupId = groupId
@@ -119,8 +116,12 @@ class Dice: Identifiable, ObservableObject {
             isPressingSwitcher.toggle()
             isSwitcherDisabled = true
             
-            if doRunPreActionForSingleTapOnSwitcher {
-                runPreActionForSingleTapOnSwitcher.toggle()
+            if runAnimationForSingleTapOnSwitcher {
+                isPressingOnSwitcher.toggle()
+                
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
+                    self.isPressingOnSwitcher.toggle()
+                }
             }
             
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
@@ -130,7 +131,7 @@ class Dice: Identifiable, ObservableObject {
                     self.isSwitcherDisabled = false
                     self.makeVisibleValueSmaller.toggle()
                     
-                    self.runPostActionForSingleTapOnSwitcher.toggle()
+                    self.finishedRolling.toggle()
                     
                     self.rollingLogManager.logDice(of: self)
                 }

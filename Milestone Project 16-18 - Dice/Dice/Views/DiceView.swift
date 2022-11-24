@@ -53,23 +53,23 @@ struct DiceView: View {
         }
     }
     
-    func preActionOfSingleTapOnSwitcher() {
+    func applyAnimationWhilePressingOnSwitcher() {
         if !isSwitcherDisabled {
             withAnimation(.easeIn(duration: 0.1)) {
                 isPressingSwitcher.toggle()
                 makeVisibleValueSmaller.toggle()
             }
-
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
-                withAnimation(.easeOut(duration: 0.1)) {
-                    isPressingSwitcher.toggle()
-                    isSwitcherDisabled = true
-                }
-            }
         }
     }
     
-    func postActionOfSingleTapOnSwitcher() {
+    func applyAnimationAfterReleasingSwitcher() {
+        if !isSwitcherDisabled {
+            isPressingSwitcher.toggle()
+            isSwitcherDisabled = true
+        }
+    }
+    
+    func applyAnimationAfterFinishingRolling() {
         if isSwitcherDisabled {
             withAnimation {
                 isSwitcherDisabled = false
@@ -89,27 +89,7 @@ struct DiceView: View {
                 dice.runSingleTapOnDice(groupId: newId)
             }
     }
-    
-    private func startLongPressingOnSwitcher() {
-        if !isSwitcherDisabled {
-            // effect of pressing on switcher
-            withAnimation {
-                isPressingSwitcher.toggle()
-                makeVisibleValueSmaller.toggle()
-            }
-        }
-    }
-    
-    private func stopLongPressingOnSwitcher() {
-        if !isSwitcherDisabled {
-            // effect of pressing on switcher
-            withAnimation {
-                isPressingSwitcher.toggle()
-                isSwitcherDisabled.toggle()
-            }
-        }
-    }
-    
+
     var longPressOnSwitcher: some Gesture {
         LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
             .sequenced(before: DragGesture(minimumDistance: 0))
@@ -180,23 +160,18 @@ struct DiceView: View {
         .onChange(of: dice.isShowingValue) { newValue in
             moveToNextValue(isShowingValue: newValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
         }
-        .onChange(of: dice.runPreActionForSingleTapOnSwitcher) { newValue in
-            preActionOfSingleTapOnSwitcher()
-        }
+        .onChange(of: dice.isPressingOnSwitcher, perform: { newValue in
+            if newValue {
+                applyAnimationWhilePressingOnSwitcher()
+            } else {
+                applyAnimationAfterReleasingSwitcher()
+            }
+        })
         .onChange(of: dice.runWhileRollingForSingleTapSwitcher, perform: { newValue in
             moveToNextValue(isShowingValue: dice.isShowingValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
         })
-        .onChange(of: dice.runPostActionForSingleTapOnSwitcher) { newValue in
-            postActionOfSingleTapOnSwitcher()
-        }
-        .onChange(of: dice.doingLongPressingOnSwitcher) { newValue in
-            if newValue {
-                // start pressing on switcher
-                startLongPressingOnSwitcher()
-            } else {
-                // stop pressing on switcher
-                stopLongPressingOnSwitcher()
-            }
+        .onChange(of: dice.finishedRolling) { newValue in
+            applyAnimationAfterFinishingRolling()
         }
     }
 }
