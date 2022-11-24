@@ -19,6 +19,14 @@ class DiceListViewModel: ObservableObject {
     let maximumPossibilities: Double = 100
     
     private var rollingLogManager = RollingLogManager.shared
+    private var settingsManager = SettingsManager.shared
+    
+    init() {
+        numberOfDices = settingsManager.settings.numberOfDices
+        numberOfPossibilities = settingsManager.settings.numberOfPossibilities
+        
+        print("\(numberOfDices) vs \(numberOfPossibilities)")
+    }
     
     func generateDices() {
         dices.removeAll()
@@ -26,6 +34,11 @@ class DiceListViewModel: ObservableObject {
             let newDice = Dice(numberOfPossibilities: numberOfPossibilities)
             dices.append(newDice)
         }
+        
+        // save new changes of settings
+        settingsManager.settings.numberOfPossibilities = numberOfPossibilities
+        settingsManager.settings.numberOfDices = numberOfDices
+        settingsManager.save()
     }
     
     // MARK: - UI
