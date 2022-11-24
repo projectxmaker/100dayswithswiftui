@@ -29,85 +29,17 @@ struct DiceView: View {
     var switcherForgroundColorDisabled = Color.gray
     
     @State private var isShowingValue = true // just for animation
-    @State private var diceRollTimer: Timer?
     @State private var isSwitcherDisabled = false
-    
-    @State private var longPressTimer: Timer?
-    @State private var longPressCounter: Double = DiceView.longPressMinimumDuration
-    static let longPressMinimumDuration: Double = 1
-    let longPressTimerTimeInterval: Double = 0.5
-    
     @State private var isPressingSwitcher = false
     @State private var makeVisibleValueSmaller = false
     
-    @State private var changeDiceAppearance = false
+    static let longPressMinimumDuration: Double = 1
     
     var isShowingArrowIndicator: Bool {
         return makeVisibleValueSmaller
     }
 
-    private func moveToNextValue(isShowingValue: Bool, loopAnimationDuration: Double) {
-        withAnimation(.easeInOut(duration: loopAnimationDuration)) {
-            // for animation and synchronize w/ similar value in each Dice
-            self.isShowingValue = isShowingValue
-        }
-    }
-    
-    func applyAnimationWhilePressingOnSwitcher() {
-        if !isSwitcherDisabled {
-            withAnimation(.easeIn(duration: 0.1)) {
-                isPressingSwitcher.toggle()
-                makeVisibleValueSmaller.toggle()
-            }
-        }
-    }
-    
-    func applyAnimationAfterReleasingSwitcher() {
-        if !isSwitcherDisabled {
-            isPressingSwitcher.toggle()
-            isSwitcherDisabled = true
-        }
-    }
-    
-    func applyAnimationAfterFinishingRolling() {
-        if isSwitcherDisabled {
-            withAnimation {
-                isSwitcherDisabled = false
-                makeVisibleValueSmaller.toggle()
-            }
-        }
-    }
-    
-    var singleTapOnSwitcher: some Gesture {
-        TapGesture()
-            .onEnded { _ in
-                let newId = self.rollingLogManager.generateNewGroup(
-                    numberOfDices: 1,
-                    numberOfPossibilities: diceListVM.numberOfPossibilities
-                )
-                
-                dice.runSingleTapOnDice(groupId: newId)
-            }
-    }
-
-    var longPressOnSwitcher: some Gesture {
-        LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
-            .sequenced(before: DragGesture(minimumDistance: 0))
-            .onChanged({ value in
-                if value == .first(true) {
-                    dice.startLongPressOnSwitcher()
-                }
-            })
-            .onEnded({ value in
-                let newId = self.rollingLogManager.generateNewGroup(
-                    numberOfDices: 1,
-                    numberOfPossibilities: diceListVM.numberOfPossibilities
-                )
-                
-                dice.stopLongPressOnSwitcher(groupId: newId)
-            })
-    }
-
+    // MARK: - body
     var body: some View {
         VStack(spacing: 15) {
             HStack {
@@ -158,7 +90,7 @@ struct DiceView: View {
             self.makeVisibleValueSmaller = dice.makeVisibleValueSmaller
         }
         .onChange(of: dice.isShowingValue) { newValue in
-            moveToNextValue(isShowingValue: newValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
+            applyAnimationForNextValue(isShowingValue: newValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
         }
         .onChange(of: dice.isPressingOnSwitcher, perform: { newValue in
             if newValue {
@@ -168,12 +100,78 @@ struct DiceView: View {
             }
         })
         .onChange(of: dice.runWhileRollingForSingleTapSwitcher, perform: { newValue in
-            moveToNextValue(isShowingValue: dice.isShowingValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
+            applyAnimationForNextValue(isShowingValue: dice.isShowingValue, loopAnimationDuration: dice.currentAnimationDurationOfShowingValue)
         })
         .onChange(of: dice.finishedRolling) { newValue in
             applyAnimationAfterFinishingRolling()
         }
     }
+    
+    // MARK: - Extra Functions
+    private func applyAnimationForNextValue(isShowingValue: Bool, loopAnimationDuration: Double) {
+        withAnimation(.easeInOut(duration: loopAnimationDuration)) {
+            // for animation and synchronize w/ similar value in each Dice
+            self.isShowingValue = isShowingValue
+        }
+    }
+    
+    func applyAnimationWhilePressingOnSwitcher() {
+        if !isSwitcherDisabled {
+            withAnimation(.easeIn(duration: 0.1)) {
+                isPressingSwitcher.toggle()
+                makeVisibleValueSmaller.toggle()
+            }
+        }
+    }
+    
+    func applyAnimationAfterReleasingSwitcher() {
+        if !isSwitcherDisabled {
+            isPressingSwitcher.toggle()
+            isSwitcherDisabled = true
+        }
+    }
+    
+    func applyAnimationAfterFinishingRolling() {
+        if isSwitcherDisabled {
+            withAnimation {
+                isSwitcherDisabled = false
+                makeVisibleValueSmaller.toggle()
+            }
+        }
+    }
+    
+    // MARK: - Single Tap Gesture
+    var singleTapOnSwitcher: some Gesture {
+        TapGesture()
+            .onEnded { _ in
+                let newId = self.rollingLogManager.generateNewGroup(
+                    numberOfDices: 1,
+                    numberOfPossibilities: diceListVM.numberOfPossibilities
+                )
+                
+                dice.runSingleTapOnDice(groupId: newId)
+            }
+    }
+
+    // MARK: - Long Press Gesture
+    var longPressOnSwitcher: some Gesture {
+        LongPressGesture(minimumDuration: DiceView.longPressMinimumDuration)
+            .sequenced(before: DragGesture(minimumDistance: 0))
+            .onChanged({ value in
+                if value == .first(true) {
+                    dice.startLongPressOnSwitcher()
+                }
+            })
+            .onEnded({ value in
+                let newId = self.rollingLogManager.generateNewGroup(
+                    numberOfDices: 1,
+                    numberOfPossibilities: diceListVM.numberOfPossibilities
+                )
+                
+                dice.stopLongPressOnSwitcher(groupId: newId)
+            })
+    }
+
 }
 
 struct DiceView_Previews: PreviewProvider {
