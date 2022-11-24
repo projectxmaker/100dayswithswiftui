@@ -13,11 +13,6 @@ struct DiceView: View {
     @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
     
     var rollingLogManager = RollingLogManager.shared
-    
-    var id: UUID {
-        dice.id
-    }
-
     var valueColor = Color.black
     var valueColorWhenDiceIsRolling = Color.black
     var backgroundColor = Color.white
