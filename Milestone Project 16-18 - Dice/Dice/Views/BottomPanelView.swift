@@ -35,6 +35,15 @@ struct BottomPanelView: View {
                 .accessibilityAddTraits(.isButton)
                 .accessibilityLabel("Power Switcher")
                 .accessibilityHint("Tap to roll all Dices")
+                .animation(.easeIn(duration: 0.1), value:  diceListVM.isPressingOnPowerSwitcher)
+                .scaleEffect(diceListVM.isPressingOnPowerSwitcher ? 0.8 : 1)
+//                .onChange(of: diceListVM.isPressingOnPowerSwitcher) { newValue in
+//                    if newValue {
+//
+//                    } else {
+//
+//                    }
+//                }
             
             Spacer()
             

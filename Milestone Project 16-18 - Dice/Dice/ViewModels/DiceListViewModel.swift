@@ -15,6 +15,8 @@ class DiceListViewModel: ObservableObject {
     @Published var isShowingSettings = false
     @Published var isShowingRollingLogView = false
     
+    @Published var isPressingOnPowerSwitcher = false
+    
     let maximumDices: Double = 50
     let maximumPossibilities: Double = 100
     
@@ -46,6 +48,12 @@ class DiceListViewModel: ObservableObject {
     var singleTapOnSwitcher: some Gesture {
         TapGesture()
             .onEnded { _ in
+                self.isPressingOnPowerSwitcher.toggle()
+                
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
+                    self.isPressingOnPowerSwitcher.toggle()
+                }
+                
                 let newId = self.rollingLogManager.generateNewGroup(
                     numberOfDices: self.numberOfDices,
                     numberOfPossibilities: self.numberOfPossibilities
@@ -62,12 +70,16 @@ class DiceListViewModel: ObservableObject {
             .sequenced(before: DragGesture(minimumDistance: 0))
             .onChanged({ value in
                 if value == .first(true) {
+                    self.isPressingOnPowerSwitcher.toggle()
+                    
                     for eachDice in self.dices {
                         eachDice.startLongPressOnSwitcher()
                     }
                 }
             })
             .onEnded({ value in
+                self.isPressingOnPowerSwitcher.toggle()
+                
                 let newId = self.rollingLogManager.generateNewGroup(
                     numberOfDices: self.numberOfDices,
                     numberOfPossibilities: self.numberOfPossibilities

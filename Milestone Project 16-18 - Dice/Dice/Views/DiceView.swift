@@ -52,34 +52,16 @@ struct DiceView: View {
             self.isShowingValue = isShowingValue
         }
     }
-
-    private func rollDice(fastRollingInSeconds: Double? = nil, postAction: @escaping (UUID, Int) -> Void) {
-        if !isSwitcherDisabled {
-            withAnimation {
-                isSwitcherDisabled = true
-            }
-
-            dice.roll(fastRollingInSeconds: fastRollingInSeconds, actionInEveryLoop: moveToNextValue) { id, visibleValue in
-                withAnimation {
-                    isSwitcherDisabled = false
-                    makeVisibleValueSmaller.toggle()
-                    
-                    // do postAction
-                    postAction(id, visibleValue)
-                }
-            }
-        }
-    }
     
     func preActionOfSingleTapOnSwitcher() {
         if !isSwitcherDisabled {
-            withAnimation {
+            withAnimation(.easeIn(duration: 0.1)) {
                 isPressingSwitcher.toggle()
                 makeVisibleValueSmaller.toggle()
             }
 
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
-                withAnimation {
+                withAnimation(.easeOut(duration: 0.1)) {
                     isPressingSwitcher.toggle()
                     isSwitcherDisabled = true
                 }

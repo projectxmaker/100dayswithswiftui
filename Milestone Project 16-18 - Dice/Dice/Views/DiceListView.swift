@@ -25,8 +25,12 @@ struct DiceListView: View {
                         ForEach(diceListVM.dices) { dice in
                             DiceView(
                                 dice: dice,
+                                shadowColorIfPressingSwitcher: Color.white,
+                                shadowColorWhenDiceIsRolling: Color.black,
                                 width: 90,
-                                height: 70
+                                height: 70,
+                                switcherForgroundColorEnabled: Color.white,
+                                switcherForgroundColorDisabled: Color.gray
                             )
                         }
                     }
