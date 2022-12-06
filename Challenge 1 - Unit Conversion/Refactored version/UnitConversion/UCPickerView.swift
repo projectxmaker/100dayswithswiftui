@@ -16,10 +16,10 @@ enum UCPickerStyle {
 struct UCPickerView: View {
     var pickerTitle: String
     var showPickerTitle: Bool
+    var pickerStyle: UCPickerStyle
+    var unitTypes: [String]
     
     @Binding var unit: String
-    @Binding var pickerStyle: UCPickerStyle
-    @Binding var unitTypes: [String]
     
     var body: some View {
         let picker = Picker(showPickerTitle ? pickerTitle : "", selection: $unit) {
@@ -33,6 +33,23 @@ struct UCPickerView: View {
             picker.pickerStyle(.segmented)
         case .automatic:
             picker.pickerStyle(.automatic)
+        }
+    }
+}
+
+struct UCPickerView_Preview: PreviewProvider {
+    struct ContentView: View {
+        @State var unit: String = "three"
+        
+        var body: some View {
+            UCPickerView(pickerTitle: "Length", showPickerTitle: true, pickerStyle: .automatic, unitTypes: ["one", "two", "three"], unit: $unit)
+        }
+    }
+    
+    
+    static var previews: some View {
+        Group {
+            ContentView()
         }
     }
 }

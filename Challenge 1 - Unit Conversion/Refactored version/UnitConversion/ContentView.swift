@@ -45,13 +45,13 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    UCPickerView(pickerTitle: inputUnitTitle, showPickerTitle: showPickerTitle, unit: $inputUnit, pickerStyle: $ucPickerStyle, unitTypes: $unitTypes)
+                    UCPickerView(pickerTitle: inputUnitTitle, showPickerTitle: showPickerTitle, pickerStyle: ucPickerStyle, unitTypes: unitTypes, unit: $inputUnit)
                 } header: {
                     Text(inputUnitTitle)
                 }
                 
                 Section {
-                    UCPickerView(pickerTitle: outputUnitTitle, showPickerTitle: showPickerTitle, unit: $outputUnit, pickerStyle: $ucPickerStyle, unitTypes: $unitTypes)
+                    UCPickerView(pickerTitle: outputUnitTitle, showPickerTitle: showPickerTitle, pickerStyle: ucPickerStyle, unitTypes: unitTypes, unit: $outputUnit)
                 } header: {
                     Text(outputUnitTitle)
                 }
@@ -95,14 +95,6 @@ struct ContentView: View {
         let output = input.converted(to: outputUnit)
         
         return output.value
-    }
-    
-    func getUnitTypes() -> [String] {
-        Array(measurementTypes[measurementTypeIndex].unitTypes.keys)
-    }
-    
-    func getPickerStyle() -> UCPickerStyle {
-        measurementTypes[measurementTypeIndex].pickerStyle
     }
 }
 
