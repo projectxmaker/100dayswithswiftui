@@ -14,6 +14,18 @@ struct DiceListView: View {
         GridItem(.adaptive(minimum: 100))
     ]
 
+    fileprivate func extractedFunc(_ dice: Dice) -> DiceView {
+        return DiceView(
+            dice: dice,
+            shadowColorIfPressingSwitcher: Color.white,
+            shadowColorWhenDiceIsRolling: Color.black,
+            width: 90,
+            height: 70,
+            switcherForgroundColorEnabled: Color.white,
+            switcherForgroundColorDisabled: Color.gray
+        )
+    }
+    
     var body: some View {
         ZStack {
             Color.black
@@ -22,15 +34,7 @@ struct DiceListView: View {
             ScrollView(.vertical) {
                 LazyVGrid(columns: layouts, spacing: 30) {
                     ForEach(diceListVM.dices) { dice in
-                        DiceView(
-                            dice: dice,
-                            shadowColorIfPressingSwitcher: Color.white,
-                            shadowColorWhenDiceIsRolling: Color.black,
-                            width: 90,
-                            height: 70,
-                            switcherForgroundColorEnabled: Color.white,
-                            switcherForgroundColorDisabled: Color.gray
-                        )
+                        extractedFunc(dice)
                     }
                 }
                 .padding(.horizontal, 5)
