@@ -48,8 +48,6 @@ struct UCPickerView_Preview: PreviewProvider {
     
     
     static var previews: some View {
-        Group {
-            ContentView()
-        }
+        ContentView()
     }
 }
