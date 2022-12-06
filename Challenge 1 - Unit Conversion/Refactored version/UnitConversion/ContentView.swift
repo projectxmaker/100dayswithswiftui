@@ -9,49 +9,38 @@ import SwiftUI
 import Foundation
 
 struct ContentView: View {
-    @State private var measurementTypeIndex: Int = 0
-    @State private var inputUnit = MeasurementConfiguration.defaultUnit
-    @State private var outputUnit = MeasurementConfiguration.defaultUnit
+    @State private var selectedMeasurementType = MeasurementConfiguration.defaultMeasurementType
+    @State private var inputUnit = MeasurementConfiguration.defaultMeasurementType.unitTypes[0]
+    @State private var outputUnit = MeasurementConfiguration.defaultMeasurementType.unitTypes[0]
     @State private var amount: Double = 0
     @FocusState private var amountTextFieldIsFocused: Bool
-
-    @State private var unitTypes = MeasurementConfiguration.defaultUnitTypes
-    @State private var ucPickerStyle = MeasurementConfiguration.defaultUCPickerStyle
-    @State private var showPickerTitle = MeasurementConfiguration.defaultShowPickerTitle
     
-    let measurementTypes = MeasurementConfiguration.measurementTypes
-    
-    let inputUnitTitle = "Input Unit"
-    let outputUnitTitle = "Output Unit"
+    let inputUnitTitle: LocalizedStringKey = "Input Unit"
+    let outputUnitTitle: LocalizedStringKey = "Output Unit"
 
     var body: some View {
-        
         NavigationView {
             Form {
                 Section {
-                    Picker("Measurement Types", selection: $measurementTypeIndex) {
-                        ForEach(0..<measurementTypes.count, id: \.self) { index in
-                            Text(measurementTypes[index].name)
+                    Picker("Measurement Types", selection: $selectedMeasurementType) {
+                        ForEach(MeasurementConfiguration.measurementTypes, id: \.self) { measurementType in
+                            Text(measurementType.name)
                         }
                     }
-                    .onChange(of: measurementTypeIndex) { index in
-                        let currentMeasurementType = measurementTypes[measurementTypeIndex]
-                        unitTypes = Array(currentMeasurementType.unitTypes.keys)
-                        ucPickerStyle = currentMeasurementType.pickerStyle
-                        showPickerTitle = currentMeasurementType.showPickerTitle
-                        inputUnit = currentMeasurementType.defaultUnit
-                        outputUnit = currentMeasurementType.defaultUnit
+                    .onChange(of: selectedMeasurementType) { index in
+                        inputUnit = selectedMeasurementType.unitTypes[0]
+                        outputUnit = selectedMeasurementType.unitTypes[0]
                     }
                 }
                 
                 Section {
-                    UCPickerView(pickerTitle: inputUnitTitle, showPickerTitle: showPickerTitle, pickerStyle: ucPickerStyle, unitTypes: unitTypes, unit: $inputUnit)
+                    UCPickerView(pickerTitle: inputUnitTitle, measurementType: selectedMeasurementType, unit: $inputUnit)
                 } header: {
                     Text(inputUnitTitle)
                 }
                 
                 Section {
-                    UCPickerView(pickerTitle: outputUnitTitle, showPickerTitle: showPickerTitle, pickerStyle: ucPickerStyle, unitTypes: unitTypes, unit: $outputUnit)
+                    UCPickerView(pickerTitle: outputUnitTitle, measurementType: selectedMeasurementType, unit: $outputUnit)
                 } header: {
                     Text(outputUnitTitle)
                 }
@@ -85,14 +74,8 @@ struct ContentView: View {
     
     // MARK: - Extra Funcs
     var result: Double {
-        let measurementType = measurementTypes[measurementTypeIndex]
-        guard
-            let inputUnit = measurementType.unitTypes[inputUnit],
-            let outputUnit = measurementType.unitTypes[outputUnit]
-        else { return 0 }
-        
-        let input = Measurement(value: amount, unit: inputUnit)
-        let output = input.converted(to: outputUnit)
+        let input = Measurement(value: amount, unit: inputUnit.dimension)
+        let output = input.converted(to: outputUnit.dimension)
         
         return output.value
     }

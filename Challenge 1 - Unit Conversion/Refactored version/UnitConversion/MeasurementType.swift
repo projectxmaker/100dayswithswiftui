@@ -6,11 +6,38 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct MeasurementType {
-    var name: String
-    var unitTypes: [String : Dimension]
+struct MeasurementType: Identifiable {
+
+    struct UnitType: Identifiable, Hashable {
+        var id = UUID()
+        var name: LocalizedStringKey
+        var dimension: Dimension
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+    }
+    
+    var id = UUID()
+    var name: LocalizedStringKey
+    var unitTypes: [UnitType]
     var pickerStyle: UCPickerStyle
     var showPickerTitle: Bool
-    var defaultUnit: String
 }
+
+extension MeasurementType: Equatable {
+    static func == (lhs: MeasurementType, rhs: MeasurementType) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
+extension MeasurementType: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+
+

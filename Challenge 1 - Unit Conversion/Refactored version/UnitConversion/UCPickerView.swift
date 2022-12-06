@@ -14,21 +14,18 @@ enum UCPickerStyle {
 }
 
 struct UCPickerView: View {
-    var pickerTitle: String
-    var showPickerTitle: Bool
-    var pickerStyle: UCPickerStyle
-    var unitTypes: [String]
-    
-    @Binding var unit: String
+    var pickerTitle: LocalizedStringKey
+    var measurementType: MeasurementType
+    @Binding var unit: MeasurementType.UnitType
     
     var body: some View {
-        let picker = Picker(showPickerTitle ? pickerTitle : "", selection: $unit) {
-            ForEach(unitTypes, id: \.self) { unitTypeKey in
-                Text(unitTypeKey)
+        let picker = Picker(measurementType.showPickerTitle ? pickerTitle : "", selection: $unit) {
+            ForEach(measurementType.unitTypes, id: \.self) { unitType in
+                Text(unitType.name)
             }
         }
         
-        switch pickerStyle {
+        switch measurementType.pickerStyle {
         case .segmented:
             picker.pickerStyle(.segmented)
         case .automatic:
@@ -39,10 +36,10 @@ struct UCPickerView: View {
 
 struct UCPickerView_Preview: PreviewProvider {
     struct ContentView: View {
-        @State var unit: String = "three"
+        @State var unit = MeasurementConfiguration.defaultMeasurementType.unitTypes[0]
         
         var body: some View {
-            UCPickerView(pickerTitle: "Length", showPickerTitle: true, pickerStyle: .automatic, unitTypes: ["one", "two", "three"], unit: $unit)
+            UCPickerView(pickerTitle: "Length", measurementType: MeasurementConfiguration.defaultMeasurementType, unit: $unit)
         }
     }
     

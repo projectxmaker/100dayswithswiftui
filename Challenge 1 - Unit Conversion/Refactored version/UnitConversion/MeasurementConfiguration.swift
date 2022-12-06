@@ -11,21 +11,28 @@ struct MeasurementConfiguration {
     static let measurementTypes: [MeasurementType] = [
             MeasurementType(
                 name: "Temperature",
-                unitTypes: ["Celsius": UnitTemperature.celsius, "Fahrenheit": UnitTemperature.fahrenheit, "Kelvin": UnitTemperature.kelvin],
+                unitTypes: [
+                    .init(name: "Celsius", dimension: UnitTemperature.celsius),
+                    .init(name: "Fahrenheit", dimension: UnitTemperature.fahrenheit),
+                    .init(name: "Kelvin", dimension: UnitTemperature.kelvin)
+                ],
                 pickerStyle: .segmented,
-                showPickerTitle: true,
-                defaultUnit: "Celsius"
+                showPickerTitle: true
             ),
             MeasurementType(
                 name: "Length",
-                unitTypes: ["Kilometers": UnitLength.kilometers, "Meters": UnitLength.meters, "Inches": UnitLength.inches, "Feet": UnitLength.feet, "Yards": UnitLength.yards, "Miles": UnitLength.miles],
+                unitTypes: [
+                    .init(name: "Kilometers", dimension: UnitLength.kilometers),
+                    .init(name: "Meters", dimension: UnitLength.meters),
+                    .init(name: "Inches", dimension: UnitLength.inches),
+                    .init(name: "Feet", dimension: UnitLength.feet),
+                    .init(name: "Yards", dimension: UnitLength.yards),
+                    .init(name: "Miles", dimension: UnitLength.miles)
+                ],
                 pickerStyle: .automatic,
-                showPickerTitle: false,
-                defaultUnit: "Kilometers"
+                showPickerTitle: false
             )
         ]
-    static let defaultUnitTypes = ["Celsius", "Fahrenheit", "Kelvin"]
-    static let defaultUCPickerStyle = UCPickerStyle.segmented
-    static let defaultShowPickerTitle = true
-    static let defaultUnit = "Celsius"
+    
+    static let defaultMeasurementType = MeasurementConfiguration.measurementTypes[0]
 }
