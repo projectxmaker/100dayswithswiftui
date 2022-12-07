@@ -8,58 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var checkAmount = 0.0
-    @State private var numberOfPeople = 2
-    @State private var tipPercentage = 20
+    @StateObject var vm = ContentViewModel()
     
-    @Environment(\.locale) var currentLocale
+    @Environment(\.locale) var locale
 
     @FocusState private var amountTextFieldIsFocused: Bool
-    
-    let tipPercentages = 0...100
 
-    var totalAmountOfCheck: Double {
-        let tipAmount = checkAmount * Double(tipPercentage) / 100
-        let grandTotal = tipAmount + checkAmount
-        
-        return grandTotal
-    }
-    
-    var amountFormatStyle: FloatingPointFormatStyle<Double>.Currency {
-        var userCurrency: String
-
-        if #available(iOS 16.0, *) {
-            userCurrency = currentLocale.currency?.identifier ?? "USD"
-        } else {
-            userCurrency = currentLocale.currencyCode ?? "USD"
-        }
-        
-        return FloatingPointFormatStyle<Double>.Currency(code: userCurrency)
-    }
-    
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Amount", value: $checkAmount, format: amountFormatStyle)
-                        .id(amountFormatStyle)
+                    TextField("Amount", value: $vm.checkAmount, format: vm.getAmountFormatStyle(locale: locale))
+                        .id(vm.getAmountFormatStyle(locale: locale))
                         .keyboardType(.decimalPad)
                         .focused($amountTextFieldIsFocused)
                     
-                    NumberOfPeopleView(numberOfPeople: $numberOfPeople)
+                    NumberOfPeopleView(numberOfPeople: $vm.numberOfPeople)
                 }
 
                 Section {
-                    TipPercentageView(tipPercentages: tipPercentages, tipPercentage: $tipPercentage)
+                    TipPercentageView(tipPercentages: vm.tipPercentages, tipPercentage: $vm.tipPercentage)
                 } header: {
                     Text("How much tip do you want to leave")
                 }
                 
                 Section {
                     AmountOfCheckView(
-                        totalAmountOfCheck: totalAmountOfCheck,
-                        format: amountFormatStyle,
-                        tipPercentage: tipPercentage
+                        totalAmountOfCheck: vm.totalAmountOfCheck,
+                        format: vm.getAmountFormatStyle(locale: locale),
+                        tipPercentage: vm.tipPercentage
                     )
                 } header: {
                     Text("Total amount for the check")
@@ -67,9 +44,9 @@ struct ContentView: View {
                 
                 Section {
                     AmounPerPersonView(
-                        format: amountFormatStyle,
-                        totalAmountOfCheck: totalAmountOfCheck,
-                        numberOfPeople: $numberOfPeople)
+                        format: vm.getAmountFormatStyle(locale: locale),
+                        totalAmountOfCheck: vm.totalAmountOfCheck,
+                        numberOfPeople: $vm.numberOfPeople)
                 } header: {
                     Text("Amount per person")
                 }

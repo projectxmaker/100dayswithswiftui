@@ -12,6 +12,7 @@
 		8A3462DB294020D3001D4071 /* TipPercentageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462DA294020D3001D4071 /* TipPercentageView.swift */; };
 		8A3462DD294029D2001D4071 /* AmounPerPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462DC294029D2001D4071 /* AmounPerPersonView.swift */; };
 		8A3462DF29402C52001D4071 /* AmountOfCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462DE29402C52001D4071 /* AmountOfCheckView.swift */; };
+		8A3462E129402FB5001D4071 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462E029402FB5001D4071 /* ContentViewModel.swift */; };
 		8AA904EF28DE9D03001C4801 /* WeSplitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA904EE28DE9D03001C4801 /* WeSplitApp.swift */; };
 		8AA904F128DE9D04001C4801 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA904F028DE9D04001C4801 /* ContentView.swift */; };
 		8AA904F328DE9D06001C4801 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AA904F228DE9D06001C4801 /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 		8A3462DA294020D3001D4071 /* TipPercentageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipPercentageView.swift; sourceTree = "<group>"; };
 		8A3462DC294029D2001D4071 /* AmounPerPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmounPerPersonView.swift; sourceTree = "<group>"; };
 		8A3462DE29402C52001D4071 /* AmountOfCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountOfCheckView.swift; sourceTree = "<group>"; };
+		8A3462E029402FB5001D4071 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		8AA904EB28DE9D03001C4801 /* WeSplit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeSplit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AA904EE28DE9D03001C4801 /* WeSplitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeSplitApp.swift; sourceTree = "<group>"; };
 		8AA904F028DE9D04001C4801 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,6 +44,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A3462E229403261001D4071 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8AA904F028DE9D04001C4801 /* ContentView.swift */,
+				8A3462DE29402C52001D4071 /* AmountOfCheckView.swift */,
+				8A3462DC294029D2001D4071 /* AmounPerPersonView.swift */,
+				8A3462DA294020D3001D4071 /* TipPercentageView.swift */,
+				8A3462D829402084001D4071 /* NumberOfPeopleView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8A3462E32940326A001D4071 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8A3462E029402FB5001D4071 /* ContentViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		8AA904E228DE9D03001C4801 = {
 			isa = PBXGroup;
 			children = (
@@ -63,11 +85,8 @@
 			children = (
 				8A07442F293FA0500059EE92 /* Localizable.strings */,
 				8AA904EE28DE9D03001C4801 /* WeSplitApp.swift */,
-				8AA904F028DE9D04001C4801 /* ContentView.swift */,
-				8A3462DE29402C52001D4071 /* AmountOfCheckView.swift */,
-				8A3462DC294029D2001D4071 /* AmounPerPersonView.swift */,
-				8A3462DA294020D3001D4071 /* TipPercentageView.swift */,
-				8A3462D829402084001D4071 /* NumberOfPeopleView.swift */,
+				8A3462E229403261001D4071 /* Views */,
+				8A3462E32940326A001D4071 /* ViewModels */,
 				8AA904F228DE9D06001C4801 /* Assets.xcassets */,
 				8AA904F428DE9D06001C4801 /* Preview Content */,
 			);
@@ -157,6 +176,7 @@
 				8A3462DB294020D3001D4071 /* TipPercentageView.swift in Sources */,
 				8AA904F128DE9D04001C4801 /* ContentView.swift in Sources */,
 				8A3462D929402084001D4071 /* NumberOfPeopleView.swift in Sources */,
+				8A3462E129402FB5001D4071 /* ContentViewModel.swift in Sources */,
 				8AA904EF28DE9D03001C4801 /* WeSplitApp.swift in Sources */,
 				8A3462DF29402C52001D4071 /* AmountOfCheckView.swift in Sources */,
 				8A3462DD294029D2001D4071 /* AmounPerPersonView.swift in Sources */,
