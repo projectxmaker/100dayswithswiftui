@@ -13,6 +13,10 @@
 		8A433A1728E6902700A2851D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A433A1628E6902700A2851D /* Preview Assets.xcassets */; };
 		8A433A2228E6AD7900A2851D /* SleepCalculator.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8A433A2128E6AD7900A2851D /* SleepCalculator.mlmodel */; };
 		8A5984732940DCD300FDF54E /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5984722940DCD300FDF54E /* ContentViewModel.swift */; };
+		8A5984752940E29500FDF54E /* TimeToWakeUpSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5984742940E29500FDF54E /* TimeToWakeUpSectionView.swift */; };
+		8A5984772940E4B000FDF54E /* DesiredAmountOfSleepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5984762940E4B000FDF54E /* DesiredAmountOfSleepView.swift */; };
+		8A5984792940E59200FDF54E /* DailyCoffeeIntakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5984782940E59200FDF54E /* DailyCoffeeIntakeView.swift */; };
+		8A59847B2940E5D600FDF54E /* RecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A59847A2940E5D600FDF54E /* RecommendationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +27,10 @@
 		8A433A1628E6902700A2851D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8A433A2128E6AD7900A2851D /* SleepCalculator.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SleepCalculator.mlmodel; sourceTree = "<group>"; };
 		8A5984722940DCD300FDF54E /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		8A5984742940E29500FDF54E /* TimeToWakeUpSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeToWakeUpSectionView.swift; sourceTree = "<group>"; };
+		8A5984762940E4B000FDF54E /* DesiredAmountOfSleepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesiredAmountOfSleepView.swift; sourceTree = "<group>"; };
+		8A5984782940E59200FDF54E /* DailyCoffeeIntakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCoffeeIntakeView.swift; sourceTree = "<group>"; };
+		8A59847A2940E5D600FDF54E /* RecommendationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +66,10 @@
 				8A433A0F28E6902500A2851D /* BetterRestApp.swift */,
 				8A433A2128E6AD7900A2851D /* SleepCalculator.mlmodel */,
 				8A433A1128E6902500A2851D /* ContentView.swift */,
+				8A59847A2940E5D600FDF54E /* RecommendationView.swift */,
+				8A5984782940E59200FDF54E /* DailyCoffeeIntakeView.swift */,
+				8A5984762940E4B000FDF54E /* DesiredAmountOfSleepView.swift */,
+				8A5984742940E29500FDF54E /* TimeToWakeUpSectionView.swift */,
 				8A5984722940DCD300FDF54E /* ContentViewModel.swift */,
 				8A433A1328E6902700A2851D /* Assets.xcassets */,
 				8A433A1528E6902700A2851D /* Preview Content */,
@@ -143,9 +155,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A5984772940E4B000FDF54E /* DesiredAmountOfSleepView.swift in Sources */,
+				8A5984752940E29500FDF54E /* TimeToWakeUpSectionView.swift in Sources */,
 				8A5984732940DCD300FDF54E /* ContentViewModel.swift in Sources */,
+				8A59847B2940E5D600FDF54E /* RecommendationView.swift in Sources */,
 				8A433A1228E6902500A2851D /* ContentView.swift in Sources */,
 				8A433A2228E6AD7900A2851D /* SleepCalculator.mlmodel in Sources */,
+				8A5984792940E59200FDF54E /* DailyCoffeeIntakeView.swift in Sources */,
 				8A433A1028E6902500A2851D /* BetterRestApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
