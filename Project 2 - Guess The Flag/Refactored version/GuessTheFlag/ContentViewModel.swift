@@ -8,6 +8,7 @@
 import Foundation
 
 class ContentViewModel: ObservableObject {
+    // MARK: - Published variabled
     @Published var showingFinalAlertScore = false
     @Published var showingScore = false
     @Published private(set) var scoreTitle = ""
@@ -18,8 +19,16 @@ class ContentViewModel: ObservableObject {
     @Published private(set) var score = 0
     @Published private(set) var alertOfFlagTappedMessage: String = ""
     
+    // MARK: - Private variables
     private var roundCounter = 0
     private let limitedNumberOfRounds = 8
+    
+    // MARK: - Computed properties
+    var correctAnswerTitle: String {
+        countries[correctAnswer]
+    }
+    
+    // MARK: - Functions
     
     func flagTapped(_ number: Int) {
         var messages = [String]()
