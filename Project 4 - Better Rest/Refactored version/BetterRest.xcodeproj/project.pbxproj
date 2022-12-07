@@ -65,12 +65,8 @@
 			children = (
 				8A433A0F28E6902500A2851D /* BetterRestApp.swift */,
 				8A433A2128E6AD7900A2851D /* SleepCalculator.mlmodel */,
-				8A433A1128E6902500A2851D /* ContentView.swift */,
-				8A59847A2940E5D600FDF54E /* RecommendationView.swift */,
-				8A5984782940E59200FDF54E /* DailyCoffeeIntakeView.swift */,
-				8A5984762940E4B000FDF54E /* DesiredAmountOfSleepView.swift */,
-				8A5984742940E29500FDF54E /* TimeToWakeUpSectionView.swift */,
-				8A5984722940DCD300FDF54E /* ContentViewModel.swift */,
+				8A59847C2940E66300FDF54E /* Views */,
+				8A59847D2940E66D00FDF54E /* ViewModels */,
 				8A433A1328E6902700A2851D /* Assets.xcassets */,
 				8A433A1528E6902700A2851D /* Preview Content */,
 			);
@@ -83,6 +79,26 @@
 				8A433A1628E6902700A2851D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8A59847C2940E66300FDF54E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8A433A1128E6902500A2851D /* ContentView.swift */,
+				8A59847A2940E5D600FDF54E /* RecommendationView.swift */,
+				8A5984782940E59200FDF54E /* DailyCoffeeIntakeView.swift */,
+				8A5984762940E4B000FDF54E /* DesiredAmountOfSleepView.swift */,
+				8A5984742940E29500FDF54E /* TimeToWakeUpSectionView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8A59847D2940E66D00FDF54E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8A5984722940DCD300FDF54E /* ContentViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
