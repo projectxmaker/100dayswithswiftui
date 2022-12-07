@@ -14,10 +14,6 @@ class ContentViewModel: ObservableObject {
     @Published var showingScore = false
     @Published private(set) var scoreTitle = ""
     
-//    @Published private(set) var countries: [Country] = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled().map({ countryName in
-//        Country(name: LocalizedStringKey(countryName), imageName: countryName)
-//    })
-    
     @Published private(set) var countries: [Country] = [
         Country(name: "Estonia", imageName: "Estonia"),
         Country(name: "France", imageName: "France"),
