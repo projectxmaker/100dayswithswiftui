@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A3462E6294040ED001D4071 /* FlagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462E5294040ED001D4071 /* FlagsView.swift */; };
+		8A3462E829404378001D4071 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462E729404378001D4071 /* ContentViewModel.swift */; };
 		8A62AF4F28E1952C00F76FE5 /* GuessTheFlagApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */; };
 		8A62AF5128E1952C00F76FE5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF5028E1952C00F76FE5 /* ContentView.swift */; };
 		8A62AF5328E1952E00F76FE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A62AF5228E1952E00F76FE5 /* Assets.xcassets */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A3462E5294040ED001D4071 /* FlagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagsView.swift; sourceTree = "<group>"; };
+		8A3462E729404378001D4071 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		8A62AF4B28E1952C00F76FE5 /* GuessTheFlag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuessTheFlag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessTheFlagApp.swift; sourceTree = "<group>"; };
 		8A62AF5028E1952C00F76FE5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,6 +59,8 @@
 			children = (
 				8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */,
 				8A62AF5028E1952C00F76FE5 /* ContentView.swift */,
+				8A3462E729404378001D4071 /* ContentViewModel.swift */,
+				8A3462E5294040ED001D4071 /* FlagsView.swift */,
 				8AF1407E28E439550033888C /* FlagImageView.swift */,
 				8A62AF5228E1952E00F76FE5 /* Assets.xcassets */,
 				8A62AF5428E1952E00F76FE5 /* Preview Content */,
@@ -142,7 +148,9 @@
 			files = (
 				8A62AF5128E1952C00F76FE5 /* ContentView.swift in Sources */,
 				8AF1407F28E439550033888C /* FlagImageView.swift in Sources */,
+				8A3462E6294040ED001D4071 /* FlagsView.swift in Sources */,
 				8A62AF4F28E1952C00F76FE5 /* GuessTheFlagApp.swift in Sources */,
+				8A3462E829404378001D4071 /* ContentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
