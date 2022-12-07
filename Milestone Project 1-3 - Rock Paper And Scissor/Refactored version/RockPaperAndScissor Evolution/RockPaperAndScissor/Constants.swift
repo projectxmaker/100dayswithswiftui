@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
 
-enum ResultStatus: String, CaseIterable {
+enum ResultStatus: LocalizedStringKey, CaseIterable {
     case playerWin = "Win"
     case playerLose = "Lose"
     case playerDraw = "Draw"
