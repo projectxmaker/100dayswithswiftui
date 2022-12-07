@@ -17,10 +17,7 @@ struct ContentView: View {
     @FocusState private var amountTextFieldIsFocused: Bool
     
     let tipPercentages = 0...100
-    var totalPerPerson: Double {
-        totalAmountOfCheck / Double(numberOfPeople)
-    }
-    
+
     var totalAmountOfCheck: Double {
         let tipAmount = checkAmount * Double(tipPercentage) / 100
         let grandTotal = tipAmount + checkAmount
@@ -28,7 +25,7 @@ struct ContentView: View {
         return grandTotal
     }
     
-    var currencyFormatter: FloatingPointFormatStyle<Double>.Currency {
+    var amountFormatStyle: FloatingPointFormatStyle<Double>.Currency {
         var userCurrency: String
 
         if #available(iOS 16.0, *) {
@@ -44,8 +41,8 @@ struct ContentView: View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Amount", value: $checkAmount, format: currencyFormatter)
-                        .id(currencyFormatter)
+                    TextField("Amount", value: $checkAmount, format: amountFormatStyle)
+                        .id(amountFormatStyle)
                         .keyboardType(.decimalPad)
                         .focused($amountTextFieldIsFocused)
                     
@@ -59,14 +56,20 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    Text(totalAmountOfCheck, format: currencyFormatter)
-                        .foregroundColor(tipPercentage == 0 ? .red : .primary)
+                    AmountOfCheckView(
+                        totalAmountOfCheck: totalAmountOfCheck,
+                        format: amountFormatStyle,
+                        tipPercentage: tipPercentage
+                    )
                 } header: {
                     Text("Total amount for the check")
                 }
                 
                 Section {
-                    Text(totalPerPerson, format: currencyFormatter)
+                    AmounPerPersonView(
+                        format: amountFormatStyle,
+                        totalAmountOfCheck: totalAmountOfCheck,
+                        numberOfPeople: $numberOfPeople)
                 } header: {
                     Text("Amount per person")
                 }
