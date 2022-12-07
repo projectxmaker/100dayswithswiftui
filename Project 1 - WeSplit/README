@@ -1,0 +1,5 @@
+# Challenges
+
+1. Add a header to the third section, saying “Amount per person”
+2. Add another section showing the total amount for the check – i.e., the original amount plus tip value, without dividing by the number of people.
+3. Give the tip percentage picker a wider range of options – everything from 0% to 100%.
