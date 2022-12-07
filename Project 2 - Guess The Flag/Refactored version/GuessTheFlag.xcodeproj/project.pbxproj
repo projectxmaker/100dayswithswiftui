@@ -38,6 +38,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A3462E929404ABD001D4071 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8A62AF5028E1952C00F76FE5 /* ContentView.swift */,
+				8A3462E5294040ED001D4071 /* FlagsView.swift */,
+				8AF1407E28E439550033888C /* FlagImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8A3462EA29404AC3001D4071 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8A3462E729404378001D4071 /* ContentViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		8A62AF4228E1952C00F76FE5 = {
 			isa = PBXGroup;
 			children = (
@@ -58,10 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */,
-				8A62AF5028E1952C00F76FE5 /* ContentView.swift */,
-				8A3462E729404378001D4071 /* ContentViewModel.swift */,
-				8A3462E5294040ED001D4071 /* FlagsView.swift */,
-				8AF1407E28E439550033888C /* FlagImageView.swift */,
+				8A3462E929404ABD001D4071 /* Views */,
+				8A3462EA29404AC3001D4071 /* ViewModels */,
 				8A62AF5228E1952E00F76FE5 /* Assets.xcassets */,
 				8A62AF5428E1952E00F76FE5 /* Preview Content */,
 			);
