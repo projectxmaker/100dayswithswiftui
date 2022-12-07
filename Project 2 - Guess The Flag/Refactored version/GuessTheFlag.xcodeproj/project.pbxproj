@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8A3462E6294040ED001D4071 /* FlagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462E5294040ED001D4071 /* FlagsView.swift */; };
 		8A3462E829404378001D4071 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462E729404378001D4071 /* ContentViewModel.swift */; };
+		8A3462ED29404F1F001D4071 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A3462EB29404F1F001D4071 /* Localizable.strings */; };
+		8A3462EF29404F80001D4071 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3462EE29404F80001D4071 /* Country.swift */; };
 		8A62AF4F28E1952C00F76FE5 /* GuessTheFlagApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */; };
 		8A62AF5128E1952C00F76FE5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF5028E1952C00F76FE5 /* ContentView.swift */; };
 		8A62AF5328E1952E00F76FE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A62AF5228E1952E00F76FE5 /* Assets.xcassets */; };
@@ -19,6 +21,8 @@
 /* Begin PBXFileReference section */
 		8A3462E5294040ED001D4071 /* FlagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagsView.swift; sourceTree = "<group>"; };
 		8A3462E729404378001D4071 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		8A3462EC29404F1F001D4071 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8A3462EE29404F80001D4071 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		8A62AF4B28E1952C00F76FE5 /* GuessTheFlag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuessTheFlag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessTheFlagApp.swift; sourceTree = "<group>"; };
 		8A62AF5028E1952C00F76FE5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +60,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		8A3462F029405077001D4071 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8A3462EE29404F80001D4071 /* Country.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		8A62AF4228E1952C00F76FE5 = {
 			isa = PBXGroup;
 			children = (
@@ -75,7 +87,9 @@
 		8A62AF4D28E1952C00F76FE5 /* GuessTheFlag */ = {
 			isa = PBXGroup;
 			children = (
+				8A3462EB29404F1F001D4071 /* Localizable.strings */,
 				8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */,
+				8A3462F029405077001D4071 /* Models */,
 				8A3462E929404ABD001D4071 /* Views */,
 				8A3462EA29404AC3001D4071 /* ViewModels */,
 				8A62AF5228E1952E00F76FE5 /* Assets.xcassets */,
@@ -134,6 +148,7 @@
 			knownRegions = (
 				en,
 				Base,
+				vi,
 			);
 			mainGroup = 8A62AF4228E1952C00F76FE5;
 			productRefGroup = 8A62AF4C28E1952C00F76FE5 /* Products */;
@@ -151,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A62AF5628E1952E00F76FE5 /* Preview Assets.xcassets in Resources */,
+				8A3462ED29404F1F001D4071 /* Localizable.strings in Resources */,
 				8A62AF5328E1952E00F76FE5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,11 +182,23 @@
 				8AF1407F28E439550033888C /* FlagImageView.swift in Sources */,
 				8A3462E6294040ED001D4071 /* FlagsView.swift in Sources */,
 				8A62AF4F28E1952C00F76FE5 /* GuessTheFlagApp.swift in Sources */,
+				8A3462EF29404F80001D4071 /* Country.swift in Sources */,
 				8A3462E829404378001D4071 /* ContentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8A3462EB29404F1F001D4071 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A3462EC29404F1F001D4071 /* vi */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8A62AF5728E1952E00F76FE5 /* Debug */ = {
@@ -223,7 +251,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -277,7 +305,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -303,6 +331,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -332,6 +361,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

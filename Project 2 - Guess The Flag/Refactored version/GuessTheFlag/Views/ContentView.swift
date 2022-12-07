@@ -46,7 +46,9 @@ struct ContentView: View {
         .alert(vm.scoreTitle, isPresented: $vm.showingScore) {
             Button("Continue", action: vm.askQuestion)
         } message: {
-            Text(vm.alertOfFlagTappedMessage)
+            Text("That’s the flag of ") +
+            Text(vm.getCountryNameByIndex()) +
+            Text(".\nYour score is \(vm.score)")
         }
         .environmentObject(vm)
     }
@@ -55,5 +57,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.locale, Locale(identifier: "vi_VN"))
     }
 }

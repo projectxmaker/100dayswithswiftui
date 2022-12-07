@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ContentViewModel: ObservableObject {
     // MARK: - Published variabled
@@ -13,36 +14,54 @@ class ContentViewModel: ObservableObject {
     @Published var showingScore = false
     @Published private(set) var scoreTitle = ""
     
-    @Published private(set) var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+//    @Published private(set) var countries: [Country] = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled().map({ countryName in
+//        Country(name: LocalizedStringKey(countryName), imageName: countryName)
+//    })
+    
+    @Published private(set) var countries: [Country] = [
+        Country(name: "Estonia", imageName: "Estonia"),
+        Country(name: "France", imageName: "France"),
+        Country(name: "Germany", imageName: "Germany"),
+        Country(name: "Italy", imageName: "Italy"),
+        Country(name: "Poland", imageName: "Poland"),
+        Country(name: "Russia", imageName: "Russia"),
+        Country(name: "Spain", imageName: "Spain"),
+        Country(name: "UK", imageName: "UK"),
+        Country(name: "US", imageName: "US")
+        ].shuffled()
+    
     @Published private(set) var correctAnswer = Int.random(in: 0...2)
     
     @Published private(set) var score = 0
-    @Published private(set) var alertOfFlagTappedMessage: String = ""
+    
+    // MARK: - Public variable
+    var tappedFlagIndex: Int = 0
     
     // MARK: - Private variables
     private var roundCounter = 0
     private let limitedNumberOfRounds = 8
     
     // MARK: - Computed properties
-    var correctAnswerTitle: String {
-        countries[correctAnswer]
+    var correctAnswerTitle: LocalizedStringKey {
+        countries[correctAnswer].name
     }
     
     // MARK: - Functions
     
+    func getCountryNameByIndex() -> LocalizedStringKey {
+        countries[tappedFlagIndex].name
+    }
+    
     func flagTapped(_ number: Int) {
-        var messages = [String]()
-        if number == correctAnswer {
+        tappedFlagIndex = number
+        
+        if tappedFlagIndex == correctAnswer {
             scoreTitle = "Correct"
             score += 1
         } else {
             scoreTitle = "Wrong"
-            messages.append("That’s the flag of \(countries[number])")
             score -= 1
         }
-        
-        messages.append("Your score is \(score)")
-        alertOfFlagTappedMessage = messages.joined(separator: "\n")
 
         showingScore = true
         

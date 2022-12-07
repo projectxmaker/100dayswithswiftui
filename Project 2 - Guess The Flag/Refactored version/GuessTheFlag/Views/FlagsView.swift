@@ -25,7 +25,7 @@ struct FlagsView: View {
                 Button {
                     contentVM.flagTapped(number)
                 } label: {
-                    FlagImageView(imageName: contentVM.countries[number])
+                    FlagImageView(imageName: contentVM.countries[number].imageName)
                 }
             }
         }
