@@ -8,110 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var items = ContentView.keys.items
-    @State private var botChoice: String = ContentView.generateBotChoice()
-    @State private var resultStatus = ContentView.generateResult()
-    @State private var score: Int = 0
-    @State private var round: Int = 1
-    @State private var showAlert: Bool = false
-    
-    @State private var deactivateButtons = false
-
-    func handleButtonTapped(tappedItem: String) {
-        deactivateButtons = true
-        
-        evaluateUserChoice(tappedItem) {
-            if isGameOver() {
-                showAlert = true
-            } else {
-                round += 1
-                setupDefaultValuesForNewRound()
-            }
-            
-            deactivateButtons = false
-        }
-    }
-    
-    func isGameOver() -> Bool {
-        return round + 1 > ContentView.keys.limitedRounds
-    }
-    
-    func evaluateUserChoice(_ userChoice: String, execute: @escaping () -> Void) {
-        let items = ContentView.keys.items
-        
-        guard
-            let indexOfUserChoice = items.firstIndex(of: userChoice),
-            let indexOfBotChoice = items.firstIndex(of: botChoice)
-        else {
-            return
-        }
-        
-        var result = false
-        switch resultStatus {
-        case .playerWin:
-            if indexOfBotChoice + 1 > 2 {
-                if indexOfUserChoice == 0 {
-                    result = true
-                }
-            } else {
-                if indexOfUserChoice == indexOfBotChoice + 1 {
-                    result = true
-                }
-            }
-        case .playerLose:
-            if indexOfBotChoice - 1 < 0 {
-                if indexOfUserChoice == 2 {
-                    result = true
-                }
-            } else {
-                if indexOfUserChoice == indexOfBotChoice - 1 {
-                    result = true
-                }
-            }
-        case .playerDraw:
-            if indexOfBotChoice == indexOfUserChoice {
-                result = true
-            }
-        }
-        
-        showCorrespondingEmotionOnItem(matchingResult: result, userChoiceIndex: indexOfUserChoice, execute: execute)
-    }
-    
-    func showCorrespondingEmotionOnItem(matchingResult: Bool, userChoiceIndex: Int, execute: @escaping () -> Void) {
-        var emotions = ContentView.keys.emotionForWrongAnswer
-        if matchingResult {
-            emotions = ContentView.keys.emotionForCorrectAnswer
-        }
-
-        let shuffedEmotions = emotions.shuffled()
-        let selectedEmotion = shuffedEmotions[0]
-        let currentItem = items[userChoiceIndex]
-        
-        items[userChoiceIndex] = selectedEmotion
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + ContentView.keys.emotionDisplayDelay) {
-            items[userChoiceIndex] = currentItem
-            
-            if matchingResult {
-                score += 1
-            } else {
-                score -= 1
-            }
-            
-            execute()
-        }
-    }
-    
-    func setupDefaultValuesForNewRound() {
-        botChoice = ContentView.generateBotChoice(currentChoice: botChoice)
-        resultStatus = ContentView.generateResult()
-    }
-    
-    func restartGame() {
-        score = 0
-        round = 1
-        setupDefaultValuesForNewRound()
-    }
+    @StateObject var vm = ContentViewModel()
     
     var body: some View {
         NavigationView {
@@ -124,15 +21,15 @@ struct ContentView: View {
                 .ignoresSafeArea()
                 
                 VStack {
-                    Text("Round: \(round)")
+                    Text("Round: \(vm.round)")
                         .font(.custom(ContentView.keys.fontName, size: 30))
                         .foregroundColor(.blue)
                         .shadow(color: .yellow, radius: 10, x: 0, y: 0)
                         
                     VStack (spacing: 10) {
-                        CircleTextView(content: $botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
+                        CircleTextView(content: $vm.botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
                         
-                        Text(resultStatus.rawValue)
+                        Text(vm.resultStatus.rawValue)
                             .font(.custom(ContentView.keys.fontName, size: 60))
                             .foregroundColor(.blue)
                             .shadow(color: .yellow, radius: 10, x: 0, y: 0)
@@ -141,13 +38,13 @@ struct ContentView: View {
                     Spacer()
                     
                     VStack (spacing: 20) {
-                        ForEach($items, id: \.self) { item in
+                        ForEach($vm.items, id: \.self) { item in
                             Button {
-                                handleButtonTapped(tappedItem: item.wrappedValue)
+                                vm.handleButtonTapped(tappedItem: item.wrappedValue)
                             } label: {
                                 CircleTextView(content: item, backgroundColors: [.gray, .blue, .white], shadowColor: .yellow)
                             }
-                            .disabled(deactivateButtons)
+                            .disabled(vm.deactivateButtons)
                         }
                     }
                     
@@ -155,13 +52,13 @@ struct ContentView: View {
                 }
             }
         }
-        .alert("GameOver", isPresented: $showAlert) {
+        .alert("GameOver", isPresented: $vm.showAlert) {
             Button("Restart") {
                 // restart game
-                restartGame()
+                vm.restartGame()
             }
         } message: {
-            Text("Final Score is \(score)!\n")
+            Text("Final Score is \(vm.score)!\n")
         }
         
     }
