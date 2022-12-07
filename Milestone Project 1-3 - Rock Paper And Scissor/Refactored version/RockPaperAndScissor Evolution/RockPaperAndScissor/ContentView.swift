@@ -130,7 +130,7 @@ struct ContentView: View {
                         .shadow(color: .yellow, radius: 10, x: 0, y: 0)
                         
                     VStack (spacing: 10) {
-                        CircleText(content: $botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
+                        CircleTextView(content: $botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
                         
                         Text(resultStatus.rawValue)
                             .font(.custom(ContentView.keys.fontName, size: 60))
@@ -145,7 +145,7 @@ struct ContentView: View {
                             Button {
                                 handleButtonTapped(tappedItem: item.wrappedValue)
                             } label: {
-                                CircleText(content: item, backgroundColors: [.gray, .blue, .white], shadowColor: .yellow)
+                                CircleTextView(content: item, backgroundColors: [.gray, .blue, .white], shadowColor: .yellow)
                             }
                             .disabled(deactivateButtons)
                         }
