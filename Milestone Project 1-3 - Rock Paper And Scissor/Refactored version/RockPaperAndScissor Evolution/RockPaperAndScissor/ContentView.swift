@@ -41,15 +41,7 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    VStack (spacing: 20) {
-                        ForEach($vm.items, id: \.self) { item in
-                            CircleButtonView(
-                                item: item.wrappedValue,
-                                backgroundColors: [.gray, .blue, .white],
-                                shadowColor: .yellow)
-                            .disabled(vm.deactivateButtons)
-                        }
-                    }
+                    CircleButtonsView()
                     
                     Spacer()
                 }
