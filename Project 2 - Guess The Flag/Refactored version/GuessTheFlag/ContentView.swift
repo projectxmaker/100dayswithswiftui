@@ -96,7 +96,7 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                         } label: {
-                            FlagImage(imageName: countries[number])
+                            FlagImageView(imageName: countries[number])
                         }
                     }
                 }

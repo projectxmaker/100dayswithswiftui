@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct FlagImage: View {
+struct FlagImageView: View {
     var imageName: String
     
     var body: some View {
@@ -16,5 +16,11 @@ struct FlagImage: View {
             .renderingMode(.original)
             .clipShape(Capsule())
             .shadow(color: .white, radius: 5, x: 0, y: 2)
+    }
+}
+
+struct FlagImage_Preview: PreviewProvider {
+    static var previews: some View {
+        FlagImageView(imageName: "France")
     }
 }
