@@ -37,7 +37,7 @@ struct ContentView: View {
             userCurrency = currentLocale.currencyCode ?? "USD"
         }
         
-        return FloatingPointFormatStyle<Double>.Currency(code: userCurrency, locale: Locale.current)
+        return FloatingPointFormatStyle<Double>.Currency(code: userCurrency)
     }
     
     var body: some View {
@@ -49,19 +49,11 @@ struct ContentView: View {
                         .keyboardType(.decimalPad)
                         .focused($amountTextFieldIsFocused)
                     
-                    Picker("Number of people", selection: $numberOfPeople) {
-                        ForEach(2..<100, id:\.self) { element in
-                            Text("\(element) people")
-                        }
-                    }
+                    NumberOfPeopleView(numberOfPeople: $numberOfPeople)
                 }
 
                 Section {
-                    Picker("Tip percentage", selection: $tipPercentage) {
-                        ForEach(tipPercentages, id: \.self) { element in
-                            Text(element, format: .percent)
-                        }
-                    }
+                    TipPercentageView(tipPercentages: tipPercentages, tipPercentage: $tipPercentage)
                 } header: {
                     Text("How much tip do you want to leave")
                 }
