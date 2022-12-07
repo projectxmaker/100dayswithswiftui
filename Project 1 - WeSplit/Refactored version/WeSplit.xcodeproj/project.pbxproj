@@ -26,6 +26,7 @@
 		8A3462DC294029D2001D4071 /* AmounPerPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmounPerPersonView.swift; sourceTree = "<group>"; };
 		8A3462DE29402C52001D4071 /* AmountOfCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountOfCheckView.swift; sourceTree = "<group>"; };
 		8A3462E029402FB5001D4071 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		8A3462E429403414001D4071 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8AA904EB28DE9D03001C4801 /* WeSplit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeSplit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AA904EE28DE9D03001C4801 /* WeSplitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeSplitApp.swift; sourceTree = "<group>"; };
 		8AA904F028DE9D04001C4801 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 				en,
 				Base,
 				vi,
+				th,
 			);
 			mainGroup = 8AA904E228DE9D03001C4801;
 			productRefGroup = 8AA904EC28DE9D03001C4801 /* Products */;
@@ -190,6 +192,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8A074430293FA0500059EE92 /* vi */,
+				8A3462E429403414001D4071 /* th */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

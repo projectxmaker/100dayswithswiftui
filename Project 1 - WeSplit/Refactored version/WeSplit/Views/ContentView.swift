@@ -74,7 +74,7 @@ struct ContentView_Previews: PreviewProvider {
                 .environment(\.locale, .init(identifier: "vi_VN")  )
             
             ContentView()
-                .environment(\.locale, .init(identifier: "fr_FR"))
+                .environment(\.locale, .init(identifier: "th_TH"))
         }
     }
 }
