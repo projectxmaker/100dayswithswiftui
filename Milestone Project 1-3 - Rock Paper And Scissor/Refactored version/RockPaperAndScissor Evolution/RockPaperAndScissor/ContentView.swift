@@ -27,7 +27,11 @@ struct ContentView: View {
                         .shadow(color: .yellow, radius: 10, x: 0, y: 0)
                         
                     VStack (spacing: 10) {
-                        CircleTextView(content: $vm.botChoice, backgroundColors: [.white, .indigo, .yellow], shadowColor: .yellow)
+                        CircleTextView(
+                            item: vm.botChoice,
+                            backgroundColors: [.white, .indigo, .yellow],
+                            shadowColor: .yellow
+                        )
                         
                         Text(vm.resultStatus.rawValue)
                             .font(.custom(ContentView.keys.fontName, size: 60))
@@ -39,11 +43,10 @@ struct ContentView: View {
                     
                     VStack (spacing: 20) {
                         ForEach($vm.items, id: \.self) { item in
-                            Button {
-                                vm.handleButtonTapped(tappedItem: item.wrappedValue)
-                            } label: {
-                                CircleTextView(content: item, backgroundColors: [.gray, .blue, .white], shadowColor: .yellow)
-                            }
+                            CircleButtonView(
+                                item: item.wrappedValue,
+                                backgroundColors: [.gray, .blue, .white],
+                                shadowColor: .yellow)
                             .disabled(vm.deactivateButtons)
                         }
                     }
@@ -60,7 +63,7 @@ struct ContentView: View {
         } message: {
             Text("Final Score is \(vm.score)!\n")
         }
-        
+        .environmentObject(vm)
     }
 }
 
