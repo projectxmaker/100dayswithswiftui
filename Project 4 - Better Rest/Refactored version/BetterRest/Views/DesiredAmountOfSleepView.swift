@@ -14,8 +14,8 @@ struct DesiredAmountOfSleepView: View {
         Section {
             Text("Desired amount of sleep")
                 .font(.headline)
-            
-            Stepper("\(vm.sleepAmount.formatted()) hours", value: $vm.sleepAmount, in: 4...12, step: 0.25)
+
+            Stepper("\(vm.sleepAmount) hour", value: $vm.sleepAmount, in: 4...12, step: 0.25)
                 .onChange(of: vm.sleepAmount) { newValue in
                     vm.updateBedtime()
                 }
@@ -40,5 +40,6 @@ struct DesiredAmountOfSleepView_Previews: PreviewProvider {
     
     static var previews: some View {
         SampleView()
+            .environment(\.locale, Locale(identifier: "en_US"))
     }
 }

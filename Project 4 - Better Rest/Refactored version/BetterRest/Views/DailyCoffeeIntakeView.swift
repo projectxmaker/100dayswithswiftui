@@ -15,7 +15,7 @@ struct DailyCoffeeIntakeView: View {
             Text("Daily coffee intake")
                 .font(.headline)
             
-            Picker(vm.coffeeAmount == 1 ? "1 cup" : "\(vm.coffeeAmount) cups", selection: $vm.coffeeAmount) {
+            Picker("^[\(vm.coffeeAmount) cup](inflect: true)", selection: $vm.coffeeAmount) {
                 ForEach(1..<21, id: \.self) { eachOption in
                     Text("\(eachOption)")
                 }
@@ -44,5 +44,6 @@ struct DailyCoffeeIntakeView_Previews: PreviewProvider {
     
     static var previews: some View {
         SampleView()
+            .environment(\.locale, Locale(identifier: "en_US"))
     }
 }

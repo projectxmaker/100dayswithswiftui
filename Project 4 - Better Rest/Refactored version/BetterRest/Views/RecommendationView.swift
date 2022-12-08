@@ -14,7 +14,7 @@ struct RecommendationView: View {
         Section {
             Text("Recommendation")
                 .font(.largeTitle)
-            Text("\(vm.recommendedBedtime)")
+            Text(vm.recommendedBedtime)
         }
     }
 }

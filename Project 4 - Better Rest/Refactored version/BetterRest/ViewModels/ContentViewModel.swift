@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreML
+import SwiftUI
 
 @MainActor
 class ContentViewModel: ObservableObject {
@@ -14,25 +15,19 @@ class ContentViewModel: ObservableObject {
     @Published var sleepAmount = ContentViewModel.keys.defaultSleepAmount
     @Published var coffeeAmount = ContentViewModel.keys.defaultCoffeeAmount
     
-    @Published var recommendedBedtime: String = ""
+    @Published var recommendedBedtime: LocalizedStringKey = ""
     
     let tomorrow = Date.now.addingTimeInterval(86400)
     
     // MARK: - Functions
-    func generateBedTimeMessage(title: String, message: String) -> String {
-        return "\(title) \(message)"
-    }
-    
-    func calculateBedtime(wakeUp: Date? = ContentViewModel.keys.defaultWakeTime, sleepAmount: Double? = ContentViewModel.keys.defaultSleepAmount, coffeeAmount: Double? = Double(ContentViewModel.keys.defaultCoffeeAmount)) -> String {
-        
-        var title = "Error:"
-        var message = "Sorry, there was a problem calculating your bedtime."
+    func calculateBedtime(wakeUp: Date? = ContentViewModel.keys.defaultWakeTime, sleepAmount: Double? = ContentViewModel.keys.defaultSleepAmount, coffeeAmount: Double? = Double(ContentViewModel.keys.defaultCoffeeAmount)) -> LocalizedStringKey {
         
         guard let wakeUp = wakeUp,
               let sleepAmount = sleepAmount,
               let coffeeAmount = coffeeAmount
         else {
-            return generateBedTimeMessage(title: title, message: message)
+            let message = LocalizedStringKey("Error: Sorry, there was a problem calculating your bedtime.")
+            return message
         }
         
         do {
@@ -47,13 +42,13 @@ class ContentViewModel: ObservableObject {
 
             let sleepTime = wakeUp - prediction.actualSleep
 
-            title = "Your ideal bedtime is"
-            message = sleepTime.formatted(date: .omitted, time: .shortened)
+            let sleepTimeString = sleepTime.formatted(date: .omitted, time: .shortened)
+            let message = LocalizedStringKey("Your ideal bedtime is \(sleepTimeString)")
+            return message
         } catch {
-            // no
+            let message = LocalizedStringKey("Error: Sorry, there was a problem predicting your bedtime.")
+            return message
         }
-        
-        return generateBedTimeMessage(title: title, message: message)
     }
     
     // MARK: - Instance Methods
