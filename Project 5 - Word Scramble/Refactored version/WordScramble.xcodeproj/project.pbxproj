@@ -13,6 +13,8 @@
 		8A433A3728E72CCE00A2851D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A433A3628E72CCE00A2851D /* Preview Assets.xcassets */; };
 		8A7655F329422E710062D950 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7655F229422E710062D950 /* ContentViewModel.swift */; };
 		8A7655F52942317E0062D950 /* UsedWordsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7655F42942317E0062D950 /* UsedWordsSectionView.swift */; };
+		8A7655FA2942356E0062D950 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A7655F82942356E0062D950 /* Localizable.strings */; };
+		8A7655FB294235790062D950 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 8A7655FD294235790062D950 /* Localizable.stringsdict */; };
 		8AD8CA5F28E73D0700C7F173 /* start.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AD8CA5E28E73D0700C7F173 /* start.txt */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +26,9 @@
 		8A433A3628E72CCE00A2851D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8A7655F229422E710062D950 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		8A7655F42942317E0062D950 /* UsedWordsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsedWordsSectionView.swift; sourceTree = "<group>"; };
+		8A7655F92942356E0062D950 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8A7655FC294235790062D950 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		8A7655FE2942357E0062D950 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = vi; path = vi.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		8AD8CA5E28E73D0700C7F173 /* start.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = start.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -57,10 +62,12 @@
 		8A433A2E28E72CCC00A2851D /* WordScramble */ = {
 			isa = PBXGroup;
 			children = (
+				8A7655F82942356E0062D950 /* Localizable.strings */,
 				8A433A2F28E72CCC00A2851D /* WordScrambleApp.swift */,
 				8A433A3128E72CCC00A2851D /* ContentView.swift */,
-				8A7655F42942317E0062D950 /* UsedWordsSectionView.swift */,
+				8A7655FD294235790062D950 /* Localizable.stringsdict */,
 				8A7655F229422E710062D950 /* ContentViewModel.swift */,
+				8A7655F42942317E0062D950 /* UsedWordsSectionView.swift */,
 				8AD8CA5E28E73D0700C7F173 /* start.txt */,
 				8A433A3328E72CCE00A2851D /* Assets.xcassets */,
 				8A433A3528E72CCE00A2851D /* Preview Content */,
@@ -118,6 +125,7 @@
 			knownRegions = (
 				en,
 				Base,
+				vi,
 			);
 			mainGroup = 8A433A2328E72CCC00A2851D;
 			productRefGroup = 8A433A2D28E72CCC00A2851D /* Products */;
@@ -134,7 +142,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A7655FA2942356E0062D950 /* Localizable.strings in Resources */,
 				8A433A3728E72CCE00A2851D /* Preview Assets.xcassets in Resources */,
+				8A7655FB294235790062D950 /* Localizable.stringsdict in Resources */,
 				8AD8CA5F28E73D0700C7F173 /* start.txt in Resources */,
 				8A433A3428E72CCE00A2851D /* Assets.xcassets in Resources */,
 			);
@@ -155,6 +165,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8A7655F82942356E0062D950 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A7655F92942356E0062D950 /* vi */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		8A7655FD294235790062D950 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A7655FC294235790062D950 /* en */,
+				8A7655FE2942357E0062D950 /* vi */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8A433A3828E72CCE00A2851D /* Debug */ = {
