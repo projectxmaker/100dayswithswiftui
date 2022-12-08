@@ -18,14 +18,7 @@ struct ContentView: View {
                         .textInputAutocapitalization(.never)
                 }
 
-                Section ("Score: \(vm.usedWords.count) words | \(vm.totalLetters) letters") {
-                    ForEach(vm.usedWords, id: \.self) { word in
-                        HStack {
-                            Image(systemName: "\(word.count).circle")
-                            Text(word)
-                        }
-                    }
-                }
+                UsedWordsSectionView()
             }
             .navigationTitle(vm.rootWord)
             .onSubmit {
