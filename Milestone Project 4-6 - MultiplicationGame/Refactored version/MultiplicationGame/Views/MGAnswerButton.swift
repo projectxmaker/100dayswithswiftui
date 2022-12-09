@@ -53,3 +53,21 @@ struct MGAnswerButton: View {
         })
     }
 }
+
+struct MGAnswerButton_Preview: PreviewProvider {
+    static var previews: some View {
+        MGAnswerButton(
+            action: {
+                print("do nothing")
+            },
+            label: "Button",
+            fontSize: 18,
+            width: 100,
+            height: 44,
+            spotlightAnimationAmount: 1,
+            spinDegreeWhenButtonTapped: 360,
+            hideAnimation: false,
+            isCorrectButtonTapped: false
+        )
+    }
+}
