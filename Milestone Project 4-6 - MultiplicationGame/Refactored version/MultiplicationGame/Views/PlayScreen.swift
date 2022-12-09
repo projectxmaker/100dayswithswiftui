@@ -58,29 +58,7 @@ struct PlayScreen: View {
             VStack {
                 Spacer()
                 
-                Button {
-                    withAnimation {
-                        playScreenVM.quitButtonSpinDegree += 360
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            playScreenVM.quitPlayingGame()
-                        }
-                    }
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 50, style: .circular)
-                            .fill(Material.ultraThinMaterial)
-                            .frame(width: 40, height: 40)
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                        
-                        Image(systemName: "xmark.circle")
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "05a899")))
-                            .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
-                    }
-                }
-                .offset(y: -5)
-                .rotation3DEffect(.degrees(playScreenVM.quitButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
+                MGExitGameButton()
             }
         }
         .environmentObject(playScreenVM)
