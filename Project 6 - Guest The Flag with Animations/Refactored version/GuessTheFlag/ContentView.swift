@@ -8,82 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showFlagAnimations = [Bool](repeating: false, count: 3)
-    @State private var flagsNotChosen = [Bool](repeating: false, count: 3)
-    @State private var showingFinalAlertScore = false
-    @State private var showingScore = false
-    @State private var scoreTitle = ""
-    
-    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
-    @State private var correctAnswer = Int.random(in: 0...2)
-    
-    @State private var score = 0
-    @State private var alertOfFlagTappedMessage: String = ""
-    
-    @State private var roundCounter = 0
-    let limitedNumberOfRounds = 8
-    
-    func flagTapped(_ number: Int) {
-        changeUntappedFlagOpacity(tappedFlagIndex: number)
-        showFlagAnimations[number].toggle()
-        
-        var messages = [String]()
-        if number == correctAnswer {
-            scoreTitle = "Correct"
-            score += 1
-        } else {
-            scoreTitle = "Wrong"
-            messages.append("That’s the flag of \(countries[number])")
-            score -= 1
-        }
-
-        messages.append("Your score is \(score)")
-        alertOfFlagTappedMessage = messages.joined(separator: "\n")
-
-        showingScore = true
-
-        roundCounter += 1
-    }
-    
-    func changeUntappedFlagOpacity(tappedFlagIndex: Int) {
-        let tmpChangeFlagOpacities = flagsNotChosen
-        for (index, _) in tmpChangeFlagOpacities.enumerated() {
-            var changeOpacity = false
-            if index != tappedFlagIndex {
-                changeOpacity = true
-            }
-
-            flagsNotChosen[index] = changeOpacity
-        }
-    }
-    
-    func displayFinalAlert() {
-        if isGameOver() {
-            showingFinalAlertScore = true
-        }
-    }
-    
-    func restartGame() {
-        roundCounter = 0
-        score = 0
-        
-        askQuestion()
-    }
-    
-    func askQuestion() {
-        guard !isGameOver() else {
-            displayFinalAlert()
-            return
-        }
-        
-        countries.shuffle()
-        correctAnswer = Int.random(in: 0...2)
-        flagsNotChosen = [Bool](repeating: false, count: 3)
-    }
-    
-    func isGameOver() -> Bool {
-        roundCounter == limitedNumberOfRounds
-    }
+    @StateObject var vm = ContentViewModel()
     
     var body: some View {
         ZStack {
@@ -106,15 +31,15 @@ struct ContentView: View {
                             .font(.subheadline.weight(.heavy))
                             .foregroundStyle(.secondary)
 
-                        Text(countries[correctAnswer])
+                        Text(vm.countries[vm.correctAnswer])
                             .font(.largeTitle.weight(.semibold))
                     }
 
                     ForEach(0..<3) { number in
                         Button {
-                            flagTapped(number)
+                            vm.flagTapped(number)
                         } label: {
-                            FlagImageView(showAnimation: showFlagAnimations[number], isNotChosen: flagsNotChosen[number], imageName: countries[number])
+                            FlagImageView(showAnimation: vm.showFlagAnimations[number], isNotChosen: vm.flagsNotChosen[number], imageName: vm.countries[number])
                         }
                     }
                 }
@@ -126,23 +51,23 @@ struct ContentView: View {
                 Spacer()
                 Spacer()
                 
-                Text("Score: \(score)")
+                Text("Score: \(vm.score)")
                     .foregroundColor(.white)
                     .font(.title.bold())
                 
                 Spacer()
             }
             .padding()
-            .alert("GameOver", isPresented: $showingFinalAlertScore) {
-                Button("Restart", action: restartGame)
+            .alert("GameOver", isPresented: $vm.showingFinalAlertScore) {
+                Button("Restart", action: vm.restartGame)
             } message: {
-                Text("Final score is \(score)")
+                Text("Final score is \(vm.score)")
             }
         }
-        .alert(scoreTitle, isPresented: $showingScore) {
-            Button("Continue", action: askQuestion)
+        .alert(vm.scoreTitle, isPresented: $vm.showingScore) {
+            Button("Continue", action: vm.askQuestion)
         } message: {
-            Text(alertOfFlagTappedMessage)
+            Text(vm.alertOfFlagTappedMessage)
         }
     }
 }
