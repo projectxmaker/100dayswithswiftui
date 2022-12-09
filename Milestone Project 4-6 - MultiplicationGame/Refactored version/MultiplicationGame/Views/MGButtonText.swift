@@ -26,3 +26,14 @@ struct MGButtonText: View {
             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
     }
 }
+
+struct MGButtonText_Preview: PreviewProvider {
+    static var previews: some View {
+        MGButtonText(
+            label: "hello",
+            fontSize: 18,
+            width: 100,
+            height: 40
+        )
+    }
+}
