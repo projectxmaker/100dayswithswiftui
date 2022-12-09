@@ -24,3 +24,12 @@ struct MGButton<Content: View>: View {
     }
 }
 
+struct MGButton_Preview: PreviewProvider {
+    static var previews: some View {
+        MGButton(action: {
+            print("button is tapped")
+        }, label: {
+            Text("Tap Me")
+        }, spinDegreeWhenButtonTapped: 360)
+    }
+}
