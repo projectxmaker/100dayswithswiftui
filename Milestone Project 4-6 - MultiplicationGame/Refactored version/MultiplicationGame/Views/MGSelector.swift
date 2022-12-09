@@ -55,3 +55,32 @@ struct MGSelector: View {
         .transition(.scale)
     }
 }
+
+struct MGSelector_Preview: PreviewProvider {
+    struct SampleView: View {
+        var options = 2...12
+        var width: CGFloat = 100
+        var height: CGFloat = 380
+        var offsetX: CGFloat = -20
+        var offsetY: CGFloat = -210
+        
+        @State var selectedOption: Int = 5
+        @State var show: Bool = false
+        
+        var body: some View {
+            MGSelector(
+                options: Array(options),
+                width: width,
+                height: height,
+                offsetX: offsetX,
+                offsetY: offsetY,
+                selectedOption: $selectedOption,
+                show: $show
+            )
+        }
+    }
+    
+    static var previews: some View {
+        SampleView()
+    }
+}

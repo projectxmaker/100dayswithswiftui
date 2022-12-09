@@ -62,3 +62,35 @@ struct MGPicker: View {
         .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
     }
 }
+
+struct MGPicker_Preview: PreviewProvider {
+    struct SampleView: View {
+        var title = "Test"
+        var options = 2...12
+        var selectFrameWidth: CGFloat = 100
+        var selectFrameHeight: CGFloat = 380
+        var selectFrameOffsetX: CGFloat = -20
+        var selectFrameOffsetY: CGFloat = -210
+        @State var selectedOption = 5
+        @State var showOptionList = false
+
+        
+        var body: some View {
+            MGPicker(
+                title: title,
+                options: Array(options),
+                selectFrameWidth: selectFrameWidth,
+                selectFrameHeight: selectFrameHeight,
+                selectFrameOffsetX: selectFrameOffsetX,
+                selectFrameOffsetY: selectFrameOffsetY,
+                selectedOption: $selectedOption,
+                showOptionList: $showOptionList){
+                    // do nothing
+                }
+        }
+    }
+    
+    static var previews: some View {
+        SampleView()
+    }
+}

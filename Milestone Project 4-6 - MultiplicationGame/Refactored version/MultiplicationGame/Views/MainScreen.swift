@@ -102,36 +102,16 @@ struct MainScreen: View {
 
             VStack {
                 if settingsToggle == SettingsToggle.on {
-                    ZStack {
-                        Color(UIColor.hexStringToUIColor(hex: "05a899"))
-                            .opacity(0.8)
-                            .ignoresSafeArea()
-                            .edgesIgnoringSafeArea(Edge.Set.all)
-
-                        VStack {
-                            Spacer()
-                            MGSettingsPanel(
-                                panelTitle: "SETTINGS",
-                                multiplicationTableSettingTitle: "Multiplication table",
-                                multiplicationTableOptionRange: Array(multiplicationTableRange),
-                                selectedMultiplicationTable: $multiplicationTable,
-                                showMenuOfMultiplicationTableSelection: $showMenuOfMultiplicationTableSelection,
-                                numberOfRoundSettingTitle: "Number of rounds",
-                                numberOfRoundOptionRange: numberOfRoundRange,
-                                selectedNumberOfRound: $numberOfRounds,
-                                showMenuOfNumberOfRoundSelection: $showMenuOfNumberOfRoundSelection
-                            )
-                        }
-                        .offset(y: -50)
-                    }
-                    .gesture(
-                        TapGesture(count: 1)
-                            .onEnded({ _ in
-                                withAnimation() {
-                                    showMenuOfNumberOfRoundSelection = false
-                                    showMenuOfMultiplicationTableSelection = false
-                                }
-                            })
+                    MGSettingsPanel(
+                        panelTitle: "SETTINGS",
+                        multiplicationTableSettingTitle: "Multiplication table",
+                        multiplicationTableOptionRange: Array(multiplicationTableRange),
+                        selectedMultiplicationTable: $multiplicationTable,
+                        showMenuOfMultiplicationTableSelection: $showMenuOfMultiplicationTableSelection,
+                        numberOfRoundSettingTitle: "Number of rounds",
+                        numberOfRoundOptionRange: numberOfRoundRange,
+                        selectedNumberOfRound: $numberOfRounds,
+                        showMenuOfNumberOfRoundSelection: $showMenuOfNumberOfRoundSelection
                     )
                 }
             }

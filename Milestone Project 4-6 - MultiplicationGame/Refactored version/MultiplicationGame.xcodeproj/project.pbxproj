@@ -110,8 +110,8 @@
 				8AE1906728F10AD7006F85C0 /* MGButton.swift */,
 				8AE1906928F1305A006F85C0 /* MGStartButton.swift */,
 				8AE1906B28F1352F006F85C0 /* MGSettingsPanel.swift */,
-				8AE1906D28F138C7006F85C0 /* MGSelector.swift */,
 				8AE1906F28F15C15006F85C0 /* MGPicker.swift */,
+				8AE1906D28F138C7006F85C0 /* MGSelector.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
