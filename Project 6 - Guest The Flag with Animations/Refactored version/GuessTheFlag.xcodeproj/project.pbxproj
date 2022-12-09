@@ -8,21 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		8A43458A2942C7BF00E71162 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4345892942C7BF00E71162 /* ContentViewModel.swift */; };
+		8A43458C2942D69200E71162 /* FlagImagesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A43458B2942D69200E71162 /* FlagImagesSectionView.swift */; };
 		8A62AF4F28E1952C00F76FE5 /* GuessTheFlagApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */; };
 		8A62AF5128E1952C00F76FE5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A62AF5028E1952C00F76FE5 /* ContentView.swift */; };
 		8A62AF5328E1952E00F76FE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A62AF5228E1952E00F76FE5 /* Assets.xcassets */; };
 		8A62AF5628E1952E00F76FE5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A62AF5528E1952E00F76FE5 /* Preview Assets.xcassets */; };
-		8AF1407F28E439550033888C /* FlagImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1407E28E439550033888C /* FlagImage.swift */; };
+		8AF1407F28E439550033888C /* FlagImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1407E28E439550033888C /* FlagImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8A4345892942C7BF00E71162 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		8A43458B2942D69200E71162 /* FlagImagesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagImagesSectionView.swift; sourceTree = "<group>"; };
 		8A62AF4B28E1952C00F76FE5 /* GuessTheFlag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuessTheFlag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessTheFlagApp.swift; sourceTree = "<group>"; };
 		8A62AF5028E1952C00F76FE5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A62AF5228E1952E00F76FE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A62AF5528E1952E00F76FE5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		8AF1407E28E439550033888C /* FlagImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagImage.swift; sourceTree = "<group>"; };
+		8AF1407E28E439550033888C /* FlagImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +38,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A43458D2942D72D00E71162 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8A62AF5028E1952C00F76FE5 /* ContentView.swift */,
+				8A43458B2942D69200E71162 /* FlagImagesSectionView.swift */,
+				8AF1407E28E439550033888C /* FlagImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8A43458E2942D73300E71162 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8A4345892942C7BF00E71162 /* ContentViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		8A62AF4228E1952C00F76FE5 = {
 			isa = PBXGroup;
 			children = (
@@ -56,9 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				8A62AF4E28E1952C00F76FE5 /* GuessTheFlagApp.swift */,
-				8A62AF5028E1952C00F76FE5 /* ContentView.swift */,
-				8A4345892942C7BF00E71162 /* ContentViewModel.swift */,
-				8AF1407E28E439550033888C /* FlagImage.swift */,
+				8A43458D2942D72D00E71162 /* Views */,
+				8A43458E2942D73300E71162 /* ViewModels */,
 				8A62AF5228E1952E00F76FE5 /* Assets.xcassets */,
 				8A62AF5428E1952E00F76FE5 /* Preview Content */,
 			);
@@ -144,8 +163,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A43458A2942C7BF00E71162 /* ContentViewModel.swift in Sources */,
+				8A43458C2942D69200E71162 /* FlagImagesSectionView.swift in Sources */,
 				8A62AF5128E1952C00F76FE5 /* ContentView.swift in Sources */,
-				8AF1407F28E439550033888C /* FlagImage.swift in Sources */,
+				8AF1407F28E439550033888C /* FlagImageView.swift in Sources */,
 				8A62AF4F28E1952C00F76FE5 /* GuessTheFlagApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
