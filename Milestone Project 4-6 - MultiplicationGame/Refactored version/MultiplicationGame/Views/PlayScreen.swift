@@ -41,24 +41,8 @@ struct PlayScreen: View {
                         
                         Spacer()
                         
-                        VStack(spacing: 20) {
-                            ForEach(playScreenVM.roundAnswers.indices, id: \.self) { answerIndex in
-                                MGAnswerButton(
-                                    action: {
-                                        withAnimation {
-                                            playScreenVM.handleAnswerButtonTapped(answerIndex: answerIndex)
-                                        }
-                                        
-                                    }, label: "\(playScreenVM.roundAnswers[answerIndex])"
-                                    , fontSize: 50, width: 300, height: 100
-                                    , backgroundColor:  ((playScreenVM.incorrectAnswerButtonAnimations[answerIndex] ?? false) ? "fe2640" : ((playScreenVM.correctAnswerButtonAnimations[answerIndex] ?? false) ? "35d461" : "f99d07"))
-                                    , spotlightAnimationAmount: playScreenVM.answerButtonSpotlightAnimationAmounts[answerIndex] ?? 0
-                                    , spinDegreeWhenButtonTapped: playScreenVM.roundAnswerButtonAnimations[answerIndex] ?? 0.0
-                                    , hideAnimation: playScreenVM.hideCorrectAnswerButtonAnimations[answerIndex] ?? false
-                                    , isCorrectButtonTapped: playScreenVM.showScoreForTappingOnCorrectAnswerButtonAnimations[answerIndex] ?? false
-                                )
-                            }
-                        }
+                        MGAnswerButtons()
+                        
                         Spacer()
                         Spacer()
                     }
@@ -99,5 +83,24 @@ struct PlayScreen: View {
                 .rotation3DEffect(.degrees(playScreenVM.quitButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
             }
         }
+        .environmentObject(playScreenVM)
+    }
+}
+
+
+struct PlayScreen_Previews: PreviewProvider {
+    struct SampleView: View {
+        @EnvironmentObject var vm: ContentViewModel
+        var body: some View {
+            PlayScreen(
+                numberOfRounds: vm.numberOfRounds,
+                multiplicationTable: vm.multiplicationTable,
+                runAfterGameIsOver: vm.runAfterGameIsOver(_:),
+                runQuitGame: vm.runAfterQuittingGame)
+        }
+    }
+    static var previews: some View {
+        SampleView()
+            .environmentObject(ContentViewModel())
     }
 }

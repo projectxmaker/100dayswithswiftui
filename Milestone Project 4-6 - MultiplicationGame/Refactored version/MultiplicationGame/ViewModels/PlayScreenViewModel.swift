@@ -8,6 +8,7 @@
 import Foundation
 
 class PlayScreenViewModel: ObservableObject {
+    // MARK: - Published variables
     @Published var goNextRound = false
     @Published var numberOfGeneratedRightOperands: Int = 0
     @Published var roundQuestion = ""
@@ -16,21 +17,25 @@ class PlayScreenViewModel: ObservableObject {
     @Published var inProcessingATapOnAnAnswerButton = false
     @Published var answerButtonSpotlightAnimationAmounts = [Int: Double]()
     @Published var roundAnswerButtonAnimations = [Int: Double]()
-    private var playerScore = 0
     @Published var correctAnswerButtonAnimations = [Int: Bool]()
     @Published var incorrectAnswerButtonAnimations = [Int: Bool]()
     @Published var hideCorrectAnswerButtonAnimations = [Int: Bool]()
     @Published var showScoreForTappingOnCorrectAnswerButtonAnimations = [Int: Bool]()
     @Published var quitButtonSpinDegree: Double = 0
-    
     @Published var roundContentRotationDegree: Double = 0
     @Published var roundContentShowUp = false
     
+    // MARK: - Private variables
+    private var playerScore = 0
+    
+    // MARK: - Public variables
     var numberOfRounds: Int
     var multiplicationTable: Int
     
     var runAfterGameIsOver: (_: Int) -> Void
     var runQuitGame: () -> Void
+    
+    
     
     init(numberOfRounds: Int, multiplicationTable: Int, runAfterGameIsOver: @escaping (_: Int) -> Void, runQuitGame: @escaping () -> Void) {
         self.numberOfRounds = numberOfRounds

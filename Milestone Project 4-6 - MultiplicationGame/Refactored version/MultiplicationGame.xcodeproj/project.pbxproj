@@ -10,6 +10,7 @@
 		8A31858029433464001CD2A0 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A31857F29433464001CD2A0 /* ContentViewModel.swift */; };
 		8A31858329433E85001CD2A0 /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A31858229433E85001CD2A0 /* MainScreenViewModel.swift */; };
 		8A350F112943840D00129FC5 /* PlayScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A350F102943840D00129FC5 /* PlayScreenViewModel.swift */; };
+		8A350F132943980F00129FC5 /* MGAnswerButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A350F122943980F00129FC5 /* MGAnswerButtons.swift */; };
 		8A6F641A28F3D81C00DE1ECD /* Text+ChangeTextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6F641928F3D81C00DE1ECD /* Text+ChangeTextColor.swift */; };
 		8AD8CAA128EA7EA300C7F173 /* MultiplicationGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD8CAA028EA7EA300C7F173 /* MultiplicationGameApp.swift */; };
 		8AD8CAA328EA7EA300C7F173 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD8CAA228EA7EA300C7F173 /* ContentView.swift */; };
@@ -31,6 +32,7 @@
 		8A31857F29433464001CD2A0 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		8A31858229433E85001CD2A0 /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
 		8A350F102943840D00129FC5 /* PlayScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayScreenViewModel.swift; sourceTree = "<group>"; };
+		8A350F122943980F00129FC5 /* MGAnswerButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGAnswerButtons.swift; sourceTree = "<group>"; };
 		8A6F641928F3D81C00DE1ECD /* Text+ChangeTextColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+ChangeTextColor.swift"; sourceTree = "<group>"; };
 		8AD8CA9D28EA7EA300C7F173 /* MultiplicationGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiplicationGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AD8CAA028EA7EA300C7F173 /* MultiplicationGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplicationGameApp.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				8AE1907328F166E8006F85C0 /* PlayScreen.swift */,
+				8A350F122943980F00129FC5 /* MGAnswerButtons.swift */,
 				8AE1907528F16AD2006F85C0 /* MainScreen.swift */,
 				8AE1906528F103DE006F85C0 /* MGAnswerButton.swift */,
 				8AE1906728F10AD7006F85C0 /* MGButton.swift */,
@@ -221,6 +224,7 @@
 				8AD8CAAF28EA9E4300C7F173 /* UIColor+Hexstring.swift in Sources */,
 				8AE1907028F15C15006F85C0 /* MGPicker.swift in Sources */,
 				8AE1907428F166E8006F85C0 /* PlayScreen.swift in Sources */,
+				8A350F132943980F00129FC5 /* MGAnswerButtons.swift in Sources */,
 				8AE1906C28F1352F006F85C0 /* MGSettingsPanel.swift in Sources */,
 				8A31858029433464001CD2A0 /* ContentViewModel.swift in Sources */,
 				8A31858329433E85001CD2A0 /* MainScreenViewModel.swift in Sources */,
