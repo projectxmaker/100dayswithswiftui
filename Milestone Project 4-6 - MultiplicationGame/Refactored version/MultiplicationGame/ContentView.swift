@@ -30,14 +30,7 @@ struct ContentView: View {
 
                 switch vm.screenType {
                 case .main:
-                    MainScreen(
-                        numberOfRounds: $vm.numberOfRounds,
-                        playButtonTitle: $vm.playButtonTitle,
-                        multiplicationTable: $vm.multiplicationTable,
-                        isEndGame: vm.isEndGame,
-                        finalScore: vm.finalScore) {
-                            vm.playGame()
-                        }
+                    MainScreen()
                 case .play:
                     PlayScreen(
                         numberOfRounds: $vm.numberOfRounds,

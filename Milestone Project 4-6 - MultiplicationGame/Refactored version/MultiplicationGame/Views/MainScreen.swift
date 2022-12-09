@@ -9,37 +9,8 @@ import Foundation
 import SwiftUI
 
 struct MainScreen: View {
-    @State private var showMenuOfMultiplicationTableSelection = false
-    @State private var showMenuOfNumberOfRoundSelection = false
-    @State private var settingsButtonSpinDegree: Double = 0
-    @State private var startButtonSpinDegree: Double = 0
-    @State private var screenType = ContentViewModel.ScreenType.main
-    @State private var settingsToggle = SettingsToggle.off
-    @State private var startButtonSpotlightAnimationAmount = 1.0
-    
-    @State private var changeColorOfLargeTitleOnMainScreen = false
-    @Binding var numberOfRounds: Int
-    @Binding var playButtonTitle: String
-    @Binding var multiplicationTable: Int
-    
-    var isEndGame: Bool
-    var finalScore: Int
-    let multiplicationTableRange = 2...12
-    let numberOfRoundRange = [5, 10, 20]
-    
-    var playAction: () -> Void
-    
-    func switchSettingsPanel() {
-        settingsButtonSpinDegree += 360
-        
-        if settingsToggle == SettingsToggle.off {
-            settingsToggle = SettingsToggle.on
-        } else {
-            settingsToggle = SettingsToggle.off
-            showMenuOfNumberOfRoundSelection = false
-            showMenuOfMultiplicationTableSelection = false
-        }
-    }
+    @EnvironmentObject var contentVM: ContentViewModel
+    @StateObject var vm = MainScreenViewModel()
     
     var body: some View {
         ZStack {
@@ -48,19 +19,19 @@ struct MainScreen: View {
                     .multilineTextAlignment(.center)
                     .font(.system(size: 35, weight: .bold))
                     .shadow(color: Color(UIColor.hexStringToUIColor(hex: "05a899")), radius: 10, x: 0, y: 1)
-                    .changeTextColor(Color(UIColor.hexStringToUIColor(hex: changeColorOfLargeTitleOnMainScreen ? "05a899" : "ffff00")))
+                    .changeTextColor(Color(UIColor.hexStringToUIColor(hex: vm.changeColorOfLargeTitleOnMainScreen ? "05a899" : "ffff00")))
                     .animation(
                         .easeInOut(duration: 2)
                         .repeatForever(autoreverses: true)
-                        , value: changeColorOfLargeTitleOnMainScreen
+                        , value: vm.changeColorOfLargeTitleOnMainScreen
                     )
                     .onAppear {
                         withAnimation {
-                            changeColorOfLargeTitleOnMainScreen = true
+                            vm.changeColorOfLargeTitleOnMainScreen = true
                         }
                     }
 
-                if isEndGame {
+                if contentVM.isEndGame {
                     Spacer()
 
                     Text("GameOver!")
@@ -70,7 +41,7 @@ struct MainScreen: View {
                         .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                         .multilineTextAlignment(.center)
 
-                    Text("Final Score\n\(finalScore)/\(numberOfRounds)")
+                    Text("Final Score\n\(contentVM.finalScore)/\(contentVM.numberOfRounds)")
                         .font(.system(size: 50))
                         .foregroundColor(Color(UIColor.hexStringToUIColor(hex: "ffff00")))
                         .fontWeight(.bold)
@@ -83,35 +54,35 @@ struct MainScreen: View {
                 MGStartButton(
                     action: {
                         withAnimation {
-                            startButtonSpinDegree += 360
+                            vm.startButtonSpinDegree += 360
 
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                playAction()
+                                contentVM.playGame()
                             }
                         }
-                }, label: playButtonTitle
+                }, label: contentVM.playButtonTitle
                     , fontSize: 40
                     , width: 300
                     , height: 100
-                    , spotlightAnimationAmount: $startButtonSpotlightAnimationAmount
-                    , spinDegreeWhenButtonTapped: startButtonSpinDegree
+                    , spotlightAnimationAmount: $vm.startButtonSpotlightAnimationAmount
+                    , spinDegreeWhenButtonTapped: vm.startButtonSpinDegree
                 )
                 
                 Spacer()
             }
 
             VStack {
-                if settingsToggle == SettingsToggle.on {
+                if vm.settingsToggle == SettingsToggle.on {
                     MGSettingsPanel(
                         panelTitle: "SETTINGS",
                         multiplicationTableSettingTitle: "Multiplication table",
-                        multiplicationTableOptionRange: Array(multiplicationTableRange),
-                        selectedMultiplicationTable: $multiplicationTable,
-                        showMenuOfMultiplicationTableSelection: $showMenuOfMultiplicationTableSelection,
+                        multiplicationTableOptionRange: Array(vm.multiplicationTableRange),
+                        selectedMultiplicationTable: $contentVM.multiplicationTable,
+                        showMenuOfMultiplicationTableSelection: $vm.showMenuOfMultiplicationTableSelection,
                         numberOfRoundSettingTitle: "Number of rounds",
-                        numberOfRoundOptionRange: numberOfRoundRange,
-                        selectedNumberOfRound: $numberOfRounds,
-                        showMenuOfNumberOfRoundSelection: $showMenuOfNumberOfRoundSelection
+                        numberOfRoundOptionRange: vm.numberOfRoundRange,
+                        selectedNumberOfRound: $contentVM.numberOfRounds,
+                        showMenuOfNumberOfRoundSelection: $vm.showMenuOfNumberOfRoundSelection
                     )
                 }
             }
@@ -121,9 +92,8 @@ struct MainScreen: View {
                 
                 Button {
                     withAnimation {
-                        switchSettingsPanel()
+                        vm.switchSettingsPanel()
                     }
-
                 } label: {
                     ZStack {
                         Circle()
@@ -131,18 +101,25 @@ struct MainScreen: View {
                             .frame(width: 40, height: 40)
                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
 
-                        Image(systemName: settingsToggle == SettingsToggle.off ? "gearshape" : "xmark.circle")
+                        Image(systemName: vm.settingsToggle == SettingsToggle.off ? "gearshape" : "xmark.circle")
                             .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: settingsToggle == SettingsToggle.off ? "05a899" : "ffff00")))
+                            .foregroundColor(Color(UIColor.hexStringToUIColor(hex: vm.settingsToggle == SettingsToggle.off ? "05a899" : "ffff00")))
                             .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                     }
 
                 }
                 .offset(y: -5)
-                .rotation3DEffect(.degrees(settingsButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
+                .rotation3DEffect(.degrees(vm.settingsButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
             }
         }
         .transition(.move(edge: Edge.bottom))
-        .animation(.easeOut(duration: 0.5), value: screenType)
+        .animation(.easeOut(duration: 0.5), value: vm.screenType)
+    }
+}
+
+struct MainScreen_Preview: PreviewProvider {
+    static var previews: some View {
+        MainScreen()
+            .environmentObject(ContentViewModel())
     }
 }
