@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ContentViewModel: ObservableObject {
     // MARK: - Published Variables
@@ -15,11 +16,22 @@ class ContentViewModel: ObservableObject {
     
     // MARK: Public Variables
     var flagsNotChosen = [Bool](repeating: false, count: 3)
-    var scoreTitle = ""
-    var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+    var scoreTitle: LocalizedStringKey = ""
+    var countries = [
+        Country(name: "Estonia", flag: "Estonia"),
+        Country(name: "France", flag: "France"),
+        Country(name: "Germany", flag: "Germany"),
+        Country(name: "Ireland", flag: "Ireland"),
+        Country(name: "Italy", flag: "Italy"),
+        Country(name: "Nigeria", flag: "Nigeria"),
+        Country(name: "Poland", flag: "Poland"),
+        Country(name: "Russia", flag: "Russia"),
+        Country(name: "Spain", flag: "Spain"),
+        Country(name: "UK", flag: "UK")
+    ].shuffled()
     var correctAnswer = Int.random(in: 0...2)
     var score = 0
-    var alertOfFlagTappedMessage: String = ""
+    var alertOfFlagTappedMessage: LocalizedStringKey = ""
     
     // MARK: - Private Variables
     private var roundCounter = 0
@@ -30,19 +42,15 @@ class ContentViewModel: ObservableObject {
         changeUntappedFlagOpacity(tappedFlagIndex: number)
         showFlagAnimations[number].toggle()
         
-        var messages = [String]()
         if number == correctAnswer {
             scoreTitle = "Correct"
             score += 1
         } else {
             scoreTitle = "Wrong"
-            messages.append("That’s the flag of \(countries[number])")
             score -= 1
+            alertOfFlagTappedMessage = "That’s the flag of \(countries[number].flag).\nYour score is \(score)"
         }
-
-        messages.append("Your score is \(score)")
-        alertOfFlagTappedMessage = messages.joined(separator: "\n")
-
+        
         showingScore = true
 
         roundCounter += 1

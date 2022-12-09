@@ -17,7 +17,7 @@ struct FlagImagesSectionView: View {
                     .font(.subheadline.weight(.heavy))
                     .foregroundStyle(.secondary)
 
-                Text(vm.countries[vm.correctAnswer])
+                Text(vm.countries[vm.correctAnswer].name)
                     .font(.largeTitle.weight(.semibold))
             }
 
@@ -25,7 +25,7 @@ struct FlagImagesSectionView: View {
                 Button {
                     vm.flagTapped(number)
                 } label: {
-                    FlagImageView(showAnimation: vm.showFlagAnimations[number], isNotChosen: vm.flagsNotChosen[number], imageName: vm.countries[number])
+                    FlagImageView(showAnimation: vm.showFlagAnimations[number], isNotChosen: vm.flagsNotChosen[number], imageName: vm.countries[number].flag)
                 }
             }
         }
