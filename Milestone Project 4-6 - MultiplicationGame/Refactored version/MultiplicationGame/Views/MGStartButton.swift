@@ -43,3 +43,29 @@ struct MGStartButton: View {
         }, spinDegreeWhenButtonTapped: spinDegreeWhenButtonTapped)
     }
 }
+
+struct MGStartButton_Preview: PreviewProvider {
+    struct SampleView: View {
+        @State var spotlightAnimationAmount: Double = 1
+        
+        var body: some View {
+            MGStartButton(
+                action: {
+                    print("do nothing")
+                },
+                label: "Button",
+                fontSize: 18,
+                width: 100,
+                height: 44,
+                backgroundColor: "f99d07",
+                spotlightAnimationAmount: $spotlightAnimationAmount,
+                spinDegreeWhenButtonTapped: 360
+            )
+        }
+    }
+    
+    static var previews: some View {
+        SampleView()
+    }
+}
+
