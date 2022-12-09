@@ -8,9 +8,9 @@
 import Foundation
 import SwiftUI
 
-struct FlagImage: View {
-    @Binding var showAnimation: Bool
-    @Binding var isNotChosen: Bool
+struct FlagImageView: View {
+    var showAnimation: Bool
+    var isNotChosen: Bool
     var imageName: String
     
     var body: some View {
@@ -24,5 +24,11 @@ struct FlagImage: View {
             .rotation3DEffect(.degrees(showAnimation ? 360 : 0), axis: (x: 0, y: 1, z: 0))
             .animation(.interpolatingSpring(stiffness: 5, damping: 3), value: isNotChosen)
             .animation(.interpolatingSpring(stiffness: 5, damping: 1), value: showAnimation)
+    }
+}
+
+struct FlagImageView_Preview: PreviewProvider {
+    static var previews: some View {
+        FlagImageView(showAnimation: true, isNotChosen: false, imageName: "France")
     }
 }

@@ -114,7 +114,7 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                         } label: {
-                            FlagImage(showAnimation: $showFlagAnimations[number], isNotChosen: $flagsNotChosen[number], imageName: countries[number])
+                            FlagImageView(showAnimation: showFlagAnimations[number], isNotChosen: flagsNotChosen[number], imageName: countries[number])
                         }
                     }
                 }
