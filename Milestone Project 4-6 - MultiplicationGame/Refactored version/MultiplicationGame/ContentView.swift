@@ -8,62 +8,16 @@
 import SwiftUI
 import UIKit
 
-enum ScreenType {
-    case main
-    case play
-}
-
 enum SettingsToggle {
     case on
     case off
 }
 
 struct ContentView: View {
-    @State private var screenType = ScreenType.main
-    @State private var changeColorOfLargeTitleOnMainScreen = false
-    @State private var multiplicationTable = 2
-    @State private var numberOfRounds = 5
-    @State private var roundAnswers = [Int]()
-    @State private var roundCorrectAnswer = 0
-    @State private var inPlay = false
-    @State private var isEndGame = false
-    @State private var finalScore = 0
-    @State private var playButtonTitle = "Start"
-
-    func showMainScreen() -> some View {
-        MainScreen(
-            numberOfRounds: $numberOfRounds,
-            playButtonTitle: $playButtonTitle,
-            multiplicationTable: $multiplicationTable,
-            isEndGame: isEndGame,
-            finalScore: finalScore) {
-                screenType = ScreenType.play
-            }
-    }
+    @StateObject var vm = ContentViewModel()
     
-    func runAfterGameIsOver(_ finalScore: Int) {
-        isEndGame = true
-        self.finalScore = finalScore
-        playButtonTitle = "Restart"
-        screenType = ScreenType.main
-    }
-    
-    func funAfterQuittingGame() {
-        screenType = ScreenType.main
-        isEndGame = false
-        finalScore = 0
-        playButtonTitle = "Start"
-    }
-    
-    func showPlayScreen() -> some View {
-        PlayScreen(
-            numberOfRounds: $numberOfRounds,
-            multiplicationTable: $multiplicationTable,
-            runAfterGameIsOver: runAfterGameIsOver(_:),
-            runQuitGame: funAfterQuittingGame)
-    }
-    
-    func getAppContent() -> some View {
+    // MARK: - body
+    var body: some View {
         VStack (spacing: 20) {
             ZStack {
                 LinearGradient(stops: [
@@ -74,19 +28,26 @@ struct ContentView: View {
                 ], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
 
-                switch screenType {
+                switch vm.screenType {
                 case .main:
-                    showMainScreen()
+                    MainScreen(
+                        numberOfRounds: $vm.numberOfRounds,
+                        playButtonTitle: $vm.playButtonTitle,
+                        multiplicationTable: $vm.multiplicationTable,
+                        isEndGame: vm.isEndGame,
+                        finalScore: vm.finalScore) {
+                            vm.playGame()
+                        }
                 case .play:
-                    showPlayScreen()
+                    PlayScreen(
+                        numberOfRounds: $vm.numberOfRounds,
+                        multiplicationTable: $vm.multiplicationTable,
+                        runAfterGameIsOver: vm.runAfterGameIsOver(_:),
+                        runQuitGame: vm.runAfterQuittingGame)
                 }
             }
         }
-    }
-    
-    // MARK: - body
-    var body: some View {
-        getAppContent()
+        .environmentObject(vm)
     }
 }
 

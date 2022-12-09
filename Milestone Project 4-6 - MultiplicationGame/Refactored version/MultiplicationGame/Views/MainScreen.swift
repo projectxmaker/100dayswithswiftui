@@ -13,7 +13,7 @@ struct MainScreen: View {
     @State private var showMenuOfNumberOfRoundSelection = false
     @State private var settingsButtonSpinDegree: Double = 0
     @State private var startButtonSpinDegree: Double = 0
-    @State private var screenType = ScreenType.main
+    @State private var screenType = ContentViewModel.ScreenType.main
     @State private var settingsToggle = SettingsToggle.off
     @State private var startButtonSpotlightAnimationAmount = 1.0
     
