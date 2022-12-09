@@ -14,15 +14,13 @@ class ContentViewModel: ObservableObject {
         case play
     }
     
-
     @Published var multiplicationTable = 2
     @Published var numberOfRounds = 5
     @Published var playButtonTitle = "Start"
     @Published var isEndGame = false
     @Published var finalScore = 0
     
-    var screenType = ScreenType.main
-    private var changeColorOfLargeTitleOnMainScreen = false
+    @Published var screenType = ScreenType.main
     private var roundAnswers = [Int]()
     private var roundCorrectAnswer = 0
     private var inPlay = false

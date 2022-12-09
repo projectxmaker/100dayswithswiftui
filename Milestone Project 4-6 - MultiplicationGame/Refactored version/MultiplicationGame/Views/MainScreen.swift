@@ -88,6 +88,7 @@ struct MainScreen: View {
             }
             
             VStack {
+                
                 Spacer()
                 
                 Button {
@@ -108,12 +109,11 @@ struct MainScreen: View {
                     }
 
                 }
-                .offset(y: -5)
                 .rotation3DEffect(.degrees(vm.settingsButtonSpinDegree), axis: (x: 1, y: 0, z: 0))
             }
         }
         .transition(.move(edge: Edge.bottom))
-        .animation(.easeOut(duration: 0.5), value: vm.screenType)
+        .animation(.easeOut(duration: 0.5), value: contentVM.screenType)
     }
 }
 

@@ -83,7 +83,7 @@ struct MGSettingsPanel: View {
                         .shadow(color: Color(UIColor.hexStringToUIColor(hex: "ffff00")), radius: 10, x: 0, y: 1)
                 )
                 .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
-                .offset(y: -10)
+                .offset(y: -55)
             }
         }
         .gesture(

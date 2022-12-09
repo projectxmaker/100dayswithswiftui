@@ -33,8 +33,8 @@ struct ContentView: View {
                     MainScreen()
                 case .play:
                     PlayScreen(
-                        numberOfRounds: $vm.numberOfRounds,
-                        multiplicationTable: $vm.multiplicationTable,
+                        numberOfRounds: vm.numberOfRounds,
+                        multiplicationTable: vm.multiplicationTable,
                         runAfterGameIsOver: vm.runAfterGameIsOver(_:),
                         runQuitGame: vm.runAfterQuittingGame)
                 }

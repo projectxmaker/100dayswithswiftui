@@ -15,11 +15,9 @@ class MainScreenViewModel: ObservableObject {
     @Published var settingsToggle = SettingsToggle.off
     
     // MARK: - Public variables
-    var settingsButtonSpinDegree: Double = 0
-    var startButtonSpinDegree: Double = 0
-    var screenType = ContentViewModel.ScreenType.main
-    
-    var changeColorOfLargeTitleOnMainScreen = false
+    @Published var settingsButtonSpinDegree: Double = 0
+    @Published var startButtonSpinDegree: Double = 0
+    @Published var changeColorOfLargeTitleOnMainScreen = false
     
     // MARK: - Contants
     let multiplicationTableRange = 2...12
