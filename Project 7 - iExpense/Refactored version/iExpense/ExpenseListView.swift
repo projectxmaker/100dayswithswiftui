@@ -17,19 +17,7 @@ struct ExpenseListView: View {
         if !expenses.isEmpty {
             Section(title) {
                 ForEach(expenses, id: \.id) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            Text(item.type.rawValue)
-                        }
-                        
-                        Spacer()
-                        
-                        Text(item.amount, format: .currency(code: expenseVM.currencyCode))
-                            .foregroundColor(expenseVM.getColorByAmount(item.amount))
-                            .shadow(color: .gray, radius: 1, x: 1, y: 1)
-                    }
+
                 }
                 .onDelete { indexSet in
                     var arrItemIds = [UUID]()
