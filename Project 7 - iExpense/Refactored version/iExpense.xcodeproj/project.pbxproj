@@ -85,10 +85,10 @@
 		8AAC7D2429442A6E005C0DA8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8AF70AAD28F5109D00E93F50 /* AddView.swift */,
 				8A6F642A28F4173300DE1ECD /* ContentView.swift */,
 				8AAC7D2029441F81005C0DA8 /* ExpenseListView.swift */,
 				8AAC7D222944292C005C0DA8 /* ExpenseRowView.swift */,
+				8AF70AAD28F5109D00E93F50 /* AddView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
