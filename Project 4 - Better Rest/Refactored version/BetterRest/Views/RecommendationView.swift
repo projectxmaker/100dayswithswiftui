@@ -14,7 +14,13 @@ struct RecommendationView: View {
         Section {
             Text("Recommendation")
                 .font(.largeTitle)
-            Text(vm.recommendedBedtime)
+            
+            if let sleepingTime = vm.recommendedSleepingTime {
+                Text("Your ideal bedtime is ") + Text(sleepingTime, formatter: vm.dateFormatter)
+            } else {
+                Text("Error: Sorry, there was a problem predicting your bedtime.")
+            }
+            
         }
     }
 }

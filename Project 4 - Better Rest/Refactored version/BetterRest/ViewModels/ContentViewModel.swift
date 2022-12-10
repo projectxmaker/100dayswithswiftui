@@ -14,20 +14,24 @@ class ContentViewModel: ObservableObject {
     @Published var wakeUp = ContentViewModel.keys.defaultWakeTime
     @Published var sleepAmount = ContentViewModel.keys.defaultSleepAmount
     @Published var coffeeAmount = ContentViewModel.keys.defaultCoffeeAmount
-    
-    @Published var recommendedBedtime: LocalizedStringKey = ""
+    @Published var recommendedSleepingTime: Date?
     
     let tomorrow = Date.now.addingTimeInterval(86400)
+    let dateFormatter = DateFormatter()
+    
+    init() {
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .short
+    }
     
     // MARK: - Functions
-    func calculateBedtime(wakeUp: Date? = ContentViewModel.keys.defaultWakeTime, sleepAmount: Double? = ContentViewModel.keys.defaultSleepAmount, coffeeAmount: Double? = Double(ContentViewModel.keys.defaultCoffeeAmount)) -> LocalizedStringKey {
+    func calculateBedtime(wakeUp: Date? = ContentViewModel.keys.defaultWakeTime, sleepAmount: Double? = ContentViewModel.keys.defaultSleepAmount, coffeeAmount: Double? = Double(ContentViewModel.keys.defaultCoffeeAmount)) {
         
         guard let wakeUp = wakeUp,
               let sleepAmount = sleepAmount,
               let coffeeAmount = coffeeAmount
         else {
-            let message = LocalizedStringKey("Error: Sorry, there was a problem calculating your bedtime.")
-            return message
+            return
         }
         
         do {
@@ -40,21 +44,16 @@ class ContentViewModel: ObservableObject {
             
             let prediction = try model.prediction(wake: Double(hour + minute), estimatedSleep: sleepAmount, coffee: Double(coffeeAmount))
 
-            let sleepTime = wakeUp - prediction.actualSleep
-
-            let sleepTimeString = sleepTime.formatted(date: .omitted, time: .shortened)
-            let message = LocalizedStringKey("Your ideal bedtime is \(sleepTimeString)")
-            return message
+            recommendedSleepingTime = wakeUp - prediction.actualSleep
         } catch {
-            let message = LocalizedStringKey("Error: Sorry, there was a problem predicting your bedtime.")
-            return message
+            recommendedSleepingTime = nil
         }
     }
     
     // MARK: - Instance Methods
     
     func updateBedtime() {
-        recommendedBedtime = calculateBedtime(wakeUp: wakeUp, sleepAmount: sleepAmount, coffeeAmount: Double(coffeeAmount))
+        calculateBedtime(wakeUp: wakeUp, sleepAmount: sleepAmount, coffeeAmount: Double(coffeeAmount))
     }
     
 }

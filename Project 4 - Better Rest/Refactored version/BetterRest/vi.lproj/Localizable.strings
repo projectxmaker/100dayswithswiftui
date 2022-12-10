@@ -8,9 +8,6 @@
 "Desired amount of sleep" = "Số giờ ngủ mong muốn";
 
 /* No comment provided by engineer. */
-"Error: Sorry, there was a problem calculating your bedtime." = "Lỗi: Xin lỗi, có lỗi trong quá trình phân tích thời gian đi ngủ của bạn.";
-
-/* No comment provided by engineer. */
 "Error: Sorry, there was a problem predicting your bedtime." = "Lỗi: Xin lỗi, có lỗi trong quá trình phân tích thời gian đi ngủ của bạn.";
 
 /* No comment provided by engineer. */
@@ -23,5 +20,5 @@
 "When do you want to wake up?" = "Bạn muốn ngủ dậy lúc mấy giờ?";
 
 /* No comment provided by engineer. */
-"Your ideal bedtime is %@" = "Thời gian lý tưởng để bạn đi ngủ là %@";
+"Your ideal bedtime is " = "Thời gian lý tưởng để đi ngủ là ";
 
