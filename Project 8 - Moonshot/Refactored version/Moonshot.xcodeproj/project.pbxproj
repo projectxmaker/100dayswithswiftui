@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8AAC7D2F29447E1A005C0DA8 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAC7D2E29447E1A005C0DA8 /* ContentViewModel.swift */; };
 		8AF70AC028F57EFE00E93F50 /* MoonshotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70ABF28F57EFE00E93F50 /* MoonshotApp.swift */; };
 		8AF70AC228F57EFE00E93F50 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70AC128F57EFE00E93F50 /* ContentView.swift */; };
 		8AF70AC428F57F0000E93F50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AF70AC328F57F0000E93F50 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8AAC7D2E29447E1A005C0DA8 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		8AF70ABC28F57EFE00E93F50 /* Moonshot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moonshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF70ABF28F57EFE00E93F50 /* MoonshotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonshotApp.swift; sourceTree = "<group>"; };
 		8AF70AC128F57EFE00E93F50 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -50,6 +52,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8AAC7D3029447E59005C0DA8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				8AAC7D2E29447E1A005C0DA8 /* ContentViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		8AF70AB328F57EFE00E93F50 = {
 			isa = PBXGroup;
 			children = (
@@ -70,7 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				8AF70ABF28F57EFE00E93F50 /* MoonshotApp.swift */,
-				8AF70AC128F57EFE00E93F50 /* ContentView.swift */,
+				8AAC7D3029447E59005C0DA8 /* ViewModel */,
 				8AF70AED28F70A5E00E93F50 /* Views */,
 				8AF70AE928F70A0400E93F50 /* View Extensions */,
 				8AF70AEA28F70A1E00E93F50 /* Data Layer */,
@@ -127,6 +137,7 @@
 		8AF70AED28F70A5E00E93F50 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8AF70AC128F57EFE00E93F50 /* ContentView.swift */,
 				8AF70ADF28F6B05500E93F50 /* MissionView.swift */,
 				8AF70AE328F6F54F00E93F50 /* CrewView.swift */,
 				8AF70AE128F6B90900E93F50 /* AstronautView.swift */,
@@ -210,6 +221,7 @@
 				8AF70AE428F6F54F00E93F50 /* CrewView.swift in Sources */,
 				8AF70AD628F652DA00E93F50 /* Astronaut.swift in Sources */,
 				8AF70AE228F6B90900E93F50 /* AstronautView.swift in Sources */,
+				8AAC7D2F29447E1A005C0DA8 /* ContentViewModel.swift in Sources */,
 				8AF70AC228F57EFE00E93F50 /* ContentView.swift in Sources */,
 				8AF70AD828F6539400E93F50 /* Bundle+Decodable.swift in Sources */,
 				8AF70ADC28F67E7E00E93F50 /* Color+Theme.swift in Sources */,

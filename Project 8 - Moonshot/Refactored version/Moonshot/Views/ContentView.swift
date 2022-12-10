@@ -9,10 +9,7 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @State private var showingGrid = true
-    
-    let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
-    let missions: [Mission] = Bundle.main.decode("missions.json")
+    @StateObject var vm = ContentViewModel()
     
     let columnsOfGrid = [
         GridItem(.adaptive(minimum: 150))
@@ -25,10 +22,10 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVGrid(columns: showingGrid ? columnsOfGrid : columnsOfList) {
-                    ForEach(missions) { mission in
+                LazyVGrid(columns: vm.showingGrid ? columnsOfGrid : columnsOfList) {
+                    ForEach(vm.missions) { mission in
                         NavigationLink {
-                            MissionView(mission: mission, astronauts: astronauts)
+                            MissionView(mission: mission, astronauts: vm.astronauts)
                         } label: {
                             VStack {
                                 Image(mission.image)
@@ -65,9 +62,9 @@ struct ContentView: View {
             .preferredColorScheme(.dark)
             .toolbar {
                 Button {
-                    showingGrid.toggle()
+                    vm.showingGrid.toggle()
                 } label: {
-                    Text(showingGrid ? "List" : "Grid")
+                    Text(vm.showingGrid ? "List" : "Grid")
                 }
 
             }
