@@ -61,13 +61,10 @@
 		8A6F642728F4173300DE1ECD /* iExpense */ = {
 			isa = PBXGroup;
 			children = (
-				8AF70AAD28F5109D00E93F50 /* AddView.swift */,
 				8A6F642828F4173300DE1ECD /* iExpenseApp.swift */,
-				8A6F642A28F4173300DE1ECD /* ContentView.swift */,
-				8AAC7D2029441F81005C0DA8 /* ExpenseListView.swift */,
-				8AAC7D222944292C005C0DA8 /* ExpenseRowView.swift */,
-				8AF70AAF28F5271900E93F50 /* ExpenseItem.swift */,
-				8AF70AB128F5272B00E93F50 /* ExpensesViewModel.swift */,
+				8AAC7D2429442A6E005C0DA8 /* Views */,
+				8AAC7D2629442A84005C0DA8 /* Models */,
+				8AAC7D2529442A7B005C0DA8 /* ViewModels */,
 				8A6F642C28F4173400DE1ECD /* Assets.xcassets */,
 				8A6F642E28F4173400DE1ECD /* Preview Content */,
 			);
@@ -80,6 +77,33 @@
 				8A6F642F28F4173400DE1ECD /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8AAC7D2429442A6E005C0DA8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70AAD28F5109D00E93F50 /* AddView.swift */,
+				8A6F642A28F4173300DE1ECD /* ContentView.swift */,
+				8AAC7D2029441F81005C0DA8 /* ExpenseListView.swift */,
+				8AAC7D222944292C005C0DA8 /* ExpenseRowView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8AAC7D2529442A7B005C0DA8 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70AB128F5272B00E93F50 /* ExpensesViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8AAC7D2629442A84005C0DA8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8AF70AAF28F5271900E93F50 /* ExpenseItem.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
