@@ -38,9 +38,17 @@ struct ContentView: View {
                                     Text(mission.displayName)
                                         .font(.headline)
                                         .foregroundColor(.white)
-                                    Text(mission.formattedLaunchDate)
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(0.5))
+                                    
+                                    VStack {
+                                        if let launchDate = mission.launchDate {
+                                            Text(launchDate, formatter: mission.getDateFormatter())
+
+                                        } else {
+                                            Text("N/A")
+                                        }
+                                    }
+                                    .font(.caption)
+                                    .foregroundColor(.white.opacity(0.5))
                                 }
                                 .padding(.vertical)
                                 .frame(maxWidth: .infinity)
@@ -75,5 +83,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.locale, Locale(identifier: "vi_VN"))
     }
 }

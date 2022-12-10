@@ -25,10 +25,16 @@ struct MissionView: View {
                         .frame(maxWidth: geometry.size.width * 0.6)
                         .padding(.top)
                     
-                    Text(missionVM.mission.formattedLaunchDate)
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.5))
-                    
+                    if let launchDate = missionVM.mission.launchDate {
+                        Text(launchDate, formatter: missionVM.mission.getDateFormatter())
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.5))
+                    } else {
+                        Text("N/A")
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.5))
+                    }
+
                     VStack(alignment: .leading) {
                         Rectangle()
                             .frame(height: 2)

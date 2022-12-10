@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Mission: Codable, Identifiable {
     struct CrewRole: Codable {
@@ -26,7 +27,11 @@ struct Mission: Codable, Identifiable {
         "apollo\(id)"
     }
     
-    var formattedLaunchDate: String {
-        launchDate?.formatted(date: .abbreviated, time: .omitted) ?? "N/A"
+    func getDateFormatter() -> DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        
+        return dateFormatter
     }
 }
