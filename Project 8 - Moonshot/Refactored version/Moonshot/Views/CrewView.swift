@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CrewView: View {
-    let crew: [MissionView.CrewMember]
+    let crew: [MissionViewModel.CrewMember]
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -45,7 +45,7 @@ struct CrewView: View {
 
 struct CrewView_Previews: PreviewProvider {
     static var previews: some View {
-        let crewMembers = [MissionView.CrewMember]()
+        let crewMembers = [MissionViewModel.CrewMember]()
         CrewView(crew: crewMembers)
     }
 }

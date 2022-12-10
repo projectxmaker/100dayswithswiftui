@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8AAC7D2F29447E1A005C0DA8 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAC7D2E29447E1A005C0DA8 /* ContentViewModel.swift */; };
+		8AAC7D3229448050005C0DA8 /* MissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAC7D3129448050005C0DA8 /* MissionViewModel.swift */; };
 		8AF70AC028F57EFE00E93F50 /* MoonshotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70ABF28F57EFE00E93F50 /* MoonshotApp.swift */; };
 		8AF70AC228F57EFE00E93F50 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70AC128F57EFE00E93F50 /* ContentView.swift */; };
 		8AF70AC428F57F0000E93F50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AF70AC328F57F0000E93F50 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		8AAC7D2E29447E1A005C0DA8 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		8AAC7D3129448050005C0DA8 /* MissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionViewModel.swift; sourceTree = "<group>"; };
 		8AF70ABC28F57EFE00E93F50 /* Moonshot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moonshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF70ABF28F57EFE00E93F50 /* MoonshotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonshotApp.swift; sourceTree = "<group>"; };
 		8AF70AC128F57EFE00E93F50 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				8AAC7D2E29447E1A005C0DA8 /* ContentViewModel.swift */,
+				8AAC7D3129448050005C0DA8 /* MissionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				8AF70AE428F6F54F00E93F50 /* CrewView.swift in Sources */,
 				8AF70AD628F652DA00E93F50 /* Astronaut.swift in Sources */,
 				8AF70AE228F6B90900E93F50 /* AstronautView.swift in Sources */,
+				8AAC7D3229448050005C0DA8 /* MissionViewModel.swift in Sources */,
 				8AAC7D2F29447E1A005C0DA8 /* ContentViewModel.swift in Sources */,
 				8AF70AC228F57EFE00E93F50 /* ContentView.swift in Sources */,
 				8AF70AD828F6539400E93F50 /* Bundle+Decodable.swift in Sources */,

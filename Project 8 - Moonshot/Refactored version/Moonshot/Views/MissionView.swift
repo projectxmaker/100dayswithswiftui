@@ -8,37 +8,24 @@
 import SwiftUI
 
 struct MissionView: View {
-    struct CrewMember {
-        let role: String
-        let astronaut: Astronaut
-    }
-    
-    let mission: Mission
-    let crew: [CrewMember]
+
+    @StateObject var missionVM: MissionViewModel
 
     init(mission: Mission, astronauts: [String: Astronaut]) {
-        self.mission = mission
-
-        self.crew = mission.crew.map { member in
-            if let astronaut = astronauts[member.name] {
-                return CrewMember(role: member.role, astronaut: astronaut)
-            } else {
-                fatalError("Missing \(member.name)")
-            }
-        }
+        _missionVM = StateObject(wrappedValue: MissionViewModel(mission: mission, astronauts: astronauts))
     }
     
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 VStack {
-                    Image(mission.image)
+                    Image(missionVM.mission.image)
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: geometry.size.width * 0.6)
                         .padding(.top)
                     
-                    Text(mission.formattedLaunchDate)
+                    Text(missionVM.mission.formattedLaunchDate)
                         .font(.caption)
                         .foregroundColor(.white.opacity(0.5))
                     
@@ -52,7 +39,7 @@ struct MissionView: View {
                             .font(.title.bold())
                             .padding(.bottom, 5)
                         
-                        Text(mission.description)
+                        Text(missionVM.mission.description)
                         
                         Rectangle()
                             .frame(height: 2)
@@ -65,12 +52,12 @@ struct MissionView: View {
                     }
                     .padding(.horizontal)
                     
-                    CrewView(crew: crew)
+                    CrewView(crew: missionVM.crew)
                 }
                 .padding(.bottom)
             }
         }
-        .navigationTitle(mission.displayName)
+        .navigationTitle(missionVM.mission.displayName)
         .navigationBarTitleDisplayMode(.inline)
         .background(.darkBackground)
     }
@@ -81,7 +68,9 @@ struct MissionView_Previews: PreviewProvider {
     static let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
 
     static var previews: some View {
-        MissionView(mission: missions[0], astronauts: astronauts)
-            .preferredColorScheme(.dark)
+        NavigationView {
+            MissionView(mission: missions[0], astronauts: astronauts)
+                .preferredColorScheme(.dark)
+        }
     }
 }
