@@ -13,6 +13,7 @@
 		8A6F643028F4173400DE1ECD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A6F642F28F4173400DE1ECD /* Preview Assets.xcassets */; };
 		8AAC7D2129441F81005C0DA8 /* ExpenseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAC7D2029441F81005C0DA8 /* ExpenseListView.swift */; };
 		8AAC7D232944292C005C0DA8 /* ExpenseRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAC7D222944292C005C0DA8 /* ExpenseRowView.swift */; };
+		8AAC7D2929442C4B005C0DA8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8AAC7D2729442C4B005C0DA8 /* Localizable.strings */; };
 		8AF70AAE28F5109D00E93F50 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70AAD28F5109D00E93F50 /* AddView.swift */; };
 		8AF70AB028F5271900E93F50 /* ExpenseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70AAF28F5271900E93F50 /* ExpenseItem.swift */; };
 		8AF70AB228F5272B00E93F50 /* ExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF70AB128F5272B00E93F50 /* ExpensesViewModel.swift */; };
@@ -26,6 +27,7 @@
 		8A6F642F28F4173400DE1ECD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8AAC7D2029441F81005C0DA8 /* ExpenseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseListView.swift; sourceTree = "<group>"; };
 		8AAC7D222944292C005C0DA8 /* ExpenseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRowView.swift; sourceTree = "<group>"; };
+		8AAC7D2829442C4B005C0DA8 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8AF70AAD28F5109D00E93F50 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		8AF70AAF28F5271900E93F50 /* ExpenseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseItem.swift; sourceTree = "<group>"; };
 		8AF70AB128F5272B00E93F50 /* ExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewModel.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 		8A6F642728F4173300DE1ECD /* iExpense */ = {
 			isa = PBXGroup;
 			children = (
+				8AAC7D2729442C4B005C0DA8 /* Localizable.strings */,
 				8A6F642828F4173300DE1ECD /* iExpenseApp.swift */,
 				8AAC7D2429442A6E005C0DA8 /* Views */,
 				8AAC7D2629442A84005C0DA8 /* Models */,
@@ -148,6 +151,7 @@
 			knownRegions = (
 				en,
 				Base,
+				vi,
 			);
 			mainGroup = 8A6F641C28F4173200DE1ECD;
 			productRefGroup = 8A6F642628F4173300DE1ECD /* Products */;
@@ -165,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A6F643028F4173400DE1ECD /* Preview Assets.xcassets in Resources */,
+				8AAC7D2929442C4B005C0DA8 /* Localizable.strings in Resources */,
 				8A6F642D28F4173400DE1ECD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,6 +192,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8AAC7D2729442C4B005C0DA8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AAC7D2829442C4B005C0DA8 /* vi */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8A6F643128F4173400DE1ECD /* Debug */ = {

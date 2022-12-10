@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum ExpenseType: String, Codable, CaseIterable {
+enum ExpenseType: LocalizedStringKey, Codable, CaseIterable {
     case business = "Business"
     case personal = "Personal"
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct ExpenseListView: View {
     @EnvironmentObject var expenseVM: ExpensesViewModel
     
-    var title: String
+    var title: LocalizedStringKey
     var expenses: [ExpenseItem]
     
     var body: some View {

@@ -49,6 +49,11 @@ struct ContentView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        SampleView()
+        Group {
+            SampleView()
+            
+            SampleView()
+                .environment(\.locale, Locale(identifier: "vi_VN"))
+        }
     }
 }
