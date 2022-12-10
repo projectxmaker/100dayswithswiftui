@@ -44,8 +44,17 @@ struct CrewView: View {
 }
 
 struct CrewView_Previews: PreviewProvider {
+    static let contentVM = ContentViewModel()
+    
     static var previews: some View {
-        let crewMembers = [MissionViewModel.CrewMember]()
+        let crewMembers:[MissionViewModel.CrewMember] = contentVM.missions[0].crew.map { member in
+            if let astronaut = contentVM.astronauts[member.name] {
+                return MissionViewModel.CrewMember(role: member.role, astronaut: astronaut)
+            } else {
+                fatalError("Missing \(member.name)")
+            }
+        }
         CrewView(crew: crewMembers)
+            .background(.darkBackground)
     }
 }
