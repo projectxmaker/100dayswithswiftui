@@ -17,7 +17,7 @@ struct ExpenseListView: View {
         if !expenses.isEmpty {
             Section(title) {
                 ForEach(expenses, id: \.id) { item in
-
+                    ExpenseRowView(item: item)
                 }
                 .onDelete { indexSet in
                     var arrItemIds = [UUID]()
