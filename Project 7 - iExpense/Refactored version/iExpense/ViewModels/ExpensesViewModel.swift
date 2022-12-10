@@ -7,15 +7,11 @@
 
 import SwiftUI
 
+@MainActor
 class ExpensesViewModel: ObservableObject {
-    @Published var items = [ExpenseItem]() {
-        didSet {
-            if let encoded = try? JSONEncoder().encode(items) {
-                UserDefaults.standard.set(encoded, forKey: "Items")
-            }
-        }
-    }
+    var expenseFactory = ExpenseFactory.shared
     
+    @Published var items = [ExpenseItem]()
     @Published var showingAddExpense = false
     
     var currencyCode: String {
@@ -30,23 +26,17 @@ class ExpensesViewModel: ObservableObject {
         return code
     }
     
-    // MARK: - Initializer
     init() {
-        if let savedItems = UserDefaults.standard.data(forKey: "Items") {
-            if let decodedItems = try? JSONDecoder().decode([ExpenseItem].self, from: savedItems) {
-                items = decodedItems
-                return
-            }
-        }
-
-        items = []
+        loadItems()
     }
     
     // MARK: - Extra Funcs
+    func loadItems() {
+        items = expenseFactory.items
+    }
+    
     func removeItemsByIds(ids: [UUID]) {
-        items = items.filter { expenseItem in
-            !ids.contains(expenseItem.id)
-        }
+        expenseFactory.removeExpenseByIds(ids: ids)
     }
     
     func getColorByAmount(_ amount: Double) -> Color {
@@ -73,7 +63,7 @@ class ExpensesViewModel: ObservableObject {
         
         return expenses
     }
-
+    
     // MARK: - Sample data
     static var sampleExpenses: [ExpenseItem] {
         [

@@ -42,9 +42,6 @@ struct ContentView_Previews: PreviewProvider {
         
         var body: some View {
             ContentView()
-                .onAppear() {
-                    vm.items = ExpensesViewModel.sampleExpenses
-                }
         }
     }
     

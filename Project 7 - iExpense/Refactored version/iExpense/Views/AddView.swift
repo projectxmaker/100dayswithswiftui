@@ -8,36 +8,30 @@
 import SwiftUI
 
 struct AddView: View {
-    @State private var name = ""
-    @State private var type = ExpenseType.personal
-    @State private var amount = 0.0
-    
+    @StateObject var addVM = AddViewModel()
+
     @EnvironmentObject var expensesVM: ExpensesViewModel
-
     @Environment(\.dismiss) var dismiss
-
-    let types = ["Business", "Personal"]
 
     var body: some View {
         NavigationView {
             Form {
-                TextField("Name", text: $name)
+                TextField("Name", text: $addVM.name)
 
-                Picker("Type", selection: $type) {
+                Picker("Type", selection: $addVM.type) {
                     ForEach(ExpenseType.allCases, id: \.self) {
                         Text($0.rawValue)
                     }
                 }
 
-                TextField("Amount", value: $amount, format: .currency(code: expensesVM.currencyCode))
+                TextField("Amount", value: $addVM.amount, format: .currency(code: expensesVM.currencyCode))
                     .keyboardType(.decimalPad)
             }
             .navigationTitle("Add new expense")
             .toolbar {
                 Button("Save") {
-                    let item = ExpenseItem(name: name, type: type, amount: amount)
-                    expensesVM.items.append(item)
-                    
+                    addVM.addExpense()
+                    expensesVM.loadItems()
                     dismiss()
                 }
             }
