@@ -78,7 +78,6 @@
 				8AF70B3328FBBC2500E93F50 /* Model */,
 				8AF70B3428FBBC3400E93F50 /* Extensions */,
 				8AF70B1828FAEAC900E93F50 /* HabitTrackingApp.swift */,
-				8AF70B1A28FAEAC900E93F50 /* ContentView.swift */,
 				8AF70B1C28FAEACB00E93F50 /* Assets.xcassets */,
 				8AF70B1E28FAEACB00E93F50 /* Preview Content */,
 			);
@@ -96,6 +95,7 @@
 		8AF70B3228FBBC1600E93F50 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8AF70B1A28FAEAC900E93F50 /* ContentView.swift */,
 				8AF70B2E28FBB83400E93F50 /* HTButton.swift */,
 				8AF70B3728FBFF0500E93F50 /* HTTextInput.swift */,
 				8AF70B2828FAF2CA00E93F50 /* ActivityCreationView.swift */,

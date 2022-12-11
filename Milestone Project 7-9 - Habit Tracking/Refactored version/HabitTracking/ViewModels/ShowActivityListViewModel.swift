@@ -8,11 +8,11 @@
 import Foundation
 
 class ShowActivityListViewModel: ObservableObject {
-    private var activityManager: ActivityManager
+    @Published var showActivityCreationView = false
+    @Published var showDeletionAlert = false
+    @Published var deletedItem: ActivityItem?
     
-    init(activityManager: ActivityManager) {
-        self.activityManager = activityManager
-    }
+    private var activityManager = ActivityManager.shared
     
     func getActivityManager() -> ActivityManager {
         return activityManager

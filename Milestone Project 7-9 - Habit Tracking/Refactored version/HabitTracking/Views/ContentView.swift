@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var activityManager = ActivityManager()
-    
     var body: some View {
-        ActivityListView(showActivityListViewModel: ShowActivityListViewModel(activityManager: activityManager))
+        ActivityListView()
     }
 }
 

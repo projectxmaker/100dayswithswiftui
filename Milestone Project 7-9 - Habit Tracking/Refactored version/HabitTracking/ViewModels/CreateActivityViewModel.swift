@@ -8,14 +8,10 @@
 import Foundation
 
 class CreateActivityViewModel: ObservableObject {
-    private var activityManager: ActivityManager
+    private var activityManager = ActivityManager.shared
     
     @Published var title: String = ""
     @Published var description: String = ""
-    
-    init(activityManager: ActivityManager) {
-        self.activityManager = activityManager
-    }
     
     // MARK - Extra Functions For Validation
     func isValidTitle() -> Bool {

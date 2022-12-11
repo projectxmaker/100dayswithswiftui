@@ -7,8 +7,10 @@
 
 import Foundation
 
-class ActivityManager: ObservableObject {
-    @Published private var list: [ActivityItem] {
+class ActivityManager {
+    static var shared = ActivityManager()
+    
+    private var list: [ActivityItem] {
         didSet {
             if let data = try? JSONEncoder().encode(list) {
                 UserDefaults.standard.set(data, forKey: activityItemsDataKey)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActivityCreationView: View {
-    @StateObject var createActivityVM: CreateActivityViewModel
+    @StateObject var createActivityVM = CreateActivityViewModel()
     
     @Environment(\.dismiss) var dismiss
     

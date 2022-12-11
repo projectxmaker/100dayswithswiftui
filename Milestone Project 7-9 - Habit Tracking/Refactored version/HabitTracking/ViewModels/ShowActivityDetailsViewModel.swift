@@ -8,7 +8,7 @@
 import Foundation
 
 class ShowActivityDetailsViewModel: ObservableObject {
-    private var activityManager: ActivityManager
+    private var activityManager = ActivityManager.shared
     
     var selectedActivityItem: ActivityItem {
         didSet {
@@ -16,8 +16,7 @@ class ShowActivityDetailsViewModel: ObservableObject {
         }
     }
     
-    init(activityManager: ActivityManager, selectedActivityItem: ActivityItem) {
-        self.activityManager = activityManager
+    init(selectedActivityItem: ActivityItem) {
         self.selectedActivityItem = selectedActivityItem
     }
     
