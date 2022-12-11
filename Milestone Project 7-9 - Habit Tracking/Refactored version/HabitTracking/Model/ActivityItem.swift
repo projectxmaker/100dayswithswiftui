@@ -33,3 +33,11 @@ extension ActivityItem: Equatable {
         return lhs.id == rhs.id
     }
 }
+
+extension ActivityItem {
+    static var sampleActivityItems = [
+        ActivityItem(title: "Run", description: "Daily"),
+        ActivityItem(title: "Hop", description: "Hourly"),
+        ActivityItem(title: "Jump", description: "At night")
+    ]
+}

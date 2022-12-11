@@ -10,7 +10,7 @@ import Foundation
 class ShowActivityDetailsViewModel: ObservableObject {
     private var activityManager = ActivityManager.shared
     
-    var selectedActivityItem: ActivityItem {
+    @Published var selectedActivityItem: ActivityItem {
         didSet {
             activityManager.updateAnActivity(selectedActivityItem)
         }

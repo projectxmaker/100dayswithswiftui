@@ -51,3 +51,15 @@ struct ActivityDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+struct ActivityDetailView_Previewer: PreviewProvider {
+    struct SampleView: View {
+        var body: some View {
+            ActivityDetailView(showActivityDetailsVM: ShowActivityDetailsViewModel(selectedActivityItem: ActivityItem.sampleActivityItems[0]))
+        }
+    }
+    
+    static var previews: some View {
+        SampleView()
+    }
+}
