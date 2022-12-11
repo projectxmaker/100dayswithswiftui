@@ -23,7 +23,6 @@ struct ActivityListView: View {
                             
                             HStack {
                                 Image(systemName: "flag.circle")
-                                //Text("Completion: \(item.getCompletionCountDescription())")
                                 Text("\(item.getCompletionCountDescription())")
                                 Spacer()
                             }
@@ -65,5 +64,11 @@ struct ActivityListView: View {
             }
             .navigationViewStyle(.stack)
         }
+    }
+}
+
+struct ActivityListView_Previewer: PreviewProvider {
+    static var previews: some View {
+        ActivityListView()
     }
 }
