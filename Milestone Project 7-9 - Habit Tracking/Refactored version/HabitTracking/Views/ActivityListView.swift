@@ -23,7 +23,7 @@ struct ActivityListView: View {
                             
                             HStack {
                                 Image(systemName: "flag.circle")
-                                Text("\(item.getCompletionCountDescription())")
+                                Text(item.getCompletionCountDescription())
                                 Spacer()
                             }
                             

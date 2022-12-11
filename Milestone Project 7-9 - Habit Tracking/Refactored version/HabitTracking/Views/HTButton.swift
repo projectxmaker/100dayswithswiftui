@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HTButton: View {
-    var title: String
+    var title: LocalizedStringKey
     var foregroundColor: Color = .white
     var background: Color = .accentColor
     var onTapGestureAction: () -> Void

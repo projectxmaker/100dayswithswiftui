@@ -24,7 +24,9 @@ struct ActivityDetailView: View {
                     .background(Color.gray.opacity(0.2))
                 
                 HStack(alignment: .center) {
-                    Text("You did \(showActivityDetailsVM.getCompletionCountDescription())")
+                    Text("You did")
+                    Text(showActivityDetailsVM.getCompletionCountDescription())
+                    
                     Image(systemName: "minus.circle")
                         .foregroundColor(Color.accentColor)
                         .onTapGesture {

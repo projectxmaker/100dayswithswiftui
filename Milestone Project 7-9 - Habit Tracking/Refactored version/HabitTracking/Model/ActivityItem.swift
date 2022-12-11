@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ActivityItem: Codable, Identifiable {
     var id = UUID()
@@ -14,9 +15,9 @@ struct ActivityItem: Codable, Identifiable {
     var completionCount: Int = 0
     
     // MARK: - Extra Functions
-    func getCompletionCountDescription(count: Int = -1) -> String {
+    func getCompletionCountDescription(count: Int = -1) -> LocalizedStringKey {
         let countValue = count < 0 ? completionCount : count
-        return "\(countValue) time\(countValue > 1 ? "s" : "")"
+        return LocalizedStringKey("\(countValue) time")
     }
     
     mutating func increaseCompletionCount() {

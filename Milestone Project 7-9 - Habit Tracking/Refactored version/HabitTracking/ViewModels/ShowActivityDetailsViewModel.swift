@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ShowActivityDetailsViewModel: ObservableObject {
     private var activityManager = ActivityManager.shared
@@ -29,7 +30,7 @@ class ShowActivityDetailsViewModel: ObservableObject {
         selectedActivityItem.decreaseCompletionCount()
     }
     
-    func getCompletionCountDescription() -> String {
+    func getCompletionCountDescription() -> LocalizedStringKey {
         return selectedActivityItem.getCompletionCountDescription()
     }
 }
