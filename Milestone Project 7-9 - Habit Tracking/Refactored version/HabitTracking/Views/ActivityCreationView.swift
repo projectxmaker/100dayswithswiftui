@@ -81,3 +81,9 @@ struct ActivityCreationView: View {
         }
     }
 }
+
+struct ActivityCreationView_Previewer: PreviewProvider {
+    static var previews: some View {
+        ActivityCreationView()
+    }
+}
