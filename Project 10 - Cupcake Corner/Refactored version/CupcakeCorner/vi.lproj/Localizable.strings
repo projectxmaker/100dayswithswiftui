@@ -1,0 +1,57 @@
+/* No comment provided by engineer. */
+"Add extra frosting" = "Thêm frosting";
+
+/* No comment provided by engineer. */
+"Add extra sprinkles" = "Thêm sprinkles";
+
+/* No comment provided by engineer. */
+"Any special requests?" = "Yêu cầu đặc biệt?";
+
+/* No comment provided by engineer. */
+"Check out" = "Thanh toán";
+
+/* No comment provided by engineer. */
+"Checkout failed." = "Thanh toán không thực hiện được.";
+
+/* No comment provided by engineer. */
+"City" = "Thành phố";
+
+/* No comment provided by engineer. */
+"Delivery details" = "Thông tin giao hàng";
+
+/* No comment provided by engineer. */
+"Failed to encode order" = "Việc xử lý đơn hàng bị lỗi";
+
+/* No comment provided by engineer. */
+"Name" = "Tên";
+
+/* No comment provided by engineer. */
+"Number of cakes: %lld" = "Số lượng bánh: %lld";
+
+/* No comment provided by engineer. */
+"OK" = "Đồng ý";
+
+/* No comment provided by engineer. */
+"Oops!" = "Lỗi!";
+
+/* No comment provided by engineer. */
+"Place Order" = "Đặt hàng";
+
+/* No comment provided by engineer. */
+"Select your cake type" = "Chọn loại bánh";
+
+/* No comment provided by engineer. */
+"Street Address" = "Địa chỉ";
+
+/* No comment provided by engineer. */
+"Thank you!" = "Cảm ơn!";
+
+/* No comment provided by engineer. */
+"Your order for %lldx %@ cupcakes is on its way!" = "Đơn hàng cho %lldx %@ bánh đang được chuẩn bị!";
+
+/* No comment provided by engineer. */
+"Your total is %@" = "Tổng cộng là %@";
+
+/* No comment provided by engineer. */
+"Zip" = "Mã bưu chính";
+

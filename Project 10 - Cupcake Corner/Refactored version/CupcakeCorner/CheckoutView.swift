@@ -55,7 +55,7 @@ struct CheckoutView: View {
                 }
                 .frame(height: 233)
 
-                Text("Your total is \(orderManager.order.cost, format: .currency(code: "USD"))")
+                Text("Your total is \(orderManager.order.cost, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))")
                     .font(.title)
 
                 Button("Place Order") {

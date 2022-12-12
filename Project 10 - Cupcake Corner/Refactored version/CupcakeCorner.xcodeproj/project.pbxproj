@@ -15,6 +15,7 @@
 		8A8F7E6F28FFBDDA0079317C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8F7E6E28FFBDDA0079317C /* ContentView.swift */; };
 		8A8F7E7128FFBDDB0079317C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A8F7E7028FFBDDB0079317C /* Assets.xcassets */; };
 		8A8F7E7428FFBDDB0079317C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A8F7E7328FFBDDB0079317C /* Preview Assets.xcassets */; };
+		8A931CFB2947261F00B115CC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A931CF92947261F00B115CC /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		8A8F7E6E28FFBDDA0079317C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A8F7E7028FFBDDB0079317C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A8F7E7328FFBDDB0079317C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8A931CFA2947261F00B115CC /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 		8A8F7E6B28FFBDDA0079317C /* CupcakeCorner */ = {
 			isa = PBXGroup;
 			children = (
+				8A931CF92947261F00B115CC /* Localizable.strings */,
 				8A8F7E6C28FFBDDA0079317C /* CupcakeCornerApp.swift */,
 				8A8F7E6E28FFBDDA0079317C /* ContentView.swift */,
 				8A724A532900472000B040C4 /* AddressView.swift */,
@@ -121,6 +124,7 @@
 			knownRegions = (
 				en,
 				Base,
+				vi,
 			);
 			mainGroup = 8A8F7E6028FFBDDA0079317C;
 			productRefGroup = 8A8F7E6A28FFBDDA0079317C /* Products */;
@@ -138,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A8F7E7428FFBDDB0079317C /* Preview Assets.xcassets in Resources */,
+				8A931CFB2947261F00B115CC /* Localizable.strings in Resources */,
 				8A8F7E7128FFBDDB0079317C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,6 +164,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8A931CF92947261F00B115CC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A931CFA2947261F00B115CC /* vi */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8A8F7E7528FFBDDB0079317C /* Debug */ = {
@@ -291,7 +307,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -321,7 +337,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
