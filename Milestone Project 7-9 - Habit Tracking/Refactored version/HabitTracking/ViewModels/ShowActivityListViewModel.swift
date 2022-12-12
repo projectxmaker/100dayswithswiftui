@@ -11,18 +11,20 @@ class ShowActivityListViewModel: ObservableObject {
     @Published var showActivityCreationView = false
     @Published var showDeletionAlert = false
     @Published var deletedItem: ActivityItem?
+    @Published var items = [ActivityItem]()
     
     private var activityManager = ActivityManager.shared
     
-    func getActivityManager() -> ActivityManager {
-        return activityManager
+    init() {
+        loadActivities()
     }
     
-    func getActivities() -> [ActivityItem] {
-        activityManager.getActivities()
+    func loadActivities() {
+        items = activityManager.getActivities()
     }
     
     func deleteActivityById(_ id: UUID) {
         activityManager.deleteActivityById(id)
+        loadActivities()
     }
 }

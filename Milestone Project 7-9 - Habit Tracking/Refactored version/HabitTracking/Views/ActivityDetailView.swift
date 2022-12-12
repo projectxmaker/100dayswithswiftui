@@ -57,7 +57,7 @@ struct ActivityDetailView: View {
 struct ActivityDetailView_Previewer: PreviewProvider {
     struct SampleView: View {
         var body: some View {
-            ActivityDetailView(showActivityDetailsVM: ShowActivityDetailsViewModel(selectedActivityItem: ActivityItem.sampleActivityItems[0]))
+            ActivityDetailView(showActivityDetailsVM: ShowActivityDetailsViewModel(selectedActivityItem: ActivityItem.sampleActivityItems[0], listVM: ShowActivityListViewModel()))
         }
     }
     

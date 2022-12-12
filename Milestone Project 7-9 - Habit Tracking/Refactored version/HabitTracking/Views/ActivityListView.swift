@@ -13,9 +13,9 @@ struct ActivityListView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(showActivityListViewModel.getActivities(), id:\.id) { item in
+                ForEach(showActivityListViewModel.items, id:\.id) { item in
                     NavigationLink {
-                        ActivityDetailView(showActivityDetailsVM: ShowActivityDetailsViewModel( selectedActivityItem: item))
+                        ActivityDetailView(showActivityDetailsVM: ShowActivityDetailsViewModel( selectedActivityItem: item, listVM: showActivityListViewModel))
                     } label: {
                         VStack(alignment: .leading) {
                             Text(item.title)
@@ -35,7 +35,7 @@ struct ActivityListView: View {
                 .onDelete { indexSet in
                     var deletedItems = [ActivityItem]()
                     for index in indexSet {
-                        deletedItems.append(showActivityListViewModel.getActivities()[index])
+                        deletedItems.append(showActivityListViewModel.items[index])
                     }
                     showActivityListViewModel.deletedItem = deletedItems[0]
                     showActivityListViewModel.showDeletionAlert.toggle()
@@ -64,6 +64,7 @@ struct ActivityListView: View {
             }
             .navigationViewStyle(.stack)
         }
+        .environmentObject(showActivityListViewModel)
     }
 }
 

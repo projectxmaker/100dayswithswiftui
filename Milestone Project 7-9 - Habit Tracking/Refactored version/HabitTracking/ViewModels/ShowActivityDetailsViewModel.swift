@@ -17,17 +17,22 @@ class ShowActivityDetailsViewModel: ObservableObject {
         }
     }
     
-    init(selectedActivityItem: ActivityItem) {
+    var listVM: ShowActivityListViewModel
+    
+    init(selectedActivityItem: ActivityItem, listVM: ShowActivityListViewModel) {
         self.selectedActivityItem = selectedActivityItem
+        self.listVM = listVM
     }
     
     // MARK - Extra Functions
     func increaseCompletionCount() {
         selectedActivityItem.increaseCompletionCount()
+        listVM.loadActivities()
     }
 
     func decreaseCompletionCount() {
         selectedActivityItem.decreaseCompletionCount()
+        listVM.loadActivities()
     }
     
     func getCompletionCountDescription() -> LocalizedStringKey {
