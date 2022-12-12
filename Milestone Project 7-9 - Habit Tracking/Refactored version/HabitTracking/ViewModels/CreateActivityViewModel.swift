@@ -13,6 +13,12 @@ class CreateActivityViewModel: ObservableObject {
     @Published var title: String = ""
     @Published var description: String = ""
     
+    var listVM: ShowActivityListViewModel
+    
+    init(listVM: ShowActivityListViewModel) {
+        self.listVM = listVM
+    }
+    
     // MARK - Extra Functions For Validation
     func isValidTitle() -> Bool {
         title.isEmpty ? false : true
@@ -52,6 +58,7 @@ class CreateActivityViewModel: ObservableObject {
         if isAllInfoValid() {
             let newActivity = ActivityItem(title: title, description: description)
             activityManager.createNewActivity(newActivity)
+            listVM.loadActivities()
             extraAction()
         }
     }

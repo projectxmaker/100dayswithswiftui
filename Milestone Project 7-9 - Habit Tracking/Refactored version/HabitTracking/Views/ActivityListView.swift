@@ -51,7 +51,7 @@ struct ActivityListView: View {
                 EditButton()
             }
             .sheet(isPresented: $showActivityListViewModel.showActivityCreationView) {
-                ActivityCreationView()
+                ActivityCreationView(createActivityVM: CreateActivityViewModel(listVM: showActivityListViewModel))
             }
             .alert("Delete An Activity", isPresented: $showActivityListViewModel.showDeletionAlert, presenting: showActivityListViewModel.deletedItem) { deletedItem in
                 Button(role: .destructive) {

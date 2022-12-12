@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActivityCreationView: View {
-    @StateObject var createActivityVM = CreateActivityViewModel()
+    @StateObject var createActivityVM: CreateActivityViewModel
     
     @Environment(\.dismiss) var dismiss
     
@@ -84,6 +84,6 @@ struct ActivityCreationView: View {
 
 struct ActivityCreationView_Previewer: PreviewProvider {
     static var previews: some View {
-        ActivityCreationView()
+        ActivityCreationView(createActivityVM: CreateActivityViewModel( listVM: ShowActivityListViewModel()))
     }
 }
