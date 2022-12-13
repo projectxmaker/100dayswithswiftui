@@ -24,7 +24,6 @@ struct ResortView: View {
                 Image(decorative: resort.id)
                     .resizable()
                     .scaledToFit()
-                    .over
                     .overlay(alignment: .bottomTrailing) {
                         Text(resort.imageCredit)
                             .font(.caption)
