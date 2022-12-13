@@ -19,18 +19,58 @@ struct WelcomeView: View {
     }
 }
 
+enum SortType {
+    case accending, decending
+}
+
 struct ContentView: View {
     @State private var searchText = ""
     @StateObject var favorites = Favorites()
+    @State private var sortByName: SortType?
+    @State private var sortByCountry: SortType?
     
     let resorts: [Resort] = Bundle.main.decode("resorts.json")
 
     var filteredResorts: [Resort] {
-        if searchText.isEmpty {
-            return resorts
-        } else {
-            return resorts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        var list = resorts
+        
+        if !searchText.isEmpty {
+            list = resorts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
+        
+        if let sortByName = sortByName {
+            list.sort { lhs, rhs in
+                switch sortByName {
+                case .decending:
+                    return lhs.name > rhs.name
+                default:
+                    return lhs.name < rhs.name
+                }
+            }
+        }
+        
+        if let sortByCountry = sortByCountry {
+            list.sort { lhs, rhs in
+                switch sortByCountry {
+                case .decending:
+                    return lhs.country > rhs.country
+                default:
+                    return lhs.country < rhs.country
+                }
+            }
+        }
+        
+        return list
+    }
+    
+    func switchSortByName() {
+        sortByName = sortByName == .accending ? .decending : .accending
+        sortByCountry = nil
+    }
+    
+    func switchSortByCountry() {
+        sortByCountry = sortByCountry == .accending ? .decending : .accending
+        sortByName = nil
     }
     
     var body: some View {
@@ -70,6 +110,32 @@ struct ContentView: View {
             }
             .navigationTitle("Resorts")
             .searchable(text: $searchText, prompt: "Search for a resort")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        switchSortByName()
+                    } label: {
+                        HStack(spacing: 0) {
+                            Image(systemName: "flag.fill")
+                            Image(systemName: "arrow.up.arrow.down")
+                                .font(.caption2)
+                        }
+                        .font(.caption)
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        switchSortByCountry()
+                    } label: {
+                        HStack(spacing: 0) {
+                            Image(systemName: "textformat.size.smaller")
+                            Image(systemName: "arrow.up.arrow.down")
+                                .font(.caption2)
+                        }
+                    }
+                }
+            }
             
             WelcomeView()
         }
