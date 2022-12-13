@@ -13,12 +13,18 @@ class Favorites: ObservableObject {
 
     // the key we're using to read/write in UserDefaults
     private let saveKey = "Favorites"
+    
+    let jsonFileName = "favourite-resorts"
 
     init() {
         // load our saved data
-
+        guard let resorts = FileManager.default.decodeJSON(jsonFileName) as Set<String>? else {
+            self.resorts = []
+            return
+        }
+        
         // still here? Use an empty array
-        resorts = []
+        self.resorts = resorts
     }
 
     // returns true if our set contains this resort
@@ -42,5 +48,6 @@ class Favorites: ObservableObject {
 
     func save() {
         // write out our data
+        let _ = FileManager.default.encodeJSON(self.jsonFileName, fileData: self.resorts)
     }
 }
